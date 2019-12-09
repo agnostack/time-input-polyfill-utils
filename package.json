@@ -1,0 +1,28 @@
+{
+  "name": "time-input-polyfill-helpers",
+  "version": "1.0.0",
+  "description": "A small library of helper functions designed to make the building of time-input-polyfills easier",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dan503/time-input-polyfill-helpers.git"
+  },
+  "keywords": [
+    "time",
+    "input",
+    "polyfill",
+    "helpers",
+    "utility",
+    "util",
+    "library"
+  ],
+  "author": "Daniel <dan503.npm@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dan503/time-input-polyfill-helpers/issues"
+  },
+  "homepage": "https://github.com/Dan503/time-input-polyfill-helpers#readme"
+}
