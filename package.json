@@ -27,6 +27,9 @@
 	},
 	"homepage": "https://github.com/Dan503/time-input-polyfill-helpers#readme",
 	"devDependencies": {
-		"jest": "^24.9.0"
+		"@types/jest": "^24.0.23",
+		"jest": "^24.9.0",
+		"ts-jest": "^24.2.0",
+		"typescript": "^3.7.3"
 	}
 }
