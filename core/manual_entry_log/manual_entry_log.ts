@@ -1,31 +1,29 @@
 import { Segment } from '../../types/segment'
 
 export class manual_entry_log {
-	items: {
-		hrs: Array<number>
-		min: Array<number>
-		mode: Array<number>
-	}
+	hrs: Array<number>
+	min: Array<number>
+	mode: Array<number>
 
 	constructor() {
-		this.items = {
+		Object.assign(this, {
 			hrs: [],
 			min: [],
 			mode: [],
-		}
-	}
-
-	clear(segment: Segment) {
-		this.items[segment] = []
-	}
-
-	clearAll() {
-		Object.keys(this.items).forEach((key: Segment) => {
-			this.items[key] = []
 		})
 	}
 
+	clear(segment: Segment) {
+		this[segment] = []
+	}
+
+	clearAll() {
+		this.hrs = []
+		this.min = []
+		this.mode = []
+	}
+
 	add(segment: Segment, entry: string) {
-		this.items[segment] = [...this.items[segment], parseInt(entry)]
+		this[segment] = [...this[segment], parseInt(entry)]
 	}
 }
