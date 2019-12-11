@@ -1,4 +1,4 @@
-import { Segment } from '../../types/segment'
+import { Segment } from '../../types'
 
 export class manual_entry_log {
 	hrs: Array<number>
