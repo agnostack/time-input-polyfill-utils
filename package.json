@@ -9,7 +9,8 @@
 		"cy:open": "cypress open",
 		"cy:run": "cypress run",
 		"cy:entryLog": "cypress run --spec \"cypress/integration/manual_entry_log.test.ts\"",
-		"cy:converters": "cypress run --spec \"cypress/integration/converters.test.ts\""
+		"cy:converters": "cypress run --spec \"cypress/integration/converters.test.ts\"",
+		"cy:getters": "cypress run --spec \"cypress/integration/getters.test.ts\""
 	},
 	"repository": {
 		"type": "git",
