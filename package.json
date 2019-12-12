@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"test": "jest",
+		"test": "cypress run",
 		"cy:open": "cypress open",
 		"cy:run": "cypress run"
 	},
@@ -29,10 +29,10 @@
 	},
 	"homepage": "https://github.com/Dan503/time-input-polyfill-helpers#readme",
 	"devDependencies": {
-		"@types/jest": "^24.0.23",
+		"@cypress/webpack-preprocessor": "^4.1.1",
 		"cypress": "^3.7.0",
-		"jest": "^24.9.0",
-		"ts-jest": "^24.2.0",
-		"typescript": "^3.7.3"
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.7.3",
+		"webpack": "^4.41.2"
 	}
 }

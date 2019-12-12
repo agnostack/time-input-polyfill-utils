@@ -2,7 +2,11 @@
 	"compilerOptions": {
 		"alwaysStrict": true,
 		"noImplicitAny": true,
-		"lib": ["es2015", "es2017", "dom"]
+		"target": "es5",
+		"module": "commonjs",
+		"lib": ["es2015", "es2017", "dom"],
+		"baseUrl": "../node_modules",
+		"types": ["cypress"]
 	},
 	"include": ["**/*.ts"],
 	"exclude": ["./node_modules"]
