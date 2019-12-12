@@ -1,6 +1,7 @@
-import { Hour } from '../../types'
+import { Hour24 } from '../../types'
+import { TimeObject } from '../../types/timeObject'
 
-export const convert_hours_to_12hr_time = (hours: Hour) =>
+export const convert_hours_to_12hr_time = (hours: Hour24) =>
 	hours <= 12 ? (hours === 0 ? 12 : hours) : hours - 12
 
 export const convert_number = (number: any) =>
@@ -45,4 +46,27 @@ export const convert_to_24hr_time = (timeString_12hr: string) => {
 	const finalHrs = newHrs === 24 ? 0 : newHrs
 	const timeRegEx = /^[0-9]{2}:([0-9]{2}) (AM|PM)/
 	return timeString_12hr.replace(timeRegEx, leading_zero(finalHrs) + ':$1')
+}
+
+export const convert = {
+	string12hr: (string12hr: string) => ({
+		to24hr: (): string => '01:00',
+		toTimeObject: (): TimeObject => ({
+			hrs: 1,
+			min: 0,
+			mode: 'AM',
+		}),
+	}),
+	string24hr: (string24hr: string) => ({
+		to12hr: (): string => '01:00 AM',
+		toTimeObject: (): TimeObject => ({
+			hrs: 1,
+			min: 0,
+			mode: 'AM',
+		}),
+	}),
+	timeObject: (timeObject: TimeObject) => ({
+		to12hr: (): string => '01:00 AM',
+		to24hr: () => '01:00',
+	}),
 }

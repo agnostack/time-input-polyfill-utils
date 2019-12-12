@@ -1,7 +1,7 @@
-import { Hour, Minute, Mode } from '.'
+import { Hour12, Minute, Mode } from '.'
 
 export interface TimeObject {
-	hrs: Hour
+	hrs: Hour12
 	min: Minute
 	mode: Mode
 }
