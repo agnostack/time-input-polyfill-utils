@@ -1,9 +1,10 @@
 import { Hour24, Hour12, Mode, Minute } from '../../types'
-import { TimeObject } from '../../types/timeObject'
+import { TimeObject, TimeObjectKeys } from '../../types/timeObject'
 import { get } from '../getters/getters'
 import { String24hr, String12hr, Dashes } from '../../types/strings'
 import { is } from '../is/is'
 import { regex } from '../regex/regex'
+import { validate } from '../validate/validate'
 
 // Can't really test this one since it needs a node list as input which isn't possible in Node.js
 export const toArray = (NodeList: NodeList) =>
@@ -24,46 +25,31 @@ export const convert = {
 	string12hr: (string12hr: String12hr) => ({
 		to24hr: (): String24hr => {
 			if (/-/.test(string12hr)) return ''
-			const isPM = is.PM.string12hr(string12hr)
-			const timeResult = /^([0-9]{2})/.exec(string12hr)
-			const hrs = timeResult ? parseInt(timeResult[1]) : 0
-			let newHrs
-			if (hrs === 12) {
-				newHrs = isPM ? 12 : 0
-			} else {
-				newHrs = isPM ? hrs + 12 : hrs
-			}
-			const finalHrs = newHrs === 24 ? 0 : newHrs
-			const timeRegEx = /^[0-9]{2}:([0-9]{2}) (AM|PM)/
-			return string12hr.replace(timeRegEx, toLeadingZero(finalHrs) + ':$1')
+			const timeObject = convert.string12hr(string12hr).toTimeObject()
+			return convert.timeObject(timeObject).to24hr()
 		},
 		toTimeObject: (): TimeObject => {
 			const regEx = /^([0-9-]{1,2})\:([0-9-]{1,2})\s?(AM|PM|\-\-)?$/
 			const result = regEx.exec(string12hr)
 			const [hrs12, min, mode] = [<Hour12>toNumber(result[1]), <Minute>toNumber(result[2]), <Mode>result[3]]
-			const hrs24 = <Hour24>(mode === 'PM' ? hrs12 + 12 : hrs12)
+			const hrs24 = <Hour24>(mode === 'PM' && typeof hrs12 === 'number' ? hrs12 + 12 : hrs12)
 
-			return ({
+			const timeObject: TimeObject = {
 				hrs24: hrs24 === 24 ? 0 : hrs24,
 				hrs12,
 				min,
 				mode,
-			})
+			}
+
+			validate.timeObject(timeObject)
+			return timeObject
 		},
 	}),
 	string24hr: (string24hr: String24hr) => ({
 		to12hr: (): String12hr => {
 			if (string24hr === '') return '--:-- --'
-			const [hrsString24, minString] = regex.string24hr.exec(string24hr)
-
-			const hrs24 = <Hour24>toNumber(hrsString24)
-			if (typeof hrs24 === 'number' && hrs24 > 24) {
-				throw new Error('Hours cannot be higher than 24')
-			}
-			const min = <Hour24>toNumber(minString)
-			const hrs12 = get.string24hr(string24hr).hrs12
-			const mode = is.PM.hrs24(hrs24) ? 'PM' : 'AM'
-			return convert.timeObject({ hrs24, hrs12, min, mode }).to12hr()
+			const timeObject = convert.string24hr(string24hr).toTimeObject()
+			return convert.timeObject(timeObject).to12hr()
 		},
 		toTimeObject: (): TimeObject => {
 
@@ -74,12 +60,15 @@ export const convert = {
 				<Minute>toNumber(minString)
 			]
 
-			return ({
+			const timeObject: TimeObject = {
 				hrs24,
 				hrs12: convert.hours24(hrs24).toHours12(),
 				min,
 				mode: is.AM.string24hr(string24hr) ? 'AM' : 'PM',
-			})
+			}
+
+			validate.timeObject(timeObject)
+			return timeObject
 		},
 	}),
 	timeObject: (timeObject: TimeObject) => {
