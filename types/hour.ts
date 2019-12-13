@@ -1,4 +1,7 @@
+import { Dashes } from "./strings"
+
 export type Hour24 =
+	| Dashes
 	| 0
 	| 1
 	| 2
@@ -25,4 +28,4 @@ export type Hour24 =
 	| 23
 	| 24
 
-export type Hour12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+export type Hour12 = Dashes | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12

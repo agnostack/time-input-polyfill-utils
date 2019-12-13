@@ -1,12 +1,20 @@
-import { convert_number } from '../converters/converters'
+import { convert } from '../converters/converters'
+import { TimeObject } from '../../types/timeObject'
+import { Mode, Hour24 } from '../../types'
 
-export const get_values = (timeString: string) => {
-	var regEx = /([0-9-]{1,2})\:([0-9-]{1,2})\s?(AM|PM|\-\-)?/
-	var result = regEx.exec(timeString)
-
-	return {
-		hrs: convert_number(result[1]),
-		min: convert_number(result[2]),
-		mode: result[3],
-	}
+export const get = {
+	string12hr: (string12hr: string) => {
+		const timeObject = convert.string12hr(string12hr).toTimeObject()
+		return {
+			...timeObject,
+			timeObject,
+		}
+	},
+	string24hr: (string24hr: string) => {
+		const timeObject = convert.string24hr(string24hr).toTimeObject()
+		return {
+			...timeObject,
+			timeObject,
+		}
+	},
 }

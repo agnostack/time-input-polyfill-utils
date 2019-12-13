@@ -1,4 +1,7 @@
+import { Dashes } from "./strings";
+
 export type Minute =
+	| Dashes
 	| 0
 	| 1
 	| 2

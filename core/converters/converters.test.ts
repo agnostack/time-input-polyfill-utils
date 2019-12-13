@@ -1,4 +1,4 @@
-import { convert_number, leading_zero, convert } from './converters'
+import { convert } from './converters'
 
 describe('convert.hours24', () => {
 	it('Expect 0 hrs to be 12', () => {
@@ -15,30 +15,30 @@ describe('convert.hours24', () => {
 	})
 })
 
-describe('convert_number', () => {
+describe('convert to number', () => {
 	it('Expect "0" to be 0', () => {
-		expect(convert_number('0')).to.equal(0)
+		expect(convert.thing('0').toNumber()).to.equal(0)
 	})
 	it('Expect "abc" to be "abc"', () => {
-		expect(convert_number('abc')).to.equal('abc')
+		expect(convert.thing('abc').toNumber()).to.equal('abc')
 	})
 	it('Expect 0 to be 0', () => {
-		expect(convert_number(0)).to.equal(0)
+		expect(convert.thing(0).toNumber()).to.equal(0)
 	})
 })
 
-describe('leading_zero', () => {
+describe('leading zero', () => {
 	it('Expect 0 to be "00"', () => {
-		expect(leading_zero(0)).to.equal('00')
+		expect(convert.thing(0).toLeadingZero()).to.equal('00')
 	})
 	it('Expect "abc" to be "abc"', () => {
-		expect(leading_zero('abc')).to.equal('abc')
+		expect(convert.thing('abc').toLeadingZero()).to.equal('abc')
 	})
 	it('Expect 10 to be "10"', () => {
-		expect(leading_zero(10)).to.equal('10')
+		expect(convert.thing(10).toLeadingZero()).to.equal('10')
 	})
 	it('Expect "10" to be "10"', () => {
-		expect(leading_zero('10')).to.equal('10')
+		expect(convert.thing('10').toLeadingZero()).to.equal('10')
 	})
 })
 
