@@ -5,19 +5,13 @@ describe('Modify initial string values', () => {
 
 	describe('Increment 12hr hours', () => {
 		it('09:00 AM => 10:00 AM', () => {
-			expect(modify.string12hr('09:00 AM').increment.hrs()).to.equal(
-				'10:00 AM',
-			)
+			expect(modify.string12hr('09:00 AM').increment.hrs()).to.equal('10:00 AM')
 		})
 		it('12:30 PM => 01:30 PM', () => {
-			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal(
-				'01:30 PM',
-			)
+			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal('01:30 PM')
 		})
 		it('11:00 PM => 12:00 AM', () => {
-			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal(
-				'12:00 AM',
-			)
+			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal('12:00 AM')
 		})
 	})
 
@@ -34,43 +28,46 @@ describe('Modify initial string values', () => {
 	})
 
 	describe('Increment object hours', () => {
-		it('{hrs:9, min:0, mode:AM} => {hrs:10, min:0, mode:AM}', () => {
+		it('{hrs24:9, hrs12:9, min:0, mode:AM} => {hrs24:10, hrs12:10, min:0, mode:AM}', () => {
 			expect(
 				modify
 					.timeObject({
-						hrs: 9,
+						hrs24: 9,
+						hrs12: 9,
 						min: 0,
 						mode: 'AM',
 					})
 					.increment.hrs(),
 			).to.equal({
-				hrs: 10,
+				hrs24: 10,
+				hrs12: 10,
 				min: 0,
 				mode: 'AM',
 			})
 		})
-		it('{hrs:12, min:30, mode:PM} => {hrs:1, min:30, mode:PM}', () => {
+		it('{hrs24:12, hrs12:12, min:30, mode:PM} => {hrs24:13, hrs12:1, min:30, mode:PM}', () => {
 			expect(
 				modify
 					.timeObject({
-						hrs: 12,
+						hrs24: 12,
+						hrs12: 12,
 						min: 30,
 						mode: 'PM',
 					})
 					.increment.hrs(),
 			).to.equal({
-				hrs: 1,
+				hrs24: 13,
+				hrs12: 1,
 				min: 30,
 				mode: 'PM',
 			})
 		})
-		it('{hrs:11, min:0, mode:PM} => {hrs:12, min:0, mode:AM}', () => {
+		it('{hrs24: 23, hrs12: 11, min:0, mode:PM} => {hrs24: 0, hrs12: 12, min:0, mode:AM}', () => {
 			expect(
-				modify
-					.timeObject({ hrs: 11, min: 0, mode: 'PM' })
-					.increment.hrs(),
+				modify.timeObject({ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' }).increment.hrs(),
 			).to.equal({
-				hrs: 12,
+				hrs24: 0,
+				hrs12: 12,
 				min: 0,
 				mode: 'AM',
 			})
