@@ -21,8 +21,12 @@ module.exports = {
 	plugins: ['prettier', '@typescript-eslint'],
 	rules: {
 		'prettier/prettier': 'error',
-		indent: ['error', 'tab'],
-		'@typescript-eslint/indent': ['error', 'tab'],
+
+		// Prettier and ES Lint disagree about how some indents should work.
+		// I can't stop Prettier but I can stop ES Lint
+		indent: [0, 'tab'],
+		'@typescript-eslint/indent': [0, 'tab'],
+
 		quotes: ['error', 'single'],
 		'@typescript-eslint/semi': ['error', 'never'],
 		semi: ['error', 'never'],
