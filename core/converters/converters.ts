@@ -27,17 +27,28 @@ export const convert = {
 			return convert.timeObject(timeObject).to24hr()
 		},
 		toTimeObject: (): TimeObject => {
-			const regEx = /^([0-9-]{1,2}):([0-9-]{1,2})\s?(AM|PM|--)?$/
-			const result = regEx.exec(string12hr)
+			const result = regex.string12hr.exec(string12hr)
 			const [hrs12, min, mode] = [
 				<Hour12>toNumber(result[1]),
 				<Minute>toNumber(result[2]),
 				<Mode>result[3],
 			]
-			const hrs24 = <Hour24>(mode === 'PM' && typeof hrs12 === 'number' ? hrs12 + 12 : hrs12)
+			const hrs24 = <Hour24>(
+				(typeof hrs12 === 'number'
+					? mode === 'PM'
+						? hrs12 === 12
+							? 12
+							: hrs12 + 12 > 23
+							? hrs12 + 12 - 24
+							: hrs12 + 12
+						: mode === 'AM' && hrs12 === 12
+						? 0
+						: hrs12
+					: hrs12)
+			)
 
 			const timeObject: TimeObject = {
-				hrs24: hrs24 === 24 ? 0 : hrs24,
+				hrs24,
 				hrs12,
 				min,
 				mode,

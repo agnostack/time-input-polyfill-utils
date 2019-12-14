@@ -23,7 +23,7 @@ export const validate = {
 			throw new Error('Minutes cannot be lower than 0')
 		}
 
-		if (['AM', 'PM', '--'].includes(mode)) {
+		if (['AM', 'PM', '--'].indexOf(mode) < 0) {
 			throw new Error('Mode is invalid')
 		}
 	},
