@@ -3,8 +3,8 @@ import { TimeObject } from '../../types/timeObject'
 export const validate = {
 	timeObject: (timeObject: TimeObject) => {
 		const { hrs24, hrs12, min, mode } = timeObject
-		if (typeof hrs24 === 'number' && hrs24 > 24) {
-			throw new Error('24 Hours cannot be higher than 24')
+		if (typeof hrs24 === 'number' && hrs24 > 23) {
+			throw new Error('24 Hours cannot be higher than 23, use 0 instead')
 		}
 		if (typeof hrs24 === 'number' && hrs24 < 0) {
 			throw new Error('24 Hours cannot be lower than 0')

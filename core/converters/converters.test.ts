@@ -10,8 +10,8 @@ describe('convert.hours24', () => {
 	it('Expect 13 hrs to be 1', () => {
 		expect(convert.hours24(13).toHours12()).to.equal(1)
 	})
-	it('Expect 24 hrs to be 0', () => {
-		expect(convert.hours24(24).toHours12()).to.equal(12)
+	it('Expect 23 hrs to be 11', () => {
+		expect(convert.hours24(23).toHours12()).to.equal(11)
 	})
 })
 
