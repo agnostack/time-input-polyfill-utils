@@ -1,4 +1,4 @@
-import { Dashes } from "./strings"
+import { Dashes } from './strings'
 
 export type Hour24 =
 	| Dashes

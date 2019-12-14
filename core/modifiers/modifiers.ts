@@ -14,7 +14,8 @@ export const modify = {
 	timeObject: (timeObject: TimeObject) => ({
 		increment: {
 			hrs: (): TimeObject => ({
-				hrs: 1,
+				hrs24: 1,
+				hrs12: 1,
 				min: 30,
 				mode: 'PM',
 			}),

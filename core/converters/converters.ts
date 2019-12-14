@@ -1,14 +1,12 @@
 import { Hour24, Hour12, Mode, Minute } from '../../types'
-import { TimeObject, TimeObjectKeys } from '../../types/timeObject'
-import { get } from '../getters/getters'
+import { TimeObject } from '../../types/timeObject'
 import { String24hr, String12hr, Dashes } from '../../types/strings'
 import { is } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
 
 // Can't really test this one since it needs a node list as input which isn't possible in Node.js
-export const toArray = (NodeList: NodeList) =>
-	Array.prototype.slice.call(NodeList, 0)
+export const toArray = (NodeList: NodeList) => Array.prototype.slice.call(NodeList, 0)
 
 export const toNumber = (value: number | string | Dashes) => {
 	const number = Number(value)
@@ -29,9 +27,13 @@ export const convert = {
 			return convert.timeObject(timeObject).to24hr()
 		},
 		toTimeObject: (): TimeObject => {
-			const regEx = /^([0-9-]{1,2})\:([0-9-]{1,2})\s?(AM|PM|\-\-)?$/
+			const regEx = /^([0-9-]{1,2}):([0-9-]{1,2})\s?(AM|PM|--)?$/
 			const result = regEx.exec(string12hr)
-			const [hrs12, min, mode] = [<Hour12>toNumber(result[1]), <Minute>toNumber(result[2]), <Mode>result[3]]
+			const [hrs12, min, mode] = [
+				<Hour12>toNumber(result[1]),
+				<Minute>toNumber(result[2]),
+				<Mode>result[3],
+			]
 			const hrs24 = <Hour24>(mode === 'PM' && typeof hrs12 === 'number' ? hrs12 + 12 : hrs12)
 
 			const timeObject: TimeObject = {
@@ -52,13 +54,9 @@ export const convert = {
 			return convert.timeObject(timeObject).to12hr()
 		},
 		toTimeObject: (): TimeObject => {
-
 			// string24hr
 			const [, hrsString24, minString] = regex.string24hr.exec(string24hr)
-			const [hrs24, min] = [
-				<Hour24>toNumber(hrsString24),
-				<Minute>toNumber(minString)
-			]
+			const [hrs24, min] = [<Hour24>toNumber(hrsString24), <Minute>toNumber(minString)]
 
 			const timeObject: TimeObject = {
 				hrs24,
@@ -76,15 +74,21 @@ export const convert = {
 		const hrsString24 = toLeadingZero(hrs24)
 		const hrsString12 = toLeadingZero(hrs12)
 		const minString = toLeadingZero(min)
-		return ({
+		return {
 			to12hr: (): String12hr => [hrsString12, ':', minString, ' ', mode].join(''),
 			to24hr: (): String24hr => [hrsString24, ':', minString].join(''),
-		})
+		}
 	},
 	hours24: (hours24: Hour24) => ({
 		toHours12: (): Hour12 =>
 			<Hour12>(
-				(hours24 <= 12 ? (hours24 === 0 ? 12 : hours24) : hours24 - 12)
+				(typeof hours24 === 'number'
+					? hours24 <= 12
+						? hours24 === 0
+							? 12
+							: hours24
+						: hours24 - 12
+					: hours24)
 			),
 	}),
 }

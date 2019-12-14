@@ -1,4 +1,4 @@
-import { TimeObject } from "../../types/timeObject";
+import { TimeObject } from '../../types/timeObject'
 
 export const validate = {
 	timeObject: (timeObject: TimeObject) => {
@@ -22,5 +22,9 @@ export const validate = {
 		if (typeof min === 'number' && min < 0) {
 			throw new Error('Minutes cannot be lower than 0')
 		}
-	}
+
+		if (['AM', 'PM', '--'].includes(mode)) {
+			throw new Error('Mode is invalid')
+		}
+	},
 }

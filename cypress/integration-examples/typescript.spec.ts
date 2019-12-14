@@ -1,3 +1,4 @@
+/* global cy, it, expect */
 // import function "add" from another TypeScript file
 import { add } from '../support/add'
 

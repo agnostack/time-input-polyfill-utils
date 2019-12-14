@@ -1,3 +1,3 @@
-import { Dashes } from "./strings";
+import { Dashes } from './strings'
 
 export type Mode = Dashes | 'AM' | 'PM'
