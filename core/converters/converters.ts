@@ -73,7 +73,11 @@ export const convert = {
 				hrs24,
 				hrs12: convert.hours24(hrs24).toHours12(),
 				min,
-				mode: is.AM.string24hr(string24hr) ? 'AM' : 'PM',
+				mode: is.AM.string24hr(string24hr)
+					? 'AM'
+					: is.PM.string24hr(string24hr)
+					? 'PM'
+					: '--',
 			}
 
 			validate.timeObject(timeObject)
