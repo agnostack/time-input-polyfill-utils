@@ -67,14 +67,14 @@ describe('convert string 24hr', () => {
 	it('Expect "13:00" to be "01:00 PM"', () => {
 		expect(convert.string24hr('13:00').to12hr()).to.equal('01:00 PM')
 	})
-	it('Expect "24:00" to be "12:00 AM"', () => {
-		expect(convert.string24hr('24:00').to12hr()).to.equal('12:00 AM')
+	it('Expect "0:00" to be "12:00 AM"', () => {
+		expect(convert.string24hr('0:00').to12hr()).to.equal('12:00 AM')
 	})
-	it('Expect "25:30" to error', () => {
+	it('Expect "24:30" to error', () => {
 		try {
-			convert.string24hr('25:30').to12hr()
+			convert.string24hr('24:30').to12hr()
 		} catch (error) {
-			expect(error.message).to.equal('Hours cannot be higher than 24')
+			expect(error.message).to.equal('24 Hours cannot be higher than 23, use 0 instead')
 		}
 	})
 })
