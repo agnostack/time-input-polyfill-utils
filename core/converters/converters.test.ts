@@ -31,6 +31,9 @@ describe('leading zero', () => {
 	it('Expect 0 to be "00"', () => {
 		expect(toLeadingZero(0)).to.equal('00')
 	})
+	it('Expect "0" to be "00"', () => {
+		expect(toLeadingZero('0')).to.equal('00')
+	})
 	it('Expect "--" to be "--"', () => {
 		expect(toLeadingZero('--')).to.equal('--')
 	})
@@ -53,7 +56,7 @@ describe('convert string 24hr', () => {
 		expect(convert.string24hr('5:30').to12hr()).to.equal('05:30 AM')
 	})
 	it('Expect "05:30" to be "05:30 AM"', () => {
-		expect(convert.string24hr('5:30').to12hr()).to.equal('05:30 AM')
+		expect(convert.string24hr('05:30').to12hr()).to.equal('05:30 AM')
 	})
 	it('Expect "11:00" to be "11:00 AM"', () => {
 		expect(convert.string24hr('11:00').to12hr()).to.equal('11:00 AM')
