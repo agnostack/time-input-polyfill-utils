@@ -1,6 +1,12 @@
 import { convert, toLeadingZero, toNumber } from './converters'
+import { failTest } from '../../cypress/helpers/failTest'
+
+/* global describe, it, expect */
 
 describe('convert.hours24', () => {
+	it('Expect -1 hrs to fail', () => {
+		failTest(() => convert.hours24(-1).toHours12(), '"-1" is less than 0 hours')
+	})
 	it('Expect 0 hrs to be 12', () => {
 		expect(convert.hours24(0).toHours12()).to.equal(12)
 	})
@@ -12,6 +18,12 @@ describe('convert.hours24', () => {
 	})
 	it('Expect 23 hrs to be 11', () => {
 		expect(convert.hours24(23).toHours12()).to.equal(11)
+	})
+	it('Expect 24 hrs to fail', () => {
+		failTest(
+			() => convert.hours24(24).toHours12(),
+			'"24" is higher than 23 hours, use 0 instead of 24',
+		)
 	})
 })
 
@@ -71,11 +83,10 @@ describe('convert string 24hr', () => {
 		expect(convert.string24hr('0:00').to12hr()).to.equal('12:00 AM')
 	})
 	it('Expect "24:30" to error', () => {
-		try {
-			convert.string24hr('24:30').to12hr()
-		} catch (error) {
-			expect(error.message).to.equal('24 Hours cannot be higher than 23, use 0 instead')
-		}
+		failTest(
+			() => convert.string24hr('24:30').to12hr(),
+			'24 Hours cannot be higher than 23, use 0 instead',
+		)
 	})
 })
 
