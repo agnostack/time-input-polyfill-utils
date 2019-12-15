@@ -8,6 +8,6 @@
 		"baseUrl": "../node_modules",
 		"types": ["cypress"]
 	},
-	"include": ["**/*.ts"],
+	"include": ["**/*.ts", "**/*.js"],
 	"exclude": ["./node_modules"]
 }
