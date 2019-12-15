@@ -21,9 +21,9 @@ export const is = {
 	AM: {
 		hrs24: (hrs24: Hour24): Boolean => !is.PM.hrs24(hrs24),
 		string12hr: (string12hr: String12hr): Boolean =>
-			!is.PM.string12hr(string12hr) && string12hr !== '--',
+			!is.PM.string12hr(string12hr) && string12hr.indexOf('--') > -1,
 		string24hr: (string24hr: String24hr): Boolean =>
-			!is.PM.string24hr(string24hr) && string24hr !== '--',
+			!!string24hr && !is.PM.string24hr(string24hr),
 		timeObject: (timeObject: TimeObject): Boolean => timeObject.mode == 'AM',
 	},
 	timeObject: (value: any): Boolean => {
