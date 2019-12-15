@@ -20,7 +20,7 @@ module.exports = {
 	},
 	plugins: ['prettier', '@typescript-eslint'],
 	rules: {
-		'prettier/prettier': 'error',
+		'prettier/prettier': 'warn',
 
 		// Prettier and ES Lint disagree about how some indents should work.
 		// I can't stop Prettier but I can stop ES Lint
