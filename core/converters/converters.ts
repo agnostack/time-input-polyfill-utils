@@ -5,7 +5,6 @@ import { is } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
 
-// Can't really test this one since it needs a node list as input which isn't possible in Node.js
 export const toArray = (NodeList: NodeList) => Array.prototype.slice.call(NodeList, 0)
 
 export const toNumber = (value: number | string | Dashes) => {

@@ -1,7 +1,21 @@
-import { convert, toLeadingZero, toNumber } from './converters'
+import { convert, toLeadingZero, toNumber, toArray } from './converters'
 import { failTest } from '../../cypress/helpers/failTest'
 
 /* global describe, it, expect */
+
+describe('NodeList to array', () => {
+	it('Expect node element list to become an array of elements', () => {
+		const create = () => {
+			const div = document.createElement('div')
+			div.classList.add('NodeList-test')
+			document.querySelector('body').appendChild(div)
+			return div
+		}
+		const elementsArray = [create(), create(), create()]
+		const nodeList = document.querySelectorAll('.NodeList-test')
+		expect(toArray(nodeList)).to.deep.equal(elementsArray)
+	})
+})
 
 describe('convert.hours24', () => {
 	it('Expect -1 hrs to fail', () => {
