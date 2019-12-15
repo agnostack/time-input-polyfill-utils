@@ -1,4 +1,6 @@
-/* global cy, it, expect */
+/* global cy, it, expect, describe */
+/// <reference types="Cypress" />
+
 // import function "add" from another TypeScript file
 import { add } from '../support/add'
 
