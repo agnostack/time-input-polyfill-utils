@@ -180,29 +180,8 @@ describe('is timeObject', () => {
 	it('{hrs: 12, min: 0, mode: AM} => false', () => {
 		expect(is.timeObject({ hrs: 12, min: 0, mode: 'AM' })).to.equal(false)
 	})
-	it('{hrs24: 0, hrs12: 12, min: 0, mode: AM} => true', () => {
-		expect(is.timeObject({ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })).to.equal(true)
-	})
-})
-
-describe('is timeObject', () => {
-	it('"12:00 AM" => false', () => {
-		expect(is.timeObject('12:00 AM')).to.equal(false)
-	})
-	it('"00:00" => false', () => {
-		expect(is.timeObject('00:00')).to.equal(false)
-	})
-	it('{} => false', () => {
-		expect(is.timeObject({})).to.equal(false)
-	})
-	it('{hrs24: 0} => false', () => {
-		expect(is.timeObject({ hrs24: 0 })).to.equal(false)
-	})
-	it('{hrs24: 0, hrs12: 12} => false', () => {
-		expect(is.timeObject({ hrs24: 0, hrs12: 12 })).to.equal(false)
-	})
-	it('{hrs24: 0, hrs12: 12, min: 0} => false', () => {
-		expect(is.timeObject({ hrs24: 0, hrs12: 12, min: 0 })).to.equal(false)
+	it('{hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: AM} => false', () => {
+		expect(is.timeObject({ hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })).to.equal(false)
 	})
 	it('{hrs24: 0, hrs12: 12, min: 0, mode: AM} => true', () => {
 		expect(is.timeObject({ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })).to.equal(true)
