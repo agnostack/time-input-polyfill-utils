@@ -1,6 +1,20 @@
 import { TimeObject } from '../../types/timeObject'
+import { String24hr, String12hr } from '../../types/strings'
+import { is } from '../is/is'
 
 export const validate = {
+	string12hr: (string12hr: String12hr) => {
+		if (!is.string12hr(string12hr)) {
+			throw new Error(`"${string12hr}" is not a valid 12 hour time`)
+		}
+		return true
+	},
+	string24hr: (string24hr: String24hr) => {
+		if (!is.string24hr(string24hr)) {
+			throw new Error(`"${string24hr}" is not a valid 24 hour time`)
+		}
+		return true
+	},
 	timeObject: (timeObject: TimeObject) => {
 		const { hrs24, hrs12, min, mode } = timeObject
 		if (typeof hrs24 === 'number' && hrs24 > 23) {
@@ -26,5 +40,7 @@ export const validate = {
 		if (['AM', 'PM', '--'].indexOf(mode) < 0) {
 			throw new Error('Mode is invalid')
 		}
+
+		return true
 	},
 }
