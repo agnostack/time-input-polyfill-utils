@@ -1,5 +1,7 @@
 import { modify } from './modifiers'
 
+/* global describe, it, expect */
+
 describe('Modify initial string values', () => {
 	//////////////////////////////////////////
 
