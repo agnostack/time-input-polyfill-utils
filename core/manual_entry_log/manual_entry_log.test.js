@@ -5,19 +5,31 @@ import { TimeObjectKeys } from '../../types/timeObject'
 
 const entryLog = new manual_entry_log()
 
-const basicTest = (testDescription, testName, expectedValue) => {
-	describe(testDescription, () => {
+const basicTest = ({ description, testName, value }) => {
+	describe(description, () => {
 		TimeObjectKeys.forEach(key => {
 			it(testName.replace('$prop', key), () => {
-				expect(entryLog[key]).to.deep.equal(expectedValue)
+				expect(entryLog[key]).to.deep.equal(value)
 			})
 		})
 	})
 }
 
-basicTest('Initial values', 'Expect $prop to be []', [])
-basicTest('Adding 1 to each key', 'Adds "1" to $prop', [1])
-basicTest('Adding a 2nd value to each key', 'Adds "2" to $prop', [1, 2])
+basicTest({
+	description: 'Initial values',
+	testName: 'Expect $prop to be []',
+	value: [],
+})
+basicTest({
+	description: 'Adding 1 to each key',
+	testName: 'Adds "1" to $prop',
+	value: [1],
+})
+basicTest({
+	description: 'Adding a 2nd value to each key',
+	testName: 'Adds "2" to $prop',
+	value: [1, 2],
+})
 
 describe('Clearing each value in each key', () => {
 	const clearProp = ({ prop, propVals }) => {
