@@ -2,77 +2,100 @@ import { modify } from './modifiers'
 
 /* global describe, it, expect */
 
-describe('Modify initial string values', () => {
+const modifierTest = ({ before, after, prop, format, modification }) => {
+	it(`${before} => ${after}`, () => {
+		expect(modify[format](before)[modification][prop]()).to.equal(after)
+	})
+}
+
+const deepModifierTest = ({ before, after, prop, format = 'timeObject', modification }) => {
+	it(`${JSON.stringify(before)} => ${JSON.stringify(after)}`, () => {
+		expect(modify[format](before)[modification][prop]()).to.deep.equal(after)
+	})
+}
+
+describe('Increment hours', () => {
 	//////////////////////////////////////////
 
 	describe('Increment 12hr hours', () => {
-		it('09:00 AM => 10:00 AM', () => {
-			expect(modify.string12hr('09:00 AM').increment.hrs()).to.equal('10:00 AM')
-		})
-		it('12:30 PM => 01:30 PM', () => {
-			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal('01:30 PM')
-		})
-		it('11:00 PM => 12:00 AM', () => {
-			expect(modify.string12hr('12:30 PM').increment.hrs()).to.equal('12:00 AM')
-		})
+		const hrs12hrIncrement = ({ before, after }) => {
+			modifierTest({
+				before,
+				after,
+				prop: 'hrs',
+				format: 'string12hr',
+				modification: 'increment',
+			})
+		}
+		hrs12hrIncrement({ before: '09:00 AM', after: '10:00 AM' })
+		hrs12hrIncrement({ before: '12:30 PM', after: '01:30 PM' })
+		// incrementing hours does not affect AM/PM
+		hrs12hrIncrement({ before: '11:00 PM', after: '12:00 PM' })
 	})
 
 	describe('Increment 24hr hours', () => {
-		it('09:00 => 10:00', () => {
-			expect(modify.string24hr('09:00').increment.hrs()).to.equal('10:00')
-		})
-		it('12:30 => 13:30', () => {
-			expect(modify.string24hr('12:30').increment.hrs()).to.equal('13:30')
-		})
-		it('23:00 => 00:00', () => {
-			expect(modify.string24hr('23:00').increment.hrs()).to.equal('00:00')
-		})
+		const hrs24hrIncrement = ({ before, after }) => {
+			modifierTest({
+				before,
+				after,
+				prop: 'hrs',
+				format: 'string24hr',
+				modification: 'increment',
+			})
+		}
+		hrs24hrIncrement({ before: '09:00', after: '10:00' })
+		hrs24hrIncrement({ before: '12:30', after: '13:30' })
+		hrs24hrIncrement({ before: '23:00', after: '00:00' })
 	})
 
 	describe('Increment object hours', () => {
-		it('{hrs24:9, hrs12:9, min:0, mode:AM} => {hrs24:10, hrs12:10, min:0, mode:AM}', () => {
-			expect(
-				modify
-					.timeObject({
-						hrs24: 9,
-						hrs12: 9,
-						min: 0,
-						mode: 'AM',
-					})
-					.increment.hrs(),
-			).to.equal({
+		const hrsObjectIncrement = ({ before, after }) => {
+			deepModifierTest({ before, after, prop: 'hrs', modification: 'increment' })
+		}
+
+		hrsObjectIncrement({
+			before: {
+				hrs24: 9,
+				hrs12: 9,
+				min: 0,
+				mode: 'AM',
+			},
+			after: {
 				hrs24: 10,
 				hrs12: 10,
 				min: 0,
 				mode: 'AM',
-			})
+			},
 		})
-		it('{hrs24:12, hrs12:12, min:30, mode:PM} => {hrs24:13, hrs12:1, min:30, mode:PM}', () => {
-			expect(
-				modify
-					.timeObject({
-						hrs24: 12,
-						hrs12: 12,
-						min: 30,
-						mode: 'PM',
-					})
-					.increment.hrs(),
-			).to.equal({
+
+		hrsObjectIncrement({
+			before: {
+				hrs24: 12,
+				hrs12: 12,
+				min: 30,
+				mode: 'PM',
+			},
+			after: {
 				hrs24: 13,
 				hrs12: 1,
 				min: 30,
 				mode: 'PM',
-			})
+			},
 		})
-		it('{hrs24: 23, hrs12: 11, min:0, mode:PM} => {hrs24: 0, hrs12: 12, min:0, mode:AM}', () => {
-			expect(
-				modify.timeObject({ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' }).increment.hrs(),
-			).to.equal({
-				hrs24: 0,
+
+		hrsObjectIncrement({
+			before: {
+				hrs24: 23,
+				hrs12: 11,
+				min: 0,
+				mode: 'PM',
+			},
+			after: {
+				hrs24: 12,
 				hrs12: 12,
 				min: 0,
-				mode: 'AM',
-			})
+				mode: 'PM', // modifying hrs does not modify mode
+			},
 		})
 	})
 })
