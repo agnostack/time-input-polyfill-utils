@@ -6,63 +6,64 @@ import { failTest } from '../../cypress/helpers/failTest'
 const writeBadValue = badValue => (typeof badValue === 'string' ? `"${badValue}"` : badValue)
 
 describe('validate 12 hour time', () => {
-	it('"12:00" FAIL', () => {
-		failTest(() => validate.string12hr('12:00'), '"12:00" is not a valid 12 hour time')
-	})
-	it('"" FAIL', () => {
-		failTest(() => validate.string12hr(''), '"" is not a valid 12 hour time')
-	})
-	it('"12:00 AM" PASS', () => {
-		expect(validate.string12hr('12:00 AM')).to.equal(true)
-	})
-	it('"12:59 AM" PASS', () => {
-		expect(validate.string12hr('12:59 AM')).to.equal(true)
-	})
-	it('"12:60 AM" FAIL', () => {
-		failTest(() => validate.string12hr('12:60 AM'), '"12:60 AM" is not a valid 12 hour time')
-	})
-	it('"13:00 AM" FAIL', () => {
-		failTest(() => validate.string12hr('13:00 PM'), '"13:00 PM" is not a valid 12 hour time')
-	})
-	it('"2:00 PM" PASS', () => {
-		expect(validate.string12hr('2:00 PM')).to.equal(true)
-	})
-	it('"--:-- PM" PASS', () => {
-		expect(validate.string12hr('--:-- PM')).to.equal(true)
-	})
-	it('"--:--" FAIL', () => {
-		failTest(() => validate.string12hr(''), '"" is not a valid 12 hour time')
-	})
+	const fail12hr = value => {
+		it(`"${value}" FAIL`, () => {
+			failTest(() => validate.string12hr(value), `"${value}" is not a valid 12 hour time`)
+		})
+	}
+	const pass12hr = value => {
+		it(`"${value}" PASS`, () => {
+			expect(validate.string12hr(value)).to.equal(true)
+		})
+	}
+
+	fail12hr('12:00')
+	fail12hr('')
+
+	pass12hr('12:00 AM')
+	pass12hr('12:59 AM')
+
+	fail12hr('12:60 AM')
+	fail12hr('13:00 AM')
+
+	pass12hr('2:00 PM')
+	pass12hr('1:-- --')
+	pass12hr('01:-- --')
+	pass12hr('--:00 --')
+	pass12hr('--:-- PM')
+	pass12hr('--:-- --')
+
+	fail12hr('--:--')
 })
 
 describe('validate 24 hour time', () => {
-	it('"00:00" PASS', () => {
-		expect(validate.string24hr('12:00')).to.equal(true)
-	})
-	it('"12:00" PASS', () => {
-		expect(validate.string24hr('12:00')).to.equal(true)
-	})
-	it('"12:59" PASS', () => {
-		expect(validate.string24hr('12:59')).to.equal(true)
-	})
-	it('"12:60" FAIL', () => {
-		failTest(() => validate.string24hr('12:60'), '"12:60" is not a valid 24 hour time')
-	})
-	it('"24:00" FAIL', () => {
-		failTest(() => validate.string24hr('24:00'), '"24:00" is not a valid 24 hour time')
-	})
-	it('"" PASS', () => {
-		expect(validate.string24hr('')).to.equal(true)
-	})
-	it('"12:00 AM" FAIL', () => {
-		failTest(() => validate.string24hr('12:00 AM'), '"12:00 AM" is not a valid 24 hour time')
-	})
-	it('"2:00 PM" FAIL', () => {
-		failTest(() => validate.string24hr('2:00 PM'), '"2:00 PM" is not a valid 24 hour time')
-	})
-	it('"--:-- PM" FAIL', () => {
-		failTest(() => validate.string24hr('--:-- PM'), '"--:-- PM" is not a valid 24 hour time')
-	})
+	const fail24hr = value => {
+		it(`"${value}" FAIL`, () => {
+			failTest(() => validate.string24hr(value), `"${value}" is not a valid 24 hour time`)
+		})
+	}
+	const pass24hr = value => {
+		it(`"${value}" PASS`, () => {
+			expect(validate.string24hr(value)).to.equal(true)
+		})
+	}
+
+	pass24hr('00:00')
+
+	fail24hr('0:00')
+
+	pass24hr('12:00')
+	pass24hr('12:59')
+
+	fail24hr('12:60')
+	fail24hr('24:00')
+	fail24hr('12:00 PM')
+	fail24hr('2:00 PM')
+
+	pass24hr('')
+
+	fail24hr('--:--')
+	fail24hr('--:-- --')
 })
 
 describe('validate time object', () => {
@@ -76,48 +77,26 @@ describe('validate time object', () => {
 		)
 	})
 	describe('invalid properties', () => {
-		it('"hrs" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hrs: 1, min: 0, mode: 'AM' }),
-				'the "hrs" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hrs": 1, "min": 0, "mode": "AM" }',
-			)
-		})
-		it('"hour" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hour: 1, min: 0, mode: 'AM' }),
-				'the "hour" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hour": 1, "min": 0, "mode": "AM" }',
-			)
-		})
-		it('"hours" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hours: 1, min: 0, mode: 'AM' }),
-				'the "hours" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hours": 1, "min": 0, "mode": "AM" }',
-			)
-		})
-		it('"hours12" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hours12: 1, min: 0, mode: 'AM' }),
-				'the "hours12" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hrs24": 1, "hours12": 1, "min": 0, "mode": "AM" }',
-			)
-		})
-		it('"hours24" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hours24: 1, min: 0, mode: 'AM' }),
-				'the "hours24" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hours24": 1, "hrs12": 1, "min": 0, "mode": "AM" }',
-			)
-		})
-		it('"mins" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hrs: 1, mins: 0, mode: 'AM' }),
-				'the "mins" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hrs24": 1, "hrs12": 1, "mins": 0, "mode": "AM" }',
-			)
-		})
-		it('"minutes" property is not valid', () => {
-			failTest(
-				() => validate.timeObject({ hrs24: 1, hrs12: 1, minutes: 0, mode: 'AM' }),
-				'the "minutes" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": { "hrs24": 1, "hrs12": 1, "minutes": 0, "mode": "AM" }',
-			)
-		})
+		const invalidProp = propName => {
+			it(`"${propName}" property is not valid`, () => {
+				const testObject = {
+					hrs24: 1,
+					hrs12: 1,
+					min: 0,
+					mode: 'AM',
+					[propName]: 1,
+				}
+				failTest(
+					() => validate.timeObject(testObject),
+					`The "${propName}" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": ${JSON.stringify(
+						testObject,
+					)}`,
+				)
+			})
+		}
+
+		const invalidProps = ['hrs', 'hour', 'hours', 'hours12', 'hours24', 'mins', 'minutes']
+		invalidProps.forEach(prop => invalidProp(prop))
 	})
 	describe('invalid property types', () => {
 		const numberTypeCheck = ({ propName, lower, upper }) => {
