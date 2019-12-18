@@ -28,7 +28,6 @@ describe('Successful regex matches', () => {
 	describe('24hr regex', () => {
 		regexTest('12:30', regex.string24hr, ['12:30', '12', '30'])
 		regexTest('02:00', regex.string24hr, ['02:00', '02', '00'])
-		regexTest('2:00', regex.string24hr, ['2:00', '2', '00'])
 		regexTest('', regex.string24hr, ['', undefined, undefined])
 	})
 })
@@ -42,6 +41,7 @@ describe('Failed regex matches', () => {
 
 	describe('24hr regex', () => {
 		regexTest('1230', regex.string24hr, null)
+		regexTest('2:00', regex.string24hr, null)
 		regexTest('02:0', regex.string24hr, null)
 		regexTest('0:0', regex.string24hr, null)
 		regexTest('--:--', regex.string24hr, null)
