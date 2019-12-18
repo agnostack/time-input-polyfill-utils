@@ -32,13 +32,13 @@ basicTest({
 })
 
 describe('Clearing each value in each key', () => {
-	const clearProp = ({ prop, propVals }) => {
+	const clearProp = (prop, propValues) => {
 		it(`Clears ${prop}`, () => {
 			entryLog.clear(prop)
-			expect(entryLog.hrs24).to.deep.equal(propVals.hrs24)
-			expect(entryLog.hrs12).to.deep.equal(propVals.hrs12)
-			expect(entryLog.min).to.deep.equal(propVals.min)
-			expect(entryLog.mode).to.deep.equal(propVals.mode)
+			expect(entryLog.hrs24).to.deep.equal(propValues.hrs24)
+			expect(entryLog.hrs12).to.deep.equal(propValues.hrs12)
+			expect(entryLog.min).to.deep.equal(propValues.min)
+			expect(entryLog.mode).to.deep.equal(propValues.mode)
 		})
 	}
 
