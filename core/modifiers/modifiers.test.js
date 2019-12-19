@@ -3,15 +3,22 @@ import { convert, toLeadingZero } from '../converters/converters'
 
 /* global describe, it, expect */
 
-const modifierTest = ({ before, after, method, format, modification }) => {
+const modifierTest = ({ before, after, format, action, target, integration }) => {
 	it(`${before} => ${after}`, () => {
-		expect(modify[format](before)[modification][method]()).to.equal(after)
+		expect(modify[format](before)[action][target][integration]()).to.equal(after)
 	})
 }
 
-const deepModifierTest = ({ before, after, method, format = 'timeObject', modification }) => {
+const deepModifierTest = ({
+	before,
+	after,
+	format = 'timeObject',
+	action,
+	target,
+	integration,
+}) => {
 	it(`${JSON.stringify(before)} => ${JSON.stringify(after)}`, () => {
-		expect(modify[format](before)[modification][method]()).to.deep.equal(after)
+		expect(modify[format](before)[action][target][integration]()).to.deep.equal(after)
 	})
 }
 
@@ -30,9 +37,10 @@ describe('Increment hours', () => {
 			modifierTest({
 				before,
 				after,
-				method: 'hoursIsolated',
 				format: 'string12hr',
-				modification: 'increment',
+				action: 'increment',
+				target: 'hours',
+				integration: 'isolated',
 			})
 		}
 		increment12hrIsolated({ before: '--:-- --', after: `${current.hrs12}:-- --` })
@@ -49,9 +57,10 @@ describe('Increment hours', () => {
 			modifierTest({
 				before,
 				after,
-				method: 'hoursIntegrated',
 				format: 'string12hr',
-				modification: 'increment',
+				action: 'increment',
+				target: 'hours',
+				integration: 'integrated',
 			})
 		}
 		increment12hrIntegrated({ before: '--:-- --', after: `${current.hrs12}:-- --` })
@@ -68,9 +77,10 @@ describe('Increment hours', () => {
 			modifierTest({
 				before,
 				after,
-				method: 'hoursIsolated',
 				format: 'string24hr',
-				modification: 'increment',
+				action: 'increment',
+				target: 'hours',
+				integration: 'isolated',
 			})
 		}
 		increment24hrIsolated({ before: '09:00', after: '10:00' })
@@ -81,7 +91,13 @@ describe('Increment hours', () => {
 
 	describe('Increment object hours ignoring mode', () => {
 		const incrementObjectIsolated = ({ before, after }) => {
-			deepModifierTest({ before, after, method: 'hoursIsolated', modification: 'increment' })
+			deepModifierTest({
+				before,
+				after,
+				action: 'increment',
+				target: 'hours',
+				integration: 'isolated',
+			})
 		}
 
 		incrementObjectIsolated({
