@@ -1,24 +1,52 @@
-import { TimeObject } from '../../types/timeObject'
+import { TimeObject, String12hr, String24hr, Hour12 } from '../../types'
+import { convert } from '../converters/converters'
+import { maxAndMins } from '../staticValues'
 
 export const modify = {
-	string12hr: (time12hr: string) => ({
+	string12hr: (string12hr: String12hr) => ({
 		increment: {
-			hrs: (): string => '01:30 PM',
+			hrs12: (): String12hr => {
+				const timeObject = convert.string12hr(string12hr).toTimeObject()
+				const modifiedObject = modify.timeObject(timeObject).increment.hrs12()
+				return convert.timeObject(modifiedObject).to12hr()
+			},
 		},
 	}),
-	string24hr: (time24hr: string) => ({
+	string24hr: (string24hr: String24hr) => ({
 		increment: {
-			hrs: (): string => '13:30',
+			hrs12: (): String24hr => {
+				const timeObject = convert.string24hr(string24hr).toTimeObject()
+				const modifiedObject = modify.timeObject(timeObject).increment.hrs12()
+				return convert.timeObject(modifiedObject).to24hr()
+			},
 		},
 	}),
 	timeObject: (timeObject: TimeObject) => ({
 		increment: {
-			hrs: (): TimeObject => ({
-				hrs24: 1,
-				hrs12: 1,
-				min: 30,
-				mode: 'PM',
-			}),
+			hrs12: (): TimeObject => {
+				const { hrs12 } = timeObject
+				const copiedObject = { ...timeObject }
+
+				if (typeof hrs12 === 'number') {
+					if (hrs12 === 11) {
+						copiedObject.hrs12 = 12
+					} else {
+						if (hrs12 === maxAndMins.hrs12.max) {
+							copiedObject.hrs12 = maxAndMins.hrs12.min
+						}
+
+						if (hrs12 < maxAndMins.hrs12.max) {
+							copiedObject.hrs12 = <Hour12>(hrs12 + 1)
+						}
+					}
+				} else {
+					copiedObject.hrs12 = '--'
+				}
+
+				// This aligns the hrs24 value with the hrs12 value
+				const newString12hr = convert.timeObject(copiedObject).to12hr()
+				return convert.string12hr(newString12hr).toTimeObject()
+			},
 		},
 	}),
 }

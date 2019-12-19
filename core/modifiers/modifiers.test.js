@@ -17,12 +17,12 @@ const deepModifierTest = ({ before, after, prop, format = 'timeObject', modifica
 describe('Increment hours', () => {
 	//////////////////////////////////////////
 
-	describe('Increment 12hr hours', () => {
+	describe('Increment 12hr hours using hrs12', () => {
 		const hrs12hrIncrement = ({ before, after }) => {
 			modifierTest({
 				before,
 				after,
-				prop: 'hrs',
+				prop: 'hrs12',
 				format: 'string12hr',
 				modification: 'increment',
 			})
@@ -33,24 +33,25 @@ describe('Increment hours', () => {
 		hrs12hrIncrement({ before: '11:00 PM', after: '12:00 PM' })
 	})
 
-	describe('Increment 24hr hours', () => {
+	describe('Increment 24hr hour using hrs12', () => {
 		const hrs24hrIncrement = ({ before, after }) => {
 			modifierTest({
 				before,
 				after,
-				prop: 'hrs',
+				prop: 'hrs12',
 				format: 'string24hr',
 				modification: 'increment',
 			})
 		}
 		hrs24hrIncrement({ before: '09:00', after: '10:00' })
+		hrs24hrIncrement({ before: '11:30', after: '00:30' })
 		hrs24hrIncrement({ before: '12:30', after: '13:30' })
-		hrs24hrIncrement({ before: '23:00', after: '00:00' })
+		hrs24hrIncrement({ before: '23:00', after: '12:00' })
 	})
 
 	describe('Increment object hours', () => {
 		const hrsObjectIncrement = ({ before, after }) => {
-			deepModifierTest({ before, after, prop: 'hrs', modification: 'increment' })
+			deepModifierTest({ before, after, prop: 'hrs12', modification: 'increment' })
 		}
 
 		hrsObjectIncrement({
