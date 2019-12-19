@@ -5,10 +5,13 @@ import { TimeObjectKeys } from '../../types/timeObject'
 
 const entryLog = new manual_entry_log()
 
-const basicTest = ({ description, testName, value }) => {
+const basicTest = ({ description, testName, action, value }) => {
 	describe(description, () => {
 		TimeObjectKeys.forEach(key => {
 			it(testName.replace('$prop', key), () => {
+				if (action) {
+					action(key)
+				}
 				expect(entryLog[key]).to.deep.equal(value)
 			})
 		})
@@ -23,11 +26,13 @@ basicTest({
 basicTest({
 	description: 'Adding 1 to each key',
 	testName: 'Adds "1" to $prop',
+	action: key => entryLog.add(key, '1'),
 	value: [1],
 })
 basicTest({
 	description: 'Adding a 2nd value to each key',
 	testName: 'Adds "2" to $prop',
+	action: key => entryLog.add(key, '2'),
 	value: [1, 2],
 })
 
