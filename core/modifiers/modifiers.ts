@@ -1,29 +1,39 @@
-import { TimeObject, String12hr, String24hr, Hour12 } from '../../types'
+import { TimeObject, String12hr, String24hr, Hour12, Hour24 } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
 
 export const modify = {
 	string12hr: (string12hr: String12hr) => ({
 		increment: {
-			hrs12: (): String12hr => {
+			hoursIsolated: (): String12hr => {
 				const timeObject = convert.string12hr(string12hr).toTimeObject()
-				const modifiedObject = modify.timeObject(timeObject).increment.hrs12()
+				const modifiedObject = modify.timeObject(timeObject).increment.hoursIsolated()
+				return convert.timeObject(modifiedObject).to12hr()
+			},
+			hoursIntegrated: (): String12hr => {
+				const timeObject = convert.string12hr(string12hr).toTimeObject()
+				const modifiedObject = modify.timeObject(timeObject).increment.hoursIntegrated()
 				return convert.timeObject(modifiedObject).to12hr()
 			},
 		},
 	}),
 	string24hr: (string24hr: String24hr) => ({
 		increment: {
-			hrs12: (): String24hr => {
+			hoursIsolated: (): String24hr => {
 				const timeObject = convert.string24hr(string24hr).toTimeObject()
-				const modifiedObject = modify.timeObject(timeObject).increment.hrs12()
+				const modifiedObject = modify.timeObject(timeObject).increment.hoursIsolated()
+				return convert.timeObject(modifiedObject).to24hr()
+			},
+			hoursIntegrated: (): String24hr => {
+				const timeObject = convert.string24hr(string24hr).toTimeObject()
+				const modifiedObject = modify.timeObject(timeObject).increment.hoursIntegrated()
 				return convert.timeObject(modifiedObject).to24hr()
 			},
 		},
 	}),
 	timeObject: (timeObject: TimeObject) => ({
 		increment: {
-			hrs12: (): TimeObject => {
+			hoursIsolated: (): TimeObject => {
 				const { hrs12 } = timeObject
 				const copiedObject = { ...timeObject }
 
@@ -40,12 +50,35 @@ export const modify = {
 						}
 					}
 				} else {
-					copiedObject.hrs12 = '--'
+					const hr24CurrentHrs = <Hour24>new Date().getHours()
+					copiedObject.hrs12 = convert.hours24(hr24CurrentHrs).toHours12()
 				}
 
 				// This aligns the hrs24 value with the hrs12 value
 				const newString12hr = convert.timeObject(copiedObject).to12hr()
 				return convert.string12hr(newString12hr).toTimeObject()
+			},
+
+			hoursIntegrated: (): TimeObject => {
+				const { hrs24 } = timeObject
+				const copiedObject = { ...timeObject }
+
+				if (typeof hrs24 === 'number') {
+					if (hrs24 === maxAndMins.hrs24.max) {
+						copiedObject.hrs24 = maxAndMins.hrs24.min
+					}
+
+					if (hrs24 < maxAndMins.hrs24.max) {
+						copiedObject.hrs24 = <Hour24>(hrs24 + 1)
+					}
+
+					// This aligns the hrs12 value with the hrs24 value
+					const newString24hr = convert.timeObject(copiedObject).to24hr()
+					return convert.string24hr(newString24hr).toTimeObject()
+				} else {
+					// If it isn't a number, then it is better to increment without affecting mode
+					return modify.timeObject(timeObject).increment.hoursIsolated()
+				}
 			},
 		},
 	}),
