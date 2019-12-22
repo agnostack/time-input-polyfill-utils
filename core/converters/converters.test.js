@@ -357,52 +357,288 @@ describe('Convert 12hr', () => {
 })
 
 describe('convert time object', () => {
-	it('Expect "--:--" to fail', () => {
-		failTest(
-			() => convert.string12hr('--:--').to12hr(),
-			'"--:--" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+	describe('time object validation', () => {
+		const invalidMessage = extra => {
+			const formattedExtra = typeof extra === 'string' ? `"${extra}"` : JSON.stringify(extra)
+			return `${formattedExtra} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min:0, mode: 'AM'} (12:00 AM)`
+		}
+		it('"12:00 AM" => fail', () => {
+			failTest(() => convert.timeObject('12:00 AM').to12hr(), invalidMessage('12:00 AM'))
+		})
+		it('"00:00" => fail', () => {
+			failTest(() => convert.timeObject('00:00').to12hr(), invalidMessage('00:00'))
+		})
+		it('{} => fail', () => {
+			failTest(() => convert.timeObject({}).to12hr(), invalidMessage({}))
+		})
+		it('{hrs24: 0} => fail', () => {
+			failTest(() => convert.timeObject({ hrs24: 0 }).to12hr(), invalidMessage({ hrs24: 0 }))
+		})
+		it('{hrs24: 0, hrs12: 12} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 0, hrs12: 12 }).to12hr(),
+				invalidMessage({ hrs24: 0, hrs12: 12 }),
+			)
+		})
+		it('{hrs24: 0, hrs12: 12, min: 0} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 0, hrs12: 12, min: 0 }).to12hr(),
+				invalidMessage({ hrs24: 0, hrs12: 12, min: 0 }),
+			)
+		})
+		it('{hrs: 12, min: 0, mode: AM} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs: 12, min: 0, mode: 'AM' }).to12hr(),
+				invalidMessage({ hrs: 12, min: 0, mode: 'AM' }),
+			)
+		})
+		it('{hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: AM} => fail', () => {
+			failTest(
+				() =>
+					convert
+						.timeObject({ hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })
+						.to12hr(),
+				invalidMessage({ hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: 'AM' }),
+			)
+		})
+		it('{hrs24: 24, hrs12: 12, min: 0, mode: AM} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 24, hrs12: 12, min: 0, mode: 'AM' }).to12hr(),
+				'hrs24 (24) cannot be higher than 23, use 0 instead for 24',
+			)
+		})
+		it('{hrs24: 0, hrs12: 13, min: 0, mode: AM} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 0, hrs12: 13, min: 0, mode: 'AM' }).to12hr(),
+				'hrs12 (13) cannot be higher than 12',
+			)
+		})
+		it('{hrs24: 2, hrs12: 3, min: 0, mode: AM} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 2, hrs12: 3, min: 0, mode: 'AM' }).to12hr(),
+				'hrs12 (3) and hrs24 (2) do not appear to match each other',
+			)
+		})
+		it('{hrs24: 2, hrs12: 2, min: 0, mode: PM} => fail', () => {
+			failTest(
+				() => convert.timeObject({ hrs24: 2, hrs12: 2, min: 0, mode: 'PM' }).to12hr(),
+				'Mode (PM) does not match up with hrs24 (2)',
+			)
+		})
+	})
+
+	const timeTest = method => {
+		return (timeObject, result) => {
+			const objectString = JSON.stringify(timeObject)
+			it(`Expect ${objectString} to be "${result}"`, () => {
+				expect(convert.timeObject(timeObject)[method]()).to.deep.equal(result)
+			})
+		}
+	}
+
+	describe('time object to 24hr', () => {
+		const timeTest24hr = timeTest('to24hr')
+		timeTest24hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: '--',
+			},
+			'',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 1,
+				hrs12: 1,
+				min: '--',
+				mode: '--',
+			},
+			'',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: 2,
+				mode: '--',
+			},
+			'',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: 'AM',
+			},
+			'',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 0,
+				hrs12: 12,
+				min: 0,
+				mode: 'AM',
+			},
+			'00:00',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 5,
+				hrs12: 5,
+				min: 30,
+				mode: 'AM',
+			},
+			'05:30',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 11,
+				hrs12: 11,
+				min: 0,
+				mode: 'AM',
+			},
+			'11:00',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 12,
+				hrs12: 12,
+				min: 0,
+				mode: 'PM',
+			},
+			'12:00',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 13,
+				hrs12: 1,
+				min: 0,
+				mode: 'PM',
+			},
+			'13:00',
+		)
+
+		timeTest24hr(
+			{
+				hrs24: 23,
+				hrs12: 11,
+				min: 30,
+				mode: 'PM',
+			},
+			'23:30',
 		)
 	})
-	it('Expect "--:-- --" to be ""', () => {
-		expect(convert.string12hr('--:-- --').to24hr()).to.equal('')
-	})
-	it('Expect "01:-- --" to be ""', () => {
-		expect(convert.string12hr('01:-- --').to24hr()).to.equal('')
-	})
-	it('Expect "--:02 --" to be ""', () => {
-		expect(convert.string12hr('--:02 --').to24hr()).to.equal('')
-	})
-	it('Expect "--:-- AM" to be ""', () => {
-		expect(convert.string12hr('--:-- AM').to24hr()).to.equal('')
-	})
-	it('Expect "12:00 AM" to be "00:00"', () => {
-		expect(convert.string12hr('12:00 AM').to24hr()).to.equal('00:00')
-	})
-	it('Expect "05:30 AM" to be "05:30"', () => {
-		expect(convert.string12hr('05:30 AM').to24hr()).to.equal('05:30')
-	})
-	it('Expect "11:00 AM" to be "11:00"', () => {
-		expect(convert.string12hr('11:00 AM').to24hr()).to.equal('11:00')
-	})
-	it('Expect "12:00 PM" to be "12:00"', () => {
-		expect(convert.string12hr('12:00 PM').to24hr()).to.equal('12:00')
-	})
-	it('Expect "01:00 PM" to be "13:00"', () => {
-		expect(convert.string12hr('01:00 PM').to24hr()).to.equal('13:00')
-	})
-	it('Expect "11:30 PM" to be "23:30"', () => {
-		expect(convert.string12hr('11:30 PM').to24hr()).to.equal('23:30')
-	})
-	it('Expect "13:30" to fail', () => {
-		failTest(
-			() => convert.string12hr('13:30').to12hr(),
-			'"13:30" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+
+	describe('time object to 12hr', () => {
+		const timeTest12hr = timeTest('to12hr')
+		timeTest12hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: '--',
+			},
+			'--:-- --',
 		)
-	})
-	it('Expect "13:30 PM" to fail', () => {
-		failTest(
-			() => convert.string12hr('13:30 PM').to12hr(),
-			'"13:30 PM" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+
+		timeTest12hr(
+			{
+				hrs24: 1,
+				hrs12: 1,
+				min: '--',
+				mode: '--',
+			},
+			'01:-- --',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: 2,
+				mode: '--',
+			},
+			'--:02 --',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: 'AM',
+			},
+			'--:-- AM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 0,
+				hrs12: 12,
+				min: 0,
+				mode: 'AM',
+			},
+			'12:00 AM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 5,
+				hrs12: 5,
+				min: 30,
+				mode: 'AM',
+			},
+			'05:30 AM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 11,
+				hrs12: 11,
+				min: 0,
+				mode: 'AM',
+			},
+			'11:00 AM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 12,
+				hrs12: 12,
+				min: 0,
+				mode: 'PM',
+			},
+			'12:00 PM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 13,
+				hrs12: 1,
+				min: 0,
+				mode: 'PM',
+			},
+			'01:00 PM',
+		)
+
+		timeTest12hr(
+			{
+				hrs24: 23,
+				hrs12: 11,
+				min: 30,
+				mode: 'PM',
+			},
+			'11:30 PM',
 		)
 	})
 })

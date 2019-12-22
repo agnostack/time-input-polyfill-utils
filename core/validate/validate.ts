@@ -25,17 +25,24 @@ export const validate = {
 	},
 	timeObject: (timeObject: TimeObject) => {
 		const { hrs24, hrs12, min, mode } = timeObject
+		if (!is.timeObject(timeObject)) {
+			throw new Error(
+				`${JSON.stringify(
+					timeObject,
+				)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min:0, mode: 'AM'} (12:00 AM)`,
+			)
+		}
 		if (typeof hrs24 === 'number' && hrs24 > 23) {
-			throw new Error('24 Hours cannot be higher than 23, use 0 instead')
+			throw new Error(`hrs24 (${hrs24}) cannot be higher than 23, use 0 instead for 24`)
 		}
 		if (typeof hrs24 === 'number' && hrs24 < 0) {
-			throw new Error('24 Hours cannot be lower than 0')
+			throw new Error(`hrs24 (${hrs24}) cannot be lower than 0`)
 		}
 		if (typeof hrs12 === 'number' && hrs12 > 12) {
-			throw new Error('12 Hours cannot be higher than 12')
+			throw new Error(`hrs12 (${hrs12}) cannot be higher than 12`)
 		}
 		if (typeof hrs12 === 'number' && hrs12 < 1) {
-			throw new Error('12 Hours cannot be lower than 1')
+			throw new Error(`hrs12 (${hrs12}) cannot be lower than 1`)
 		}
 
 		if (typeof min === 'number' && min > 59) {
@@ -47,6 +54,20 @@ export const validate = {
 
 		if (['AM', 'PM', '--'].indexOf(mode) < 0) {
 			throw new Error('Mode is invalid')
+		}
+
+		if (
+			(hrs24 === 0 && hrs12 !== 12) ||
+			(hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
+			(typeof hrs24 === 'number' && hrs24 > 12 && hrs12 !== hrs24 - 12)
+		) {
+			throw new Error(
+				`hrs12 (${hrs12}) and hrs24 (${hrs24}) do not appear to match each other`,
+			)
+		}
+
+		if (mode !== '--' && ((hrs24 > 11 && mode !== 'PM') || (hrs24 < 12 && mode !== 'AM'))) {
+			throw new Error(`Mode (${mode}) does not match up with hrs24 (${hrs24})`)
 		}
 
 		return true
