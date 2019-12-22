@@ -356,77 +356,8 @@ describe('Convert 12hr', () => {
 	})
 })
 
+// See core/validate/validate.test.js for time object validation tests
 describe('convert time object', () => {
-	describe('time object validation', () => {
-		const invalidMessage = extra => {
-			const formattedExtra = typeof extra === 'string' ? `"${extra}"` : JSON.stringify(extra)
-			return `${formattedExtra} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min:0, mode: 'AM'} (12:00 AM)`
-		}
-		it('"12:00 AM" => fail', () => {
-			failTest(() => convert.timeObject('12:00 AM').to12hr(), invalidMessage('12:00 AM'))
-		})
-		it('"00:00" => fail', () => {
-			failTest(() => convert.timeObject('00:00').to12hr(), invalidMessage('00:00'))
-		})
-		it('{} => fail', () => {
-			failTest(() => convert.timeObject({}).to12hr(), invalidMessage({}))
-		})
-		it('{hrs24: 0} => fail', () => {
-			failTest(() => convert.timeObject({ hrs24: 0 }).to12hr(), invalidMessage({ hrs24: 0 }))
-		})
-		it('{hrs24: 0, hrs12: 12} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 0, hrs12: 12 }).to12hr(),
-				invalidMessage({ hrs24: 0, hrs12: 12 }),
-			)
-		})
-		it('{hrs24: 0, hrs12: 12, min: 0} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 0, hrs12: 12, min: 0 }).to12hr(),
-				invalidMessage({ hrs24: 0, hrs12: 12, min: 0 }),
-			)
-		})
-		it('{hrs: 12, min: 0, mode: AM} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs: 12, min: 0, mode: 'AM' }).to12hr(),
-				invalidMessage({ hrs: 12, min: 0, mode: 'AM' }),
-			)
-		})
-		it('{hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: AM} => fail', () => {
-			failTest(
-				() =>
-					convert
-						.timeObject({ hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })
-						.to12hr(),
-				invalidMessage({ hrs: 12, hrs24: 0, hrs12: 12, min: 0, mode: 'AM' }),
-			)
-		})
-		it('{hrs24: 24, hrs12: 12, min: 0, mode: AM} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 24, hrs12: 12, min: 0, mode: 'AM' }).to12hr(),
-				'hrs24 (24) cannot be higher than 23, use 0 instead for 24',
-			)
-		})
-		it('{hrs24: 0, hrs12: 13, min: 0, mode: AM} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 0, hrs12: 13, min: 0, mode: 'AM' }).to12hr(),
-				'hrs12 (13) cannot be higher than 12',
-			)
-		})
-		it('{hrs24: 2, hrs12: 3, min: 0, mode: AM} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 2, hrs12: 3, min: 0, mode: 'AM' }).to12hr(),
-				'hrs12 (3) and hrs24 (2) do not appear to match each other',
-			)
-		})
-		it('{hrs24: 2, hrs12: 2, min: 0, mode: PM} => fail', () => {
-			failTest(
-				() => convert.timeObject({ hrs24: 2, hrs12: 2, min: 0, mode: 'PM' }).to12hr(),
-				'Mode (PM) does not match up with hrs24 (2)',
-			)
-		})
-	})
-
 	const timeTest = method => {
 		return (timeObject, result) => {
 			const objectString = JSON.stringify(timeObject)
