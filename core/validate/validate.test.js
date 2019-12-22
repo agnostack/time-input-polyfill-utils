@@ -8,7 +8,10 @@ const writeBadValue = badValue => (typeof badValue === 'string' ? `"${badValue}"
 describe('validate 12 hour time', () => {
 	const fail12hr = value => {
 		it(`"${value}" FAIL`, () => {
-			failTest(() => validate.string12hr(value), `"${value}" is not a valid 12 hour time`)
+			failTest(
+				() => validate.string12hr(value),
+				`"${value}" is not a valid 12 hour time, use the format "HH:MM AM/PM"`,
+			)
 		})
 	}
 	const pass12hr = value => {
@@ -37,9 +40,12 @@ describe('validate 12 hour time', () => {
 })
 
 describe('validate 24 hour time', () => {
-	const fail24hr = value => {
+	const fail24hr = (value, extraMessage = '') => {
 		it(`"${value}" FAIL`, () => {
-			failTest(() => validate.string24hr(value), `"${value}" is not a valid 24 hour time`)
+			failTest(
+				() => validate.string24hr(value),
+				`"${value}" is not a valid 24 hour time.${extraMessage}`,
+			)
 		})
 	}
 	const pass24hr = value => {
@@ -56,14 +62,14 @@ describe('validate 24 hour time', () => {
 	pass24hr('12:59')
 
 	fail24hr('12:60')
-	fail24hr('24:00')
+	fail24hr('24:00', ' Use "00" instead of "24".')
 	fail24hr('12:00 PM')
 	fail24hr('2:00 PM')
 
 	pass24hr('')
 
-	fail24hr('--:--')
-	fail24hr('--:-- --')
+	fail24hr('--:--', ' Use an empty string instead of "--:--" to represent a blank value')
+	fail24hr('--:-- --', ' Use an empty string instead of "--:--" to represent a blank value')
 })
 
 describe('validate time object', () => {
@@ -72,8 +78,14 @@ describe('validate time object', () => {
 	})
 	it('hrs12 & hrs24 mismatch', () => {
 		failTest(
+			() => validate.timeObject({ hrs24: 2, hrs12: 1, min: 0, mode: 'AM' }),
+			'hrs12 (1) should be equal to or 12 hours behind hrs24 (2)',
+		)
+	})
+	it('hrs24 & AM/PM mismatch', () => {
+		failTest(
 			() => validate.timeObject({ hrs24: 1, hrs12: 1, min: 0, mode: 'PM' }),
-			'If mode is "PM", hrs24 should be 12 hours ahead of hrs12',
+			'If mode (PM) is "PM", hrs24 (1) should be greater than or equal to 12',
 		)
 	})
 	describe('invalid properties', () => {
@@ -88,9 +100,9 @@ describe('validate time object', () => {
 				}
 				failTest(
 					() => validate.timeObject(testObject),
-					`The "${propName}" property is not valid, valid properties are "hrs12", "hrs24", "min", and "mode": ${JSON.stringify(
+					`${JSON.stringify(
 						testObject,
-					)}`,
+					)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
 				)
 			})
 		}
@@ -102,7 +114,7 @@ describe('validate time object', () => {
 		const numberTypeCheck = ({ propName, lower, upper }) => {
 			const validTimeObject = { hrs24: 1, hrs12: 1, min: 0, mode: 'AM' }
 			const goodValue = validTimeObject[propName]
-			const badPropValues = [`${goodValue}`, goodValue + 1, goodValue - 1]
+			const badPropValues = [`${goodValue}`, upper + 1, lower - 1]
 			const badTimeObjects = badPropValues.map(badValue => ({
 				...validTimeObject,
 				[propName]: badValue,
@@ -120,7 +132,7 @@ describe('validate time object', () => {
 					it(testName, () => {
 						failTest(
 							() => validate.timeObject(badTimeObjects[index]),
-							`"${propName}" must be a number ${lower}-${upper} or "--": ${propName} = ${badValue}`,
+							`${propName} (${badValue}) is invalid, "${propName}" must be a number ${lower}-${upper} or "--"`,
 						)
 					})
 				})
@@ -137,7 +149,7 @@ describe('validate time object', () => {
 				it(testName, () => {
 					failTest(
 						() => validate.timeObject({ hrs24: 1, hrs12: 1, min: 0, mode }),
-						`Mode value is invalid, valid mode values are "AM", "PM", and "--": mode = ${badValue}`,
+						`Mode (${badValue}) is invalid. Valid values are: "AM","PM","--"`,
 					)
 				})
 			}
@@ -158,9 +170,9 @@ describe('validate time object', () => {
 			it(`${missingProp} property is missing`, () => {
 				failTest(
 					() => validate.timeObject(badTimeObject),
-					`timeObject is missing the "${missingProp}" property: ${JSON.stringify(
+					`${JSON.stringify(
 						badTimeObject,
-					)}`,
+					)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
 				)
 			})
 		}
