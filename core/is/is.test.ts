@@ -1,7 +1,7 @@
 import { is } from './is'
 
 describe('is PM', () => {
-	describe('hrs24', () => {
+	describe('hrs24 number', () => {
 		it('0 => false', () => {
 			expect(is.PM.hrs24(0)).to.equal(false)
 		})
@@ -22,7 +22,7 @@ describe('is PM', () => {
 		})
 	})
 
-	describe('12hr', () => {
+	describe('12hr string', () => {
 		it('12:00 AM => false', () => {
 			expect(is.PM.string12hr('12:00 AM')).to.equal(false)
 		})
@@ -40,7 +40,7 @@ describe('is PM', () => {
 		})
 	})
 
-	describe('24hr', () => {
+	describe('24hr string', () => {
 		it('00:00 => false', () => {
 			expect(is.PM.string24hr('00:00')).to.equal(false)
 		})
@@ -80,7 +80,7 @@ describe('is PM', () => {
 })
 
 describe('is AM', () => {
-	describe('hrs24', () => {
+	describe('hrs24 number', () => {
 		it('0 => true', () => {
 			expect(is.AM.hrs24(0)).to.equal(true)
 		})
@@ -101,7 +101,7 @@ describe('is AM', () => {
 		})
 	})
 
-	describe('12hr', () => {
+	describe('12hr string', () => {
 		it('12:00 AM => true', () => {
 			expect(is.AM.string12hr('12:00 AM')).to.equal(true)
 		})
@@ -119,7 +119,7 @@ describe('is AM', () => {
 		})
 	})
 
-	describe('24hr', () => {
+	describe('24hr string', () => {
 		it('00:00 => true', () => {
 			expect(is.AM.string24hr('00:00')).to.equal(true)
 		})
