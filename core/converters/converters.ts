@@ -69,6 +69,14 @@ export const convert = {
 				return convert.timeObject(timeObject).to12hr()
 			},
 			toTimeObject: (): TimeObject => {
+				if (string24hr === '') {
+					return {
+						hrs24: '--',
+						hrs12: '--',
+						min: '--',
+						mode: '--',
+					}
+				}
 				// string24hr
 				const [, hrsString24, minString] = regex.string24hr.exec(string24hr)
 				const [hrs24, min] = [<Hour24>toNumber(hrsString24), <Minute>toNumber(minString)]

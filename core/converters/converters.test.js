@@ -80,49 +80,283 @@ describe('leading zero', () => {
 	})
 })
 
-describe('convert string 24hr', () => {
-	it('Expect "" to be "--:-- --"', () => {
-		expect(convert.string24hr('').to12hr()).to.equal('--:-- --')
+describe('Convert 24hr', () => {
+	describe('24hr to 12hr', () => {
+		it('Expect "" to be "--:-- --"', () => {
+			expect(convert.string24hr('').to12hr()).to.equal('--:-- --')
+		})
+		it('Expect "--:--" to error', () => {
+			failTest(
+				() => convert.string24hr('--:--').to12hr(),
+				'"--:--" is not a valid 24 hour time. Use an empty string instead of "--:--" to represent a blank value',
+			)
+		})
+		it('Expect "00:00" to be "12:00 AM"', () => {
+			expect(convert.string24hr('00:00').to12hr()).to.equal('12:00 AM')
+		})
+		it('Expect "5:30" to error', () => {
+			failTest(
+				() => convert.string24hr('5:30').to12hr(),
+				'"5:30" is not a valid 24 hour time.',
+			)
+			expect(convert.string24hr('05:30').to12hr()).to.equal('05:30 AM')
+		})
+		it('Expect "05:30" to be "05:30 AM"', () => {
+			expect(convert.string24hr('05:30').to12hr()).to.equal('05:30 AM')
+		})
+		it('Expect "11:00" to be "11:00 AM"', () => {
+			expect(convert.string24hr('11:00').to12hr()).to.equal('11:00 AM')
+		})
+		it('Expect "12:00" to be "12:00 PM"', () => {
+			expect(convert.string24hr('12:00').to12hr()).to.equal('12:00 PM')
+		})
+		it('Expect "13:00" to be "01:00 PM"', () => {
+			expect(convert.string24hr('13:00').to12hr()).to.equal('01:00 PM')
+		})
+		it('Expect "00:00" to be "12:00 AM"', () => {
+			expect(convert.string24hr('00:00').to12hr()).to.equal('12:00 AM')
+		})
+		it('Expect "24:30" to error', () => {
+			failTest(
+				() => convert.string24hr('24:30').to12hr(),
+				'"24:30" is not a valid 24 hour time. Use "00" instead of "24".',
+			)
+		})
+		it('Expect "25:30" to error', () => {
+			failTest(
+				() => convert.string24hr('25:30').to12hr(),
+				'"25:30" is not a valid 24 hour time.',
+			)
+		})
 	})
-	it('Expect "--:--" to error', () => {
-		failTest(
-			() => convert.string24hr('--:--').to12hr(),
-			'"--:--" is not a valid 24 hour time. Use an empty string instead of "--:--" to represent a blank value',
-		)
-	})
-	it('Expect "00:00" to be "12:00 AM"', () => {
-		expect(convert.string24hr('00:00').to12hr()).to.equal('12:00 AM')
-	})
-	it('Expect "05:30" to be "05:30 AM"', () => {
-		expect(convert.string24hr('05:30').to12hr()).to.equal('05:30 AM')
-	})
-	it('Expect "05:30" to be "05:30 AM"', () => {
-		expect(convert.string24hr('05:30').to12hr()).to.equal('05:30 AM')
-	})
-	it('Expect "11:00" to be "11:00 AM"', () => {
-		expect(convert.string24hr('11:00').to12hr()).to.equal('11:00 AM')
-	})
-	it('Expect "12:00" to be "12:00 PM"', () => {
-		expect(convert.string24hr('12:00').to12hr()).to.equal('12:00 PM')
-	})
-	it('Expect "13:00" to be "01:00 PM"', () => {
-		expect(convert.string24hr('13:00').to12hr()).to.equal('01:00 PM')
-	})
-	it('Expect "00:00" to be "12:00 AM"', () => {
-		expect(convert.string24hr('00:00').to12hr()).to.equal('12:00 AM')
-	})
-	it('Expect "24:30" to error', () => {
-		failTest(
-			() => convert.string24hr('24:30').to12hr(),
-			'"24:30" is not a valid 24 hour time. Use "00" instead of "24".',
-		)
-	})
-	it('Expect "25:30" to error', () => {
-		failTest(() => convert.string24hr('25:30').to12hr(), '"25:30" is not a valid 24 hour time.')
+
+	describe('24hr to time object', () => {
+		it('Expect "" to be {hrs24: "--", hrs12: "--", min: "--", mode: "--"}', () => {
+			expect(convert.string24hr('').toTimeObject()).to.deep.equal({
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: '--',
+			})
+		})
+		it('Expect "00:00" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+			expect(convert.string24hr('00:00').toTimeObject()).to.deep.equal({
+				hrs24: 0,
+				hrs12: 12,
+				min: 0,
+				mode: 'AM',
+			})
+		})
+		it('Expect "05:30" to be {hrs24: 5, hrs12: 5, min: 30, mode: "AM"}', () => {
+			expect(convert.string24hr('05:30').toTimeObject()).to.deep.equal({
+				hrs24: 5,
+				hrs12: 5,
+				min: 30,
+				mode: 'AM',
+			})
+		})
+		it('Expect "11:00" to be {hrs24: 11, hrs12: 11, min: 0, mode: "AM"}', () => {
+			expect(convert.string24hr('11:00').toTimeObject()).to.deep.equal({
+				hrs24: 11,
+				hrs12: 11,
+				min: 0,
+				mode: 'AM',
+			})
+		})
+		it('Expect "12:00" to be {hrs24: 12, hrs12: 12, min: 0, mode: "PM"}', () => {
+			expect(convert.string24hr('12:00').toTimeObject()).to.deep.equal({
+				hrs24: 12,
+				hrs12: 12,
+				min: 0,
+				mode: 'PM',
+			})
+		})
+		it('Expect "13:00" to be {hrs24: 13, hrs12: 1, min: 0, mode: "PM"}', () => {
+			expect(convert.string24hr('13:00').toTimeObject()).to.deep.equal({
+				hrs24: 13,
+				hrs12: 1,
+				min: 0,
+				mode: 'PM',
+			})
+		})
+		it('Expect "00:00" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+			expect(convert.string24hr('00:00').toTimeObject()).to.deep.equal({
+				hrs24: 0,
+				hrs12: 12,
+				min: 0,
+				mode: 'AM',
+			})
+		})
+		it('Expect "24:30" to error', () => {
+			failTest(
+				() => convert.string24hr('24:30').toTimeObject(),
+				'"24:30" is not a valid 24 hour time. Use "00" instead of "24".',
+			)
+		})
+		it('Expect "25:30" to error', () => {
+			failTest(
+				() => convert.string24hr('25:30').toTimeObject(),
+				'"25:30" is not a valid 24 hour time.',
+			)
+		})
 	})
 })
 
-describe('convert string 12hr', () => {
+describe('Convert 12hr', () => {
+	describe('12hr to 24hr', () => {
+		it('Expect "--:--" to fail', () => {
+			failTest(
+				() => convert.string12hr('--:--').to24hr(),
+				'"--:--" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+		it('Expect "--:-- --" to be ""', () => {
+			expect(convert.string12hr('--:-- --').to24hr()).to.equal('')
+		})
+		it('Expect "01:-- --" to be ""', () => {
+			expect(convert.string12hr('01:-- --').to24hr()).to.equal('')
+		})
+		it('Expect "--:02 --" to be ""', () => {
+			expect(convert.string12hr('--:02 --').to24hr()).to.equal('')
+		})
+		it('Expect "--:-- AM" to be ""', () => {
+			expect(convert.string12hr('--:-- AM').to24hr()).to.equal('')
+		})
+		it('Expect "12:00 AM" to be "00:00"', () => {
+			expect(convert.string12hr('12:00 AM').to24hr()).to.equal('00:00')
+		})
+		it('Expect "05:30 AM" to be "05:30"', () => {
+			expect(convert.string12hr('05:30 AM').to24hr()).to.equal('05:30')
+		})
+		it('Expect "11:00 AM" to be "11:00"', () => {
+			expect(convert.string12hr('11:00 AM').to24hr()).to.equal('11:00')
+		})
+		it('Expect "12:00 PM" to be "12:00"', () => {
+			expect(convert.string12hr('12:00 PM').to24hr()).to.equal('12:00')
+		})
+		it('Expect "01:00 PM" to be "13:00"', () => {
+			expect(convert.string12hr('01:00 PM').to24hr()).to.equal('13:00')
+		})
+		it('Expect "11:30 PM" to be "23:30"', () => {
+			expect(convert.string12hr('11:30 PM').to24hr()).to.equal('23:30')
+		})
+		it('Expect "13:30" to fail', () => {
+			failTest(
+				() => convert.string12hr('13:30').to12hr(),
+				'"13:30" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+		it('Expect "13:30 PM" to fail', () => {
+			failTest(
+				() => convert.string12hr('13:30 PM').to24hr(),
+				'"13:30 PM" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+	})
+
+	describe('12hr to time object', () => {
+		it('Expect "--:--" to fail', () => {
+			failTest(
+				() => convert.string12hr('--:--').toTimeObject(),
+				'"--:--" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+		it('Expect "--:-- --" to be {hrs24: "--", hrs12: "--", min: "--", mode: "--"}', () => {
+			expect(convert.string12hr('--:-- --').toTimeObject()).to.deep.equal({
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: '--',
+			})
+		})
+		it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, min: "--", mode: "--"}', () => {
+			expect(convert.string12hr('01:-- --').toTimeObject()).to.deep.equal({
+				hrs24: 1,
+				hrs12: 1,
+				min: '--',
+				mode: '--',
+			})
+		})
+		it('Expect "--:02 --" to be {hrs24: "--", hrs12: "--", min: 2, mode: "--"}', () => {
+			expect(convert.string12hr('--:02 --').toTimeObject()).to.deep.equal({
+				hrs24: '--',
+				hrs12: '--',
+				min: 2,
+				mode: '--',
+			})
+		})
+		it('Expect "--:-- AM" to be {hrs24: "--", hrs12: "--", min: "--", mode: "AM"}', () => {
+			expect(convert.string12hr('--:-- AM').toTimeObject()).to.deep.equal({
+				hrs24: '--',
+				hrs12: '--',
+				min: '--',
+				mode: 'AM',
+			})
+		})
+		it('Expect "12:00 AM" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+			expect(convert.string12hr('12:00 AM').toTimeObject()).to.deep.equal({
+				hrs24: 0,
+				hrs12: 12,
+				min: 0,
+				mode: 'AM',
+			})
+		})
+		it('Expect "05:30 AM" to be {hrs24: 5, hrs12: 5, min: 30, mode: "AM"}', () => {
+			expect(convert.string12hr('05:30 AM').toTimeObject()).to.deep.equal({
+				hrs24: 5,
+				hrs12: 5,
+				min: 30,
+				mode: 'AM',
+			})
+		})
+		it('Expect "11:00 AM" to be {hrs24: 11, hrs12: 11, min: 0, mode: "AM"}', () => {
+			expect(convert.string12hr('11:00 AM').toTimeObject()).to.deep.equal({
+				hrs24: 11,
+				hrs12: 11,
+				min: 0,
+				mode: 'AM',
+			})
+		})
+		it('Expect "12:00 PM" to be {hrs24: 12, hrs12: 12, min: 0, mode: "PM"}', () => {
+			expect(convert.string12hr('12:00 PM').toTimeObject()).to.deep.equal({
+				hrs24: 12,
+				hrs12: 12,
+				min: 0,
+				mode: 'PM',
+			})
+		})
+		it('Expect "01:00 PM" to be {hrs24: 13, hrs12: 1, min: 0, mode: "PM"}', () => {
+			expect(convert.string12hr('01:00 PM').toTimeObject()).to.deep.equal({
+				hrs24: 13,
+				hrs12: 1,
+				min: 0,
+				mode: 'PM',
+			})
+		})
+		it('Expect "11:30 PM" to be {hrs24: 23, hrs12: 11, min: 30, mode: "PM"}', () => {
+			expect(convert.string12hr('11:30 PM').toTimeObject()).to.deep.equal({
+				hrs24: 23,
+				hrs12: 11,
+				min: 30,
+				mode: 'PM',
+			})
+		})
+		it('Expect "13:30" to fail', () => {
+			failTest(
+				() => convert.string12hr('13:30').toTimeObject(),
+				'"13:30" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+		it('Expect "13:30 PM" to fail', () => {
+			failTest(
+				() => convert.string12hr('13:30 PM').toTimeObject(),
+				'"13:30 PM" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
+			)
+		})
+	})
+})
+
+describe('convert time object', () => {
 	it('Expect "--:--" to fail', () => {
 		failTest(
 			() => convert.string12hr('--:--').to12hr(),
