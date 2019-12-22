@@ -97,8 +97,10 @@ export const convert = {
 			},
 		}
 	},
-	timeObject: (timeObject: TimeObject) => {
-		validate.timeObject(timeObject)
+	timeObject: (timeObject: TimeObject, skipValidation: Boolean = false) => {
+		if (!skipValidation) {
+			validate.timeObject(timeObject)
+		}
 		const { hrs24, hrs12, min, mode } = timeObject
 		const hrsString24 = toLeadingZero(hrs24)
 		const hrsString12 = toLeadingZero(hrs12)

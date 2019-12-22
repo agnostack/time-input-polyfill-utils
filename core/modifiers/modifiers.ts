@@ -94,7 +94,7 @@ export const modify = {
 					}
 
 					// This aligns the hrs24 value with the hrs12 value
-					const newString12hr = convert.timeObject(copiedObject).to12hr()
+					const newString12hr = convert.timeObject(copiedObject, true).to12hr()
 					return convert.string12hr(newString12hr).toTimeObject()
 				},
 				integrated: (): TimeObject => {
@@ -111,7 +111,7 @@ export const modify = {
 						}
 
 						// This aligns the hrs12 value with the hrs24 value
-						const newString24hr = convert.timeObject(copiedObject).to24hr()
+						const newString24hr = convert.timeObject(copiedObject, true).to24hr()
 						return convert.string24hr(newString24hr).toTimeObject()
 					} else {
 						// If it isn't a number, then it is better to increment in isolation
