@@ -1,17 +1,25 @@
 import { TimeObject } from '../../types/timeObject'
 import { String24hr, String12hr } from '../../types/strings'
 import { is } from '../is/is'
+import { Hour24 } from '../../types'
 
 export const validate = {
 	string12hr: (string12hr: String12hr) => {
 		if (!is.string12hr(string12hr)) {
-			throw new Error(`"${string12hr}" is not a valid 12 hour time`)
+			throw new Error(
+				`"${string12hr}" is not a valid 12 hour time, use the format "HH:MM AM/PM"`,
+			)
 		}
 		return true
 	},
 	string24hr: (string24hr: String24hr) => {
 		if (!is.string24hr(string24hr)) {
-			throw new Error(`"${string24hr}" is not a valid 24 hour time`)
+			const extra = /-/.test(string24hr)
+				? ' Use an empty string instead of "--:--" to represent a blank value'
+				: /24:\d\d/.test(string24hr)
+					? ' Use "00" instead of "24".'
+					: ''
+			throw new Error(`"${string24hr}" is not a valid 24 hour time.${extra}`)
 		}
 		return true
 	},
@@ -42,5 +50,15 @@ export const validate = {
 		}
 
 		return true
+	},
+	hours24: (hrs24: Hour24) => {
+		if (
+			(typeof hrs24 !== 'number' && hrs24 !== '--') ||
+			(typeof hrs24 === 'number' && (hrs24 < 0 || hrs24 > 23))
+		) {
+			throw new Error(
+				`"${hrs24}" must be a number between 0 and 23 or "--", use 0 instead of 24`,
+			)
+		}
 	},
 }
