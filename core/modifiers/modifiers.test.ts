@@ -3,7 +3,7 @@ import { convert, toLeadingZero } from '../converters/converters'
 
 import { Hour24, TimeObject, String12hr, String24hr } from '../../types'
 
-import hoursTests from './tests/increment/hours.test'
+import hoursTests from './tests/increment/hours.increment.test'
 
 interface ModifierTest {
 	action: 'increment' | 'decrement'
