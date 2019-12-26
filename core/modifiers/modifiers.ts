@@ -24,7 +24,7 @@ const modifier = ({
 	return convert.timeObject(modifiedObject)[toHr]()
 }
 
-const mod = (toHr: ToHr, timeObject: TimeObject) => {
+const modify_time_object_to_string = (toHr: ToHr, timeObject: TimeObject) => {
 	return (target: Target) => {
 		return (action: Action) => {
 			return (integration: Integration) => {
@@ -43,7 +43,7 @@ const mod = (toHr: ToHr, timeObject: TimeObject) => {
 export const modify = {
 	string12hr: (string12hr: String12hr) => {
 		const timeObject = convert.string12hr(string12hr).toTimeObject()
-		const modifyString12hr = mod('to12hr', timeObject)
+		const modifyString12hr = modify_time_object_to_string('to12hr', timeObject)
 
 		const modifyString12hr_hrs = modifyString12hr('hours')
 
@@ -68,7 +68,7 @@ export const modify = {
 	string24hr: (string24hr: String24hr) => {
 		const timeObject = convert.string24hr(string24hr).toTimeObject()
 
-		const modifyString24hr = mod('to24hr', timeObject)
+		const modifyString24hr = modify_time_object_to_string('to24hr', timeObject)
 
 		const modifyString24hr_hrs = modifyString24hr('hours')
 
