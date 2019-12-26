@@ -1,27 +1,12 @@
-import { String12hr, String24hr, TimeObject } from '../../../../types'
-import { modifierTest, deepModifierTest, current } from '../../modifiers.test'
-
-interface BeforeAfterString {
-	before: String12hr | String24hr
-	after: String12hr | String24hr
-}
-
-interface BeforeAfterObject {
-	before: TimeObject
-	after: TimeObject
-}
-
-interface CommonSettingsString {
-	format: 'string24hr' | 'string12hr'
-	action: 'increment' // | 'decrement'
-	target: 'hours' // | 'minutes' | 'mode'
-}
-
-interface CommonSettingsObject {
-	format: 'timeObject'
-	action: 'increment' // | 'decrement'
-	target: 'hours' // | 'minutes' | 'mode'
-}
+import {
+	modifierTest,
+	deepModifierTest,
+	current,
+	BeforeAfterString,
+	BeforeAfterObject,
+	CommonSettingsString,
+	CommonSettingsObject,
+} from '../../modifiers.test'
 
 export default () => {
 	describe('Increment hours', () => {

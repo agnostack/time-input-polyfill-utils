@@ -6,7 +6,7 @@ import { Hour24, TimeObject, String12hr, String24hr } from '../../types'
 import hoursTests from './tests/increment/hours.test'
 
 interface ModifierTest {
-	action: 'increment' //| 'decrement'
+	action: 'increment' | 'decrement'
 	target: 'hours' // | 'minutes' | 'mode'
 	integration: 'isolated' | 'integrated'
 }
@@ -21,6 +21,28 @@ interface ObjectModifierTest extends ModifierTest {
 	format?: 'timeObject'
 	before: TimeObject
 	after: TimeObject
+}
+
+export interface BeforeAfterString {
+	before: String12hr | String24hr
+	after: String12hr | String24hr
+}
+
+export interface BeforeAfterObject {
+	before: TimeObject
+	after: TimeObject
+}
+
+export interface CommonSettingsString {
+	format: 'string24hr' | 'string12hr'
+	action: 'increment' | 'decrement'
+	target: 'hours' // | 'minutes' | 'mode'
+}
+
+export interface CommonSettingsObject {
+	format: 'timeObject'
+	action: 'increment' | 'decrement'
+	target: 'hours' // | 'minutes' | 'mode'
 }
 
 export function modifierTest({
