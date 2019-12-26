@@ -3,7 +3,8 @@ import { convert, toLeadingZero } from '../converters/converters'
 
 import { Hour24, TimeObject, String12hr, String24hr } from '../../types'
 
-import hoursTests from './tests/increment/hours.increment.test'
+import hoursIncrementTests from './tests/increment/hours.increment.test'
+import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 
 interface ModifierTest {
 	action: 'increment' | 'decrement'
@@ -77,4 +78,5 @@ export const current = {
 	hrs12: toLeadingZero(convert.hours24(current24hrs).toHours12()),
 }
 
-hoursTests()
+hoursIncrementTests()
+hoursDecrementTests()
