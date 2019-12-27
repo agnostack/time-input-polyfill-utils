@@ -5,6 +5,7 @@ import { Hour24, TimeObject, String12hr, String24hr } from '../../types'
 
 import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
+export { current } from '../../helpers/currentDate'
 
 interface ModifierTest {
 	action: 'increment' | 'decrement'
@@ -70,12 +71,6 @@ export function deepModifierTest({
 	it(`${JSON.stringify(before)} => ${JSON.stringify(after)}`, () => {
 		expect(modify[format](before)[action][target][integration]()).to.deep.equal(after)
 	})
-}
-
-const current24hrs = <Hour24>new Date().getHours()
-export const current = {
-	hrs24: toLeadingZero(current24hrs),
-	hrs12: toLeadingZero(convert.hours24(current24hrs).toHours12()),
 }
 
 hoursIncrementTests()
