@@ -163,20 +163,31 @@ export const modify = {
 				isolated: (): TimeObject => {
 					const { min } = timeObject
 
-					let newMin = <Minute>(
-						(typeof min === 'string' ? new Date().getMinutes() : min + 1)
-					)
-
-					if (min === maxAndMins.minutes.max) {
-						newMin = 0
-					}
+					const newMin =
+						min === maxAndMins.minutes.max
+							? maxAndMins.minutes.min
+							: nudgeMinutes(min, 'up')
 
 					return {
 						...timeObject,
 						min: newMin,
 					}
 				},
-				integrated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+				integrated: (): TimeObject => {
+					const { min } = timeObject
+
+					if (min === maxAndMins.minutes.max) {
+						return nudgeIntegratedTimeObjectHrs('up', {
+							...timeObject,
+							min: maxAndMins.minutes.min,
+						})
+					}
+
+					return {
+						...timeObject,
+						min: nudgeMinutes(min, 'up'),
+					}
+				},
 			},
 		},
 		decrement: {
@@ -206,27 +217,7 @@ export const modify = {
 					const newString12hr = convert.timeObject(copiedObject, true).to12hr()
 					return convert.string12hr(newString12hr).toTimeObject()
 				},
-				integrated: (): TimeObject => {
-					const { hrs24 } = timeObject
-					const copiedObject = { ...timeObject }
-
-					if (typeof hrs24 === 'number') {
-						if (hrs24 === maxAndMins.hrs24.min) {
-							copiedObject.hrs24 = maxAndMins.hrs24.max
-						}
-
-						if (hrs24 > maxAndMins.hrs24.min) {
-							copiedObject.hrs24 = <Hour24>(hrs24 - 1)
-						}
-
-						// This aligns the hrs12 value with the hrs24 value
-						const newString24hr = convert.timeObject(copiedObject, true).to24hr()
-						return convert.string24hr(newString24hr).toTimeObject()
-					} else {
-						// If it isn't a number, then it is better to increment in isolation
-						return modify.timeObject(timeObject).increment.hours.isolated()
-					}
-				},
+				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('up', timeObject),
 			},
 			minutes: {
 				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
@@ -234,4 +225,37 @@ export const modify = {
 			},
 		},
 	}),
+}
+
+const nudgeMinutes = (minutes: Minute, direction: 'up' | 'down'): Minute => {
+	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + 1)
+}
+
+const nudgeIntegratedTimeObjectHrs = (
+	direction: 'up' | 'down',
+	timeObject: TimeObject,
+): TimeObject => {
+	const { hrs24 } = timeObject
+	let copiedObject = { ...timeObject }
+
+	const modifier = direction === 'up' ? 1 : -1
+	const limit = direction === 'up' ? maxAndMins.hrs24.max : maxAndMins.hrs24.min
+	const opposingLimit = direction === 'up' ? maxAndMins.hrs24.min : maxAndMins.hrs24.max
+
+	if (typeof hrs24 === 'number') {
+		if (hrs24 === limit) {
+			copiedObject.hrs24 = opposingLimit
+		} else if (hrs24 === opposingLimit) {
+			copiedObject.hrs24 = limit
+		} else {
+			copiedObject.hrs24 = <Hour24>(hrs24 + modifier)
+		}
+
+		// This aligns the hrs12 value with the hrs24 value
+		const newString24hr = convert.timeObject(copiedObject, true).to24hr()
+		return convert.string24hr(newString24hr).toTimeObject()
+	} else {
+		// If it isn't a number, then it is better to increment in isolation
+		return modify.timeObject(timeObject).increment.hours.isolated()
+	}
 }
