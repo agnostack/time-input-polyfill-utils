@@ -31,6 +31,7 @@ export default () => {
 				}
 				increment12hrIsolated({ before: '--:-- --', after: `${current.hrs12}:-- --` })
 				increment12hrIsolated({ before: '--:00 AM', after: `${current.hrs12}:00 AM` })
+				increment12hrIsolated({ before: '--:00 PM', after: `${current.hrs12}:00 PM` })
 				increment12hrIsolated({ before: '09:00 AM', after: '10:00 AM' })
 				increment12hrIsolated({ before: '12:30 PM', after: '01:30 PM' })
 				// incrementing hours does not affect AM/PM
@@ -49,6 +50,7 @@ export default () => {
 				}
 				increment12hrIntegrated({ before: '--:-- --', after: `${current.hrs12}:-- --` })
 				increment12hrIntegrated({ before: '--:00 AM', after: `${current.hrs12}:00 AM` })
+				increment12hrIntegrated({ before: '--:00 PM', after: `${current.hrs12}:00 PM` })
 				increment12hrIntegrated({ before: '09:00 AM', after: '10:00 AM' })
 				increment12hrIntegrated({ before: '12:30 PM', after: '01:30 PM' })
 				// incrementing hours DOES affect AM/PM
@@ -133,10 +135,33 @@ export default () => {
 						mode: 'AM',
 					},
 					after: {
-						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs24: <Hour24>(
+							(current.mode === 'PM'
+								? parseInt(current.hrs24) - 12
+								: parseInt(current.hrs24))
+						),
 						hrs12: <Hour12>parseInt(current.hrs12),
 						min: 0,
 						mode: 'AM',
+					},
+				})
+
+				incrementObjectIsolated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'PM',
+					},
+					after: {
+						hrs24: <Hour24>(
+							(current.mode === 'AM'
+								? parseInt(current.hrs12)
+								: parseInt(current.hrs24))
+						),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'PM',
 					},
 				})
 
@@ -234,10 +259,33 @@ export default () => {
 						mode: 'AM',
 					},
 					after: {
-						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs24: <Hour24>(
+							(current.mode === 'PM'
+								? parseInt(current.hrs24) - 12
+								: parseInt(current.hrs24))
+						),
 						hrs12: <Hour12>parseInt(current.hrs12),
 						min: 0,
 						mode: 'AM',
+					},
+				})
+
+				incrementObjectIntegrated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'PM',
+					},
+					after: {
+						hrs24: <Hour24>(
+							(current.mode === 'AM'
+								? parseInt(current.hrs12)
+								: parseInt(current.hrs24))
+						),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'PM',
 					},
 				})
 
