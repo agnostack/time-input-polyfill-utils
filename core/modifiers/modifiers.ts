@@ -255,7 +255,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
 	blankCallback: Function
 }) => {
-	const hrsType = integration === 'integrated' ? <T>'hrs24' : <T>'hrs12'
+	const hrsType = <T>(integration === 'integrated' ? 'hrs24' : 'hrs12')
 	const hrs = timeObject[hrsType]
 	const copiedObject = { ...timeObject }
 
@@ -267,9 +267,9 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 
 	if (typeof hrs === 'number') {
 		if (hrs === limit) {
-			copiedObject[hrsType] = opposingLimit as TimeObject[T]
+			copiedObject[hrsType] = <TimeObject[T]>opposingLimit
 		} else {
-			copiedObject[hrsType] = (<number>hrs + modifier) as TimeObject[T]
+			copiedObject[hrsType] = <TimeObject[T]>(<number>hrs + modifier)
 		}
 		return straightenTimeObjectHrs(hrsType, copiedObject)
 	} else {
