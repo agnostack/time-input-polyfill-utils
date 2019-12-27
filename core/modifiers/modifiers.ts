@@ -228,15 +228,42 @@ export const modify = {
 				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('down', timeObject),
 			},
 			minutes: {
-				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
-				integrated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+				isolated: (): TimeObject => {
+					const { min } = timeObject
+
+					const newMin =
+						min === maxAndMins.minutes.min
+							? maxAndMins.minutes.max
+							: nudgeMinutes(min, 'down')
+
+					return {
+						...timeObject,
+						min: newMin,
+					}
+				},
+				integrated: (): TimeObject => {
+					const { min } = timeObject
+
+					if (min === maxAndMins.minutes.min) {
+						return nudgeIntegratedTimeObjectHrs('down', {
+							...timeObject,
+							min: maxAndMins.minutes.max,
+						})
+					}
+
+					return {
+						...timeObject,
+						min: nudgeMinutes(min, 'down'),
+					}
+				},
 			},
 		},
 	}),
 }
 
 const nudgeMinutes = (minutes: Minute, direction: 'up' | 'down'): Minute => {
-	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + 1)
+	const modifier = direction === 'up' ? 1 : -1
+	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + modifier)
 }
 
 const nudgeIntegratedTimeObjectHrs = (

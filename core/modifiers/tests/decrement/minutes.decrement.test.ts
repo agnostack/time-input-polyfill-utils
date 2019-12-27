@@ -296,7 +296,7 @@ export default () => {
 						mode: 'AM',
 					},
 					after: {
-						hrs24: 11,
+						hrs24: 23,
 						hrs12: 11,
 						min: 59,
 						mode: 'PM', // modifying hrs does not modify mode
