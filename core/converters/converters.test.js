@@ -1,6 +1,8 @@
 import { convert, toLeadingZero, toNumber, toArray } from './converters'
 import { failTest } from '../../cypress/helpers/failTest'
 
+import { current } from '../../helpers/currentDate'
+
 /* global describe, it, expect */
 
 describe('NodeList to array', () => {
@@ -571,5 +573,36 @@ describe('convert time object', () => {
 			},
 			'11:30 PM',
 		)
+	})
+})
+
+describe('Convert date object', () => {
+	const dateTest = method => {
+		return result => {
+			const resultString = typeof result === 'string' ? result : JSON.stringify(result)
+			it(`Expect [${current.date}] to be "${resultString}"`, () => {
+				expect(convert.dateObject(current.date)[method]()).to.deep.equal(result)
+			})
+		}
+	}
+
+	describe('date to 24hr', () => {
+		const dateTest24hr = dateTest('to24hr')
+		dateTest24hr(`${current.hrs24}:${current.min}`)
+	})
+
+	describe('date to 12hr', () => {
+		const dateTest12hr = dateTest('to12hr')
+		dateTest12hr(`${current.hrs12}:${current.min} ${current.mode}`)
+	})
+
+	describe('date to time object', () => {
+		const dateTest12hr = dateTest('toTimeObject')
+		dateTest12hr({
+			hrs24: parseInt(current.hrs24),
+			hrs12: parseInt(current.hrs12),
+			min: parseInt(current.min),
+			mode: current.mode,
+		})
 	})
 })
