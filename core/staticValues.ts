@@ -9,7 +9,7 @@ export const ranges = {
 export const maxAndMins = {
 	hrs24: { min: <Hour24>0, max: <Hour24>23 },
 	hrs12: { min: <Hour12>1, max: <Hour12>12 },
-	min: { min: <Minute>0, max: <Minute>59 },
+	minutes: { min: <Minute>0, max: <Minute>59 },
 }
 
 export const segments = Object.keys(ranges)
