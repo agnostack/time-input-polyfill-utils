@@ -19,7 +19,7 @@ export default () => {
 				target: 'hours',
 			}
 
-			describe('Ignoring mode (12hr)', () => {
+			describe('Isolated (12hr)', () => {
 				const decrement12hrIsolated = ({ before, after }: BeforeAfterString) => {
 					modifierTest({
 						...settings,
@@ -37,7 +37,7 @@ export default () => {
 				decrement12hrIsolated({ before: '12:00 PM', after: '11:00 PM' })
 			})
 
-			describe('Affecting mode (12hr)', () => {
+			describe('Integrated (12hr)', () => {
 				const decrement12hrIntegrated = ({ before, after }: BeforeAfterString) => {
 					modifierTest({
 						...settings,
@@ -62,7 +62,7 @@ export default () => {
 				action: 'decrement',
 				target: 'hours',
 			}
-			describe('Ignoring mode (24hr)', () => {
+			describe('Isolated (24hr)', () => {
 				const decrement24hrIsolated = ({ before, after }: BeforeAfterString) => {
 					modifierTest({
 						...settings,
@@ -77,7 +77,7 @@ export default () => {
 				decrement24hrIsolated({ before: '12:00', after: '23:00' })
 			})
 
-			describe('Affecting mode (24hr)', () => {
+			describe('Integrated (24hr)', () => {
 				const decrement24hrIntegrated = ({ before, after }: BeforeAfterString) => {
 					modifierTest({
 						...settings,
@@ -99,7 +99,7 @@ export default () => {
 				action: 'decrement',
 				target: 'hours',
 			}
-			describe('Ignoring mode (timeObject)', () => {
+			describe('Isolated (timeObject)', () => {
 				const decrementObjectIsolated = ({ before, after }: BeforeAfterObject) => {
 					deepModifierTest({
 						...settings,
@@ -170,7 +170,7 @@ export default () => {
 				})
 			})
 
-			describe('Affecting mode (timeObject)', () => {
+			describe('Integrated (timeObject)', () => {
 				const decrementObjectIntegrated = ({ before, after }: BeforeAfterObject) => {
 					deepModifierTest({
 						...settings,
