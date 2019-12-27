@@ -100,7 +100,7 @@ export default () => {
 			const settings: CommonSettingsObject = {
 				format: 'timeObject',
 				action: 'increment',
-				target: 'hours',
+				target: 'minutes',
 			}
 			describe('Isolated (timeObject)', () => {
 				const incrementObjectIsolated = ({ before, after }: BeforeAfterObject) => {

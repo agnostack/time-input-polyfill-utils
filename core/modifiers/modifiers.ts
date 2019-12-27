@@ -1,4 +1,4 @@
-import { TimeObject, String12hr, String24hr, Hour12, Hour24 } from '../../types'
+import { TimeObject, String12hr, String24hr, Hour12, Hour24, Minute } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
 
@@ -160,7 +160,22 @@ export const modify = {
 				},
 			},
 			minutes: {
-				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+				isolated: (): TimeObject => {
+					const { min } = timeObject
+
+					let newMin = <Minute>(
+						(typeof min === 'string' ? new Date().getMinutes() : min + 1)
+					)
+
+					if (min === maxAndMins.minutes.max) {
+						newMin = 0
+					}
+
+					return {
+						...timeObject,
+						min: newMin,
+					}
+				},
 				integrated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
 			},
 		},
