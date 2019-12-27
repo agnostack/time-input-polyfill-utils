@@ -61,7 +61,7 @@ export default () => {
 			const settings: CommonSettingsString = {
 				format: 'string24hr',
 				action: 'increment',
-				target: 'hours',
+				target: 'minutes',
 			}
 			describe('Isolated (24hr)', () => {
 				const increment24hrIsolated = ({ before, after }: BeforeAfterString) => {

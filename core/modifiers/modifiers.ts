@@ -51,9 +51,13 @@ export const modify = {
 		const modifyString12hr = modifyTimeString(string12hr, 'string12hr')
 
 		const modifyString12hr_hrs = modifyString12hr('hours')
+		const modifyString12hr_min = modifyString12hr('minutes')
 
 		const incrementString12Hr_hrs = modifyString12hr_hrs('increment')
 		const decrementString12Hr_hrs = modifyString12hr_hrs('decrement')
+
+		const incrementString12Hr_min = modifyString12hr_min('increment')
+		const decrementString12Hr_min = modifyString12hr_min('decrement')
 
 		return {
 			increment: {
@@ -62,8 +66,8 @@ export const modify = {
 					integrated: (): String12hr => incrementString12Hr_hrs('integrated'),
 				},
 				minutes: {
-					isolated: (): String12hr => '12:00 AM',
-					integrated: (): String12hr => '12:00 AM',
+					isolated: (): String12hr => incrementString12Hr_min('isolated'),
+					integrated: (): String12hr => incrementString12Hr_min('integrated'),
 				},
 			},
 			decrement: {
@@ -72,8 +76,8 @@ export const modify = {
 					integrated: (): String12hr => decrementString12Hr_hrs('integrated'),
 				},
 				minutes: {
-					isolated: (): String12hr => '12:00 AM',
-					integrated: (): String12hr => '12:00 AM',
+					isolated: (): String12hr => decrementString12Hr_min('isolated'),
+					integrated: (): String12hr => decrementString12Hr_min('integrated'),
 				},
 			},
 		}
@@ -82,9 +86,13 @@ export const modify = {
 		const modifyString24hr = modifyTimeString(string24hr, 'string24hr')
 
 		const modifyString24hr_hrs = modifyString24hr('hours')
+		const modifyString24hr_min = modifyString24hr('minutes')
 
 		const incrementString24Hr_hrs = modifyString24hr_hrs('increment')
 		const decrementString24Hr_hrs = modifyString24hr_hrs('decrement')
+
+		const incrementString24Hr_min = modifyString24hr_min('increment')
+		const decrementString24Hr_min = modifyString24hr_min('decrement')
 
 		return {
 			increment: {
@@ -93,8 +101,8 @@ export const modify = {
 					integrated: (): String24hr => incrementString24Hr_hrs('integrated'),
 				},
 				minutes: {
-					isolated: (): String24hr => '12:00',
-					integrated: (): String24hr => '12:00',
+					isolated: (): String24hr => incrementString24Hr_min('isolated'),
+					integrated: (): String24hr => incrementString24Hr_min('integrated'),
 				},
 			},
 			decrement: {
@@ -103,8 +111,8 @@ export const modify = {
 					integrated: (): String24hr => decrementString24Hr_hrs('integrated'),
 				},
 				minutes: {
-					isolated: (): String24hr => '12:00',
-					integrated: (): String24hr => '12:00',
+					isolated: (): String24hr => decrementString24Hr_min('isolated'),
+					integrated: (): String24hr => decrementString24Hr_min('integrated'),
 				},
 			},
 		}
