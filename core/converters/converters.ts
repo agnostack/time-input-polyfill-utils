@@ -12,9 +12,9 @@ export const toNumber = (value: number | string | Dashes) => {
 	return isNaN(number) ? value : number
 }
 
-export const toLeadingZero = (value: number | string | Dashes) => {
+export const toLeadingZero = (value: number | string | Dashes): string => {
 	const number = Number(value)
-	if (isNaN(number)) return value
+	if (typeof value !== 'number') return value
 	return number < 10 ? `0${number}` : `${number}`
 }
 
