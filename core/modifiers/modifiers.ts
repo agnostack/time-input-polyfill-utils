@@ -225,7 +225,7 @@ export const modify = {
 					const newString12hr = convert.timeObject(copiedObject, true).to12hr()
 					return convert.string12hr(newString12hr).toTimeObject()
 				},
-				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('up', timeObject),
+				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('down', timeObject),
 			},
 			minutes: {
 				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
