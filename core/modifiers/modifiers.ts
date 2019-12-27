@@ -1,4 +1,4 @@
-import { TimeObject, String12hr, String24hr, Hour12, Hour24, Minute } from '../../types'
+import { TimeObject, String12hr, String24hr, Hour24, Minute } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
 
@@ -240,7 +240,7 @@ const nudgeIntegratedTimeObjectHrs = (
 	})
 }
 
-const nudgeTimeObjectHrs = ({
+const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	direction,
 	timeObject,
 	integration,
@@ -255,7 +255,7 @@ const nudgeTimeObjectHrs = ({
 	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
 	blankCallback: Function
 }) => {
-	const hrsType = integration === 'integrated' ? 'hrs24' : 'hrs12'
+	const hrsType = integration === 'integrated' ? <T>'hrs24' : <T>'hrs12'
 	const hrs = timeObject[hrsType]
 	const copiedObject = { ...timeObject }
 
@@ -266,24 +266,11 @@ const nudgeTimeObjectHrs = ({
 	const modifier = isUp ? 1 : -1
 
 	if (typeof hrs === 'number') {
-		const actions = {
-			hrs12() {
-				if (hrs === limit) {
-					copiedObject.hrs12 = <Hour12>opposingLimit
-				} else {
-					copiedObject.hrs12 = <Hour12>(hrs + modifier)
-				}
-			},
-			hrs24() {
-				if (hrs === limit) {
-					copiedObject.hrs24 = <Hour24>opposingLimit
-				} else {
-					copiedObject.hrs24 = <Hour24>(hrs + modifier)
-				}
-			},
+		if (hrs === limit) {
+			copiedObject[hrsType] = opposingLimit as TimeObject[T]
+		} else {
+			copiedObject[hrsType] = (<number>hrs + modifier) as TimeObject[T]
 		}
-		actions[hrsType]()
-
 		return straightenTimeObjectHrs(hrsType, copiedObject)
 	} else {
 		return blankCallback(copiedObject)
