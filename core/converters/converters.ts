@@ -129,4 +129,22 @@ export const convert = {
 				),
 		}
 	},
+	dateObject: (date: Date) => {
+		return {
+			to12hr: (): String12hr => {
+				const timeObject = convert.dateObject(date).toTimeObject()
+				return convert.timeObject(timeObject).to12hr()
+			},
+			to24hr: (): String24hr => {
+				const timeObject = convert.dateObject(date).toTimeObject()
+				return convert.timeObject(timeObject).to24hr()
+			},
+			toTimeObject: (): TimeObject => {
+				const [hrs24, min] = [<Hour24>date.getHours(), <Minute>date.getMinutes()]
+				const hrs12 = convert.hours24(hrs24).toHours12()
+				const mode: Mode = is.AM.hrs24(hrs24) ? 'AM' : 'PM'
+				return { hrs24, hrs12, min, mode }
+			},
+		}
+	},
 }
