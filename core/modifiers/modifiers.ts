@@ -1,6 +1,7 @@
 import { TimeObject, String12hr, String24hr, Hour12, Hour24, Minute } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
+import { is } from '../is/is'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
@@ -120,31 +121,7 @@ export const modify = {
 	timeObject: (timeObject: TimeObject) => ({
 		increment: {
 			hours: {
-				isolated: (): TimeObject => {
-					const { hrs12 } = timeObject
-					const copiedObject = { ...timeObject }
-
-					if (typeof hrs12 === 'number') {
-						if (hrs12 === 11) {
-							copiedObject.hrs12 = 12
-						} else {
-							if (hrs12 === maxAndMins.hrs12.max) {
-								copiedObject.hrs12 = maxAndMins.hrs12.min
-							}
-
-							if (hrs12 < maxAndMins.hrs12.max) {
-								copiedObject.hrs12 = <Hour12>(hrs12 + 1)
-							}
-						}
-					} else {
-						const hr24CurrentHrs = <Hour24>new Date().getHours()
-						copiedObject.hrs12 = convert.hours24(hr24CurrentHrs).toHours12()
-					}
-
-					// This aligns the hrs24 value with the hrs12 value
-					const newString12hr = convert.timeObject(copiedObject, true).to12hr()
-					return convert.string12hr(newString12hr).toTimeObject()
-				},
+				isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('up', timeObject),
 				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('up', timeObject),
 			},
 			minutes: {
@@ -180,31 +157,7 @@ export const modify = {
 		},
 		decrement: {
 			hours: {
-				isolated: (): TimeObject => {
-					const { hrs12 } = timeObject
-					const copiedObject = { ...timeObject }
-
-					if (typeof hrs12 === 'number') {
-						if (hrs12 === 12) {
-							copiedObject.hrs12 = 11
-						} else {
-							if (hrs12 === maxAndMins.hrs12.min) {
-								copiedObject.hrs12 = maxAndMins.hrs12.max
-							}
-
-							if (hrs12 > maxAndMins.hrs12.min) {
-								copiedObject.hrs12 = <Hour12>(hrs12 - 1)
-							}
-						}
-					} else {
-						const hr24CurrentHrs = <Hour24>new Date().getHours()
-						copiedObject.hrs12 = convert.hours24(hr24CurrentHrs).toHours12()
-					}
-
-					// This aligns the hrs24 value with the hrs12 value
-					const newString12hr = convert.timeObject(copiedObject, true).to12hr()
-					return convert.string12hr(newString12hr).toTimeObject()
-				},
+				isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('down', timeObject),
 				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('down', timeObject),
 			},
 			minutes: {
@@ -246,31 +199,97 @@ const nudgeMinutes = (minutes: Minute, direction: 'up' | 'down'): Minute => {
 	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + modifier)
 }
 
+const nudgeIsolatedTimeObjectHrs = (
+	direction: 'up' | 'down',
+	timeObject: TimeObject,
+): TimeObject => {
+	return nudgeTimeObjectHrs({
+		direction,
+		timeObject,
+		integration: 'isolated',
+		blankCallback: (copiedObject: TimeObject) => {
+			const currentHour24 = <Hour24>new Date().getHours()
+			copiedObject.hrs24 = currentHour24
+			if (is.AM.hrs24(currentHour24)) {
+				copiedObject.hrs12 = <Hour12>currentHour24
+			} else {
+				copiedObject.hrs12 =
+					typeof currentHour24 === 'number' ? <Hour12>(currentHour24 - 12) : currentHour24
+			}
+			return copiedObject
+		},
+	})
+}
+
 const nudgeIntegratedTimeObjectHrs = (
 	direction: 'up' | 'down',
 	timeObject: TimeObject,
 ): TimeObject => {
-	const { hrs24 } = timeObject
-	let copiedObject = { ...timeObject }
+	return nudgeTimeObjectHrs({
+		direction,
+		timeObject,
+		integration: 'integrated',
+		blankCallback: (copiedObject: TimeObject) => {
+			// If hours is blank, then it is better to increment in isolation
+			return nudgeIsolatedTimeObjectHrs(direction, copiedObject)
+		},
+	})
+}
 
-	const modifier = direction === 'up' ? 1 : -1
-	const limit = direction === 'up' ? maxAndMins.hrs24.max : maxAndMins.hrs24.min
-	const opposingLimit = direction === 'up' ? maxAndMins.hrs24.min : maxAndMins.hrs24.max
+const nudgeTimeObjectHrs = ({
+	direction,
+	timeObject,
+	integration,
+	blankCallback,
+}: {
+	// nudging up or down?
+	direction: 'up' | 'down'
+	// the time object to modify
+	timeObject: TimeObject
+	// Do you want it to alter AM/PM?
+	integration: Integration
+	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
+	blankCallback: Function
+}) => {
+	const hrsType = integration === 'integrated' ? 'hrs24' : 'hrs12'
+	const hrs = timeObject[hrsType]
+	const copiedObject = { ...timeObject }
 
-	if (typeof hrs24 === 'number') {
-		if (hrs24 === limit) {
-			copiedObject.hrs24 = opposingLimit
-		} else if (hrs24 === opposingLimit) {
-			copiedObject.hrs24 = limit
-		} else {
-			copiedObject.hrs24 = <Hour24>(hrs24 + modifier)
+	const isUp = direction === 'up'
+
+	const limit = isUp ? maxAndMins[hrsType].max : maxAndMins[hrsType].min
+	const opposingLimit = isUp ? maxAndMins[hrsType].min : maxAndMins[hrsType].max
+	const modifier = isUp ? 1 : -1
+
+	if (typeof hrs === 'number') {
+		const actions = {
+			hrs12() {
+				if (hrs === limit) {
+					copiedObject.hrs12 = <Hour12>opposingLimit
+				} else {
+					copiedObject.hrs12 = <Hour12>(hrs + modifier)
+				}
+			},
+			hrs24() {
+				if (hrs === limit) {
+					copiedObject.hrs24 = <Hour24>opposingLimit
+				} else {
+					copiedObject.hrs24 = <Hour24>(hrs + modifier)
+				}
+			},
 		}
+		actions[hrsType]()
 
-		// This aligns the hrs12 value with the hrs24 value
-		const newString24hr = convert.timeObject(copiedObject, true).to24hr()
-		return convert.string24hr(newString24hr).toTimeObject()
+		return straightenTimeObjectHrs(hrsType, copiedObject)
 	} else {
-		// If it isn't a number, then it is better to increment in isolation
-		return modify.timeObject(timeObject).increment.hours.isolated()
+		return blankCallback(copiedObject)
 	}
+}
+
+const straightenTimeObjectHrs = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject) => {
+	const use12hr = basedOn === 'hrs12'
+	const toHr = use12hr ? 'to12hr' : 'to24hr'
+	const format = use12hr ? 'string12hr' : 'string24hr'
+	const timeString = convert.timeObject(invalidTimeObj, true)[toHr]()
+	return convert[format](timeString).toTimeObject()
 }
