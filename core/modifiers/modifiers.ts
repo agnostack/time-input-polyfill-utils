@@ -2,10 +2,10 @@ import { TimeObject, String12hr, String24hr, Hour12, Hour24 } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
 
-type Integration = 'isolated' | 'integrated'
-type Action = 'increment' | 'decrement'
-type Target = 'hours' // | 'minutes' | 'mode'
-type ToHr = 'to12hr' | 'to24hr'
+export type Integration = 'isolated' | 'integrated'
+export type Action = 'increment' | 'decrement'
+export type Target = 'hours' // | 'minutes' // | 'mode'
+export type ToHr = 'to12hr' | 'to24hr'
 
 const modifier = ({
 	timeObject,

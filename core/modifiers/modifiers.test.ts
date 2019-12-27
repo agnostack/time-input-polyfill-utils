@@ -1,20 +1,21 @@
-import { modify } from './modifiers'
-import { convert, toLeadingZero } from '../converters/converters'
+import { modify, Integration, Action, Target } from './modifiers'
 
-import { Hour24, TimeObject, String12hr, String24hr } from '../../types'
+import { TimeObject, String12hr, String24hr } from '../../types'
 
 import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 export { current } from '../../helpers/currentDate'
 
+type TimeStringFormat = 'string24hr' | 'string12hr'
+
 interface ModifierTest {
-	action: 'increment' | 'decrement'
-	target: 'hours' // | 'minutes' | 'mode'
-	integration: 'isolated' | 'integrated'
+	action: Action
+	target: Target
+	integration: Integration
 }
 
 interface StringModifierTest extends ModifierTest {
-	format: 'string24hr' | 'string12hr'
+	format: TimeStringFormat
 	before: String24hr | String12hr
 	after: String24hr | String12hr
 }
@@ -36,15 +37,15 @@ export interface BeforeAfterObject {
 }
 
 export interface CommonSettingsString {
-	format: 'string24hr' | 'string12hr'
-	action: 'increment' | 'decrement'
-	target: 'hours' // | 'minutes' | 'mode'
+	format: TimeStringFormat
+	action: Action
+	target: Target
 }
 
 export interface CommonSettingsObject {
-	format: 'timeObject'
-	action: 'increment' | 'decrement'
-	target: 'hours' // | 'minutes' | 'mode'
+	format?: 'timeObject'
+	action: Action
+	target: Target
 }
 
 export function modifierTest({
