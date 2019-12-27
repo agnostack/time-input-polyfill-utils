@@ -7,6 +7,7 @@ import {
 	CommonSettingsString,
 	CommonSettingsObject,
 } from '../../modifiers.test'
+import { Hour24, Hour12 } from '../../../../types'
 
 export default () => {
 	describe('Increment hours', () => {
@@ -111,6 +112,36 @@ export default () => {
 
 				incrementObjectIsolated({
 					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: '--',
+						mode: '--',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: '--',
+						mode: '--',
+					},
+				})
+
+				incrementObjectIsolated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'AM',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'AM',
+					},
+				})
+
+				incrementObjectIsolated({
+					before: {
 						hrs24: 9,
 						hrs12: 9,
 						min: 0,
@@ -179,6 +210,36 @@ export default () => {
 						integration: 'integrated',
 					})
 				}
+
+				incrementObjectIntegrated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: '--',
+						mode: '--',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: '--',
+						mode: '--',
+					},
+				})
+
+				incrementObjectIntegrated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'AM',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'AM',
+					},
+				})
 
 				incrementObjectIntegrated({
 					before: {

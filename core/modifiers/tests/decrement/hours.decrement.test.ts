@@ -7,6 +7,7 @@ import {
 	CommonSettingsString,
 	CommonSettingsObject,
 } from '../../modifiers.test'
+import { Hour24, Hour12 } from '../../../../types'
 
 export default () => {
 	describe('Decrement hours', () => {
@@ -111,6 +112,36 @@ export default () => {
 
 				decrementObjectIsolated({
 					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: '--',
+						mode: '--',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: '--',
+						mode: '--',
+					},
+				})
+
+				decrementObjectIsolated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'AM',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'AM',
+					},
+				})
+
+				decrementObjectIsolated({
+					before: {
 						hrs24: 10,
 						hrs12: 10,
 						min: 0,
@@ -179,6 +210,36 @@ export default () => {
 						integration: 'integrated',
 					})
 				}
+
+				decrementObjectIntegrated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: '--',
+						mode: '--',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: '--',
+						mode: '--',
+					},
+				})
+
+				decrementObjectIntegrated({
+					before: {
+						hrs24: '--',
+						hrs12: '--',
+						min: 0,
+						mode: 'AM',
+					},
+					after: {
+						hrs24: <Hour24>parseInt(current.hrs24),
+						hrs12: <Hour12>parseInt(current.hrs12),
+						min: 0,
+						mode: 'AM',
+					},
+				})
 
 				decrementObjectIntegrated({
 					before: {
