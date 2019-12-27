@@ -10,4 +10,7 @@ export const current = {
 	min: toLeadingZero(convert.dateObject(date).toTimeObject().min),
 	mode: is.AM.hrs24(current24hrs) ? 'AM' : 'PM',
 	date,
+	string24hr: convert.dateObject(date).to24hr(),
+	string12hr: convert.dateObject(date).to12hr(),
+	timeObject: convert.dateObject(date).toTimeObject(),
 }
