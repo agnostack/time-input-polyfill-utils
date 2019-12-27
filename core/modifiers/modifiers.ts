@@ -1,7 +1,6 @@
 import { TimeObject, String12hr, String24hr, Hour12, Hour24, Minute } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
-import { is } from '../is/is'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
@@ -207,15 +206,20 @@ const nudgeIsolatedTimeObjectHrs = (
 		direction,
 		timeObject,
 		integration: 'isolated',
-		blankCallback: (copiedObject: TimeObject) => {
-			const currentHour24 = <Hour24>new Date().getHours()
-			copiedObject.hrs24 = currentHour24
-			if (is.AM.hrs24(currentHour24)) {
-				copiedObject.hrs12 = <Hour12>currentHour24
+		blankCallback: (copiedObject: TimeObject): TimeObject => {
+			const currentHour24 = new Date().getHours()
+			const currentHour12 = convert.hours24(<Hour24>currentHour24).toHours12()
+
+			if (currentHour24 > 12 && copiedObject.mode === 'AM') {
+				copiedObject.hrs24 = currentHour12
+			} else if (currentHour24 <= 12 && copiedObject.mode === 'PM') {
+				copiedObject.hrs24 = <Hour24>(currentHour24 + 12)
 			} else {
-				copiedObject.hrs12 =
-					typeof currentHour24 === 'number' ? <Hour12>(currentHour24 - 12) : currentHour24
+				copiedObject.hrs24 = <Hour24>currentHour24
 			}
+
+			copiedObject.hrs12 = currentHour12
+
 			return copiedObject
 		},
 	})
@@ -229,7 +233,7 @@ const nudgeIntegratedTimeObjectHrs = (
 		direction,
 		timeObject,
 		integration: 'integrated',
-		blankCallback: (copiedObject: TimeObject) => {
+		blankCallback: (copiedObject: TimeObject): TimeObject => {
 			// If hours is blank, then it is better to increment in isolation
 			return nudgeIsolatedTimeObjectHrs(direction, copiedObject)
 		},
