@@ -4,7 +4,7 @@ import { maxAndMins } from '../staticValues'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
-export type Target = 'hours' // | 'minutes' // | 'mode'
+export type Target = 'hours' | 'minutes' // | 'mode'
 export type ToHr = 'to12hr' | 'to24hr'
 
 const modifier = ({
@@ -61,11 +61,19 @@ export const modify = {
 					isolated: (): String12hr => incrementString12Hr_hrs('isolated'),
 					integrated: (): String12hr => incrementString12Hr_hrs('integrated'),
 				},
+				minutes: {
+					isolated: (): String12hr => '12:00 AM',
+					integrated: (): String12hr => '12:00 AM',
+				},
 			},
 			decrement: {
 				hours: {
 					isolated: (): String12hr => decrementString12Hr_hrs('isolated'),
 					integrated: (): String12hr => decrementString12Hr_hrs('integrated'),
+				},
+				minutes: {
+					isolated: (): String12hr => '12:00 AM',
+					integrated: (): String12hr => '12:00 AM',
 				},
 			},
 		}
@@ -84,11 +92,19 @@ export const modify = {
 					isolated: (): String24hr => incrementString24Hr_hrs('isolated'),
 					integrated: (): String24hr => incrementString24Hr_hrs('integrated'),
 				},
+				minutes: {
+					isolated: (): String24hr => '12:00',
+					integrated: (): String24hr => '12:00',
+				},
 			},
 			decrement: {
 				hours: {
 					isolated: (): String24hr => decrementString24Hr_hrs('isolated'),
 					integrated: (): String24hr => decrementString24Hr_hrs('integrated'),
+				},
+				minutes: {
+					isolated: (): String24hr => '12:00',
+					integrated: (): String24hr => '12:00',
 				},
 			},
 		}
@@ -143,6 +159,10 @@ export const modify = {
 					}
 				},
 			},
+			minutes: {
+				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+				integrated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+			},
 		},
 		decrement: {
 			hours: {
@@ -192,6 +212,10 @@ export const modify = {
 						return modify.timeObject(timeObject).increment.hours.isolated()
 					}
 				},
+			},
+			minutes: {
+				isolated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
+				integrated: (): TimeObject => ({ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' }),
 			},
 		},
 	}),
