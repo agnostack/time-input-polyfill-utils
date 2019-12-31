@@ -80,6 +80,11 @@ export const modify = {
 					integrated: (): String12hr => decrementString12Hr_min('integrated'),
 				},
 			},
+			toggleMode: (): String12hr => {
+				const timeObject = convert.string12hr(string12hr).toTimeObject()
+				const modified = modify.timeObject(timeObject).toggleMode()
+				return convert.timeObject(modified).to12hr()
+			},
 		}
 	},
 	string24hr: (string24hr: String24hr) => {
@@ -114,6 +119,11 @@ export const modify = {
 					isolated: (): String24hr => decrementString24Hr_min('isolated'),
 					integrated: (): String24hr => decrementString24Hr_min('integrated'),
 				},
+			},
+			toggleMode: (): String24hr => {
+				const timeObject = convert.string12hr(string24hr).toTimeObject()
+				const modified = modify.timeObject(timeObject).toggleMode()
+				return convert.timeObject(modified).to24hr()
 			},
 		}
 	},
@@ -189,6 +199,25 @@ export const modify = {
 					}
 				},
 			},
+		},
+		toggleMode: (): TimeObject => {
+			const { hrs24, mode } = timeObject
+
+			let returnVal: TimeObject = { ...timeObject }
+
+			const isPM = mode === 'PM'
+
+			const operation = isPM ? -12 : 12
+
+			returnVal.hrs24 = <Hour24>(hrs24 === '--' ? '--' : hrs24 + operation)
+			returnVal.mode = mode === '--' ? '--' : isPM ? 'AM' : 'AM'
+
+			if (returnVal.mode === '--') {
+				const currentTimeMode = new Date().getHours() > 11 ? 'PM' : 'AM'
+				returnVal.mode = currentTimeMode
+			}
+
+			return straightenTimeObjectHrs('hrs24', returnVal)
 		},
 	}),
 }

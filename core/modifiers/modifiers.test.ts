@@ -6,6 +6,7 @@ import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
+import toggleModeTest from './tests/toggleMode.test'
 
 export { current } from '../../helpers/currentDate'
 
@@ -77,12 +78,14 @@ export function deepModifierTest({
 	})
 }
 
-describe('Hours', () => {
-	hoursIncrementTests()
-	hoursDecrementTests()
-})
+// describe('Hours', () => {
+// 	hoursIncrementTests()
+// 	hoursDecrementTests()
+// })
 
-describe('Minutes', () => {
-	minutesIncrementTests()
-	minutesDecrementTests()
-})
+// describe('Minutes', () => {
+// 	minutesIncrementTests()
+// 	minutesDecrementTests()
+// })
+
+toggleModeTest()
