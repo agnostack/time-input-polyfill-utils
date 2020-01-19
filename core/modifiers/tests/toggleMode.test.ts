@@ -48,18 +48,48 @@ export default () => {
 		function toggleTimeObject() {
 			describe('Time object mode toggle', () => {
 				testTimeObject(
+					{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
+					{ hrs24: 23, hrs12: 11, min: 30, mode: 'PM' },
+				)
+				testTimeObject(
+					{ hrs24: 13, hrs12: 1, min: 30, mode: 'PM' },
+					{ hrs24: 1, hrs12: 1, min: 30, mode: 'AM' },
+				)
+				testTimeObject(
 					{ hrs24: 0, hrs12: 12, min: 30, mode: 'AM' },
 					{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
 				)
 				testTimeObject(
 					{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
 					{ hrs24: 0, hrs12: 12, min: 30, mode: 'AM' },
+				)
+				testTimeObject(
+					{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
+					{ hrs24: '--', hrs12: '--', min: '--', mode: current.mode },
 				)
 				testTimeObject(
 					{ hrs24: 12, hrs12: 12, min: 30, mode: '--' },
 					{
 						hrs24: current.mode === 'AM' ? 0 : 12,
 						hrs12: 12,
+						min: 30,
+						mode: current.mode,
+					},
+				)
+				testTimeObject(
+					{ hrs24: 11, hrs12: 11, min: 30, mode: '--' },
+					{
+						hrs24: current.mode === 'AM' ? 11 : 23,
+						hrs12: 11,
+						min: 30,
+						mode: current.mode,
+					},
+				)
+				testTimeObject(
+					{ hrs24: 1, hrs12: 1, min: 30, mode: '--' },
+					{
+						hrs24: current.mode === 'AM' ? 1 : 13,
+						hrs12: 1,
 						min: 30,
 						mode: current.mode,
 					},

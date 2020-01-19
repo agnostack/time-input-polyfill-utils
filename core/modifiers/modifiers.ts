@@ -1,6 +1,7 @@
 import { TimeObject, String12hr, String24hr, Hour24, Minute } from '../../types'
 import { convert } from '../converters/converters'
 import { maxAndMins } from '../staticValues'
+import { is } from '../is/is'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
@@ -83,7 +84,7 @@ export const modify = {
 			toggleMode: (): String12hr => {
 				const timeObject = convert.string12hr(string12hr).toTimeObject()
 				const modified = modify.timeObject(timeObject).toggleMode()
-				return convert.timeObject(modified).to12hr()
+				return convert.timeObject(modified, true).to12hr()
 			},
 		}
 	},
@@ -121,9 +122,9 @@ export const modify = {
 				},
 			},
 			toggleMode: (): String24hr => {
-				const timeObject = convert.string12hr(string24hr).toTimeObject()
+				const timeObject = convert.string24hr(string24hr).toTimeObject()
 				const modified = modify.timeObject(timeObject).toggleMode()
-				return convert.timeObject(modified).to24hr()
+				return convert.timeObject(modified, true).to24hr()
 			},
 		}
 	},
@@ -201,20 +202,32 @@ export const modify = {
 			},
 		},
 		toggleMode: (): TimeObject => {
-			const { hrs24, mode } = timeObject
+			const { hrs12, mode } = timeObject
 
 			let returnVal: TimeObject = { ...timeObject }
 
-			const isPM = mode === 'PM'
+			const isAM = is.AM.timeObject(timeObject)
 
-			const operation = isPM ? -12 : 12
+			let hrs24Calculation
 
-			returnVal.hrs24 = <Hour24>(hrs24 === '--' ? '--' : hrs24 + operation)
-			returnVal.mode = mode === '--' ? '--' : isPM ? 'AM' : 'AM'
-
-			if (returnVal.mode === '--') {
+			if (mode === '--') {
 				const currentTimeMode = new Date().getHours() > 11 ? 'PM' : 'AM'
 				returnVal.mode = currentTimeMode
+
+				hrs24Calculation = hrs12 === 12
+					? (isAM ? 0 : 12)
+					: (isAM || hrs12 === '--' ? hrs12 : hrs12 + 12)
+			} else {
+				returnVal.mode = isAM ? 'PM' : 'AM'
+				hrs24Calculation = hrs12 === 12
+					? (isAM ? 12 : 0)
+					: (isAM && hrs12 !== '--' ? hrs12 + 12 : hrs12)
+			}
+
+			returnVal.hrs24 = <Hour24>(hrs12 === '--' ? '--' : hrs24Calculation)
+
+			if (hrs12 === '--' && mode === '--') {
+				return returnVal
 			}
 
 			return straightenTimeObjectHrs('hrs24', returnVal)
