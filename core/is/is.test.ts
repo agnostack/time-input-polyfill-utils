@@ -1,4 +1,5 @@
 import { is } from './is'
+import { current } from '../../helpers/currentDate'
 
 isPmTests()
 isAmTests()
@@ -78,6 +79,11 @@ function isPmTests() {
 
 		function timeObjectTests() {
 			describe('timeObject', () => {
+				it('{ hrs24: 12, hrs12: 12, min: 00, mode: -- } => true', () => {
+					expect(is.PM.timeObject({ hrs24: 12, hrs12: 12, min: 0, mode: '--' })).to.equal(
+						current.mode === 'PM',
+					)
+				})
 				it('{ hrs24: 0, hrs12: 12, min: 00, mode: AM } => false', () => {
 					expect(is.PM.timeObject({ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })).to.equal(
 						false,
@@ -101,7 +107,7 @@ function isPmTests() {
 				it('{ hrs24: --, hrs12: --, min: --, mode: -- } => false', () => {
 					expect(
 						is.PM.timeObject({ hrs24: '--', hrs12: '--', min: '--', mode: '--' }),
-					).to.equal(false)
+					).to.equal(current.mode === 'PM')
 				})
 			})
 		}
@@ -180,6 +186,11 @@ function isAmTests() {
 
 		function timeObjectTests() {
 			describe('timeObject', () => {
+				it('{ hrs24: 12, hrs12: 12, min: 00, mode: -- } => true', () => {
+					expect(is.AM.timeObject({ hrs24: 12, hrs12: 12, min: 0, mode: '--' })).to.equal(
+						current.mode === 'AM',
+					)
+				})
 				it('{ hrs24: 0, hrs12: 12, min: 00, mode: AM } => true', () => {
 					expect(is.AM.timeObject({ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' })).to.equal(
 						true,
@@ -203,7 +214,7 @@ function isAmTests() {
 				it('{ hrs24: --, hrs12: --, min: --, mode: -- } => false', () => {
 					expect(
 						is.AM.timeObject({ hrs24: '--', hrs12: '--', min: '--', mode: '--' }),
-					).to.equal(false)
+					).to.equal(current.mode === 'AM')
 				})
 			})
 		}

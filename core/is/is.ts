@@ -38,7 +38,7 @@ export const is = {
 			return typeof hrs24 == 'number' && hrs24 > 11
 		},
 
-		timeObject: (timeObject: TimeObject): Boolean => timeObject.mode == 'PM',
+		timeObject: (timeObject: TimeObject): Boolean => timeObject.mode === 'PM' || timeObject.mode === '--' && new Date().getHours() > 11,
 	},
 	AM: {
 		hrs24: (hrs24: Hour24): Boolean => hrs24 !== '--' && !is.PM.hrs24(hrs24),
@@ -48,7 +48,7 @@ export const is = {
 			!is.PM.string12hr(string12hr),
 		string24hr: (string24hr: String24hr): Boolean =>
 			string24hr !== '' && !is.PM.string24hr(string24hr),
-		timeObject: (timeObject: TimeObject): Boolean => timeObject.mode == 'AM',
+		timeObject: (timeObject: TimeObject): Boolean => !is.PM.timeObject(timeObject),
 	},
 	timeObject: (value: any): Boolean => {
 		if (typeof value === 'undefined' || typeof value !== 'object') return false
