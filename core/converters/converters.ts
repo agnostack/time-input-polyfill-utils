@@ -14,7 +14,7 @@ export const toNumber = (value: number | string | Dashes) => {
 
 export const toLeadingZero = (value: number | string | Dashes): string => {
 	const number = Number(value)
-	if (typeof value !== 'number') return value
+	if (isNaN(number) && typeof value !== 'number') return value
 	return number < 10 ? `0${number}` : `${number}`
 }
 
