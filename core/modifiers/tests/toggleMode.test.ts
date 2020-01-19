@@ -16,6 +16,15 @@ export default () => {
 				it('12:30 AM => 12:30 PM', () => {
 					expect(modify.string12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
 				})
+				it('11:30 AM => 11:30 PM', () => {
+					expect(modify.string12hr('11:30 AM').toggleMode()).to.equal('11:30 PM')
+				})
+				it('01:30 PM => 01:30 AM', () => {
+					expect(modify.string12hr('01:30 PM').toggleMode()).to.equal('01:30 AM')
+				})
+				it(`12:30 -- => 12:30 ${current.mode}`, () => {
+					expect(modify.string12hr('12:30 --').toggleMode()).to.equal(`12:30 ${current.mode}`)
+				})
 			})
 		}
 
@@ -26,6 +35,12 @@ export default () => {
 				})
 				it('12:30 => 00:30', () => {
 					expect(modify.string24hr('00:30').toggleMode()).to.equal('12:30')
+				})
+				it('11:30 => 23:30', () => {
+					expect(modify.string24hr('11:30').toggleMode()).to.equal('23:30')
+				})
+				it('13:30 => 01:30', () => {
+					expect(modify.string24hr('13:30').toggleMode()).to.equal('01:30')
 				})
 			})
 		}
