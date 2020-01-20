@@ -1,13 +1,13 @@
 import { manual_entry_log } from './manual_entry_log'
-import { TimeObjectKeys } from '../../types/timeObject'
-
 /* global describe, expect, it */
 
 const entryLog = new manual_entry_log()
 
+const segments = ['hrs', 'min', 'mode']
+
 const basicTest = ({ description, testName, action, value }) => {
 	describe(description, () => {
-		TimeObjectKeys.forEach(key => {
+		segments.forEach(key => {
 			it(testName.replace('$prop', key), () => {
 				if (action) {
 					action(key)
@@ -40,8 +40,7 @@ describe('Clearing each value in each key', () => {
 	const clearProp = (prop, propValues) => {
 		it(`Clears ${prop}`, () => {
 			entryLog.clear(prop)
-			expect(entryLog.hrs24).to.deep.equal(propValues.hrs24)
-			expect(entryLog.hrs12).to.deep.equal(propValues.hrs12)
+			expect(entryLog.hrs).to.deep.equal(propValues.hrs)
 			expect(entryLog.min).to.deep.equal(propValues.min)
 			expect(entryLog.mode).to.deep.equal(propValues.mode)
 		})
@@ -50,16 +49,15 @@ describe('Clearing each value in each key', () => {
 	const clear = []
 	const filled = [1, 2]
 
-	clearProp('hrs24', { hrs24: clear, hrs12: filled, min: filled, mode: filled })
-	clearProp('hrs12', { hrs24: clear, hrs12: clear, min: filled, mode: filled })
-	clearProp('min', { hrs24: clear, hrs12: clear, min: clear, mode: filled })
-	clearProp('mode', { hrs24: clear, hrs12: clear, min: clear, mode: clear })
+	clearProp('hrs', { hrs: clear, min: filled, mode: filled })
+	clearProp('min', { hrs: clear, min: clear, mode: filled })
+	clearProp('mode', { hrs: clear, min: clear, mode: clear })
 })
 
 describe('Clearing all keys at once', () => {
 	it('clear all', () => {
-		TimeObjectKeys.forEach(key => entryLog.add(key, '1'))
+		segments.forEach(key => entryLog.add(key, '1'))
 		entryLog.clearAll()
-		TimeObjectKeys.forEach(key => expect(entryLog[key]).to.deep.equal([]))
+		segments.forEach(key => expect(entryLog[key]).to.deep.equal([]))
 	})
 })

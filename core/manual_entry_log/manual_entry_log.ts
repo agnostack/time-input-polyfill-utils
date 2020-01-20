@@ -1,15 +1,13 @@
 import { Segment } from '../../types'
 
 export class manual_entry_log {
-	hrs24: Array<number>
-	hrs12: Array<number>
+	hrs: Array<number>
 	min: Array<number>
 	mode: Array<number>
 
 	constructor() {
 		Object.assign(this, {
-			hrs24: [],
-			hrs12: [],
+			hrs: [],
 			min: [],
 			mode: [],
 		})
@@ -20,8 +18,7 @@ export class manual_entry_log {
 	}
 
 	clearAll() {
-		this.hrs24 = []
-		this.hrs12 = []
+		this.hrs = []
 		this.min = []
 		this.mode = []
 	}
