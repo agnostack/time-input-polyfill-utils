@@ -1,4 +1,4 @@
-import { Hour24, Hour12, Minute } from '../types'
+import { Hour24, Hour12, Minute, Segment } from '../types'
 
 export const ranges = {
 	hrs: { start: 0, end: 2 },
@@ -12,4 +12,4 @@ export const maxAndMins = {
 	minutes: { min: <Minute>0, max: <Minute>59 },
 }
 
-export const segments = Object.keys(ranges)
+export const segments: Array<Segment> = ['hrs', 'min', 'mode']

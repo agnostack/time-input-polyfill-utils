@@ -1,7 +1,7 @@
 import { manual_entry_log } from './manual_entry_log'
 /* global describe, expect, it */
 
-import { segments } from '../../types/segment'
+import { segments } from '../staticValues'
 
 const entryLog = new manual_entry_log()
 

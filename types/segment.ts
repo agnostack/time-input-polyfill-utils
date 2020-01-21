@@ -5,5 +5,3 @@ export type Min = 'min'
 export type Md = 'mode' // can't call it "Mode" because "Mode" type = "AM" | "PM"
 
 export type Segment = Hrs | Min | Md
-
-export const segments: Array<Segment> = ['hrs', 'min', 'mode']
