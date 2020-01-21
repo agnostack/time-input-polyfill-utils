@@ -6,8 +6,7 @@ export const ranges = {
 	mode: <SelectionRange>{ start: 6, end: 8, type: 'mode' },
 }
 
-export const rangesList = [ranges.hrs, ranges.min, ranges.mode]
-export const stringifiedRangesList = [ranges.hrs, ranges.min, ranges.mode].map(range => JSON.stringify(range))
+export const rangesList = Object.keys(ranges).map((key: Segment) => ranges[key])
 
 export const maxAndMins = {
 	hrs24: { min: <Hour24>0, max: <Hour24>23 },
