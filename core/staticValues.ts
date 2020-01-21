@@ -1,9 +1,9 @@
-import { Hour24, Hour12, Minute, Segment } from '../types'
+import { Hour24, Hour12, Minute, SelectionRange, Segment } from '../types'
 
 export const ranges = {
-	hrs: { start: 0, end: 2 },
-	min: { start: 3, end: 5 },
-	mode: { start: 6, end: 8 },
+	hrs: <SelectionRange>{ start: 0, end: 2 },
+	min: <SelectionRange>{ start: 3, end: 5 },
+	mode: <SelectionRange>{ start: 6, end: 8 },
 }
 
 export const maxAndMins = {

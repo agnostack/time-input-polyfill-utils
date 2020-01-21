@@ -1,4 +1,5 @@
 import { convert } from '../converters/converters'
+import { SelectionRange, SelectionIndex } from '../../types'
 
 export const get = {
 	string12hr: (string12hr: string) => {
@@ -15,4 +16,7 @@ export const get = {
 			timeObject,
 		}
 	},
+	selectedRangeOf: ($input: HTMLInputElement): SelectionRange => ({
+		start: <SelectionIndex>$input.selectionStart, end: <SelectionIndex>$input.selectionEnd
+	})
 }
