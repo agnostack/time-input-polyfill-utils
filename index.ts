@@ -1,6 +1,10 @@
-export { manual_entry_log } from './core/manual_entry_log/manual_entry_log'
-
 export * from './core/staticValues'
 
 export * from './core/converters/converters'
+export * from './core/getters/getters'
 export * from './core/is/is'
+export * from './core/manual_entry_log/manual_entry_log'
+export * from './core/modifiers/modifiers'
+export * from './core/regex/regex'
+export * from './core/selectors/selectors'
+export * from './core/validate/validate'
