@@ -33,7 +33,7 @@ testSpecificSegmentSelection()
 function testCursorRangeValues() {
 	describe('Test cursor range values', () => {
 		const testCursorRange = (index: number, expectation: SelectionRange) => {
-			it(`test range indexes ${index}`, async () => {
+			it(`test range index ${index}`, async () => {
 				const $input = await loadInput()
 				$input.selectionStart = index
 				const output = get.rangeOf($input).cursorSegment()
@@ -58,7 +58,7 @@ function testCursorRangeValues() {
 function testCursorSegmentSelection() {
 	describe('Test cursor segment selection', () => {
 		const testCursorSelection = (index: number, expectation: SelectionRange) => {
-			it(`select pos ${index}`, async () => {
+			it(`select segment at index ${index}`, async () => {
 				const $input = await loadInput()
 				$input.selectionStart = index
 				select($input).cursorSegment()
