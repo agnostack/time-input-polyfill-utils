@@ -29,6 +29,8 @@ describe('Basic setup', () => {
 testCursorRangeValues()
 testCursorSegmentSelection()
 testSpecificSegmentSelection()
+testNextSegmentSelection()
+testPrevSegmentSelection()
 
 function testCursorRangeValues() {
 	describe('Test cursor range values', () => {
@@ -93,5 +95,37 @@ function testSpecificSegmentSelection() {
 		testSegmentSelect('hrs', ranges.hrs)
 		testSegmentSelect('min', ranges.min)
 		testSegmentSelect('mode', ranges.mode)
+	})
+}
+
+function testNextSegmentSelection() {
+	describe('Test next segment selection', () => {
+		const testSegmentAfter = (segment: Segment, expectation: SelectionRange) => {
+			it(`select segment after ${segment}`, async () => {
+				const $input = await loadInput()
+				select($input).nextSegment()
+				expectRange($input, expectation)
+			})
+		}
+
+		testSegmentAfter('hrs', ranges.min)
+		testSegmentAfter('min', ranges.mode)
+		testSegmentAfter('mode', ranges.mode)
+	})
+}
+
+function testPrevSegmentSelection() {
+	describe('Test previous segment selection', () => {
+		const testSegmentBefore = (segment: Segment, expectation: SelectionRange) => {
+			it(`select segment before ${segment}`, async () => {
+				const $input = await loadInput()
+				select($input).prevSegment()
+				expectRange($input, expectation)
+			})
+		}
+
+		testSegmentBefore('hrs', ranges.hrs)
+		testSegmentBefore('min', ranges.hrs)
+		testSegmentBefore('mode', ranges.min)
 	})
 }
