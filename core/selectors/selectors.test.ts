@@ -16,6 +16,7 @@ const loadInput = (): Promise<HTMLInputElement> => new Promise((resolve) => {
 
 const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
 	const currentRange = get.rangeOf($input).fullSelection()
+	currentRange.type = expectedRange.type
 	expect(currentRange).to.deep.equal(expectedRange)
 }
 
@@ -103,6 +104,7 @@ function testNextSegmentSelection() {
 		const testSegmentAfter = (segment: Segment, expectation: SelectionRange) => {
 			it(`select segment after ${segment}`, async () => {
 				const $input = await loadInput()
+				select($input).segment(segment)
 				select($input).nextSegment()
 				expectRange($input, expectation)
 			})
@@ -119,6 +121,7 @@ function testPrevSegmentSelection() {
 		const testSegmentBefore = (segment: Segment, expectation: SelectionRange) => {
 			it(`select segment before ${segment}`, async () => {
 				const $input = await loadInput()
+				select($input).segment(segment)
 				select($input).prevSegment()
 				expectRange($input, expectation)
 			})

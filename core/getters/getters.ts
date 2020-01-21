@@ -1,6 +1,14 @@
 import { convert } from '../converters/converters'
 import { SelectionRange, SelectionIndex, Segment } from '../../types'
-import { ranges } from '../staticValues'
+import { ranges, rangesList } from '../staticValues'
+
+const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 'backward') => {
+	const currentSegmentRange = get.rangeOf($input).cursorSegment()
+	const currentType = currentSegmentRange.type
+	const modifier = direction === 'forward' ? 1 : -1
+	const nextTypeIndex = rangesList.map(range => range.type).indexOf(currentType) + modifier
+	return rangesList[nextTypeIndex] || currentSegmentRange
+}
 
 export const get = {
 	string12hr: (string12hr: string) => {
@@ -20,7 +28,7 @@ export const get = {
 	rangeOf: ($input: HTMLInputElement) => ({
 		fullSelection: (): SelectionRange => ({
 			start: <SelectionIndex>$input.selectionStart,
-			end: <SelectionIndex>$input.selectionEnd
+			end: <SelectionIndex>$input.selectionEnd,
 		}),
 		cursorSegment(): SelectionRange {
 			const { start } = get.rangeOf($input).fullSelection()
@@ -36,5 +44,7 @@ export const get = {
 
 			return ranges.hrs
 		},
+		nextSegment: () => traverseSegmentRanges($input, 'forward'),
+		prevSegment: () => traverseSegmentRanges($input, 'backward')
 	})
 }

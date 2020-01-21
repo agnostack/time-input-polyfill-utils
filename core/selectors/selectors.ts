@@ -12,8 +12,14 @@ export const select = ($input: HTMLInputElement) => ({
 	segment(segment: Segment) {
 		$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
 	},
-	nextSegment() { },
-	prevSegment() { },
+	nextSegment() {
+		const { start, end } = get.rangeOf($input).nextSegment()
+		$input.setSelectionRange(start, end)
+	},
+	prevSegment() {
+		const { start, end } = get.rangeOf($input).prevSegment()
+		$input.setSelectionRange(start, end)
+	},
 	cursorSegment() {
 		const { start, end } = get.rangeOf($input).cursorSegment()
 		$input.setSelectionRange(start, end)
