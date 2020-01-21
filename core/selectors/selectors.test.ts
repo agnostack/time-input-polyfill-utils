@@ -1,7 +1,7 @@
 import { select } from "./selectors";
 import { get } from "../getters/getters";
-import { SelectionRange } from "../../types";
-import { ranges } from "../staticValues";
+import { SelectionRange, Segment } from "../../types";
+import { ranges, segments } from "../staticValues";
 
 const inputID = 'testInput'
 
@@ -14,6 +14,11 @@ const loadInput = (): Promise<HTMLInputElement> => new Promise((resolve) => {
 		})
 })
 
+const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
+	const currentRange = get.rangeOf($input).fullSelection()
+	expect(currentRange).to.deep.equal(expectedRange)
+}
+
 describe('Basic setup', () => {
 	it('Element exists', async () => {
 		await loadInput()
@@ -21,53 +26,72 @@ describe('Basic setup', () => {
 	})
 })
 
-describe('Test cursor range values', () => {
-	const testCursorRange = (index: number, expectation: SelectionRange) => {
-		it(`test range indexes ${index}`, async () => {
-			const $input = await loadInput()
-			$input.selectionStart = index
-			const output = get.rangeOf($input).cursorSegment()
-			expect(output).to.deep.equal(expectation)
-		})
-	}
+testCursorRangeValues()
+testCursorSegmentSelection()
+testSpecificSegmentSelection()
 
-	testCursorRange(0, ranges.hrs)
-	testCursorRange(1, ranges.hrs)
-	testCursorRange(2, ranges.hrs)
+function testCursorRangeValues() {
+	describe('Test cursor range values', () => {
+		const testCursorRange = (index: number, expectation: SelectionRange) => {
+			it(`test range indexes ${index}`, async () => {
+				const $input = await loadInput()
+				$input.selectionStart = index
+				const output = get.rangeOf($input).cursorSegment()
+				expect(output).to.deep.equal(expectation)
+			})
+		}
 
-	testCursorRange(3, ranges.min)
-	testCursorRange(4, ranges.min)
-	testCursorRange(5, ranges.min)
+		testCursorRange(0, ranges.hrs)
+		testCursorRange(1, ranges.hrs)
+		testCursorRange(2, ranges.hrs)
 
-	testCursorRange(6, ranges.mode)
-	testCursorRange(7, ranges.mode)
-	testCursorRange(8, ranges.mode)
-})
+		testCursorRange(3, ranges.min)
+		testCursorRange(4, ranges.min)
+		testCursorRange(5, ranges.min)
 
-describe('Test cursor segment selection', () => {
-	const testCursorSelection = (index: number, expectation: SelectionRange) => {
-		it(`select pos ${index}`, async () => {
-			const $input = await loadInput()
-			$input.selectionStart = index
-			select($input).cursorSegment()
-			expectRange($input, expectation)
-		})
-	}
+		testCursorRange(6, ranges.mode)
+		testCursorRange(7, ranges.mode)
+		testCursorRange(8, ranges.mode)
+	})
+}
 
-	const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
-		const currentRange = get.rangeOf($input).fullSelection()
-		expect(currentRange).to.deep.equal(expectedRange)
-	}
+function testCursorSegmentSelection() {
+	describe('Test cursor segment selection', () => {
+		const testCursorSelection = (index: number, expectation: SelectionRange) => {
+			it(`select pos ${index}`, async () => {
+				const $input = await loadInput()
+				$input.selectionStart = index
+				select($input).cursorSegment()
+				expectRange($input, expectation)
+			})
+		}
 
-	testCursorSelection(0, ranges.hrs)
-	testCursorSelection(1, ranges.hrs)
-	testCursorSelection(2, ranges.hrs)
+		testCursorSelection(0, ranges.hrs)
+		testCursorSelection(1, ranges.hrs)
+		testCursorSelection(2, ranges.hrs)
 
-	testCursorSelection(3, ranges.min)
-	testCursorSelection(4, ranges.min)
-	testCursorSelection(5, ranges.min)
+		testCursorSelection(3, ranges.min)
+		testCursorSelection(4, ranges.min)
+		testCursorSelection(5, ranges.min)
 
-	testCursorSelection(6, ranges.mode)
-	testCursorSelection(7, ranges.mode)
-	testCursorSelection(8, ranges.mode)
-})
+		testCursorSelection(6, ranges.mode)
+		testCursorSelection(7, ranges.mode)
+		testCursorSelection(8, ranges.mode)
+	})
+}
+
+function testSpecificSegmentSelection() {
+	describe('Test specific segment selection', () => {
+		const testSegmentSelect = (segment: Segment, expectation: SelectionRange) => {
+			it(`select segment ${segment}`, async () => {
+				const $input = await loadInput()
+				select($input).segment(segment)
+				expectRange($input, expectation)
+			})
+		}
+
+		testSegmentSelect('hrs', ranges.hrs)
+		testSegmentSelect('min', ranges.min)
+		testSegmentSelect('mode', ranges.mode)
+	})
+}
