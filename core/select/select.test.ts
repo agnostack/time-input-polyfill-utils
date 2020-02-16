@@ -2,17 +2,8 @@ import { select } from "./select";
 import { get } from "../get/get";
 import { SelectionRange, Segment } from "../../types";
 import { ranges, segments } from "../staticValues";
-
-const inputID = 'testInput'
-
-const loadInput = (): Promise<HTMLInputElement> => new Promise((resolve) => {
-	cy.visit('./cypress/test-file.html')
-		.then((contentWindow: Window) => {
-			let { document } = contentWindow
-			const $input = <HTMLInputElement>document.getElementById(inputID)
-			resolve($input)
-		})
-})
+import { inputID } from "../../cypress/support/staticTestValues";
+import { loadInputElement } from "../../cypress/support/loadInputElement";
 
 const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
 	const currentRange = get.rangeOf($input).fullSelection()
@@ -22,7 +13,7 @@ const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) =>
 
 describe('Basic setup', () => {
 	it('Element exists', async () => {
-		await loadInput()
+		await loadInputElement()
 		cy.get(`#${inputID}`).should('exist')
 	})
 })
@@ -37,7 +28,7 @@ function testCursorRangeValues() {
 	describe('Test cursor range values', () => {
 		const testCursorRange = (index: number, expectation: SelectionRange) => {
 			it(`test range index ${index}`, async () => {
-				const $input = await loadInput()
+				const $input = await loadInputElement()
 				$input.selectionStart = index
 				const output = get.rangeOf($input).cursorSegment()
 				expect(output).to.deep.equal(expectation)
@@ -62,7 +53,7 @@ function testCursorSegmentSelection() {
 	describe('Test cursor segment selection', () => {
 		const testCursorSelection = (index: number, expectation: SelectionRange) => {
 			it(`select segment at index ${index}`, async () => {
-				const $input = await loadInput()
+				const $input = await loadInputElement()
 				$input.selectionStart = index
 				select($input).cursorSegment()
 				expectRange($input, expectation)
@@ -87,7 +78,7 @@ function testSpecificSegmentSelection() {
 	describe('Test specific segment selection', () => {
 		const testSegmentSelect = (segment: Segment, expectation: SelectionRange) => {
 			it(`select segment ${segment}`, async () => {
-				const $input = await loadInput()
+				const $input = await loadInputElement()
 				select($input).segment(segment)
 				expectRange($input, expectation)
 			})
@@ -103,7 +94,7 @@ function testNextSegmentSelection() {
 	describe('Test next segment selection', () => {
 		const testSegmentAfter = (segment: Segment, expectation: SelectionRange) => {
 			it(`select segment after ${segment}`, async () => {
-				const $input = await loadInput()
+				const $input = await loadInputElement()
 				select($input).segment(segment)
 				select($input).nextSegment()
 				expectRange($input, expectation)
@@ -120,7 +111,7 @@ function testPrevSegmentSelection() {
 	describe('Test previous segment selection', () => {
 		const testSegmentBefore = (segment: Segment, expectation: SelectionRange) => {
 			it(`select segment before ${segment}`, async () => {
-				const $input = await loadInput()
+				const $input = await loadInputElement()
 				select($input).segment(segment)
 				select($input).prevSegment()
 				expectRange($input, expectation)
