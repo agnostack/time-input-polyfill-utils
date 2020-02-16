@@ -6,7 +6,7 @@ import { ranges, segments } from "../staticValues";
 const inputID = 'testInput'
 
 const loadInput = (): Promise<HTMLInputElement> => new Promise((resolve) => {
-	cy.visit('./core/select/select-test-file.html')
+	cy.visit('./cypress/test-file.html')
 		.then((contentWindow: Window) => {
 			let { document } = contentWindow
 			const $input = <HTMLInputElement>document.getElementById(inputID)
