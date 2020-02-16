@@ -1,4 +1,4 @@
-import { modify } from '../modifiers'
+import { modify } from '../modify'
 import { TimeObject } from '../../../types'
 import { current } from '../../../helpers/currentDate'
 

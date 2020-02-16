@@ -1,4 +1,4 @@
-import { convert } from '../converters/converters'
+import { convert } from '../convert/convert'
 import { SelectionRange, SelectionIndex, Segment } from '../../types'
 import { ranges, rangesList } from '../staticValues'
 

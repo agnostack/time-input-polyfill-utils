@@ -1,4 +1,4 @@
-import { modify, Integration, Action, Target } from './modifiers'
+import { modify, Integration, Action, Target } from './modify'
 
 import { TimeObject, String12hr, String24hr } from '../../types'
 

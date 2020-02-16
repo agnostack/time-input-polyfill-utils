@@ -1,4 +1,4 @@
-import { get } from './getters'
+import { get } from './get'
 
 getString12hrTests()
 getString24hrTests()

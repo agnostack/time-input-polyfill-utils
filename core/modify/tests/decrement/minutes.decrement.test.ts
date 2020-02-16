@@ -6,7 +6,7 @@ import {
 	BeforeAfterObject,
 	CommonSettingsString,
 	CommonSettingsObject,
-} from '../../modifiers.test'
+} from '../../modify.test'
 import { Minute } from '../../../../types'
 
 export default () => {

@@ -2,7 +2,7 @@ import { Hour24, Hour12 } from '../../types'
 import { String12hr, String24hr } from '../../types/strings'
 import { TimeObject, TimeObjectKeys } from '../../types/timeObject'
 import { regex } from '../regex/regex'
-import { toNumber } from '../converters/converters'
+import { toNumber } from '../convert/convert'
 
 const isValidTimeString = ({
 	value,

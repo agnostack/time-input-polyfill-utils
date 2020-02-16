@@ -1,12 +1,12 @@
-import { select } from "./selectors";
-import { get } from "../getters/getters";
+import { select } from "./select";
+import { get } from "../get/get";
 import { SelectionRange, Segment } from "../../types";
 import { ranges, segments } from "../staticValues";
 
 const inputID = 'testInput'
 
 const loadInput = (): Promise<HTMLInputElement> => new Promise((resolve) => {
-	cy.visit('./core/selectors/selectors-test-file.html')
+	cy.visit('./core/select/select-test-file.html')
 		.then((contentWindow: Window) => {
 			let { document } = contentWindow
 			const $input = <HTMLInputElement>document.getElementById(inputID)

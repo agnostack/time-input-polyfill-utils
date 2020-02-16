@@ -1,4 +1,4 @@
-import { convert, toLeadingZero, toNumber, toArray } from './converters'
+import { convert, toLeadingZero, toNumber, toArray } from './convert'
 import { failTest } from '../../cypress/helpers/failTest'
 
 import { current } from '../../helpers/currentDate'

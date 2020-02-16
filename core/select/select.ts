@@ -1,6 +1,6 @@
-import { toArray } from '../converters/converters'
+import { toArray } from '../convert/convert'
 import { Segment } from '../../types'
-import { get } from '../getters/getters'
+import { get } from '../get/get'
 import { ranges } from '../staticValues'
 
 export function _$$(selector: string) {

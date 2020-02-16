@@ -1,5 +1,5 @@
 import { TimeObject, String12hr, String24hr, Hour24, Minute } from '../../types'
-import { convert } from '../converters/converters'
+import { convert } from '../convert/convert'
 import { maxAndMins } from '../staticValues'
 import { is } from '../is/is'
 
