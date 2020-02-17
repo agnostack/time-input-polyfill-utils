@@ -29,9 +29,10 @@ export const get = {
 	inputValue: ($input: HTMLInputElement) => {
 		const value = $input.value
 		const is12hrTime = regex.string12hr.test(value)
+		const is24hrTime = regex.string24hr.test(value)
 		return {
 			as12hrString: (): String12hr => is12hrTime ? value : convert.string24hr(value).to12hr(),
-			as24hrString: (): String24hr => !is12hrTime ? value : convert.string12hr(value).to24hr(),
+			as24hrString: (): String24hr => is24hrTime ? value : convert.string12hr(value).to24hr(),
 			asTimeObject: (): TimeObject => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
 		}
 	},
