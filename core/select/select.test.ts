@@ -7,7 +7,7 @@ import { loadTestPage } from "../../cypress/support/loadTestPage";
 
 const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
 	const currentRange = get.rangeOf($input).fullSelection()
-	currentRange.type = expectedRange.type
+	currentRange.segment = expectedRange.segment
 	expect(currentRange).to.deep.equal(expectedRange)
 }
 

@@ -5,9 +5,9 @@ import { regex } from '../regex/regex'
 
 const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 'backward') => {
 	const currentSegmentRange = get.rangeOf($input).cursorSegment()
-	const currentType = currentSegmentRange.type
+	const currentType = currentSegmentRange.segment
 	const modifier = direction === 'forward' ? 1 : -1
-	const nextTypeIndex = rangesList.map(range => range.type).indexOf(currentType) + modifier
+	const nextTypeIndex = rangesList.map(range => range.segment).indexOf(currentType) + modifier
 	return rangesList[nextTypeIndex] || currentSegmentRange
 }
 

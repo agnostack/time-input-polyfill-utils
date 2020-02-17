@@ -1,9 +1,9 @@
-import { Hour24, Hour12, Minute, SelectionRange, Segment } from '../types'
+import { Hour24, Hour12, Minute, SelectionRange, Segment, TimeObject, String12hr, String24hr } from '../types'
 
 export const ranges = {
-	hrs: <SelectionRange>{ start: 0, end: 2, type: 'hrs' },
-	min: <SelectionRange>{ start: 3, end: 5, type: 'min' },
-	mode: <SelectionRange>{ start: 6, end: 8, type: 'mode' },
+	hrs: <SelectionRange>{ start: 0, end: 2, segment: 'hrs' },
+	min: <SelectionRange>{ start: 3, end: 5, segment: 'min' },
+	mode: <SelectionRange>{ start: 6, end: 8, segment: 'mode' },
 }
 
 export const rangesList = Object.keys(ranges).map((key: Segment) => ranges[key])
