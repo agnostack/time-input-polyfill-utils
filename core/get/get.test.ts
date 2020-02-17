@@ -1,7 +1,10 @@
 import { get } from './get'
+import { loadTestPage } from '../../cypress/support/loadTestPage'
+import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
 
 getString12hrTests()
 getString24hrTests()
+getValueTests()
 
 function getString12hrTests() {
 	describe('get string 12hr', () => {
@@ -34,5 +37,46 @@ function getString24hrTests() {
 		it('expects get 0:30 mode => AM', () => {
 			expect(get.string24hr('00:30').mode).to.equal('AM')
 		})
+	})
+}
+
+function getValueTests() {
+	describe('Get value from input', () => {
+		blankInputTests()
+		preFilledInputTests()
+
+		function blankInputTests() {
+			describe('Blank input', () => {
+				it(`expects blank => "${blankValues.string12hr}"`, async () => {
+					const { $input } = await loadTestPage()
+					expect(get.inputValue($input).as12hrString()).to.equal(blankValues.string12hr)
+				})
+				it(`expects blank => "${blankValues.string24hr}"`, async () => {
+					const { $input } = await loadTestPage()
+					expect(get.inputValue($input).as24hrString()).to.equal(blankValues.string24hr)
+				})
+				it(`expects blank => ${JSON.stringify(blankValues.timeObject)}`, async () => {
+					const { $input } = await loadTestPage()
+					expect(get.inputValue($input).asTimeObject()).to.deep.equal(blankValues.timeObject)
+				})
+			})
+		}
+
+		function preFilledInputTests() {
+			describe('Pre-filled input', () => {
+				it(`expects "12:00 AM" => "${preFilledValues.string12hr}"`, async () => {
+					const { $inputPreFilled } = await loadTestPage()
+					expect(get.inputValue($inputPreFilled).as12hrString()).to.equal(preFilledValues.string12hr)
+				})
+				it(`expects "12:00 AM" => "${preFilledValues.string24hr}"`, async () => {
+					const { $inputPreFilled } = await loadTestPage()
+					expect(get.inputValue($inputPreFilled).as24hrString()).to.equal(preFilledValues.string24hr)
+				})
+				it(`expects "12:00 AM" => ${JSON.stringify(preFilledValues.timeObject)}`, async () => {
+					const { $inputPreFilled } = await loadTestPage()
+					expect(get.inputValue($inputPreFilled).asTimeObject()).to.deep.equal(preFilledValues.timeObject)
+				})
+			})
+		}
 	})
 }

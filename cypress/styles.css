@@ -1,11 +1,14 @@
 html,
 body {
 	height: 100%;
+	margin: 0;
 }
 
 body {
-	display: grid;
-	place-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 input {
@@ -14,6 +17,7 @@ input {
 
 .inputTest {
 	font-size: 2em;
+	margin: 1em;
 }
 
 .inputTest label {
@@ -22,7 +26,7 @@ input {
 	margin-bottom: 0.5em;
 }
 .inputTest input {
-	width: 6ch;
+	width: 8ch;
 	display: block;
 	margin: auto;
 	text-align: center;
