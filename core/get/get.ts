@@ -1,6 +1,7 @@
 import { convert } from '../convert/convert'
-import { SelectionRange, SelectionIndex, Segment } from '../../types'
+import { SelectionRange, SelectionIndex, Segment, TimeObject, String12hr, String24hr } from '../../types'
 import { ranges, rangesList } from '../staticValues'
+import { regex } from '../regex/regex'
 
 const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 'backward') => {
 	const currentSegmentRange = get.rangeOf($input).cursorSegment()
@@ -23,6 +24,15 @@ export const get = {
 		return {
 			...timeObject,
 			timeObject,
+		}
+	},
+	inputValue: ($input: HTMLInputElement) => {
+		const value = $input.value
+		const is12hrTime = regex.string12hr.test(value)
+		return {
+			as12hrString: (): String12hr => is12hrTime ? value : convert.string24hr(value).to12hr(),
+			as24hrString: (): String24hr => !is12hrTime ? value : convert.string12hr(value).to24hr(),
+			asTimeObject: (): TimeObject => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
 		}
 	},
 	rangeOf: ($input: HTMLInputElement) => ({
