@@ -1,5 +1,5 @@
 {
-	"name": "time-input-polyfill-helpers",
+	"name": "time-input-polyfill-utils",
 	"version": "1.0.0",
 	"description": "A small library of helper functions designed to make the building of time-input-polyfills easier",
 	"main": "index.js",
@@ -17,7 +17,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Dan503/time-input-polyfill-helpers.git"
+		"url": "git+https://github.com/Dan503/time-input-polyfill-utils.git"
 	},
 	"keywords": [
 		"time",
@@ -31,9 +31,9 @@
 	"author": "Daniel <dan503.npm@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/Dan503/time-input-polyfill-helpers/issues"
+		"url": "https://github.com/Dan503/time-input-polyfill-utils/issues"
 	},
-	"homepage": "https://github.com/Dan503/time-input-polyfill-helpers#readme",
+	"homepage": "https://github.com/Dan503/time-input-polyfill-utils#readme",
 	"devDependencies": {
 		"@cypress/webpack-preprocessor": "^4.1.1",
 		"@typescript-eslint/eslint-plugin": "^2.11.0",
