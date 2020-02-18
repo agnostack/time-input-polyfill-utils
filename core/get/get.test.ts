@@ -137,7 +137,7 @@ function getRangeTests() {
 		cursorSegmentTests()
 
 		function fullSelectionTests() {
-			describe('fullSelection tests', () => {
+			describe('rawSelection tests', () => {
 				testRangeAt(0, { start: 0, end: 0, segment: 'hrs' })
 				testRangeAt(1, { start: 1, end: 1, segment: 'hrs' })
 				testRangeAt(2, { start: 2, end: 2, segment: 'hrs' })
@@ -165,7 +165,7 @@ function getRangeTests() {
 					it(`range at ${position}-${position2}`, async () => {
 						const { $input } = await loadTestPage()
 						$input.setSelectionRange(position, position2)
-						expect(get.rangeOf($input).fullSelection()).to.deep.equal(expectation)
+						expect(get.rangeOf($input).rawSelection()).to.deep.equal(expectation)
 					})
 				}
 

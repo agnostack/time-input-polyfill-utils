@@ -50,7 +50,7 @@ export const get = {
 		throw new Error('Cannot polyfill time input due to a missing label.')
 	},
 	rangeOf: ($input: HTMLInputElement) => ({
-		fullSelection: (): SelectionRange => {
+		rawSelection: (): SelectionRange => {
 			const within = (segment: Segment, value: number, ): Boolean => ranges[segment].start <= value && value <= ranges[segment].end;
 			const start = <SelectionIndex>$input.selectionStart
 			const end = <SelectionIndex>$input.selectionEnd
@@ -62,7 +62,7 @@ export const get = {
 			})
 		},
 		cursorSegment(): SelectionRange {
-			const { segment } = get.rangeOf($input).fullSelection()
+			const { segment } = get.rangeOf($input).rawSelection()
 			return ranges[segment]
 		},
 		nextSegment: () => traverseSegmentRanges($input, 'forward'),
