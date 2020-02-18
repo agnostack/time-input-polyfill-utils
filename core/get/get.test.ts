@@ -10,6 +10,17 @@ getValueTests()
 getLabelTextTests()
 getRangeTests()
 
+/*
+	TO DO:
+
+	Make tests for these:
+
+	- get.rangeOf($input).nextSegment()
+	- get.rangeOf($input).prevSegment()
+	- get.ancestorsOf($input)
+	- get.ancestorsOf($input, selector)
+*/
+
 function getString12hrTests() {
 	describe('get string 12hr', () => {
 		it('expects get 12:30 PM hrs12 => 12', () => {
