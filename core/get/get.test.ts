@@ -2,6 +2,7 @@ import { get } from './get'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
 import { SelectionRange } from '../../types'
+import { ranges } from '../staticValues'
 
 getString12hrTests()
 getString24hrTests()
@@ -133,6 +134,7 @@ function getLabelTextTests() {
 function getRangeTests() {
 	describe('Get range of input tests', () => {
 		fullSelectionTests()
+		cursorSegmentTests()
 
 		function fullSelectionTests() {
 			describe('fullSelection tests', () => {
@@ -164,6 +166,42 @@ function getRangeTests() {
 						const { $input } = await loadTestPage()
 						$input.setSelectionRange(position, position2)
 						expect(get.rangeOf($input).fullSelection()).to.deep.equal(expectation)
+					})
+				}
+
+			})
+		}
+
+		function cursorSegmentTests() {
+			describe('cursorSegment tests', () => {
+				testRangeAt(0, ranges.hrs)
+				testRangeAt(1, ranges.hrs)
+				testRangeAt(2, ranges.hrs)
+
+				testRangeAt(3, ranges.min)
+				testRangeAt(4, ranges.min)
+				testRangeAt(5, ranges.min)
+
+				testRangeAt(6, ranges.mode)
+				testRangeAt(7, ranges.mode)
+				testRangeAt(8, ranges.mode)
+
+				testRangeAt(0, ranges.hrs, 8)
+				testRangeAt(1, ranges.hrs, 8)
+				testRangeAt(2, ranges.hrs, 8)
+
+				testRangeAt(3, ranges.min, 8)
+				testRangeAt(4, ranges.min, 8)
+				testRangeAt(5, ranges.min, 8)
+
+				testRangeAt(6, ranges.mode, 8)
+				testRangeAt(7, ranges.mode, 8)
+
+				function testRangeAt(position: number, expectation: SelectionRange, position2 = position) {
+					it(`range at ${position}-${position2}`, async () => {
+						const { $input } = await loadTestPage()
+						$input.setSelectionRange(position, position2)
+						expect(get.rangeOf($input).cursorSegment()).to.deep.equal(expectation)
 					})
 				}
 
