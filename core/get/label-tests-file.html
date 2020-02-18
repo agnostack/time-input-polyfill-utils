@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Testing document</title>
+		<link rel="stylesheet" href="../../cypress/styles.css" />
+	</head>
+	<body>
+		<div class="inputTest">
+			<div id="aria-labelledby">aria-labelledby label</div>
+			<input value="--:-- --" type="text" aria-labelledby="aria-labelledby" />
+		</div>
+		<div class="inputTest">
+			<input value="--:-- --" type="text" aria-label="aria-label label" />
+		</div>
+		<div class="inputTest">
+			<label for="forAttr">For attribute label</label>
+			<input value="--:-- --" type="text" id="forAttr" />
+		</div>
+		<label class="inputTest">
+			<span>Wrapper label</span>
+			<input value="--:-- --" type="text" id="wrappedInput" />
+		</label>
+		<div class="inputTest">
+			<input value="--:-- --" type="text" title="title label" />
+		</div>
+		<div class="inputTest">
+			<div>No label</div>
+			<input value="--:-- --" type="text" id="noLabel" />
+		</div>
+	</body>
+</html>

@@ -109,7 +109,7 @@ function aria_label($input: HTMLInputElement) {
 function for_attribute($input: HTMLInputElement, document: Document = window.document) {
 	if ($input.id) {
 		var $forLabel = document.querySelector('label[for="' + $input.id + '"]')
-		if ($forLabel) return $forLabel.textContent
+		if ($forLabel) return $forLabel.textContent.trim()
 	}
 	return false
 }
@@ -117,7 +117,7 @@ function for_attribute($input: HTMLInputElement, document: Document = window.doc
 function label_wrapper_element($input: HTMLInputElement) {
 	var ancestors = get.ancestorsOf($input, 'label')
 	var $parentLabel = ancestors[ancestors.length - 1]
-	if ($parentLabel.nodeName == 'LABEL') return $parentLabel.textContent
+	if ($parentLabel.nodeName == 'LABEL') return $parentLabel.textContent.trim()
 	return false
 }
 

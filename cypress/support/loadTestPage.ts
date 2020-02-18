@@ -7,8 +7,8 @@ interface LoadedPage {
 	window: Window
 }
 
-export const loadTestPage = (): Promise<LoadedPage> => new Promise((resolve) => {
-	cy.visit('./cypress/test-file.html')
+export const loadTestPage = (htmlFilePath: string = './cypress/test-file.html'): Promise<LoadedPage> => new Promise((resolve) => {
+	cy.visit(htmlFilePath)
 		.then((contentWindow: Window) => {
 			let { document } = contentWindow
 			const $input = <HTMLInputElement>document.getElementById(inputID)

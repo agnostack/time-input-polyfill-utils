@@ -5,6 +5,7 @@ import { blankValues, preFilledValues } from '../../cypress/support/staticTestVa
 getString12hrTests()
 getString24hrTests()
 getValueTests()
+getLabelTextTests()
 
 function getString12hrTests() {
 	describe('get string 12hr', () => {
@@ -78,5 +79,51 @@ function getValueTests() {
 				})
 			})
 		}
+	})
+}
+
+function getLabelTextTests() {
+	describe('Get label text for input', async () => {
+		const loadPage = () => loadTestPage('./core/get/label-tests-file.html')
+
+		it(`aria-labelledby`, async () => {
+			const { document } = await loadPage()
+			const $input = <HTMLInputElement>document.querySelector('[aria-labelledby="aria-labelledby"]')
+			expect(get.labelTextOf($input, document)).to.equal('aria-labelledby label')
+		})
+		it(`aria-label`, async () => {
+			const { document } = await loadPage()
+			const $input = <HTMLInputElement>document.querySelector('[aria-label="aria-label label"]')
+			expect(get.labelTextOf($input, document)).to.equal('aria-label label')
+		})
+		it(`For attribute`, async () => {
+			const { document } = await loadPage()
+			const $input = <HTMLInputElement>document.getElementById('forAttr')
+			expect(get.labelTextOf($input, document)).to.equal('For attribute label')
+		})
+		it(`Wrapper label`, async () => {
+			const { document } = await loadPage()
+			const $input = <HTMLInputElement>document.getElementById('wrappedInput')
+			expect(get.labelTextOf($input, document)).to.equal('Wrapper label')
+		})
+		it(`Title label`, async () => {
+			const { document } = await loadPage()
+			const $input = <HTMLInputElement>document.querySelector('[title="title label"]')
+			expect(get.labelTextOf($input, document)).to.equal('title label')
+		})
+		it(`Missing label`, async () => {
+			const { document } = await loadPage()
+			let testWasSuccessful = false
+			try {
+				const $input = <HTMLInputElement>document.getElementById('noLabel')
+				get.labelTextOf($input, document)
+			} catch (error) {
+				testWasSuccessful = true
+				expect(error.message).to.equal('Cannot polyfill time input due to a missing label.')
+			}
+			if (!testWasSuccessful) {
+				throw new Error('Missing label did not cause an error to occur')
+			}
+		})
 	})
 }
