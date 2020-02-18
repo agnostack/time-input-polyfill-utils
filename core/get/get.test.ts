@@ -3,7 +3,7 @@ import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
 import { SelectionRange } from '../../types'
 import { ranges } from '../staticValues'
-import { failTest } from '../../cypress/helpers/failTest'
+import { failTest } from '../../cypress/support/failTest'
 
 getString12hrTests()
 getString24hrTests()

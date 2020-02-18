@@ -1,5 +1,5 @@
 import { convert, toLeadingZero, toNumber, toArray } from './convert'
-import { failTest } from '../../cypress/helpers/failTest'
+import { failTest } from '../../cypress/support/failTest'
 
 import { current } from '../../helpers/currentDate'
 

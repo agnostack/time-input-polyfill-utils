@@ -1,5 +1,5 @@
 import { validate } from './validate'
-import { failTest } from '../../cypress/helpers/failTest'
+import { failTest } from '../../cypress/support/failTest'
 
 /* global describe, expect, it */
 
