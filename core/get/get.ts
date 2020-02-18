@@ -1,6 +1,6 @@
 import { convert } from '../convert/convert'
 import { SelectionRange, SelectionIndex, Segment, TimeObject, String12hr, String24hr } from '../../types'
-import { ranges, rangesList } from '../staticValues'
+import { ranges, rangesList, segments } from '../staticValues'
 import { regex } from '../regex/regex'
 
 const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 'backward') => {
@@ -54,7 +54,7 @@ export const get = {
 			const within = (segment: Segment, value: number, ): Boolean => ranges[segment].start <= value && value <= ranges[segment].end;
 			const start = <SelectionIndex>$input.selectionStart
 			const end = <SelectionIndex>$input.selectionEnd
-			const segment: Segment = within('hrs', start) ? 'hrs' : within('min', start) ? 'min' : 'mode'
+			const segment: Segment = within('mode', start) ? 'mode' : within('min', start) ? 'min' : 'hrs'
 			return ({
 				start,
 				end,
@@ -62,18 +62,8 @@ export const get = {
 			})
 		},
 		cursorSegment(): SelectionRange {
-			const { start } = get.rangeOf($input).fullSelection()
-			const inRange = (segment: Segment) => start >= ranges[segment].start && start <= ranges[segment].end
-
-			if (inRange('min')) {
-				return ranges.min
-			}
-
-			if (inRange('mode')) {
-				return ranges.mode
-			}
-
-			return ranges.hrs
+			const { segment } = get.rangeOf($input).fullSelection()
+			return ranges[segment]
 		},
 		nextSegment: () => traverseSegmentRanges($input, 'forward'),
 		prevSegment: () => traverseSegmentRanges($input, 'backward')
