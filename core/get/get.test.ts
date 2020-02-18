@@ -149,9 +149,9 @@ function getRangeTests() {
 
 		function fullSelectionTests() {
 			describe('rawSelection tests', () => {
-				testRangeAt(0, { start: 0, end: 0, segment: 'hrs' })
-				testRangeAt(1, { start: 1, end: 1, segment: 'hrs' })
-				testRangeAt(2, { start: 2, end: 2, segment: 'hrs' })
+				testRangeAt(0, { start: 0, end: 0, segment: 'hrs12' })
+				testRangeAt(1, { start: 1, end: 1, segment: 'hrs12' })
+				testRangeAt(2, { start: 2, end: 2, segment: 'hrs12' })
 
 				testRangeAt(3, { start: 3, end: 3, segment: 'min' })
 				testRangeAt(4, { start: 4, end: 4, segment: 'min' })
@@ -161,9 +161,9 @@ function getRangeTests() {
 				testRangeAt(7, { start: 7, end: 7, segment: 'mode' })
 				testRangeAt(8, { start: 8, end: 8, segment: 'mode' })
 
-				testRangeAt(0, { start: 0, end: 8, segment: 'hrs' }, 8)
-				testRangeAt(1, { start: 1, end: 8, segment: 'hrs' }, 8)
-				testRangeAt(2, { start: 2, end: 8, segment: 'hrs' }, 8)
+				testRangeAt(0, { start: 0, end: 8, segment: 'hrs12' }, 8)
+				testRangeAt(1, { start: 1, end: 8, segment: 'hrs12' }, 8)
+				testRangeAt(2, { start: 2, end: 8, segment: 'hrs12' }, 8)
 
 				testRangeAt(3, { start: 3, end: 8, segment: 'min' }, 8)
 				testRangeAt(4, { start: 4, end: 8, segment: 'min' }, 8)
@@ -185,9 +185,9 @@ function getRangeTests() {
 
 		function cursorSegmentTests() {
 			describe('cursorSegment tests', () => {
-				testRangeAt(0, ranges.hrs)
-				testRangeAt(1, ranges.hrs)
-				testRangeAt(2, ranges.hrs)
+				testRangeAt(0, ranges.hrs12)
+				testRangeAt(1, ranges.hrs12)
+				testRangeAt(2, ranges.hrs12)
 
 				testRangeAt(3, ranges.min)
 				testRangeAt(4, ranges.min)
@@ -197,9 +197,9 @@ function getRangeTests() {
 				testRangeAt(7, ranges.mode)
 				testRangeAt(8, ranges.mode)
 
-				testRangeAt(0, ranges.hrs, 8)
-				testRangeAt(1, ranges.hrs, 8)
-				testRangeAt(2, ranges.hrs, 8)
+				testRangeAt(0, ranges.hrs12, 8)
+				testRangeAt(1, ranges.hrs12, 8)
+				testRangeAt(2, ranges.hrs12, 8)
 
 				testRangeAt(3, ranges.min, 8)
 				testRangeAt(4, ranges.min, 8)

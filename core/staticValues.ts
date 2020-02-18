@@ -1,7 +1,7 @@
 import { Hour24, Hour12, Minute, SelectionRange, Segment, TimeObject, String12hr, String24hr } from '../types'
 
 export const ranges = {
-	hrs: <SelectionRange>{ start: 0, end: 2, segment: 'hrs' },
+	hrs12: <SelectionRange>{ start: 0, end: 2, segment: 'hrs12' },
 	min: <SelectionRange>{ start: 3, end: 5, segment: 'min' },
 	mode: <SelectionRange>{ start: 6, end: 8, segment: 'mode' },
 }
@@ -14,4 +14,4 @@ export const maxAndMins = {
 	minutes: { min: <Minute>0, max: <Minute>59 },
 }
 
-export const segments: Array<Segment> = ['hrs', 'min', 'mode']
+export const segments: Array<Segment> = ['hrs12', 'min', 'mode']

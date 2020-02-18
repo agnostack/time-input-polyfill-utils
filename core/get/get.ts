@@ -54,7 +54,7 @@ export const get = {
 			const within = (segment: Segment, value: number, ): Boolean => ranges[segment].start <= value && value <= ranges[segment].end;
 			const start = <SelectionIndex>$input.selectionStart
 			const end = <SelectionIndex>$input.selectionEnd
-			const segment: Segment = within('mode', start) ? 'mode' : within('min', start) ? 'min' : 'hrs'
+			const segment: Segment = within('mode', start) ? 'mode' : within('min', start) ? 'min' : 'hrs12'
 			return ({
 				start,
 				end,

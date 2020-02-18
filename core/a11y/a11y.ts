@@ -18,8 +18,7 @@ export const a11y = {
 	update($input: HTMLInputElement, announcementArray: Array<Announcement>, document: Document = window.document) {
 		// Timeout helps ensure that the input has stabilized
 		setTimeout(function () {
-			const cursorSegment = get.rangeOf($input).cursorSegment().segment
-			const currentSegment = cursorSegment === 'hrs' ? 'hrs12' : cursorSegment
+			const currentSegment = get.rangeOf($input).cursorSegment().segment
 
 			var values = get.inputValue($input).asTimeObject()
 			var value = values[currentSegment]

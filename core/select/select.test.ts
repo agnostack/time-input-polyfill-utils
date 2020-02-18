@@ -34,9 +34,9 @@ function testCursorRangeValues() {
 			})
 		}
 
-		testCursorRange(0, ranges.hrs)
-		testCursorRange(1, ranges.hrs)
-		testCursorRange(2, ranges.hrs)
+		testCursorRange(0, ranges.hrs12)
+		testCursorRange(1, ranges.hrs12)
+		testCursorRange(2, ranges.hrs12)
 
 		testCursorRange(3, ranges.min)
 		testCursorRange(4, ranges.min)
@@ -59,9 +59,9 @@ function testCursorSegmentSelection() {
 			})
 		}
 
-		testCursorSelection(0, ranges.hrs)
-		testCursorSelection(1, ranges.hrs)
-		testCursorSelection(2, ranges.hrs)
+		testCursorSelection(0, ranges.hrs12)
+		testCursorSelection(1, ranges.hrs12)
+		testCursorSelection(2, ranges.hrs12)
 
 		testCursorSelection(3, ranges.min)
 		testCursorSelection(4, ranges.min)
@@ -83,7 +83,7 @@ function testSpecificSegmentSelection() {
 			})
 		}
 
-		testSegmentSelect('hrs', ranges.hrs)
+		testSegmentSelect('hrs12', ranges.hrs12)
 		testSegmentSelect('min', ranges.min)
 		testSegmentSelect('mode', ranges.mode)
 	})
@@ -100,7 +100,7 @@ function testNextSegmentSelection() {
 			})
 		}
 
-		testSegmentAfter('hrs', ranges.min)
+		testSegmentAfter('hrs12', ranges.min)
 		testSegmentAfter('min', ranges.mode)
 		testSegmentAfter('mode', ranges.mode)
 	})
@@ -117,8 +117,8 @@ function testPrevSegmentSelection() {
 			})
 		}
 
-		testSegmentBefore('hrs', ranges.hrs)
-		testSegmentBefore('min', ranges.hrs)
+		testSegmentBefore('hrs12', ranges.hrs12)
+		testSegmentBefore('min', ranges.hrs12)
 		testSegmentBefore('mode', ranges.min)
 	})
 }

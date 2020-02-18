@@ -40,7 +40,7 @@ describe('Clearing each value in each key', () => {
 	const clearProp = (prop, propValues) => {
 		it(`Clears ${prop}`, () => {
 			entryLog.clear(prop)
-			expect(entryLog.hrs).to.deep.equal(propValues.hrs)
+			expect(entryLog.hrs12).to.deep.equal(propValues.hrs12)
 			expect(entryLog.min).to.deep.equal(propValues.min)
 			expect(entryLog.mode).to.deep.equal(propValues.mode)
 		})
@@ -49,9 +49,9 @@ describe('Clearing each value in each key', () => {
 	const clear = []
 	const filled = [1, 2]
 
-	clearProp('hrs', { hrs: clear, min: filled, mode: filled })
-	clearProp('min', { hrs: clear, min: clear, mode: filled })
-	clearProp('mode', { hrs: clear, min: clear, mode: clear })
+	clearProp('hrs12', { hrs12: clear, min: filled, mode: filled })
+	clearProp('min', { hrs12: clear, min: clear, mode: filled })
+	clearProp('mode', { hrs12: clear, min: clear, mode: clear })
 })
 
 describe('Clearing all keys at once', () => {
