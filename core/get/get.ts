@@ -36,6 +36,19 @@ export const get = {
 			asTimeObject: (): TimeObject => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
 		}
 	},
+	labelTextOf: ($input: HTMLInputElement, document: Document = window.document) => {
+		const labelText =
+			aria_labelledby($input, document) ||
+			aria_label($input) ||
+			for_attribute($input, document) ||
+			label_wrapper_element($input) ||
+			title_attribute($input)
+
+		if (labelText) return labelText
+
+		console.error('Label text for input not found.', $input)
+		throw new Error('Cannot polyfill time input due to a missing label.')
+	},
 	rangeOf: ($input: HTMLInputElement) => ({
 		fullSelection: (): SelectionRange => ({
 			start: <SelectionIndex>$input.selectionStart,
@@ -57,5 +70,59 @@ export const get = {
 		},
 		nextSegment: () => traverseSegmentRanges($input, 'forward'),
 		prevSegment: () => traverseSegmentRanges($input, 'backward')
-	})
+	}),
+	ancestorsOf: ($startingElem: HTMLElement, selectorString?: string) => {
+		// https://stackoverflow.com/a/8729274/1611058
+		let $elem = $startingElem
+		var ancestors = []
+		while ($elem) {
+			ancestors.push($elem)
+			var matchesSelector = $elem.msMatchesSelector
+				// IE Hack
+				? $elem.msMatchesSelector(selectorString)
+				: $elem.matches(selectorString)
+			if (matchesSelector) {
+				return ancestors
+			}
+			$elem = $elem.parentElement
+		}
+		return ancestors
+	}
+}
+
+
+function aria_labelledby($input: HTMLInputElement, document: Document = window.document) {
+	var ariaLabelByID = $input.getAttribute('aria-labelledby')
+	if (ariaLabelByID) {
+		var $ariaLabelBy = document.getElementById(ariaLabelByID)
+		if ($ariaLabelBy) return $ariaLabelBy.textContent
+	}
+	return false
+}
+
+function aria_label($input: HTMLInputElement) {
+	var ariaLabel = $input.getAttribute('aria-label')
+	if (ariaLabel) return ariaLabel
+	return false
+}
+
+function for_attribute($input: HTMLInputElement, document: Document = window.document) {
+	if ($input.id) {
+		var $forLabel = document.querySelector('label[for="' + $input.id + '"]')
+		if ($forLabel) return $forLabel.textContent
+	}
+	return false
+}
+
+function label_wrapper_element($input: HTMLInputElement) {
+	var ancestors = get.ancestorsOf($input, 'label')
+	var $parentLabel = ancestors[ancestors.length - 1]
+	if ($parentLabel.nodeName == 'LABEL') return $parentLabel.textContent
+	return false
+}
+
+function title_attribute($input: HTMLInputElement) {
+	var titleLabel = $input.getAttribute('title')
+	if (titleLabel) return titleLabel
+	return false
 }
