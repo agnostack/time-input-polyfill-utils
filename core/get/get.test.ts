@@ -1,11 +1,13 @@
 import { get } from './get'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
+import { SelectionRange } from '../../types'
 
 getString12hrTests()
 getString24hrTests()
 getValueTests()
 getLabelTextTests()
+getRangeTests()
 
 function getString12hrTests() {
 	describe('get string 12hr', () => {
@@ -125,5 +127,47 @@ function getLabelTextTests() {
 				throw new Error('Missing label did not cause an error to occur')
 			}
 		})
+	})
+}
+
+function getRangeTests() {
+	describe('Get range of input tests', () => {
+		fullSelectionTests()
+
+		function fullSelectionTests() {
+			describe('fullSelection tests', () => {
+				testRangeAt(0, { start: 0, end: 0, segment: 'hrs' })
+				testRangeAt(1, { start: 1, end: 1, segment: 'hrs' })
+				testRangeAt(2, { start: 2, end: 2, segment: 'hrs' })
+
+				testRangeAt(3, { start: 3, end: 3, segment: 'min' })
+				testRangeAt(4, { start: 4, end: 4, segment: 'min' })
+				testRangeAt(5, { start: 5, end: 5, segment: 'min' })
+
+				testRangeAt(6, { start: 6, end: 6, segment: 'mode' })
+				testRangeAt(7, { start: 7, end: 7, segment: 'mode' })
+				testRangeAt(8, { start: 8, end: 8, segment: 'mode' })
+
+				testRangeAt(0, { start: 0, end: 8, segment: 'hrs' }, 8)
+				testRangeAt(1, { start: 1, end: 8, segment: 'hrs' }, 8)
+				testRangeAt(2, { start: 2, end: 8, segment: 'hrs' }, 8)
+
+				testRangeAt(3, { start: 3, end: 8, segment: 'min' }, 8)
+				testRangeAt(4, { start: 4, end: 8, segment: 'min' }, 8)
+				testRangeAt(5, { start: 5, end: 8, segment: 'min' }, 8)
+
+				testRangeAt(6, { start: 6, end: 8, segment: 'mode' }, 8)
+				testRangeAt(7, { start: 7, end: 8, segment: 'mode' }, 8)
+
+				function testRangeAt(position: number, expectation: SelectionRange, position2 = position) {
+					it(`range at ${position}-${position2}`, async () => {
+						const { $input } = await loadTestPage()
+						$input.setSelectionRange(position, position2)
+						expect(get.rangeOf($input).fullSelection()).to.deep.equal(expectation)
+					})
+				}
+
+			})
+		}
 	})
 }

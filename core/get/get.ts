@@ -51,7 +51,7 @@ export const get = {
 	},
 	rangeOf: ($input: HTMLInputElement) => ({
 		fullSelection: (): SelectionRange => {
-			const within = (segment: Segment, value: number, ): Boolean => value > ranges[segment].start && value < ranges[segment].end;
+			const within = (segment: Segment, value: number, ): Boolean => ranges[segment].start <= value && value <= ranges[segment].end;
 			const start = <SelectionIndex>$input.selectionStart
 			const end = <SelectionIndex>$input.selectionEnd
 			const segment: Segment = within('hrs', start) ? 'hrs' : within('min', start) ? 'min' : 'mode'
