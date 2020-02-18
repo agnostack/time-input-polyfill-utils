@@ -3,6 +3,7 @@ import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
 import { SelectionRange } from '../../types'
 import { ranges } from '../staticValues'
+import { failTest } from '../../cypress/helpers/failTest'
 
 getString12hrTests()
 getString24hrTests()
@@ -127,17 +128,8 @@ function getLabelTextTests() {
 		})
 		it(`Missing label`, async () => {
 			const { document } = await loadPage()
-			let testWasSuccessful = false
-			try {
-				const $input = <HTMLInputElement>document.getElementById('noLabel')
-				get.labelTextOf($input, document)
-			} catch (error) {
-				testWasSuccessful = true
-				expect(error.message).to.equal('Cannot polyfill time input due to a missing label.')
-			}
-			if (!testWasSuccessful) {
-				throw new Error('Missing label did not cause an error to occur')
-			}
+			const $input = <HTMLInputElement>document.getElementById('noLabel')
+			failTest(() => get.labelTextOf($input, document), 'Cannot polyfill time input due to a missing label.')
 		})
 	})
 }
