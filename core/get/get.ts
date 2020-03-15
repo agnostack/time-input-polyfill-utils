@@ -72,8 +72,11 @@ export const get = {
 		// https://stackoverflow.com/a/8729274/1611058
 		let $elem = $startingElem
 		var ancestors = []
+		let i = 0;
 		while ($elem) {
-			ancestors.push($elem)
+			if (i !== 0) {
+				ancestors.push($elem)
+			}
 			var matchesSelector = $elem.msMatchesSelector
 				// IE Hack
 				? $elem.msMatchesSelector(selectorString)
@@ -82,6 +85,7 @@ export const get = {
 				return ancestors
 			}
 			$elem = $elem.parentElement
+			i++
 		}
 		return ancestors
 	}
