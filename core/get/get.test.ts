@@ -16,8 +16,6 @@ getRangeTests()
 
 	Make tests for these:
 
-	- get.rangeOf($input).nextSegment()
-	- get.rangeOf($input).prevSegment()
 	- get.ancestorsOf($input)
 	- get.ancestorsOf($input, selector)
 */
@@ -135,12 +133,28 @@ function getLabelTextTests() {
 }
 
 function getRangeTests() {
+
+	function generateRangeTest(action: 'rawSelection' | 'cursorSegment' | 'nextSegment' | 'prevSegment') {
+		return function (position: number, expectation: SelectionRange, position2 = position) {
+			it(`range at ${position}-${position2}`, async () => {
+				const { $input } = await loadTestPage()
+				$input.setSelectionRange(position, position2)
+				expect(get.rangeOf($input)[action]()).to.deep.equal(expectation)
+			})
+		}
+	}
+
 	describe('Get range of input tests', () => {
 		fullSelectionTests()
 		cursorSegmentTests()
+		nextSegmentTests()
+		prevSegmentTests()
 
 		function fullSelectionTests() {
 			describe('rawSelection tests', () => {
+
+				const testRangeAt = generateRangeTest('rawSelection')
+
 				testRangeAt(0, { start: 0, end: 0, segment: 'hrs12' })
 				testRangeAt(1, { start: 1, end: 1, segment: 'hrs12' })
 				testRangeAt(2, { start: 2, end: 2, segment: 'hrs12' })
@@ -164,19 +178,14 @@ function getRangeTests() {
 				testRangeAt(6, { start: 6, end: 8, segment: 'mode' }, 8)
 				testRangeAt(7, { start: 7, end: 8, segment: 'mode' }, 8)
 
-				function testRangeAt(position: number, expectation: SelectionRange, position2 = position) {
-					it(`range at ${position}-${position2}`, async () => {
-						const { $input } = await loadTestPage()
-						$input.setSelectionRange(position, position2)
-						expect(get.rangeOf($input).rawSelection()).to.deep.equal(expectation)
-					})
-				}
-
 			})
 		}
 
 		function cursorSegmentTests() {
 			describe('cursorSegment tests', () => {
+
+				const testRangeAt = generateRangeTest('cursorSegment')
+
 				testRangeAt(0, ranges.hrs12)
 				testRangeAt(1, ranges.hrs12)
 				testRangeAt(2, ranges.hrs12)
@@ -200,13 +209,67 @@ function getRangeTests() {
 				testRangeAt(6, ranges.mode, 8)
 				testRangeAt(7, ranges.mode, 8)
 
-				function testRangeAt(position: number, expectation: SelectionRange, position2 = position) {
-					it(`range at ${position}-${position2}`, async () => {
-						const { $input } = await loadTestPage()
-						$input.setSelectionRange(position, position2)
-						expect(get.rangeOf($input).cursorSegment()).to.deep.equal(expectation)
-					})
-				}
+			})
+		}
+
+		function nextSegmentTests() {
+			describe('nextSegment tests', () => {
+
+				const testRangeAt = generateRangeTest('nextSegment')
+
+				testRangeAt(0, ranges.min)
+				testRangeAt(1, ranges.min)
+				testRangeAt(2, ranges.min)
+
+				testRangeAt(3, ranges.mode)
+				testRangeAt(4, ranges.mode)
+				testRangeAt(5, ranges.mode)
+
+				testRangeAt(6, ranges.mode)
+				testRangeAt(7, ranges.mode)
+				testRangeAt(8, ranges.mode)
+
+				testRangeAt(0, ranges.min, 8)
+				testRangeAt(1, ranges.min, 8)
+				testRangeAt(2, ranges.min, 8)
+
+				testRangeAt(3, ranges.mode, 8)
+				testRangeAt(4, ranges.mode, 8)
+				testRangeAt(5, ranges.mode, 8)
+
+				testRangeAt(6, ranges.mode, 8)
+				testRangeAt(7, ranges.mode, 8)
+
+			})
+		}
+
+		function prevSegmentTests() {
+			describe('prevSegment tests', () => {
+
+				const testRangeAt = generateRangeTest('prevSegment')
+
+				testRangeAt(0, ranges.hrs12)
+				testRangeAt(1, ranges.hrs12)
+				testRangeAt(2, ranges.hrs12)
+
+				testRangeAt(3, ranges.hrs12)
+				testRangeAt(4, ranges.hrs12)
+				testRangeAt(5, ranges.hrs12)
+
+				testRangeAt(6, ranges.min)
+				testRangeAt(7, ranges.min)
+				testRangeAt(8, ranges.min)
+
+				testRangeAt(0, ranges.hrs12, 8)
+				testRangeAt(1, ranges.hrs12, 8)
+				testRangeAt(2, ranges.hrs12, 8)
+
+				testRangeAt(3, ranges.hrs12, 8)
+				testRangeAt(4, ranges.hrs12, 8)
+				testRangeAt(5, ranges.hrs12, 8)
+
+				testRangeAt(6, ranges.min, 8)
+				testRangeAt(7, ranges.min, 8)
 
 			})
 		}
