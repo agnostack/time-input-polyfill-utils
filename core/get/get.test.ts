@@ -5,20 +5,32 @@ import { SelectionRange } from '../../types'
 import { ranges } from '../staticValues'
 import { failTest } from '../../cypress/support/failTest'
 
+getAncestorsTests()
 getString12hrTests()
 getString24hrTests()
 getValueTests()
 getLabelTextTests()
 getRangeTests()
 
-/*
-	TO DO:
+function getAncestorsTests() {
+	describe('Get ancestors tests', () => {
+		it(`get.ancestorsOf($input)`, async () => {
+			const { $input } = await loadTestPage()
+			expect(get.ancestorsOf($input)).to.deep.equal([
+				$input.parentElement,
+				$input.parentElement.parentElement,
+				$input.parentElement.parentElement.parentElement,
+			])
+		})
 
-	Make tests for these:
-
-	- get.ancestorsOf($input)
-	- get.ancestorsOf($input, selector)
-*/
+		it(`get.ancestorsOf($input, 'div')`, async () => {
+			const { $input } = await loadTestPage()
+			expect(get.ancestorsOf($input, 'div')).to.deep.equal([
+				$input.parentElement,
+			])
+		})
+	})
+}
 
 function getString12hrTests() {
 	describe('get string 12hr', () => {
