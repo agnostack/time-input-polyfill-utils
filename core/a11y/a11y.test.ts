@@ -1,5 +1,5 @@
 import { loadTestPage } from "../../cypress/support/loadTestPage"
-import { inputID, a11yID } from "../../cypress/support/staticTestValues"
+import { a11yID } from "../../cypress/support/staticTestValues"
 import { a11y } from "./a11y"
 
 /*
@@ -29,11 +29,11 @@ describe('Create a11y element', () => {
 	})
 })
 
-// TO DO: This test is failing
+// TO DO: Make more a11y update tests
 describe('Update a11y element', () => {
 	it('a11y update [initial]', async () => {
 		const { $input, document } = await createA11y()
 		a11y.update($input, ['initial'], document)
-		getA11y().should('have.text', '???')
+		expect(document.getElementById(a11yID).textContent).to.equal('Blank input grouping blank:blank blank.')
 	})
 })

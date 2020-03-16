@@ -16,38 +16,37 @@ export const a11y = {
 		return $block
 	},
 	update($input: HTMLInputElement, announcementArray: Array<Announcement>, document: Document = window.document) {
-		// Timeout helps ensure that the input has stabilized
-		setTimeout(function () {
-			const currentSegment = get.rangeOf($input).cursorSegment().segment
+		const currentSegment = get.rangeOf($input).cursorSegment().segment
 
-			var values = get.inputValue($input).asTimeObject()
-			var value = values[currentSegment]
-			var segmentValue = value == '--' ? 'blank' : value
+		var values = get.inputValue($input).asTimeObject()
+		var value = values[currentSegment]
+		var segmentValue = value == '--' ? 'blank' : value
 
-			var segmentName = {
-				hrs12: 'Hours',
-				min: 'Minutes',
-				mode: 'AM/PM',
-			}[currentSegment]
+		var segmentName = {
+			hrs12: 'Hours',
+			min: 'Minutes',
+			mode: 'AM/PM',
+		}[currentSegment]
 
-			var announcements = {
-				initial: '$label grouping $fullValue.',
-				select: '$segmentName spin button $segmentValue.',
-				update: '$segmentValue.',
-			}
+		var announcements = {
+			initial: '$label grouping $fullValue.',
+			select: '$segmentName spin button $segmentValue.',
+			update: '$segmentValue.',
+		}
 
-			var textArray = announcementArray.map((key: Announcement) => announcements[key])
+		var textArray = announcementArray.map((key: Announcement) => announcements[key])
 
-			var fullValue = $input.value.replace(/--/g, 'blank')
+		var fullValue = $input.value.replace(/--/g, 'blank')
 
-			var html = `<p>${textArray.join('</p><p>')}</p>`
-			//TODO: create get.labelOf($input)
-			// html = html.replace(/\$label/g, $input.polyfill.label)
-			html = html.replace(/\$segmentName/g, segmentName)
-			html = html.replace(/\$segmentValue/g, `${segmentValue}`)
-			html = html.replace(/\$fullValue/g, fullValue)
+		var html = `<p>${textArray.join('</p><p>')}</p>`
+		const labelText = get.labelTextOf($input, document)
+		html = html.replace(/\$label/g, labelText)
+		html = html.replace(/\$segmentName/g, segmentName)
+		html = html.replace(/\$segmentValue/g, `${segmentValue}`)
+		html = html.replace(/\$fullValue/g, fullValue)
 
-			document.getElementById(a11yID).innerHTML = html
-		})
+		document.getElementById(a11yID).innerHTML = html
+
+		return html
 	}
 }
