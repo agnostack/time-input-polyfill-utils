@@ -1,7 +1,7 @@
 {
 	"name": "time-input-polyfill-utils",
 	"version": "1.0.0-beta.1",
-	"description": "A library of helper functions designed to make the building of time input polyfills easier",
+	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
