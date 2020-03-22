@@ -4,6 +4,7 @@ import { String24hr, String12hr, Dashes } from '../../types/strings'
 import { is } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
+import { blankValues } from '../staticValues'
 
 export const toArray = (NodeList: NodeList) => Array.prototype.slice.call(NodeList, 0)
 
@@ -64,18 +65,15 @@ export const convert = {
 		validate.string24hr(string24hr)
 		return {
 			to12hr: (): String12hr => {
-				if (string24hr === '') return '--:-- --'
+				if (string24hr === blankValues.string24hr) {
+					return blankValues.string12hr
+				}
 				const timeObject = convert.string24hr(string24hr).toTimeObject()
 				return convert.timeObject(timeObject).to12hr()
 			},
 			toTimeObject: (): TimeObject => {
-				if (string24hr === '') {
-					return {
-						hrs24: '--',
-						hrs12: '--',
-						min: '--',
-						mode: '--',
-					}
+				if (string24hr === blankValues.string24hr) {
+					return blankValues.timeObject
 				}
 				// string24hr
 				const [, hrsString24, minString] = regex.string24hr.exec(string24hr)

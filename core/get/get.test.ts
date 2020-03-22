@@ -1,8 +1,8 @@
 import { get } from './get'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
-import { blankValues, preFilledValues } from '../../cypress/support/staticTestValues'
+import { preFilledValues } from '../../cypress/support/staticTestValues'
 import { SelectionRange } from '../../types'
-import { ranges } from '../staticValues'
+import { ranges, blankValues } from '../staticValues'
 import { failTest } from '../../cypress/support/failTest'
 
 getAncestorsTests()
