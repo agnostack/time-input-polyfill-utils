@@ -1,9 +1,4 @@
 import * as utils from './index'
-
-declare global {
-	interface Window {
-		timeInputPolyfillUtils: any
-	}
-}
+import './types/Window'
 
 window.timeInputPolyfillUtils = utils
