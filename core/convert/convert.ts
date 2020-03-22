@@ -4,7 +4,7 @@ import { String24hr, String12hr, Dashes } from '../../types/strings'
 import { is } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
-import { blankValues } from '../staticValues'
+import { blankValues } from '../../common'
 
 export const toArray = (NodeList: NodeList) => Array.prototype.slice.call(NodeList, 0)
 

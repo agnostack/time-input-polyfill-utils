@@ -1,16 +1,5 @@
 import { Hour24, Hour12, Minute, SelectionRange, Segment, TimeObject, String12hr, String24hr } from '../types'
 
-export const blankValues = {
-	string12hr: <String12hr>'--:-- --',
-	string24hr: <String24hr>'',
-	timeObject: <TimeObject>{
-		hrs24: '--',
-		hrs12: '--',
-		min: '--',
-		mode: '--'
-	}
-}
-
 export const ranges = {
 	hrs12: <SelectionRange>{ start: 0, end: 2, segment: 'hrs12' },
 	min: <SelectionRange>{ start: 3, end: 5, segment: 'min' },
