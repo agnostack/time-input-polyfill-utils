@@ -3,6 +3,7 @@ import { get } from "../get/get"
 
 type Announcement = 'initial' | 'select' | 'update'
 
+// TO DO: convert to new types format
 export const a11y = {
 	create(document: Document = window.document): HTMLDivElement {
 		var $block = document.createElement('div')

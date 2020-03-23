@@ -47,6 +47,7 @@ const modifyTimeString = (
 	}
 }
 
+// TO DO: convert to new types format
 export const modify = {
 	string12hr: (string12hr: String12hr) => {
 		const modifyString12hr = modifyTimeString(string12hr, 'string12hr')

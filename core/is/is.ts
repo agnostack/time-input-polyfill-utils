@@ -25,6 +25,7 @@ const isValidTimeString = ({
 	return isHrsValid && isMinsValid
 }
 
+// TO DO: convert to new types format
 export const is = {
 	PM: {
 		hrs24: (hrs24: Hour24): Boolean => 12 <= hrs24 && hrs24 < 24,

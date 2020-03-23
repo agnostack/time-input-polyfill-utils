@@ -3,11 +3,13 @@ import { Segment } from '../../types'
 import { get } from '../get/get'
 import { ranges } from '../staticValues'
 
+// TO DO: convert to new types format
 export function _$$(selector: string) {
 	var elements = document.querySelectorAll(selector)
 	return toArray(elements)
 }
 
+// TO DO: convert to new types format
 export const select = ($input: HTMLInputElement) => ({
 	segment(segment: Segment) {
 		$input.setSelectionRange(ranges[segment].start, ranges[segment].end)

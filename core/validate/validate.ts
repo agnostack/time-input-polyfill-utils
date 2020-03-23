@@ -5,6 +5,7 @@ import { Hour24 } from '../../types'
 
 const writeBadValue = (badValue: any) => (typeof badValue === 'string' ? `"${badValue}"` : badValue)
 
+// TO DO: convert to new types format
 export const validate = {
 	string12hr: (string12hr: String12hr) => {
 		if (!is.string12hr(string12hr)) {

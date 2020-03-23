@@ -11,6 +11,7 @@ const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 
 	return rangesList[nextTypeIndex] || currentSegmentRange
 }
 
+// TO DO: convert to new types format
 export const get = {
 	string12hr: (string12hr: string) => {
 		const timeObject = convert.string12hr(string12hr).toTimeObject()

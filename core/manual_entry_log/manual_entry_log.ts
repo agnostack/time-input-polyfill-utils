@@ -1,5 +1,6 @@
 import { Segment } from '../../types'
 
+// TO DO: convert to new types format
 export class manual_entry_log {
 	hrs12: Array<number>
 	min: Array<number>
