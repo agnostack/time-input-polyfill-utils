@@ -104,9 +104,9 @@ export const convert = {
 		const hrsString12 = toLeadingZero(hrs12)
 		const minString = toLeadingZero(min)
 		return {
-			to12hr: (): String12hr => [hrsString12, ':', minString, ' ', mode].join(''),
+			to12hr: (): String12hr => `${hrsString12}:${minString} ${mode}`,
 			to24hr: (): String24hr => {
-				const string24hr = [hrsString24, ':', minString].join('')
+				const string24hr = `${hrsString24}:${minString}`
 				if (/-/.test(string24hr)) return ''
 				return string24hr
 			},
