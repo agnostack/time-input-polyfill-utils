@@ -6,7 +6,6 @@ interface BlankValues {
 	timeObject: TimeObject
 }
 
-// TO DO: need to make the blank values accessible to all browsers
 export const blankValues: BlankValues = {
 	string12hr: '--:-- --',
 	string24hr: '',
