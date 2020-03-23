@@ -1,34 +1,34 @@
 import { Hour24, Hour12, Mode, Minute } from '../../types'
 import { TimeObject } from '../../types/timeObject'
-import { String24hr, String12hr, Dashes } from '../../types/strings'
 import { is } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
 import { blankValues } from '../../common'
+import { Convert, ToArray, ToNumber, ToLeadingZero } from './convert.types'
 
-export const toArray = (NodeList: NodeList) => Array.prototype.slice.call(NodeList, 0)
+export const toArray: ToArray = NodeList => Array.prototype.slice.call(NodeList, 0)
 
-export const toNumber = (value: number | string | Dashes) => {
+export const toNumber: ToNumber = value => {
 	const number = Number(value)
 	return isNaN(number) ? value : number
 }
 
-export const toLeadingZero = (value: number | string | Dashes): string => {
+export const toLeadingZero: ToLeadingZero = value => {
 	const number = Number(value)
 	if (isNaN(number) && typeof value !== 'number') return value
 	return number < 10 ? `0${number}` : `${number}`
 }
 
-export const convert = {
-	string12hr: (string12hr: String12hr) => {
+export const convert: Convert = {
+	string12hr(string12hr) {
 		validate.string12hr(string12hr)
 		return {
-			to24hr: (): String24hr => {
+			to24hr() {
 				if (/-/.test(string12hr)) return ''
 				const timeObject = convert.string12hr(string12hr).toTimeObject()
 				return convert.timeObject(timeObject).to24hr()
 			},
-			toTimeObject: (): TimeObject => {
+			toTimeObject() {
 				const result = regex.string12hr.exec(string12hr)
 				const [hrs12, min, mode] = [
 					<Hour12>toNumber(result[1]),
@@ -58,20 +58,20 @@ export const convert = {
 
 				validate.timeObject(timeObject)
 				return timeObject
-			},
+			}
 		}
 	},
-	string24hr: (string24hr: String24hr) => {
+	string24hr(string24hr) {
 		validate.string24hr(string24hr)
 		return {
-			to12hr: (): String12hr => {
+			to12hr() {
 				if (string24hr === blankValues.string24hr) {
 					return blankValues.string12hr
 				}
 				const timeObject = convert.string24hr(string24hr).toTimeObject()
 				return convert.timeObject(timeObject).to12hr()
 			},
-			toTimeObject: (): TimeObject => {
+			toTimeObject() {
 				if (string24hr === blankValues.string24hr) {
 					return blankValues.timeObject
 				}
@@ -92,10 +92,10 @@ export const convert = {
 
 				validate.timeObject(timeObject)
 				return timeObject
-			},
+			}
 		}
 	},
-	timeObject: (timeObject: TimeObject, skipValidation: Boolean = false) => {
+	timeObject(timeObject, skipValidation = false) {
 		if (!skipValidation) {
 			validate.timeObject(timeObject)
 		}
@@ -104,19 +104,19 @@ export const convert = {
 		const hrsString12 = toLeadingZero(hrs12)
 		const minString = toLeadingZero(min)
 		return {
-			to12hr: (): String12hr => `${hrsString12}:${minString} ${mode}`,
-			to24hr: (): String24hr => {
+			to12hr: () => `${hrsString12}:${minString} ${mode}`,
+			to24hr: () => {
 				const string24hr = `${hrsString24}:${minString}`
 				if (/-/.test(string24hr)) return ''
 				return string24hr
-			},
+			}
 		}
 	},
-	hours24: (hours24: Hour24) => {
+	hours24(hours24) {
 		validate.hours24(hours24)
 		return {
-			toHours12: (): Hour12 =>
-				<Hour12>(
+			toHours12() {
+				return <Hour12>(
 					(typeof hours24 === 'number'
 						? hours24 <= 12
 							? hours24 === 0
@@ -124,25 +124,26 @@ export const convert = {
 								: hours24
 							: hours24 - 12
 						: hours24)
-				),
+				)
+			}
 		}
 	},
-	dateObject: (date: Date) => {
+	dateObject(date) {
 		return {
-			to12hr: (): String12hr => {
+			to12hr() {
 				const timeObject = convert.dateObject(date).toTimeObject()
 				return convert.timeObject(timeObject).to12hr()
 			},
-			to24hr: (): String24hr => {
+			to24hr() {
 				const timeObject = convert.dateObject(date).toTimeObject()
 				return convert.timeObject(timeObject).to24hr()
 			},
-			toTimeObject: (): TimeObject => {
+			toTimeObject() {
 				const [hrs24, min] = [<Hour24>date.getHours(), <Minute>date.getMinutes()]
 				const hrs12 = convert.hours24(hrs24).toHours12()
 				const mode: Mode = is.AM.hrs24(hrs24) ? 'AM' : 'PM'
 				return { hrs24, hrs12, min, mode }
-			},
+			}
 		}
-	},
+	}
 }
