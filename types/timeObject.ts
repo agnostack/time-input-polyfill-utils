@@ -7,4 +7,4 @@ export interface TimeObject {
 	mode: Mode
 }
 
-export const TimeObjectKeys = Object.keys(<TimeObject>{ hrs24: 1, hrs12: 1, min: 0, mode: 'AM' })
+export const TimeObjectKeys = ['hrs24', 'hrs12', 'min', 'mode']
