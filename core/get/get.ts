@@ -2,6 +2,7 @@ import { convert } from '../convert/convert'
 import { SelectionRange, SelectionIndex, Segment, TimeObject, String12hr, String24hr } from '../../types'
 import { ranges, rangesList, segments } from '../staticValues'
 import { regex } from '../regex/regex'
+import { Get } from './get.types'
 
 const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 'backward') => {
 	const currentSegmentRange = get.rangeOf($input).cursorSegment()
@@ -11,33 +12,32 @@ const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 
 	return rangesList[nextTypeIndex] || currentSegmentRange
 }
 
-// TO DO: convert to new types format
-export const get = {
-	string12hr: (string12hr: string) => {
+export const get: Get = {
+	string12hr: (string12hr) => {
 		const timeObject = convert.string12hr(string12hr).toTimeObject()
 		return {
 			...timeObject,
 			timeObject,
 		}
 	},
-	string24hr: (string24hr: string) => {
+	string24hr: (string24hr) => {
 		const timeObject = convert.string24hr(string24hr).toTimeObject()
 		return {
 			...timeObject,
 			timeObject,
 		}
 	},
-	inputValue: ($input: HTMLInputElement) => {
+	inputValue: ($input) => {
 		const value = $input.value
 		const is12hrTime = regex.string12hr.test(value)
 		const is24hrTime = regex.string24hr.test(value)
 		return {
-			as12hrString: (): String12hr => is12hrTime ? value : convert.string24hr(value).to12hr(),
-			as24hrString: (): String24hr => is24hrTime ? value : convert.string12hr(value).to24hr(),
-			asTimeObject: (): TimeObject => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
+			as12hrString: () => is12hrTime ? value : convert.string24hr(value).to12hr(),
+			as24hrString: () => is24hrTime ? value : convert.string12hr(value).to24hr(),
+			asTimeObject: () => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
 		}
 	},
-	labelTextOf: ($input: HTMLInputElement, document: Document = window.document) => {
+	labelTextOf: ($input, document = window.document) => {
 		const labelText =
 			aria_labelledby($input, document) ||
 			aria_label($input) ||
@@ -50,8 +50,8 @@ export const get = {
 		console.error('Label text for input not found.', $input)
 		throw new Error('Cannot polyfill time input due to a missing label.')
 	},
-	rangeOf: ($input: HTMLInputElement) => ({
-		rawSelection: (): SelectionRange => {
+	rangeOf: ($input) => ({
+		rawSelection: () => {
 			const within = (segment: Segment, value: number, ): Boolean => ranges[segment].start <= value && value <= ranges[segment].end;
 			const start = <SelectionIndex>$input.selectionStart
 			const end = <SelectionIndex>$input.selectionEnd
@@ -62,14 +62,14 @@ export const get = {
 				segment
 			})
 		},
-		cursorSegment(): SelectionRange {
+		cursorSegment() {
 			const { segment } = get.rangeOf($input).rawSelection()
 			return ranges[segment]
 		},
 		nextSegment: () => traverseSegmentRanges($input, 'forward'),
 		prevSegment: () => traverseSegmentRanges($input, 'backward')
 	}),
-	ancestorsOf: ($startingElem: HTMLElement, selectorString?: string) => {
+	ancestorsOf: ($startingElem, selectorString) => {
 		// https://stackoverflow.com/a/8729274/1611058
 		let $elem = $startingElem
 		var ancestors = []
@@ -91,7 +91,6 @@ export const get = {
 		return ancestors
 	}
 }
-
 
 function aria_labelledby($input: HTMLInputElement, document: Document = window.document) {
 	var ariaLabelByID = $input.getAttribute('aria-labelledby')
