@@ -27,13 +27,13 @@ basicTest({
 	description: 'Adding 1 to each key',
 	testName: 'Adds "1" to $prop',
 	action: key => entryLog.add(key, '1'),
-	value: [1],
+	value: ['1'],
 })
 basicTest({
 	description: 'Adding a 2nd value to each key',
 	testName: 'Adds "2" to $prop',
-	action: key => entryLog.add(key, '2'),
-	value: [1, 2],
+	action: key => entryLog.add(key, 2),
+	value: ['1', 2],
 })
 
 describe('Clearing each value in each key', () => {
@@ -47,7 +47,7 @@ describe('Clearing each value in each key', () => {
 	}
 
 	const clear = []
-	const filled = [1, 2]
+	const filled = ['1', 2]
 
 	clearProp('hrs12', { hrs12: clear, min: filled, mode: filled })
 	clearProp('min', { hrs12: clear, min: clear, mode: filled })

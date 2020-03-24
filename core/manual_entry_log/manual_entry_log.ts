@@ -1,20 +1,10 @@
 import { Segment } from '../../types'
 
-// TO DO: convert to new types format
+// Note: Due to this being a class, it does not need an interface
 export class manual_entry_log {
-	hrs12: Array<number>
-	min: Array<number>
-	// TO DO: potential bugs can spawn from this.
-	// Revisit after implementing to see if this can be improved
-	mode: Array<number>
-
-	constructor() {
-		Object.assign(this, {
-			hrs12: [],
-			min: [],
-			mode: [],
-		})
-	}
+	hrs12: Array<number | string> = []
+	min: Array<number | string> = []
+	mode: Array<number | string> = []
 
 	clear(segment: Segment) {
 		this[segment] = []
@@ -26,7 +16,7 @@ export class manual_entry_log {
 		this.mode = []
 	}
 
-	add(segment: Segment, entry: string) {
-		this[segment] = [...this[segment], parseInt(entry)]
+	add(segment: Segment, entry: number | string) {
+		this[segment].push(entry)
 	}
 }
