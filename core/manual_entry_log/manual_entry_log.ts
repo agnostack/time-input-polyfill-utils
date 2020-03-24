@@ -16,14 +16,7 @@ export class manual_entry_log {
 		this.mode = []
 	}
 
-	add(segment: Segment, entry: string) {
-		if (segment === 'mode') {
-			this[segment].push(entry)
-		} else {
-			const number = parseInt(entry)
-			if (!isNaN(number)) {
-				this[segment].push(number)
-			}
-		}
+	add(segment: Segment, entry: number | string) {
+		this[segment].push(entry)
 	}
 }
