@@ -1,11 +1,9 @@
 import { a11yID } from "../../cypress/support/staticTestValues"
 import { get } from "../get/get"
+import { A11y } from "./a11y.types"
 
-type Announcement = 'initial' | 'select' | 'update'
-
-// TO DO: convert to new types format
-export const a11y = {
-	create(document: Document = window.document): HTMLDivElement {
+export const a11y: A11y = {
+	create(document = window.document) {
 		var $block = document.createElement('div')
 		$block.setAttribute('aria-live', 'polite')
 		$block.setAttribute(
@@ -16,7 +14,7 @@ export const a11y = {
 		document.querySelector('body').appendChild($block)
 		return $block
 	},
-	update($input: HTMLInputElement, announcementArray: Array<Announcement>, document: Document = window.document) {
+	update($input, announcementArray, document = window.document) {
 		const currentSegment = get.rangeOf($input).cursorSegment().segment
 
 		var values = get.inputValue($input).asTimeObject()
@@ -35,7 +33,7 @@ export const a11y = {
 			update: '$segmentValue.',
 		}
 
-		var textArray = announcementArray.map((key: Announcement) => announcements[key])
+		var textArray = announcementArray.map(key => announcements[key])
 
 		var fullValue = $input.value.replace(/--/g, 'blank')
 
