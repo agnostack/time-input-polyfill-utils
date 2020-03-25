@@ -1,4 +1,5 @@
-import { modify, Integration, Action, Target } from './modify'
+import { modify } from './modify'
+import { Integration, Action, Target } from './modify.types'
 
 import { TimeObject, String12hr, String24hr } from '../../types'
 
@@ -78,14 +79,14 @@ export function deepModifierTest({
 	})
 }
 
-// describe('Hours', () => {
-// 	hoursIncrementTests()
-// 	hoursDecrementTests()
-// })
+describe('Hours', () => {
+	hoursIncrementTests()
+	hoursDecrementTests()
+})
 
-// describe('Minutes', () => {
-// 	minutesIncrementTests()
-// 	minutesDecrementTests()
-// })
+describe('Minutes', () => {
+	minutesIncrementTests()
+	minutesDecrementTests()
+})
 
 toggleModeTest()
