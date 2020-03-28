@@ -1,4 +1,4 @@
-import { convert } from '../convert/convert'
+import { convertString12hr, convertString24hr } from '../convert/convert'
 import { SelectionRange, SelectionIndex, Segment, TimeObject, String12hr, String24hr } from '../../types'
 import { ranges, rangesList, segments } from '../staticValues'
 import { regex } from '../regex/regex'
@@ -14,14 +14,14 @@ const traverseSegmentRanges = ($input: HTMLInputElement, direction: 'forward' | 
 
 export const get: Get = {
 	string12hr: (string12hr) => {
-		const timeObject = convert.string12hr(string12hr).toTimeObject()
+		const timeObject = convertString12hr(string12hr).toTimeObject()
 		return {
 			...timeObject,
 			timeObject,
 		}
 	},
 	string24hr: (string24hr) => {
-		const timeObject = convert.string24hr(string24hr).toTimeObject()
+		const timeObject = convertString24hr(string24hr).toTimeObject()
 		return {
 			...timeObject,
 			timeObject,
@@ -32,9 +32,9 @@ export const get: Get = {
 		const is12hrTime = regex.string12hr.test(value)
 		const is24hrTime = regex.string24hr.test(value)
 		return {
-			as12hrString: () => is12hrTime ? value : convert.string24hr(value).to12hr(),
-			as24hrString: () => is24hrTime ? value : convert.string12hr(value).to24hr(),
-			asTimeObject: () => is12hrTime ? convert.string12hr(value).toTimeObject() : convert.string24hr(value).toTimeObject()
+			as12hrString: () => is12hrTime ? value : convertString24hr(value).to12hr(),
+			as24hrString: () => is24hrTime ? value : convertString12hr(value).to24hr(),
+			asTimeObject: () => is12hrTime ? convertString12hr(value).toTimeObject() : convertString24hr(value).toTimeObject()
 		}
 	},
 	labelTextOf: ($input, document = window.document) => {

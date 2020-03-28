@@ -1,16 +1,16 @@
 import { Hour24, Mode } from '../types'
-import { toLeadingZero, convert, is } from '..'
+import { toLeadingZero, is, convertHours24, convertDateObject } from '..'
 
 const date = new Date()
 const current24hrs = <Hour24>date.getHours()
 
 export const current = {
 	hrs24: toLeadingZero(current24hrs),
-	hrs12: toLeadingZero(convert.hours24(current24hrs).toHours12()),
-	min: toLeadingZero(convert.dateObject(date).toTimeObject().min),
+	hrs12: toLeadingZero(convertHours24(current24hrs).toHours12()),
+	min: toLeadingZero(convertDateObject(date).toTimeObject().min),
 	mode: <Mode>(is.AM.hrs24(current24hrs) ? 'AM' : 'PM'),
 	date,
-	string24hr: convert.dateObject(date).to24hr(),
-	string12hr: convert.dateObject(date).to12hr(),
-	timeObject: convert.dateObject(date).toTimeObject(),
+	string24hr: convertDateObject(date).to24hr(),
+	string12hr: convertDateObject(date).to12hr(),
+	timeObject: convertDateObject(date).toTimeObject(),
 }

@@ -1,9 +1,13 @@
 import { TimeObject, Hour24, Minute } from '../../types'
-import { convert } from '../convert/convert'
+import { convertString12hr, convertString24hr, convertTimeObject, convertHours24, convertDateObject } from '../convert/convert'
 import { maxAndMins } from '../staticValues'
 import { is } from '../is/is'
 import { ModifierFunction, ModifyTimeString, Modify, Integration } from './modify.types'
 
+const convert = {
+	string12hr: convertString12hr,
+	string24hr: convertString24hr,
+}
 
 const modifier: ModifierFunction = ({
 	timeObject,
@@ -13,7 +17,7 @@ const modifier: ModifierFunction = ({
 	toHr,
 }) => {
 	const modifiedObject = modify.timeObject(timeObject)[action][target][integration]()
-	return convert.timeObject(modifiedObject)[toHr]()
+	return convertTimeObject(modifiedObject)[toHr]()
 }
 
 const modifyTimeString: ModifyTimeString = ({
@@ -105,9 +109,9 @@ export const modify: Modify = {
 			},
 		},
 		toggleMode: () => {
-			const timeObject = convert.string12hr(string12hr).toTimeObject()
+			const timeObject = convertString12hr(string12hr).toTimeObject()
 			const modified = modify.timeObject(timeObject).toggleMode()
-			return convert.timeObject(modified, true).to12hr()
+			return convertTimeObject(modified, true).to12hr()
 		},
 	}),
 	string24hr: (string24hr) => ({
@@ -180,9 +184,9 @@ export const modify: Modify = {
 			},
 		},
 		toggleMode: () => {
-			const timeObject = convert.string24hr(string24hr).toTimeObject()
+			const timeObject = convertString24hr(string24hr).toTimeObject()
 			const modified = modify.timeObject(timeObject).toggleMode()
-			return convert.timeObject(modified, true).to24hr()
+			return convertTimeObject(modified, true).to24hr()
 		},
 	}),
 	timeObject: (timeObject) => ({
@@ -307,7 +311,7 @@ const nudgeIsolatedTimeObjectHrs = (
 		integration: 'isolated',
 		blankCallback: (copiedObject: TimeObject): TimeObject => {
 			const currentHour24 = new Date().getHours()
-			const currentHour12 = convert.hours24(<Hour24>currentHour24).toHours12()
+			const currentHour12 = convertHours24(<Hour24>currentHour24).toHours12()
 
 			if (currentHour24 > 12 && copiedObject.mode === 'AM') {
 				copiedObject.hrs24 = currentHour12
@@ -380,6 +384,6 @@ const straightenTimeObjectHrs = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: Tim
 	const use12hr = basedOn === 'hrs12'
 	const toHr = use12hr ? 'to12hr' : 'to24hr'
 	const format = use12hr ? 'string12hr' : 'string24hr'
-	const timeString = convert.timeObject(invalidTimeObj, true)[toHr]()
+	const timeString = convertTimeObject(invalidTimeObj, true)[toHr]()
 	return convert[format](timeString).toTimeObject()
 }
