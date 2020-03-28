@@ -1,7 +1,7 @@
 import { Segment } from '../../types'
 
 // Note: Due to this being a class, it does not need an interface
-export class manual_entry_log {
+export class ManualEntryLog {
 	hrs12: Array<number | string> = []
 	min: Array<number | string> = []
 	mode: Array<number | string> = []

@@ -1,9 +1,9 @@
-import { manual_entry_log } from './manual_entry_log'
+import { ManualEntryLog } from './ManualEntryLog'
 /* global describe, expect, it */
 
 import { segments } from '../staticValues'
 
-const entryLog = new manual_entry_log()
+const entryLog = new ManualEntryLog()
 
 const basicTest = ({ description, testName, action, value }) => {
 	describe(description, () => {
