@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject } from "../types";
+import { String12hr, String24hr, TimeObject } from '../types'
 
 interface BlankValues {
 	string12hr: String12hr

@@ -21,7 +21,7 @@ module.exports = {
 		// Prettier and ES Lint disagree about how some indents should work.
 		// I can't stop Prettier but I can stop ES Lint
 		indent: [0, 'tab'],
-		'no-use-before-define': ['error', { functions: false, classes: true, variables: true }],
+		'no-use-before-define': [0, false],
 
 		camelcase: [0, 'never'],
 
@@ -54,10 +54,7 @@ module.exports = {
 				// Prettier and ES Lint disagree about how some indents should work.
 				// I can't stop Prettier but I can stop ES Lint
 				'@typescript-eslint/indent': [0, 'tab'],
-				'@typescript-eslint/no-use-before-define': [
-					'error',
-					{ functions: false, classes: true, variables: true },
-				],
+				'@typescript-eslint/no-use-before-define': [0, false],
 				'@typescript-eslint/camelcase': [0, 'never'],
 				'@typescript-eslint/semi': ['error', 'never'],
 				'@typescript-eslint/no-unused-vars': [

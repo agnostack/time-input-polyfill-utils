@@ -3,11 +3,12 @@ import { String24hr, String12hr } from '../../types/strings'
 import { is } from '../is/is'
 import { Hour24 } from '../../types'
 
-const writeBadValue = (badValue: any) => (typeof badValue === 'string' ? `"${badValue}"` : badValue)
+const writeBadValue = (badValue: any): any =>
+	typeof badValue === 'string' ? `"${badValue}"` : badValue
 
 // TO DO: convert to new types format
 export const validate = {
-	string12hr: (string12hr: String12hr) => {
+	string12hr: (string12hr: String12hr): boolean => {
 		if (!is.string12hr(string12hr)) {
 			throw new Error(
 				`"${string12hr}" is not a valid 12 hour time, use the format "HH:MM AM/PM"`,
@@ -15,18 +16,18 @@ export const validate = {
 		}
 		return true
 	},
-	string24hr: (string24hr: String24hr) => {
+	string24hr: (string24hr: String24hr): boolean => {
 		if (!is.string24hr(string24hr)) {
 			const extra = /-/.test(string24hr)
 				? ' Use an empty string instead of "--:--" to represent a blank value'
 				: /24:\d\d/.test(string24hr)
-					? ' Use "00" instead of "24".'
-					: ''
+				? ' Use "00" instead of "24".'
+				: ''
 			throw new Error(`"${string24hr}" is not a valid 24 hour time.${extra}`)
 		}
 		return true
 	},
-	timeObject: (timeObject: TimeObject) => {
+	timeObject: (timeObject: TimeObject): boolean => {
 		const { hrs24, hrs12, min, mode } = timeObject
 		if (!is.timeObject(timeObject)) {
 			throw new Error(
@@ -36,7 +37,7 @@ export const validate = {
 			)
 		}
 
-		const isValid = (variable: any, varName: string, lower: number, upper: number) => {
+		const isValid = (variable: any, varName: string, lower: number, upper: number): void => {
 			if (
 				(typeof variable === 'string' && variable !== '--') ||
 				(typeof variable === 'number' && (variable > upper || variable < lower))
@@ -85,7 +86,7 @@ export const validate = {
 
 		return true
 	},
-	hours24: (hrs24: Hour24) => {
+	hours24: (hrs24: Hour24): void => {
 		if (
 			(typeof hrs24 !== 'number' && hrs24 !== '--') ||
 			(typeof hrs24 === 'number' && (hrs24 < 0 || hrs24 > 23))

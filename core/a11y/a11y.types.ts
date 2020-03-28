@@ -6,6 +6,6 @@ export interface A11yUpdate {
 	(
 		$input: HTMLInputElement,
 		announcementArray: Array<'initial' | 'select' | 'update'>,
-		document: Document
+		document: Document,
 	): string
 }

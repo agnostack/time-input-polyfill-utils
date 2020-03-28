@@ -1,11 +1,11 @@
-import { select } from "./select";
-import { get } from "../get/get";
-import { SelectionRange, Segment } from "../../types";
-import { ranges } from "../staticValues";
-import { inputID } from "../../cypress/support/staticTestValues";
-import { loadTestPage } from "../../cypress/support/loadTestPage";
+import { select } from './select'
+import { get } from '../get/get'
+import { SelectionRange, Segment } from '../../types'
+import { ranges } from '../staticValues'
+import { inputID } from '../../cypress/support/staticTestValues'
+import { loadTestPage } from '../../cypress/support/loadTestPage'
 
-const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange) => {
+const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange): void => {
 	const currentRange = get.rangeOf($input).rawSelection()
 	expect(currentRange).to.deep.equal(expectedRange)
 }
@@ -23,9 +23,9 @@ testSpecificSegmentSelection()
 testNextSegmentSelection()
 testPrevSegmentSelection()
 
-function testCursorRangeValues() {
+function testCursorRangeValues(): void {
 	describe('Test cursor range values', () => {
-		const testCursorRange = (index: number, expectation: SelectionRange) => {
+		const testCursorRange = (index: number, expectation: SelectionRange): void => {
 			it(`test range index ${index}`, async () => {
 				const { $input } = await loadTestPage()
 				$input.selectionStart = index
@@ -48,9 +48,9 @@ function testCursorRangeValues() {
 	})
 }
 
-function testCursorSegmentSelection() {
+function testCursorSegmentSelection(): void {
 	describe('Test cursor segment selection', () => {
-		const testCursorSelection = (index: number, expectation: SelectionRange) => {
+		const testCursorSelection = (index: number, expectation: SelectionRange): void => {
 			it(`select segment at index ${index}`, async () => {
 				const { $input } = await loadTestPage()
 				$input.selectionStart = index
@@ -73,9 +73,9 @@ function testCursorSegmentSelection() {
 	})
 }
 
-function testSpecificSegmentSelection() {
+function testSpecificSegmentSelection(): void {
 	describe('Test specific segment selection', () => {
-		const testSegmentSelect = (segment: Segment, expectation: SelectionRange) => {
+		const testSegmentSelect = (segment: Segment, expectation: SelectionRange): void => {
 			it(`select segment ${segment}`, async () => {
 				const { $input } = await loadTestPage()
 				select($input).segment(segment)
@@ -89,9 +89,9 @@ function testSpecificSegmentSelection() {
 	})
 }
 
-function testNextSegmentSelection() {
+function testNextSegmentSelection(): void {
 	describe('Test next segment selection', () => {
-		const testSegmentAfter = (segment: Segment, expectation: SelectionRange) => {
+		const testSegmentAfter = (segment: Segment, expectation: SelectionRange): void => {
 			it(`select segment after ${segment}`, async () => {
 				const { $input } = await loadTestPage()
 				select($input).segment(segment)
@@ -106,9 +106,9 @@ function testNextSegmentSelection() {
 	})
 }
 
-function testPrevSegmentSelection() {
+function testPrevSegmentSelection(): void {
 	describe('Test previous segment selection', () => {
-		const testSegmentBefore = (segment: Segment, expectation: SelectionRange) => {
+		const testSegmentBefore = (segment: Segment, expectation: SelectionRange): void => {
 			it(`select segment before ${segment}`, async () => {
 				const { $input } = await loadTestPage()
 				select($input).segment(segment)

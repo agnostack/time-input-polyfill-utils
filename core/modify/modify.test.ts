@@ -66,7 +66,7 @@ export function modifierTest({
 	action,
 	target,
 	integration,
-}: StringModifierTest) {
+}: StringModifierTest): void {
 	it(`${before} => ${after}`, () => {
 		expect(modify[format](before)[action][target][integration]()).to.equal(after)
 	})
@@ -79,7 +79,7 @@ export function deepModifierTest({
 	action,
 	target,
 	integration,
-}: ObjectModifierTest) {
+}: ObjectModifierTest): void {
 	it(`${JSON.stringify(before)} => ${JSON.stringify(after)}`, () => {
 		expect(modify[format](before)[action][target][integration]()).to.deep.equal(after)
 	})

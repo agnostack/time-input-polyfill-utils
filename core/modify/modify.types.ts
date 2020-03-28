@@ -1,4 +1,4 @@
-import { TimeObject, String12hr, String24hr } from "../../types";
+import { TimeObject, String12hr, String24hr } from '../../types'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
@@ -16,10 +16,10 @@ interface ModifierFunctionProps {
 export type ModifierFunction = (props: ModifierFunctionProps) => String12hr | String24hr
 
 interface ModifyTimeStringProps {
-	timeString: String12hr | String24hr,
-	format: 'string12hr' | 'string24hr',
-	action: Action,
-	target: Target,
+	timeString: String12hr | String24hr
+	format: 'string12hr' | 'string24hr'
+	action: Action
+	target: Target
 	integration: Integration
 }
 
@@ -46,7 +46,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-		},
+		}
 		toggleMode: () => String12hr
 	}
 }
@@ -56,22 +56,22 @@ export interface ModifyString24hr {
 			hours: {
 				isolated: () => String24hr
 				integrated: () => String24hr
-			},
+			}
 			minutes: {
 				isolated: () => String24hr
 				integrated: () => String24hr
-			},
-		},
+			}
+		}
 		decrement: {
 			hours: {
 				isolated: () => String24hr
 				integrated: () => String24hr
-			},
+			}
 			minutes: {
 				isolated: () => String24hr
 				integrated: () => String24hr
-			},
-		},
+			}
+		}
 		toggleMode: () => String24hr
 	}
 }
@@ -81,22 +81,22 @@ export interface ModifyTimeObject {
 			hours: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
-			},
+			}
 			minutes: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
-			},
-		},
+			}
+		}
 		decrement: {
 			hours: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
-			},
+			}
 			minutes: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
-			},
-		},
+			}
+		}
 		toggleMode: () => TimeObject
 	}
 }

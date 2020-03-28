@@ -1,21 +1,27 @@
-import { TimeObject, Hour24, Minute } from '../../types'
-import { convertString12hr, convertString24hr, convertTimeObject, convertHours24, convertDateObject } from '../convert/convert'
+import { TimeObject, Hour24, Minute, String12hr, String24hr } from '../../types'
+import {
+	convertString12hr,
+	convertString24hr,
+	convertTimeObject,
+	convertHours24,
+} from '../convert/convert'
 import { maxAndMins } from '../staticValues'
 import { is } from '../is/is'
-import { ModifierFunction, ModifyTimeString, Integration, ModifyString12hr, ModifyString24hr, ModifyTimeObject } from './modify.types'
+import {
+	ModifierFunction,
+	ModifyTimeString,
+	Integration,
+	ModifyString12hr,
+	ModifyString24hr,
+	ModifyTimeObject,
+} from './modify.types'
 
 const convert = {
 	string12hr: convertString12hr,
 	string24hr: convertString24hr,
 }
 
-const modifier: ModifierFunction = ({
-	timeObject,
-	action,
-	target,
-	integration,
-	toHr,
-}) => {
+const modifier: ModifierFunction = ({ timeObject, action, target, integration, toHr }) => {
 	const modifiedObject = modifyTimeObject(timeObject)[action][target][integration]()
 	return convertTimeObject(modifiedObject)[toHr]()
 }
@@ -25,7 +31,7 @@ const modifyTimeString: ModifyTimeString = ({
 	format,
 	action,
 	target,
-	integration
+	integration,
 }) => {
 	const timeObject = convert[format](timeString).toTimeObject()
 	const toHr = format === 'string12hr' ? 'to12hr' : 'to24hr'
@@ -38,164 +44,180 @@ const modifyTimeString: ModifyTimeString = ({
 	})
 }
 
-export const modifyString12hr: ModifyString12hr = (string12hr) => ({
+export const modifyString12hr: ModifyString12hr = string12hr => ({
 	increment: {
 		hours: {
-			isolated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'increment',
-				target: 'hours',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'increment',
-				target: 'hours',
-				integration: 'integrated'
-			}),
+			isolated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'increment',
+					target: 'hours',
+					integration: 'isolated',
+				}),
+			integrated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'increment',
+					target: 'hours',
+					integration: 'integrated',
+				}),
 		},
 		minutes: {
-			isolated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'increment',
-				target: 'minutes',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'increment',
-				target: 'minutes',
-				integration: 'integrated'
-			}),
+			isolated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'increment',
+					target: 'minutes',
+					integration: 'isolated',
+				}),
+			integrated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'increment',
+					target: 'minutes',
+					integration: 'integrated',
+				}),
 		},
 	},
 	decrement: {
 		hours: {
-			isolated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'decrement',
-				target: 'hours',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'decrement',
-				target: 'hours',
-				integration: 'integrated'
-			}),
+			isolated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'decrement',
+					target: 'hours',
+					integration: 'isolated',
+				}),
+			integrated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'decrement',
+					target: 'hours',
+					integration: 'integrated',
+				}),
 		},
 		minutes: {
-			isolated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'decrement',
-				target: 'minutes',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string12hr,
-				format: 'string12hr',
-				action: 'decrement',
-				target: 'minutes',
-				integration: 'integrated'
-			}),
+			isolated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'decrement',
+					target: 'minutes',
+					integration: 'isolated',
+				}),
+			integrated: (): String12hr =>
+				modifyTimeString({
+					timeString: string12hr,
+					format: 'string12hr',
+					action: 'decrement',
+					target: 'minutes',
+					integration: 'integrated',
+				}),
 		},
 	},
-	toggleMode: () => {
+	toggleMode: (): String12hr => {
 		const timeObject = convertString12hr(string12hr).toTimeObject()
 		const modified = modifyTimeObject(timeObject).toggleMode()
 		return convertTimeObject(modified, true).to12hr()
 	},
 })
-export const modifyString24hr: ModifyString24hr = (string24hr) => ({
+export const modifyString24hr: ModifyString24hr = string24hr => ({
 	increment: {
 		hours: {
-			isolated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'increment',
-				target: 'hours',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'increment',
-				target: 'hours',
-				integration: 'integrated'
-			}),
+			isolated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'increment',
+					target: 'hours',
+					integration: 'isolated',
+				}),
+			integrated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'increment',
+					target: 'hours',
+					integration: 'integrated',
+				}),
 		},
 		minutes: {
-			isolated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'increment',
-				target: 'minutes',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'increment',
-				target: 'minutes',
-				integration: 'integrated'
-			}),
+			isolated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'increment',
+					target: 'minutes',
+					integration: 'isolated',
+				}),
+			integrated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'increment',
+					target: 'minutes',
+					integration: 'integrated',
+				}),
 		},
 	},
 	decrement: {
 		hours: {
-			isolated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'decrement',
-				target: 'hours',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'decrement',
-				target: 'hours',
-				integration: 'integrated'
-			}),
+			isolated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'decrement',
+					target: 'hours',
+					integration: 'isolated',
+				}),
+			integrated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'decrement',
+					target: 'hours',
+					integration: 'integrated',
+				}),
 		},
 		minutes: {
-			isolated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'decrement',
-				target: 'minutes',
-				integration: 'isolated'
-			}),
-			integrated: () => modifyTimeString({
-				timeString: string24hr,
-				format: 'string24hr',
-				action: 'decrement',
-				target: 'minutes',
-				integration: 'integrated'
-			}),
+			isolated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'decrement',
+					target: 'minutes',
+					integration: 'isolated',
+				}),
+			integrated: (): String24hr =>
+				modifyTimeString({
+					timeString: string24hr,
+					format: 'string24hr',
+					action: 'decrement',
+					target: 'minutes',
+					integration: 'integrated',
+				}),
 		},
 	},
-	toggleMode: () => {
+	toggleMode: (): String24hr => {
 		const timeObject = convertString24hr(string24hr).toTimeObject()
 		const modified = modifyTimeObject(timeObject).toggleMode()
 		return convertTimeObject(modified, true).to24hr()
 	},
 })
-export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
+export const modifyTimeObject: ModifyTimeObject = timeObject => ({
 	increment: {
 		hours: {
-			isolated: () => nudgeIsolatedTimeObjectHrs('up', timeObject),
-			integrated: () => nudgeIntegratedTimeObjectHrs('up', timeObject),
+			isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('up', timeObject),
+			integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('up', timeObject),
 		},
 		minutes: {
-			isolated: () => {
+			isolated: (): TimeObject => {
 				const { min } = timeObject
 
 				const newMin =
@@ -208,7 +230,7 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
 					min: newMin,
 				}
 			},
-			integrated: () => {
+			integrated: (): TimeObject => {
 				const { min } = timeObject
 
 				if (min === maxAndMins.minutes.max) {
@@ -227,11 +249,11 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
 	},
 	decrement: {
 		hours: {
-			isolated: () => nudgeIsolatedTimeObjectHrs('down', timeObject),
-			integrated: () => nudgeIntegratedTimeObjectHrs('down', timeObject),
+			isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('down', timeObject),
+			integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('down', timeObject),
 		},
 		minutes: {
-			isolated: () => {
+			isolated: (): TimeObject => {
 				const { min } = timeObject
 
 				const newMin =
@@ -244,7 +266,7 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
 					min: newMin,
 				}
 			},
-			integrated: () => {
+			integrated: (): TimeObject => {
 				const { min } = timeObject
 
 				if (min === maxAndMins.minutes.min) {
@@ -261,10 +283,10 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
 			},
 		},
 	},
-	toggleMode: () => {
+	toggleMode: (): TimeObject => {
 		const { hrs12, mode } = timeObject
 
-		let returnVal: TimeObject = { ...timeObject }
+		const returnVal: TimeObject = { ...timeObject }
 
 		const isAM = is.AM.timeObject(timeObject)
 
@@ -274,14 +296,12 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => ({
 			const currentTimeMode = new Date().getHours() > 11 ? 'PM' : 'AM'
 			returnVal.mode = currentTimeMode
 
-			hrs24Calculation = hrs12 === 12
-				? (isAM ? 0 : 12)
-				: (isAM || hrs12 === '--' ? hrs12 : hrs12 + 12)
+			hrs24Calculation =
+				hrs12 === 12 ? (isAM ? 0 : 12) : isAM || hrs12 === '--' ? hrs12 : hrs12 + 12
 		} else {
 			returnVal.mode = isAM ? 'PM' : 'AM'
-			hrs24Calculation = hrs12 === 12
-				? (isAM ? 12 : 0)
-				: (isAM && hrs12 !== '--' ? hrs12 + 12 : hrs12)
+			hrs24Calculation =
+				hrs12 === 12 ? (isAM ? 12 : 0) : isAM && hrs12 !== '--' ? hrs12 + 12 : hrs12
 		}
 
 		returnVal.hrs24 = <Hour24>(hrs12 === '--' ? '--' : hrs24Calculation)
@@ -355,7 +375,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	integration: Integration
 	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
 	blankCallback: Function
-}) => {
+}): TimeObject => {
 	const hrsType = <T>(integration === 'integrated' ? 'hrs24' : 'hrs12')
 	const hrs = timeObject[hrsType]
 	const copiedObject = { ...timeObject }
@@ -378,7 +398,10 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	}
 }
 
-const straightenTimeObjectHrs = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject) => {
+const straightenTimeObjectHrs = (
+	basedOn: 'hrs12' | 'hrs24',
+	invalidTimeObj: TimeObject,
+): TimeObject => {
 	const use12hr = basedOn === 'hrs12'
 	const toHr = use12hr ? 'to12hr' : 'to24hr'
 	const format = use12hr ? 'string12hr' : 'string24hr'

@@ -1,4 +1,4 @@
-import { Hour24, Hour12, Minute, SelectionRange, Segment, TimeObject, String12hr, String24hr } from '../types'
+import { Hour24, Hour12, Minute, SelectionRange, Segment } from '../types'
 
 // TO DO: convert to new types format
 export const ranges = {

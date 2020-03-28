@@ -7,14 +7,14 @@ isTimeObjectTests()
 isString12hrTests()
 isString24hrTests()
 
-function isPmTests() {
+function isPmTests(): void {
 	describe('is PM', () => {
 		hrs24NumberTests()
 		string12hrTests()
 		string24hrTests()
 		timeObjectTests()
 
-		function hrs24NumberTests() {
+		function hrs24NumberTests(): void {
 			describe('hrs24 number', () => {
 				it('0 => false', () => {
 					expect(is.PM.hrs24(0)).to.equal(false)
@@ -37,7 +37,7 @@ function isPmTests() {
 			})
 		}
 
-		function string12hrTests() {
+		function string12hrTests(): void {
 			describe('12hr string', () => {
 				it('12:00 AM => false', () => {
 					expect(is.PM.string12hr('12:00 AM')).to.equal(false)
@@ -57,7 +57,7 @@ function isPmTests() {
 			})
 		}
 
-		function string24hrTests() {
+		function string24hrTests(): void {
 			describe('24hr string', () => {
 				it('00:00 => false', () => {
 					expect(is.PM.string24hr('00:00')).to.equal(false)
@@ -77,7 +77,7 @@ function isPmTests() {
 			})
 		}
 
-		function timeObjectTests() {
+		function timeObjectTests(): void {
 			describe('timeObject', () => {
 				it('{ hrs24: 12, hrs12: 12, min: 00, mode: -- } => true', () => {
 					expect(is.PM.timeObject({ hrs24: 12, hrs12: 12, min: 0, mode: '--' })).to.equal(
@@ -114,14 +114,14 @@ function isPmTests() {
 	})
 }
 
-function isAmTests() {
+function isAmTests(): void {
 	describe('is AM', () => {
 		hrs24NumberTests()
 		string12hrTests()
 		string24hrTests()
 		timeObjectTests()
 
-		function hrs24NumberTests() {
+		function hrs24NumberTests(): void {
 			describe('hrs24 number', () => {
 				it('0 => true', () => {
 					expect(is.AM.hrs24(0)).to.equal(true)
@@ -144,7 +144,7 @@ function isAmTests() {
 			})
 		}
 
-		function string12hrTests() {
+		function string12hrTests(): void {
 			describe('12hr string', () => {
 				it('12:00 AM => true', () => {
 					expect(is.AM.string12hr('12:00 AM')).to.equal(true)
@@ -164,7 +164,7 @@ function isAmTests() {
 			})
 		}
 
-		function string24hrTests() {
+		function string24hrTests(): void {
 			describe('24hr string', () => {
 				it('00:00 => true', () => {
 					expect(is.AM.string24hr('00:00')).to.equal(true)
@@ -184,7 +184,7 @@ function isAmTests() {
 			})
 		}
 
-		function timeObjectTests() {
+		function timeObjectTests(): void {
 			describe('timeObject', () => {
 				it('{ hrs24: 12, hrs12: 12, min: 00, mode: -- } => true', () => {
 					expect(is.AM.timeObject({ hrs24: 12, hrs12: 12, min: 0, mode: '--' })).to.equal(
@@ -221,7 +221,7 @@ function isAmTests() {
 	})
 }
 
-function isTimeObjectTests() {
+function isTimeObjectTests(): void {
 	describe('is timeObject', () => {
 		it('"12:00 AM" => false', () => {
 			expect(is.timeObject('12:00 AM')).to.equal(false)
@@ -255,7 +255,7 @@ function isTimeObjectTests() {
 	})
 }
 
-function isString12hrTests() {
+function isString12hrTests(): void {
 	describe('is string 12hr', () => {
 		it('"12:00 AM" => true', () => {
 			expect(is.string12hr('12:00 AM')).to.equal(true)
@@ -275,7 +275,7 @@ function isString12hrTests() {
 	})
 }
 
-function isString24hrTests() {
+function isString24hrTests(): void {
 	describe('is string 24hr', () => {
 		it('"12:00 AM" => false', () => {
 			expect(is.string24hr('12:00 AM')).to.equal(false)

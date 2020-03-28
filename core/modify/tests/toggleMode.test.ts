@@ -2,13 +2,13 @@ import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
 import { TimeObject } from '../../../types'
 import { current } from '../../../helpers/currentDate'
 
-export default () => {
-	describe('Mode toggle', () => {
+export default (): void => {
+	describe('Mode toggle', (): void => {
 		toggle12hr()
 		toggle24hr()
 		toggleTimeObject()
 
-		function toggle12hr() {
+		function toggle12hr(): void {
 			describe('12 hour mode toggle', () => {
 				it('12:30 PM => 12:30 AM', () => {
 					expect(modifyString12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
@@ -23,15 +23,19 @@ export default () => {
 					expect(modifyString12hr('01:30 PM').toggleMode()).to.equal('01:30 AM')
 				})
 				it(`12:30 -- => 12:30 ${current.mode}`, () => {
-					expect(modifyString12hr('12:30 --').toggleMode()).to.equal(`12:30 ${current.mode}`)
+					expect(modifyString12hr('12:30 --').toggleMode()).to.equal(
+						`12:30 ${current.mode}`,
+					)
 				})
 				it(`--:-- -- => --:-- ${current.mode}`, () => {
-					expect(modifyString12hr('--:-- --').toggleMode()).to.equal(`--:-- ${current.mode}`)
+					expect(modifyString12hr('--:-- --').toggleMode()).to.equal(
+						`--:-- ${current.mode}`,
+					)
 				})
 			})
 		}
 
-		function toggle24hr() {
+		function toggle24hr(): void {
 			describe('24 hour mode toggle', () => {
 				it('00:30 => 12:30', () => {
 					expect(modifyString24hr('00:30').toggleMode()).to.equal('12:30')
@@ -51,7 +55,7 @@ export default () => {
 			})
 		}
 
-		function toggleTimeObject() {
+		function toggleTimeObject(): void {
 			describe('Time object mode toggle', () => {
 				testTimeObject(
 					{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
@@ -101,7 +105,7 @@ export default () => {
 					},
 				)
 
-				function testTimeObject(input: TimeObject, expectedOutput: TimeObject) {
+				function testTimeObject(input: TimeObject, expectedOutput: TimeObject): void {
 					const inputString = JSON.stringify(input)
 					const outputString = JSON.stringify(expectedOutput)
 

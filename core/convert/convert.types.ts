@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject, Hour24, Hour12, Dashes } from "../../types";
+import { String12hr, String24hr, TimeObject, Hour24, Hour12, Dashes } from '../../types'
 
 export type ToArray = (NodeList: NodeList) => Array<HTMLInputElement>
 
@@ -20,7 +20,7 @@ export interface ConvertString24hr {
 	}
 }
 export interface ConvertTimeObject {
-	(timeObject: TimeObject, skipValidation?: Boolean): {
+	(timeObject: TimeObject, skipValidation?: boolean): {
 		to12hr: () => String12hr
 		to24hr: () => String24hr
 	}

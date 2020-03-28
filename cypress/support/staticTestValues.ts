@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject } from "../../types"
+import { String12hr, String24hr, TimeObject } from '../../types'
 
 export const inputID = 'testInput'
 export const inputPreFilledID = 'testInputPreFilled'
@@ -12,6 +12,6 @@ export const preFilledValues = {
 		hrs24: 0,
 		hrs12: 12,
 		min: 0,
-		mode: 'AM'
-	}
+		mode: 'AM',
+	},
 }

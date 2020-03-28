@@ -1,6 +1,4 @@
-/* global expect */
-
-export const failTest = (test: Function, expectedMessage: string) => {
+export const failTest = (test: Function, expectedMessage: string): void => {
 	try {
 		test()
 		throw new Error('FAIL')

@@ -6,17 +6,17 @@ export class manual_entry_log {
 	min: Array<number | string> = []
 	mode: Array<number | string> = []
 
-	clear(segment: Segment) {
+	clear(segment: Segment): void {
 		this[segment] = []
 	}
 
-	clearAll() {
+	clearAll(): void {
 		this.hrs12 = []
 		this.min = []
 		this.mode = []
 	}
 
-	add(segment: Segment, entry: number | string) {
+	add(segment: Segment, entry: number | string): void {
 		this[segment].push(entry)
 	}
 }

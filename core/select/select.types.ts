@@ -1,4 +1,4 @@
-import { Segment } from "../../types";
+import { Segment } from '../../types'
 
 export interface Select {
 	($input: HTMLInputElement): {

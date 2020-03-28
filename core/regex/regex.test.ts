@@ -1,6 +1,10 @@
 import { regex } from './regex'
 
-const regexTest = (timeString: string, regEx: RegExp, expectedArray: Array<string> | null) => {
+const regexTest = (
+	timeString: string,
+	regEx: RegExp,
+	expectedArray: Array<string> | null,
+): void => {
 	const testName = timeString || '<empty string>'
 	describe(testName, () => {
 		if (expectedArray === null) {

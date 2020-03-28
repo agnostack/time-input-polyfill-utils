@@ -9,7 +9,7 @@ import {
 } from '../../modify.test'
 import { Hour24, Hour12 } from '../../../../types'
 
-export default () => {
+export default (): void => {
 	describe('Decrement hours', () => {
 		//////////////////////////////////////////
 
@@ -17,7 +17,7 @@ export default () => {
 		tests24hr()
 		testsTimeObject()
 
-		function tests12hr() {
+		function tests12hr(): void {
 			describe('12 hour time', () => {
 				const settings: CommonSettingsString = {
 					format: 'string12hr',
@@ -28,9 +28,12 @@ export default () => {
 				isolatedTests()
 				integratedTests()
 
-				function isolatedTests() {
+				function isolatedTests(): void {
 					describe('Isolated (12hr)', () => {
-						const decrement12hrIsolated = ({ before, after }: BeforeAfterString) => {
+						const decrement12hrIsolated = ({
+							before,
+							after,
+						}: BeforeAfterString): void => {
 							modifierTest({
 								...settings,
 								before,
@@ -58,9 +61,12 @@ export default () => {
 					})
 				}
 
-				function integratedTests() {
+				function integratedTests(): void {
 					describe('Integrated (12hr)', () => {
-						const decrement12hrIntegrated = ({ before, after }: BeforeAfterString) => {
+						const decrement12hrIntegrated = ({
+							before,
+							after,
+						}: BeforeAfterString): void => {
 							modifierTest({
 								...settings,
 								before,
@@ -90,7 +96,7 @@ export default () => {
 			})
 		}
 
-		function tests24hr() {
+		function tests24hr(): void {
 			describe('24 hour time', () => {
 				const settings: CommonSettingsString = {
 					format: 'string24hr',
@@ -101,9 +107,12 @@ export default () => {
 				isolatedTests()
 				integratedTests()
 
-				function isolatedTests() {
+				function isolatedTests(): void {
 					describe('Isolated (24hr)', () => {
-						const decrement24hrIsolated = ({ before, after }: BeforeAfterString) => {
+						const decrement24hrIsolated = ({
+							before,
+							after,
+						}: BeforeAfterString): void => {
 							modifierTest({
 								...settings,
 								before,
@@ -118,9 +127,12 @@ export default () => {
 					})
 				}
 
-				function integratedTests() {
+				function integratedTests(): void {
 					describe('Integrated (24hr)', () => {
-						const decrement24hrIntegrated = ({ before, after }: BeforeAfterString) => {
+						const decrement24hrIntegrated = ({
+							before,
+							after,
+						}: BeforeAfterString): void => {
 							modifierTest({
 								...settings,
 								before,
@@ -137,7 +149,7 @@ export default () => {
 			})
 		}
 
-		function testsTimeObject() {
+		function testsTimeObject(): void {
 			describe('Time object', () => {
 				const settings: CommonSettingsObject = {
 					format: 'timeObject',
@@ -148,9 +160,12 @@ export default () => {
 				isolatedTests()
 				integratedTests()
 
-				function isolatedTests() {
+				function isolatedTests(): void {
 					describe('Isolated (timeObject)', () => {
-						const decrementObjectIsolated = ({ before, after }: BeforeAfterObject) => {
+						const decrementObjectIsolated = ({
+							before,
+							after,
+						}: BeforeAfterObject): void => {
 							deepModifierTest({
 								...settings,
 								before,
@@ -274,12 +289,12 @@ export default () => {
 					})
 				}
 
-				function integratedTests() {
+				function integratedTests(): void {
 					describe('Integrated (timeObject)', () => {
 						const decrementObjectIntegrated = ({
 							before,
 							after,
-						}: BeforeAfterObject) => {
+						}: BeforeAfterObject): void => {
 							deepModifierTest({
 								...settings,
 								before,
