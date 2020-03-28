@@ -1,4 +1,4 @@
-import { modify } from './modify'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from './modify'
 import { Integration, Action, Target } from './modify.types'
 
 import { TimeObject, String12hr, String24hr } from '../../types'
@@ -10,6 +10,12 @@ import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
 import toggleModeTest from './tests/toggleMode.test'
 
 export { current } from '../../helpers/currentDate'
+
+const modify = {
+	string12hr: modifyString12hr,
+	string24hr: modifyString24hr,
+	timeObject: modifyTimeObject,
+}
 
 type TimeStringFormat = 'string24hr' | 'string12hr'
 

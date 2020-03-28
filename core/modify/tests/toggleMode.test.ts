@@ -1,4 +1,4 @@
-import { modify } from '../modify'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
 import { TimeObject } from '../../../types'
 import { current } from '../../../helpers/currentDate'
 
@@ -11,22 +11,22 @@ export default () => {
 		function toggle12hr() {
 			describe('12 hour mode toggle', () => {
 				it('12:30 PM => 12:30 AM', () => {
-					expect(modify.string12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
+					expect(modifyString12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
 				})
 				it('12:30 AM => 12:30 PM', () => {
-					expect(modify.string12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
+					expect(modifyString12hr('12:30 AM').toggleMode()).to.equal('12:30 PM')
 				})
 				it('11:30 AM => 11:30 PM', () => {
-					expect(modify.string12hr('11:30 AM').toggleMode()).to.equal('11:30 PM')
+					expect(modifyString12hr('11:30 AM').toggleMode()).to.equal('11:30 PM')
 				})
 				it('01:30 PM => 01:30 AM', () => {
-					expect(modify.string12hr('01:30 PM').toggleMode()).to.equal('01:30 AM')
+					expect(modifyString12hr('01:30 PM').toggleMode()).to.equal('01:30 AM')
 				})
 				it(`12:30 -- => 12:30 ${current.mode}`, () => {
-					expect(modify.string12hr('12:30 --').toggleMode()).to.equal(`12:30 ${current.mode}`)
+					expect(modifyString12hr('12:30 --').toggleMode()).to.equal(`12:30 ${current.mode}`)
 				})
 				it(`--:-- -- => --:-- ${current.mode}`, () => {
-					expect(modify.string12hr('--:-- --').toggleMode()).to.equal(`--:-- ${current.mode}`)
+					expect(modifyString12hr('--:-- --').toggleMode()).to.equal(`--:-- ${current.mode}`)
 				})
 			})
 		}
@@ -34,19 +34,19 @@ export default () => {
 		function toggle24hr() {
 			describe('24 hour mode toggle', () => {
 				it('00:30 => 12:30', () => {
-					expect(modify.string24hr('00:30').toggleMode()).to.equal('12:30')
+					expect(modifyString24hr('00:30').toggleMode()).to.equal('12:30')
 				})
 				it('12:30 => 00:30', () => {
-					expect(modify.string24hr('00:30').toggleMode()).to.equal('12:30')
+					expect(modifyString24hr('00:30').toggleMode()).to.equal('12:30')
 				})
 				it('11:30 => 23:30', () => {
-					expect(modify.string24hr('11:30').toggleMode()).to.equal('23:30')
+					expect(modifyString24hr('11:30').toggleMode()).to.equal('23:30')
 				})
 				it('13:30 => 01:30', () => {
-					expect(modify.string24hr('13:30').toggleMode()).to.equal('01:30')
+					expect(modifyString24hr('13:30').toggleMode()).to.equal('01:30')
 				})
 				it('"" => ""', () => {
-					expect(modify.string24hr('').toggleMode()).to.equal('')
+					expect(modifyString24hr('').toggleMode()).to.equal('')
 				})
 			})
 		}
@@ -106,7 +106,7 @@ export default () => {
 					const outputString = JSON.stringify(expectedOutput)
 
 					it(`${inputString} => ${outputString}`, () => {
-						expect(modify.timeObject(input).toggleMode()).to.deep.equal(expectedOutput)
+						expect(modifyTimeObject(input).toggleMode()).to.deep.equal(expectedOutput)
 					})
 				}
 			})

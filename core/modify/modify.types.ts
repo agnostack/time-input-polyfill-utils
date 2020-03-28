@@ -25,8 +25,8 @@ interface ModifyTimeStringProps {
 
 export type ModifyTimeString = (props: ModifyTimeStringProps) => String12hr | String24hr
 
-export interface Modify {
-	string12hr: (string12hr: String12hr) => {
+export interface ModifyString12hr {
+	(string12hr: String12hr): {
 		increment: {
 			hours: {
 				isolated: () => String12hr
@@ -49,7 +49,9 @@ export interface Modify {
 		},
 		toggleMode: () => String12hr
 	}
-	string24hr: (string24hr: String24hr) => {
+}
+export interface ModifyString24hr {
+	(string24hr: String24hr): {
 		increment: {
 			hours: {
 				isolated: () => String24hr
@@ -72,7 +74,9 @@ export interface Modify {
 		},
 		toggleMode: () => String24hr
 	}
-	timeObject: (timeObject: TimeObject) => {
+}
+export interface ModifyTimeObject {
+	(timeObject: TimeObject): {
 		increment: {
 			hours: {
 				isolated: () => TimeObject
