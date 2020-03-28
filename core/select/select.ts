@@ -1,17 +1,15 @@
 import { toArray } from '../convert/convert'
-import { Segment } from '../../types'
 import { get } from '../get/get'
 import { ranges } from '../staticValues'
+import { Select, QuerySelectAll } from './select.types'
 
-// TO DO: convert to new types format
-export function _$$(selector: string) {
+export const _$$: QuerySelectAll = (selector) => {
 	var elements = document.querySelectorAll(selector)
 	return toArray(elements)
 }
 
-// TO DO: convert to new types format
-export const select = ($input: HTMLInputElement) => ({
-	segment(segment: Segment) {
+export const select: Select = $input => ({
+	segment(segment) {
 		$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
 	},
 	nextSegment() {
@@ -27,3 +25,4 @@ export const select = ($input: HTMLInputElement) => ({
 		$input.setSelectionRange(start, end)
 	},
 })
+
