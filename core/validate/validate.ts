@@ -18,11 +18,11 @@ export const validate = {
 	},
 	string24hr: (string24hr: String24hr): boolean => {
 		if (!is.string24hr(string24hr)) {
-			const extra = /-/.test(string24hr)
-				? ' Use an empty string instead of "--:--" to represent a blank value'
-				: /24:\d\d/.test(string24hr)
-				? ' Use "00" instead of "24".'
-				: ''
+			const extra =
+				(/-/.test(string24hr) &&
+					' Use an empty string instead of "--:--" to represent a blank value') ||
+				(/24:\d\d/.test(string24hr) && ' Use "00" instead of "24".') ||
+				''
 			throw new Error(`"${string24hr}" is not a valid 24 hour time.${extra}`)
 		}
 		return true

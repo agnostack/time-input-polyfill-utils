@@ -28,6 +28,7 @@ module.exports = {
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
 		'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
+		'no-nested-ternary': 'error',
 	},
 
 	overrides: [
@@ -67,6 +68,7 @@ module.exports = {
 					{ assertionStyle: 'angle-bracket' },
 				],
 				'@typescript-eslint/no-namespace': [0, false],
+				'no-nested-ternary': 'error',
 			},
 		},
 	],

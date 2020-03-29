@@ -1,4 +1,4 @@
-import { TimeObject, Hour24, Minute, String12hr, String24hr } from '../../types'
+import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode } from '../../types'
 import {
 	convertString12hr,
 	convertString24hr,
@@ -290,21 +290,31 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => ({
 
 		const isAM = is.AM.timeObject(timeObject)
 
-		let hrs24Calculation
+		const get24HrHours = (targetMode: Mode): Hour24 => {
+			let hrs24Calculation: Hour24
+
+			if (hrs12 === '--') {
+				hrs24Calculation = '--'
+			} else {
+				const is12 = hrs12 === 12
+				const hours24hr = {
+					am: is12 ? 0 : hrs12,
+					pm: is12 ? 12 : hrs12 + 12,
+				}
+				hrs24Calculation = <Hour24>(targetMode === 'AM' ? hours24hr.am : hours24hr.pm)
+			}
+
+			return hrs24Calculation
+		}
 
 		if (mode === '--') {
 			const currentTimeMode = new Date().getHours() > 11 ? 'PM' : 'AM'
 			returnVal.mode = currentTimeMode
-
-			hrs24Calculation =
-				hrs12 === 12 ? (isAM ? 0 : 12) : isAM || hrs12 === '--' ? hrs12 : hrs12 + 12
+			returnVal.hrs24 = <Hour24>get24HrHours(currentTimeMode)
 		} else {
 			returnVal.mode = isAM ? 'PM' : 'AM'
-			hrs24Calculation =
-				hrs12 === 12 ? (isAM ? 12 : 0) : isAM && hrs12 !== '--' ? hrs12 + 12 : hrs12
+			returnVal.hrs24 = <Hour24>get24HrHours(isAM ? 'PM' : 'AM')
 		}
-
-		returnVal.hrs24 = <Hour24>(hrs12 === '--' ? '--' : hrs24Calculation)
 
 		if (hrs12 === '--' && mode === '--') {
 			return returnVal
