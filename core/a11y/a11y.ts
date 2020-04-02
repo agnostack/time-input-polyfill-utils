@@ -1,5 +1,5 @@
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { get } from '../get/get'
+import { getRangeOf, getInputValue, getLabelTextOf } from '../get/get'
 import { A11yCreate, A11yUpdate } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
@@ -15,9 +15,9 @@ export const a11yCreate: A11yCreate = (document = window.document) => {
 }
 
 export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = window.document) => {
-	const currentSegment = get.rangeOf($input).cursorSegment().segment
+	const currentSegment = getRangeOf($input).cursorSegment().segment
 
-	const values = get.inputValue($input).asTimeObject()
+	const values = getInputValue($input).asTimeObject()
 	const value = values[currentSegment]
 	const segmentValue = value == '--' ? 'blank' : value
 
@@ -38,7 +38,7 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 	const fullValue = $input.value.replace(/--/g, 'blank')
 
 	let html = `<p>${textArray.join('</p><p>')}</p>`
-	const labelText = get.labelTextOf($input, document)
+	const labelText = getLabelTextOf($input, document)
 	html = html.replace(/\$label/g, labelText)
 	html = html.replace(/\$segmentName/g, segmentName)
 	html = html.replace(/\$segmentValue/g, `${segmentValue}`)

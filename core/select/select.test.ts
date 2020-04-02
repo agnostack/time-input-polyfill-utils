@@ -1,12 +1,12 @@
 import { select } from './select'
-import { get } from '../get/get'
+import { getRangeOf } from '../get/get'
 import { SelectionRange, Segment } from '../../types'
 import { ranges } from '../staticValues'
 import { inputID } from '../../cypress/support/staticTestValues'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 
 const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange): void => {
-	const currentRange = get.rangeOf($input).rawSelection()
+	const currentRange = getRangeOf($input).rawSelection()
 	expect(currentRange).to.deep.equal(expectedRange)
 }
 
@@ -29,7 +29,7 @@ function testCursorRangeValues(): void {
 			it(`test range index ${index}`, async () => {
 				const { $input } = await loadTestPage()
 				$input.selectionStart = index
-				const output = get.rangeOf($input).cursorSegment()
+				const output = getRangeOf($input).cursorSegment()
 				expect(output).to.deep.equal(expectation)
 			})
 		}

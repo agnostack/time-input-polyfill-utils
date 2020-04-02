@@ -9,103 +9,106 @@ import {
 } from '../../types'
 import { ranges, rangesList } from '../staticValues'
 import { regex } from '../regex/regex'
-import { Get } from './get.types'
+import {
+	GetString12hr,
+	GetString24hr,
+	GetInputValue,
+	GetLabelTextOf,
+	GetRangeOf,
+	GetAncestorsOf,
+} from './get.types'
 
 const traverseSegmentRanges = (
 	$input: HTMLInputElement,
 	direction: 'forward' | 'backward',
 ): SelectionRange => {
-	const currentSegmentRange = get.rangeOf($input).cursorSegment()
+	const currentSegmentRange = getRangeOf($input).cursorSegment()
 	const currentType = currentSegmentRange.segment
 	const modifier = direction === 'forward' ? 1 : -1
 	const nextTypeIndex = rangesList.map(range => range.segment).indexOf(currentType) + modifier
 	return rangesList[nextTypeIndex] || currentSegmentRange
 }
 
-export const get: Get = {
-	string12hr: string12hr => {
-		const timeObject = convertString12hr(string12hr).toTimeObject()
-		return {
-			...timeObject,
-			timeObject,
-		}
-	},
-	string24hr: string24hr => {
-		const timeObject = convertString24hr(string24hr).toTimeObject()
-		return {
-			...timeObject,
-			timeObject,
-		}
-	},
-	inputValue: $input => {
-		const value = $input.value
-		const is12hrTime = regex.string12hr.test(value)
-		const is24hrTime = regex.string24hr.test(value)
-		return {
-			as12hrString: (): String12hr =>
-				is12hrTime ? value : convertString24hr(value).to12hr(),
-			as24hrString: (): String24hr =>
-				is24hrTime ? value : convertString12hr(value).to24hr(),
-			asTimeObject: (): TimeObject =>
-				is12hrTime
-					? convertString12hr(value).toTimeObject()
-					: convertString24hr(value).toTimeObject(),
-		}
-	},
-	labelTextOf: ($input, document = window.document) => {
-		const labelText =
-			aria_labelledby($input, document) ||
-			aria_label($input) ||
-			for_attribute($input, document) ||
-			label_wrapper_element($input) ||
-			title_attribute($input)
+export const getString12hr: GetString12hr = string12hr => {
+	const timeObject = convertString12hr(string12hr).toTimeObject()
+	return {
+		...timeObject,
+		timeObject,
+	}
+}
+export const getString24hr: GetString24hr = string24hr => {
+	const timeObject = convertString24hr(string24hr).toTimeObject()
+	return {
+		...timeObject,
+		timeObject,
+	}
+}
+export const getInputValue: GetInputValue = $input => {
+	const value = $input.value
+	const is12hrTime = regex.string12hr.test(value)
+	const is24hrTime = regex.string24hr.test(value)
+	return {
+		as12hrString: (): String12hr => (is12hrTime ? value : convertString24hr(value).to12hr()),
+		as24hrString: (): String24hr => (is24hrTime ? value : convertString12hr(value).to24hr()),
+		asTimeObject: (): TimeObject =>
+			is12hrTime
+				? convertString12hr(value).toTimeObject()
+				: convertString24hr(value).toTimeObject(),
+	}
+}
+export const getLabelTextOf: GetLabelTextOf = ($input, document = window.document) => {
+	const labelText =
+		aria_labelledby($input, document) ||
+		aria_label($input) ||
+		for_attribute($input, document) ||
+		label_wrapper_element($input) ||
+		title_attribute($input)
 
-		if (labelText) return labelText
+	if (labelText) return labelText
 
-		console.error('Label text for input not found.', $input)
-		throw new Error('Cannot polyfill time input due to a missing label.')
-	},
-	rangeOf: $input => ({
-		rawSelection: (): SelectionRange => {
-			const within = (segment: Segment, value: number): boolean =>
-				ranges[segment].start <= value && value <= ranges[segment].end
-			const start = <SelectionIndex>$input.selectionStart
-			const end = <SelectionIndex>$input.selectionEnd
-			const segment: Segment =
-				(within('mode', start) && 'mode') || (within('min', start) && 'min') || 'hrs12'
-			return {
-				start,
-				end,
-				segment,
-			}
-		},
-		cursorSegment(): SelectionRange {
-			const { segment } = get.rangeOf($input).rawSelection()
-			return ranges[segment]
-		},
-		nextSegment: (): SelectionRange => traverseSegmentRanges($input, 'forward'),
-		prevSegment: (): SelectionRange => traverseSegmentRanges($input, 'backward'),
-	}),
-	ancestorsOf: ($startingElem, selectorString) => {
-		// https://stackoverflow.com/a/8729274/1611058
-		let $elem = $startingElem
-		const ancestors = []
-		let i = 0
-		while ($elem) {
-			if (i !== 0) {
-				ancestors.push($elem)
-			}
-			const matchesSelector = $elem.msMatchesSelector
-				? $elem.msMatchesSelector(selectorString) // IE Hack
-				: $elem.matches(selectorString)
-			if (matchesSelector) {
-				return ancestors
-			}
-			$elem = $elem.parentElement
-			i++
+	console.error('Label text for input not found.', $input)
+	throw new Error('Cannot polyfill time input due to a missing label.')
+}
+export const getRangeOf: GetRangeOf = $input => ({
+	rawSelection: (): SelectionRange => {
+		const within = (segment: Segment, value: number): boolean =>
+			ranges[segment].start <= value && value <= ranges[segment].end
+		const start = <SelectionIndex>$input.selectionStart
+		const end = <SelectionIndex>$input.selectionEnd
+		const segment: Segment =
+			(within('mode', start) && 'mode') || (within('min', start) && 'min') || 'hrs12'
+		return {
+			start,
+			end,
+			segment,
 		}
-		return ancestors
 	},
+	cursorSegment(): SelectionRange {
+		const { segment } = getRangeOf($input).rawSelection()
+		return ranges[segment]
+	},
+	nextSegment: (): SelectionRange => traverseSegmentRanges($input, 'forward'),
+	prevSegment: (): SelectionRange => traverseSegmentRanges($input, 'backward'),
+})
+export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) => {
+	// https://stackoverflow.com/a/8729274/1611058
+	let $elem = $startingElem
+	const ancestors = []
+	let i = 0
+	while ($elem) {
+		if (i !== 0) {
+			ancestors.push($elem)
+		}
+		const matchesSelector = $elem.msMatchesSelector
+			? $elem.msMatchesSelector(selectorString) // IE Hack
+			: $elem.matches(selectorString)
+		if (matchesSelector) {
+			return ancestors
+		}
+		$elem = $elem.parentElement
+		i++
+	}
+	return ancestors
 }
 
 function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
@@ -132,7 +135,7 @@ function for_attribute($input: HTMLInputElement, document: Document = window.doc
 }
 
 function label_wrapper_element($input: HTMLInputElement): string {
-	const ancestors = get.ancestorsOf($input, 'label')
+	const ancestors = getAncestorsOf($input, 'label')
 	const $parentLabel = ancestors[ancestors.length - 1]
 	if ($parentLabel.nodeName == 'LABEL') return $parentLabel.textContent.trim()
 	return ''

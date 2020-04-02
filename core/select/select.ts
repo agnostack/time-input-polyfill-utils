@@ -1,5 +1,5 @@
 import { toArray } from '../convert/convert'
-import { get } from '../get/get'
+import { getRangeOf } from '../get/get'
 import { ranges } from '../staticValues'
 import { Select, QuerySelectAll } from './select.types'
 
@@ -13,15 +13,15 @@ export const select: Select = $input => ({
 		$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
 	},
 	nextSegment(): void {
-		const { start, end } = get.rangeOf($input).nextSegment()
+		const { start, end } = getRangeOf($input).nextSegment()
 		$input.setSelectionRange(start, end)
 	},
 	prevSegment(): void {
-		const { start, end } = get.rangeOf($input).prevSegment()
+		const { start, end } = getRangeOf($input).prevSegment()
 		$input.setSelectionRange(start, end)
 	},
 	cursorSegment(): void {
-		const { start, end } = get.rangeOf($input).cursorSegment()
+		const { start, end } = getRangeOf($input).cursorSegment()
 		$input.setSelectionRange(start, end)
 	},
 })
