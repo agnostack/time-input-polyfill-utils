@@ -7,20 +7,16 @@ export interface ValidateTimeStringProps {
 	maxHrs: Hour24 | Hour12
 }
 
-export interface Is {
-	PM: {
-		hrs24: (hrs24: Hour24) => boolean
-		string12hr: (string12hr: String12hr) => boolean
-		string24hr: (string24hr: String24hr) => boolean
-		timeObject: (timeObject: TimeObject) => boolean
-	}
-	AM: {
-		hrs24: (hrs24: Hour24) => boolean
-		string12hr: (string12hr: String12hr) => boolean
-		string24hr: (string24hr: String24hr) => boolean
-		timeObject: (timeObject: TimeObject) => boolean
-	}
-	timeObject: (value: any) => boolean
-	string12hr: (value: any) => boolean
-	string24hr: (value: any) => boolean
-}
+export type IsPmHrs24 = (hrs24: Hour24) => boolean
+export type IsPmString12hr = (string12hr: String12hr) => boolean
+export type IsPmString24hr = (string24hr: String24hr) => boolean
+export type IsPmTimeObject = (timeObject: TimeObject) => boolean
+
+export type IsAmHrs24 = (hrs24: Hour24) => boolean
+export type IsAmString12hr = (string12hr: String12hr) => boolean
+export type IsAmString24hr = (string24hr: String24hr) => boolean
+export type IsAmTimeObject = (timeObject: TimeObject) => boolean
+
+export type IsString12hr = (value: any) => boolean
+export type IsString24hr = (value: any) => boolean
+export type IsTimeObject = (value: any) => boolean

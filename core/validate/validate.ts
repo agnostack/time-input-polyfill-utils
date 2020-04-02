@@ -1,6 +1,6 @@
 import { TimeObject } from '../../types/timeObject'
 import { String24hr, String12hr } from '../../types/strings'
-import { is } from '../is/is'
+import { isString12hr, isString24hr, isTimeObject } from '../is/is'
 import { Hour24 } from '../../types'
 
 const writeBadValue = (badValue: any): any =>
@@ -9,7 +9,7 @@ const writeBadValue = (badValue: any): any =>
 // TO DO: convert to new types format
 export const validate = {
 	string12hr: (string12hr: String12hr): boolean => {
-		if (!is.string12hr(string12hr)) {
+		if (!isString12hr(string12hr)) {
 			throw new Error(
 				`"${string12hr}" is not a valid 12 hour time, use the format "HH:MM AM/PM"`,
 			)
@@ -17,7 +17,7 @@ export const validate = {
 		return true
 	},
 	string24hr: (string24hr: String24hr): boolean => {
-		if (!is.string24hr(string24hr)) {
+		if (!isString24hr(string24hr)) {
 			const extra =
 				(/-/.test(string24hr) &&
 					' Use an empty string instead of "--:--" to represent a blank value') ||
@@ -29,7 +29,7 @@ export const validate = {
 	},
 	timeObject: (timeObject: TimeObject): boolean => {
 		const { hrs24, hrs12, min, mode } = timeObject
-		if (!is.timeObject(timeObject)) {
+		if (!isTimeObject(timeObject)) {
 			throw new Error(
 				`${JSON.stringify(
 					timeObject,

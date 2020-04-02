@@ -1,7 +1,20 @@
 import { TimeObjectKeys } from '../../types/timeObject'
 import { regex } from '../regex/regex'
 import { toNumber } from '../convert/convert'
-import { ValidateTimeStringProps, Is } from './is.types'
+import {
+	ValidateTimeStringProps,
+	IsPmHrs24,
+	IsPmString12hr,
+	IsPmString24hr,
+	IsPmTimeObject,
+	IsAmHrs24,
+	IsAmString12hr,
+	IsAmString24hr,
+	IsAmTimeObject,
+	IsString12hr,
+	IsString24hr,
+	IsTimeObject,
+} from './is.types'
 
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
@@ -14,42 +27,44 @@ const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeString
 	return isHrsValid && isMinsValid
 }
 
-export const is: Is = {
-	PM: {
-		hrs24: (hrs24): boolean => 12 <= hrs24 && hrs24 < 24,
+export const isPmHrs24: IsPmHrs24 = (hrs24): boolean => 12 <= hrs24 && hrs24 < 24
 
-		string12hr: (string12hr): boolean => regex.string12hr.exec(string12hr)[3] === 'PM',
+export const isPmString12hr: IsPmString12hr = (string12hr): boolean =>
+	regex.string12hr.exec(string12hr)[3] === 'PM'
 
-		string24hr: (string24hr): boolean => {
-			if (string24hr === '') return false
-			const hrs24 = toNumber(regex.string24hr.exec(string24hr)[1])
-			return typeof hrs24 == 'number' && hrs24 > 11
-		},
+export const isPmString24hr: IsPmString24hr = (string24hr): boolean => {
+	if (string24hr === '') return false
+	const hrs24 = toNumber(regex.string24hr.exec(string24hr)[1])
+	return typeof hrs24 == 'number' && hrs24 > 11
+}
 
-		timeObject: (timeObject): boolean =>
-			timeObject.mode === 'PM' || (timeObject.mode === '--' && new Date().getHours() > 11),
-	},
-	AM: {
-		hrs24: (hrs24): boolean => hrs24 !== '--' && !is.PM.hrs24(hrs24),
-		string12hr: (string12hr): boolean =>
-			regex.string12hr.test(string12hr) &&
-			string12hr.indexOf('--') === -1 &&
-			!is.PM.string12hr(string12hr),
-		string24hr: (string24hr): boolean => string24hr !== '' && !is.PM.string24hr(string24hr),
-		timeObject: (timeObject): boolean => !is.PM.timeObject(timeObject),
-	},
-	timeObject: (value): boolean => {
-		if (typeof value === 'undefined' || typeof value !== 'object') return false
-		const keys = Object.keys(value)
-		if (keys.length === 0) return false
-		const filteredKeys = TimeObjectKeys.filter((key: string) => keys.indexOf(key) === -1)
-		const additionalKeys = keys.filter((key: string) => TimeObjectKeys.indexOf(key) === -1)
-		return filteredKeys.length === 0 && additionalKeys.length === 0
-	},
-	string12hr: (value): boolean =>
-		isValidTimeString({ value, format: 'string12hr', minHrs: 1, maxHrs: 12 }),
-	string24hr: (value): boolean => {
-		if (value === '') return true
-		return isValidTimeString({ value, format: 'string24hr', minHrs: 0, maxHrs: 23 })
-	},
+export const isPmTimeObject: IsPmTimeObject = (timeObject): boolean =>
+	timeObject.mode === 'PM' || (timeObject.mode === '--' && new Date().getHours() > 11)
+
+export const isAmHrs24: IsAmHrs24 = (hrs24): boolean => hrs24 !== '--' && !isPmHrs24(hrs24)
+
+export const isAmString12hr: IsAmString12hr = (string12hr): boolean =>
+	regex.string12hr.test(string12hr) &&
+	string12hr.indexOf('--') === -1 &&
+	!isPmString12hr(string12hr)
+
+export const isAmString24hr: IsAmString24hr = (string24hr): boolean =>
+	string24hr !== '' && !isPmString24hr(string24hr)
+
+export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean => !isPmTimeObject(timeObject)
+
+export const isTimeObject: IsTimeObject = (value): boolean => {
+	if (typeof value === 'undefined' || typeof value !== 'object') return false
+	const keys = Object.keys(value)
+	if (keys.length === 0) return false
+	const filteredKeys = TimeObjectKeys.filter((key: string) => keys.indexOf(key) === -1)
+	const additionalKeys = keys.filter((key: string) => TimeObjectKeys.indexOf(key) === -1)
+	return filteredKeys.length === 0 && additionalKeys.length === 0
+}
+export const isString12hr: IsString12hr = (value): boolean =>
+	isValidTimeString({ value, format: 'string12hr', minHrs: 1, maxHrs: 12 })
+
+export const isString24hr: IsString24hr = (value): boolean => {
+	if (value === '') return true
+	return isValidTimeString({ value, format: 'string24hr', minHrs: 0, maxHrs: 23 })
 }

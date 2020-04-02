@@ -6,7 +6,7 @@ import {
 	convertHours24,
 } from '../convert/convert'
 import { maxAndMins } from '../staticValues'
-import { is } from '../is/is'
+import { isAmTimeObject } from '../is/is'
 import {
 	ModifierFunction,
 	ModifyTimeString,
@@ -288,7 +288,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => ({
 
 		const returnVal: TimeObject = { ...timeObject }
 
-		const isAM = is.AM.timeObject(timeObject)
+		const isAM = isAmTimeObject(timeObject)
 
 		const get24HrHours = (targetMode: Mode): Hour24 => {
 			let hrs24Calculation: Hour24

@@ -1,6 +1,6 @@
 import { Hour24, Hour12, Mode, Minute, String24hr, String12hr } from '../../types'
 import { TimeObject } from '../../types/timeObject'
-import { is } from '../is/is'
+import { isAmString24hr, isPmString24hr, isAmHrs24 } from '../is/is'
 import { regex } from '../regex/regex'
 import { validate } from '../validate/validate'
 import { blankValues } from '../../common'
@@ -96,8 +96,8 @@ export const convertString24hr: ConvertString24hr = string24hr => {
 				hrs12: convertHours24(hrs24).toHours12(),
 				min,
 				mode:
-					(is.AM.string24hr(string24hr) && 'AM') ||
-					(is.PM.string24hr(string24hr) && 'PM') ||
+					(isAmString24hr(string24hr) && 'AM') ||
+					(isPmString24hr(string24hr) && 'PM') ||
 					'--',
 			}
 
@@ -156,7 +156,7 @@ export const convertDateObject: ConvertDateObject = date => {
 		toTimeObject(): TimeObject {
 			const [hrs24, min] = [<Hour24>date.getHours(), <Minute>date.getMinutes()]
 			const hrs12 = convertHours24(hrs24).toHours12()
-			const mode: Mode = is.AM.hrs24(hrs24) ? 'AM' : 'PM'
+			const mode: Mode = isAmHrs24(hrs24) ? 'AM' : 'PM'
 			return { hrs24, hrs12, min, mode }
 		},
 	}

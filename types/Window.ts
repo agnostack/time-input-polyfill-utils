@@ -20,6 +20,19 @@ import {
 	GetRangeOf,
 	GetAncestorsOf,
 } from '../core/get/get.types'
+import {
+	IsPmHrs24,
+	IsPmString12hr,
+	IsPmString24hr,
+	IsPmTimeObject,
+	IsAmHrs24,
+	IsAmString12hr,
+	IsAmString24hr,
+	IsAmTimeObject,
+	IsTimeObject,
+	IsString12hr,
+	IsString24hr,
+} from '../core/is/is.types'
 
 declare global {
 	interface Window {
@@ -44,7 +57,19 @@ declare global {
 			getRangeOf: GetRangeOf
 			getAncestorsOf: GetAncestorsOf
 
-			// TO DO: is
+			isPmHrs24: IsPmHrs24
+			isPmString12hr: IsPmString12hr
+			isPmString24hr: IsPmString24hr
+			isPmTimeObject: IsPmTimeObject
+
+			isAmHrs24: IsAmHrs24
+			isAmString12hr: IsAmString12hr
+			isAmString24hr: IsAmString24hr
+			isAmTimeObject: IsAmTimeObject
+
+			isTimeObject: IsTimeObject
+			isString12hr: IsString12hr
+			isString24hr: IsString24hr
 
 			ManualEntryLog: typeof ManualEntryLog
 
