@@ -12,6 +12,14 @@ import {
 import { ManualEntryLog } from '../core/ManualEntryLog/ManualEntryLog'
 import { ModifyString12hr, ModifyString24hr, ModifyTimeObject } from '../core/modify/modify.types'
 import { QuerySelectAll } from '../core/select/select.types'
+import {
+	GetString24hr,
+	GetString12hr,
+	GetInputValue,
+	GetLabelTextOf,
+	GetRangeOf,
+	GetAncestorsOf,
+} from '../core/get/get.types'
 
 declare global {
 	interface Window {
@@ -29,7 +37,12 @@ declare global {
 			convertHours24: ConvertHours24
 			convertDateObject: ConvertDateObject
 
-			// TO DO: get
+			getString12hr: GetString12hr
+			getString24hr: GetString24hr
+			getInputValue: GetInputValue
+			getLabelTextOf: GetLabelTextOf
+			getRangeOf: GetRangeOf
+			getAncestorsOf: GetAncestorsOf
 
 			// TO DO: is
 
