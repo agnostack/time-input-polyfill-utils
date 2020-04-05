@@ -1,4 +1,5 @@
-import cyPromise from 'cypress-promise'
+// cypress was failing when trying to find cypress-promise
+import cyPromise from '../../node_modules/cypress-promise/index'
 import { inputID, inputPreFilledID } from './staticTestValues'
 
 interface LoadedPageProps {
