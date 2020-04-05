@@ -6,7 +6,7 @@ export default {
 	input: 'timeInputPolyfillUtils.ts',
 	plugins: [typeScript(), babel(), terser()],
 	output: {
-		file: 'dist/timeInputPolyfillUtils.min.js',
+		file: 'time-input-polyfill-utils.min.js',
 		format: 'iife',
 	},
 }

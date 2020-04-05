@@ -3,7 +3,7 @@
 	"version": "1.0.0-beta.6",
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "index.js",
-	"jsdelivr": "dist/timeInputPolyfillUtils.min.js",
+	"jsdelivr": "time-input-polyfill-utils.min.js",
 	"type": "module",
 	"scripts": {
 		"start": "cypress open",
@@ -16,7 +16,7 @@
 		"cy:modifiers": "cypress run --spec \"cypress/integration/modifiers.test.ts\"",
 		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
 		"prepublish": "rollup -c && npx tsc --project tsconfig.prepublish.json",
-		"postpublish": "rm -rf common/*.js core/**/*.types.js core/ManualEntryLog/ManualEntryLog.js types/*.js"
+		"postpublish": "rm -rf time-input-polyfill-utils.min.js common/*.js core/**/*.types.js core/ManualEntryLog/ManualEntryLog.js types/*.js"
 	},
 	"repository": {
 		"type": "git",
