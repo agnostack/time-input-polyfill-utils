@@ -39,6 +39,12 @@ import {
 	IsString12hr,
 	IsString24hr,
 } from '../core/is/is.types'
+import {
+	ValidateString12hr,
+	ValidateString24hr,
+	ValidateTimeObject,
+	ValidateHours24,
+} from '../core/validate/validate.types'
 
 declare global {
 	interface Window {
@@ -95,7 +101,10 @@ declare global {
 			selectPrevSegment: SelectPrevSegment
 			selectCursorSegment: SelectCursorSegment
 
-			// TO DO: validate
+			validateString12hr: ValidateString12hr
+			validateString24hr: ValidateString24hr
+			validateTimeObject: ValidateTimeObject
+			validateHours24: ValidateHours24
 		}
 		supportsTime?: boolean
 	}

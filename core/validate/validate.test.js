@@ -1,4 +1,4 @@
-import { validate } from './validate'
+import { validateString12hr, validateString24hr, validateTimeObject } from './validate'
 import { failTest } from '../../cypress/support/failTest'
 
 /* global describe, expect, it */
@@ -14,14 +14,14 @@ function validate12hrTests() {
 		const fail12hr = value => {
 			it(`"${value}" FAIL`, () => {
 				failTest(
-					() => validate.string12hr(value),
+					() => validateString12hr(value),
 					`"${value}" is not a valid 12 hour time, use the format "HH:MM AM/PM"`,
 				)
 			})
 		}
 		const pass12hr = value => {
 			it(`"${value}" PASS`, () => {
-				expect(validate.string12hr(value)).to.equal(true)
+				expect(validateString12hr(value)).to.equal(true)
 			})
 		}
 
@@ -50,14 +50,14 @@ function validate24hrTests() {
 		const fail24hr = (value, extraMessage = '') => {
 			it(`"${value}" FAIL`, () => {
 				failTest(
-					() => validate.string24hr(value),
+					() => validateString24hr(value),
 					`"${value}" is not a valid 24 hour time.${extraMessage}`,
 				)
 			})
 		}
 		const pass24hr = value => {
 			it(`"${value}" PASS`, () => {
-				expect(validate.string24hr(value)).to.equal(true)
+				expect(validateString24hr(value)).to.equal(true)
 			})
 		}
 
@@ -91,18 +91,18 @@ function validateTimeObjectTests() {
 			describe('Basic tests', () => {
 				it('basic time object', () => {
 					expect(
-						validate.timeObject({ hrs24: 13, hrs12: 1, min: 0, mode: 'PM' }),
+						validateTimeObject({ hrs24: 13, hrs12: 1, min: 0, mode: 'PM' }),
 					).to.equal(true)
 				})
 				it('hrs12 & hrs24 mismatch', () => {
 					failTest(
-						() => validate.timeObject({ hrs24: 2, hrs12: 1, min: 0, mode: 'AM' }),
+						() => validateTimeObject({ hrs24: 2, hrs12: 1, min: 0, mode: 'AM' }),
 						'hrs12 (1) should be equal to or 12 hours behind hrs24 (2)',
 					)
 				})
 				it('hrs24 & AM/PM mismatch', () => {
 					failTest(
-						() => validate.timeObject({ hrs24: 1, hrs12: 1, min: 0, mode: 'PM' }),
+						() => validateTimeObject({ hrs24: 1, hrs12: 1, min: 0, mode: 'PM' }),
 						'If mode (PM) is "PM", hrs24 (1) should be greater than or equal to 12',
 					)
 				})
@@ -121,7 +121,7 @@ function validateTimeObjectTests() {
 							[propName]: 1,
 						}
 						failTest(
-							() => validate.timeObject(testObject),
+							() => validateTimeObject(testObject),
 							`${JSON.stringify(
 								testObject,
 							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
@@ -164,7 +164,7 @@ function validateTimeObjectTests() {
 							const badValue = writeBadValue(badPropValues[index])
 							it(testName, () => {
 								failTest(
-									() => validate.timeObject(badTimeObjects[index]),
+									() => validateTimeObject(badTimeObjects[index]),
 									`${propName} (${badValue}) is invalid, "${propName}" must be a number ${lower}-${upper} or "--"`,
 								)
 							})
@@ -181,7 +181,7 @@ function validateTimeObjectTests() {
 						const badValue = writeBadValue(mode)
 						it(testName, () => {
 							failTest(
-								() => validate.timeObject({ hrs24: 1, hrs12: 1, min: 0, mode }),
+								() => validateTimeObject({ hrs24: 1, hrs12: 1, min: 0, mode }),
 								`Mode (${badValue}) is invalid. Valid values are: "AM","PM","--"`,
 							)
 						})
@@ -204,7 +204,7 @@ function validateTimeObjectTests() {
 
 					it(`${missingProp} property is missing`, () => {
 						failTest(
-							() => validate.timeObject(badTimeObject),
+							() => validateTimeObject(badTimeObject),
 							`${JSON.stringify(
 								badTimeObject,
 							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,

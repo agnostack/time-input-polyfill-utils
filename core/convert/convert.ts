@@ -2,7 +2,12 @@ import { Hour24, Hour12, Mode, Minute, String24hr, String12hr } from '../../type
 import { TimeObject } from '../../types/timeObject'
 import { isAmString24hr, isPmString24hr, isAmHrs24 } from '../is/is'
 import { regex } from '../regex/regex'
-import { validate } from '../validate/validate'
+import {
+	validateString12hr,
+	validateTimeObject,
+	validateString24hr,
+	validateHours24,
+} from '../validate/validate'
 import { blankValues } from '../../common'
 import {
 	ConvertString12hr,
@@ -29,7 +34,7 @@ export const toLeadingZero: ToLeadingZero = value => {
 }
 
 export const convertString12hr: ConvertString12hr = string12hr => {
-	validate.string12hr(string12hr)
+	validateString12hr(string12hr)
 	return {
 		to24hr(): String24hr {
 			if (/-/.test(string12hr)) return ''
@@ -68,13 +73,13 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 				mode,
 			}
 
-			validate.timeObject(timeObject)
+			validateTimeObject(timeObject)
 			return timeObject
 		},
 	}
 }
 export const convertString24hr: ConvertString24hr = string24hr => {
-	validate.string24hr(string24hr)
+	validateString24hr(string24hr)
 	return {
 		to12hr(): String24hr {
 			if (string24hr === blankValues.string24hr) {
@@ -101,14 +106,14 @@ export const convertString24hr: ConvertString24hr = string24hr => {
 					'--',
 			}
 
-			validate.timeObject(timeObject)
+			validateTimeObject(timeObject)
 			return timeObject
 		},
 	}
 }
 export const convertTimeObject: ConvertTimeObject = (timeObject, skipValidation = false) => {
 	if (!skipValidation) {
-		validate.timeObject(timeObject)
+		validateTimeObject(timeObject)
 	}
 	const { hrs24, hrs12, min, mode } = timeObject
 	const hrsString24 = toLeadingZero(hrs24)
@@ -124,7 +129,7 @@ export const convertTimeObject: ConvertTimeObject = (timeObject, skipValidation 
 	}
 }
 export const convertHours24: ConvertHours24 = hours24 => {
-	validate.hours24(hours24)
+	validateHours24(hours24)
 	const getHours12 = (): Hour12 => {
 		if (typeof hours24 === 'number') {
 			if (hours24 <= 12) {
