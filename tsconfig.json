@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"alwaysStrict": true,
-		"noImplicitAny": true,
+		"strict": true,
 		"target": "es5",
 		"module": "ES2015",
 		"lib": ["es2015", "es2017", "dom"],
