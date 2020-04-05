@@ -15,8 +15,7 @@
 		"cy:getters": "cypress run --spec \"cypress/integration/getters.test.ts\"",
 		"cy:modifiers": "cypress run --spec \"cypress/integration/modifiers.test.ts\"",
 		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
-		"rollup": "rollup -c",
-		"prepublish": "npx tsc --project tsconfig.prepublish.json",
+		"prepublish": "rollup -c && npx tsc --project tsconfig.prepublish.json",
 		"postpublish": "rm -rf common/*.js core/**/*.types.js core/ManualEntryLog/ManualEntryLog.js types/*.js"
 	},
 	"repository": {
