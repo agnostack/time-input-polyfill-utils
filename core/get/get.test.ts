@@ -11,7 +11,7 @@ import { preFilledValues } from '../../cypress/support/staticTestValues'
 import { SelectionRange } from '../../types/index'
 import { ranges } from '../staticValues'
 import { failTest } from '../../cypress/support/failTest'
-import { blankValues } from '../../common'
+import { blankValues } from '../../common/index'
 
 getAncestorsTests()
 getString12hrTests()
@@ -26,8 +26,8 @@ function getAncestorsTests(): void {
 			const { $input } = await loadTestPage()
 			expect(getAncestorsOf($input)).to.deep.equal([
 				$input.parentElement,
-				$input.parentElement.parentElement,
-				$input.parentElement.parentElement.parentElement,
+				$input.parentElement?.parentElement,
+				$input.parentElement?.parentElement?.parentElement,
 			])
 		})
 

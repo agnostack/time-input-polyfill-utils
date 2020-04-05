@@ -3,7 +3,7 @@ import { regex } from './regex'
 const regexTest = (
 	timeString: string,
 	regEx: RegExp,
-	expectedArray: Array<string> | null,
+	expectedArray: Array<string | undefined> | null,
 ): void => {
 	const testName = timeString || '<empty string>'
 	describe(testName, () => {
@@ -16,7 +16,7 @@ const regexTest = (
 				expect(timeString).to.match(regEx)
 			})
 			it(`${testName} has correct results`, () => {
-				expect([...regEx.exec(timeString)]).to.deep.equal(expectedArray)
+				expect(regEx.exec(timeString)).to.deep.equal(expectedArray)
 			})
 		}
 	})

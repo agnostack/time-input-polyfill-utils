@@ -1,4 +1,4 @@
-import { Hour24, Hour12, Minute, SelectionRange, Segment } from '../types'
+import { Hour24, Hour12, Minute, SelectionRange, Segment } from '../types/index'
 
 // TO DO: convert to new types format
 export const ranges = {
@@ -8,7 +8,7 @@ export const ranges = {
 }
 
 // TO DO: convert to new types format
-export const rangesList = Object.keys(ranges).map((key: Segment) => ranges[key])
+export const rangesList: Array<SelectionRange> = [ranges.hrs12, ranges.min, ranges.mode]
 
 // TO DO: convert to new types format
 export const maxAndMins = {

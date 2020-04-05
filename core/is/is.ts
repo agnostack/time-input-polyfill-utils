@@ -19,7 +19,7 @@ import {
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
 	if (!isFormatValid) return false
-	const parsedString = regex[format].exec(value)
+	const parsedString = regex[format].exec(value) || []
 	const hrsVal = toNumber(parsedString[1])
 	const minsVal = toNumber(parsedString[2])
 	const isHrsValid = hrsVal === '--' || (hrsVal >= minHrs && hrsVal <= maxHrs)
@@ -30,11 +30,11 @@ const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeString
 export const isPmHrs24: IsPmHrs24 = (hrs24): boolean => 12 <= hrs24 && hrs24 < 24
 
 export const isPmString12hr: IsPmString12hr = (string12hr): boolean =>
-	regex.string12hr.exec(string12hr)[3] === 'PM'
+	regex.string12hr.exec(string12hr)?.[3] === 'PM'
 
 export const isPmString24hr: IsPmString24hr = (string24hr): boolean => {
 	if (string24hr === '') return false
-	const hrs24 = toNumber(regex.string24hr.exec(string24hr)[1])
+	const hrs24 = toNumber(regex.string24hr.exec(string24hr)?.[1] || '')
 	return typeof hrs24 == 'number' && hrs24 > 11
 }
 

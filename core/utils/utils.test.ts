@@ -41,10 +41,10 @@ function convert_possible_number_to_guaranteed_number(): void {
 function NodeList_to_array(): void {
 	describe('NodeList to array', () => {
 		it('Expect node element list to become an array of elements', () => {
-			const create = () => {
+			const create = (): HTMLDivElement => {
 				const div = document.createElement('div')
 				div.classList.add('NodeList-test')
-				document.querySelector('body').appendChild(div)
+				document.querySelector('body')?.appendChild(div)
 				return div
 			}
 			const elementsArray = [create(), create(), create()]

@@ -93,44 +93,49 @@ export const getRangeOf: GetRangeOf = $input => ({
 })
 export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) => {
 	// https://stackoverflow.com/a/8729274/1611058
-	let $elem = $startingElem
+	let $elem: HTMLElement | null = $startingElem
 	const ancestors = []
 	let i = 0
 	while ($elem) {
 		if (i !== 0) {
 			ancestors.push($elem)
 		}
-		const matchesSelector = $elem.msMatchesSelector
-			? $elem.msMatchesSelector(selectorString) // IE Hack
-			: $elem.matches(selectorString)
-		if (matchesSelector) {
-			return ancestors
+		if (selectorString) {
+			const matchesSelector = $elem.msMatchesSelector
+				? $elem.msMatchesSelector(selectorString) // IE Hack
+				: $elem.matches(selectorString)
+			if (matchesSelector) {
+				return ancestors
+			}
 		}
-		$elem = $elem.parentElement
+		$elem = $elem?.parentElement
 		i++
 	}
 	return ancestors
 }
 
+const elemText = ($elem: HTMLElement | null): string => $elem?.textContent?.trim() || ''
+
 function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
 	const ariaLabelByID = $input.getAttribute('aria-labelledby')
 	if (ariaLabelByID) {
 		const $ariaLabelBy = document.getElementById(ariaLabelByID)
-		if ($ariaLabelBy) return $ariaLabelBy.textContent
+		return elemText($ariaLabelBy)
 	}
 	return ''
 }
 
 function aria_label($input: HTMLInputElement): string {
 	const ariaLabel = $input.getAttribute('aria-label')
-	if (ariaLabel) return ariaLabel
-	return ''
+	return ariaLabel || ''
 }
 
 function for_attribute($input: HTMLInputElement, document: Document = window.document): string {
 	if ($input.id) {
-		const $forLabel = document.querySelector('label[for="' + $input.id + '"]')
-		if ($forLabel) return $forLabel.textContent.trim()
+		const $forLabel = <HTMLElement | null>(
+			document.querySelector('label[for="' + $input.id + '"]')
+		)
+		return elemText($forLabel)
 	}
 	return ''
 }
@@ -138,12 +143,11 @@ function for_attribute($input: HTMLInputElement, document: Document = window.doc
 function label_wrapper_element($input: HTMLInputElement): string {
 	const ancestors = getAncestorsOf($input, 'label')
 	const $parentLabel = ancestors[ancestors.length - 1]
-	if ($parentLabel.nodeName == 'LABEL') return $parentLabel.textContent.trim()
+	if ($parentLabel.nodeName == 'LABEL') return elemText($parentLabel)
 	return ''
 }
 
 function title_attribute($input: HTMLInputElement): string {
 	const titleLabel = $input.getAttribute('title')
-	if (titleLabel) return titleLabel
-	return ''
+	return titleLabel || ''
 }

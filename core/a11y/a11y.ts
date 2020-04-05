@@ -10,7 +10,7 @@ export const a11yCreate: A11yCreate = (document = window.document) => {
 		'position: absolute; opacity: 0; height: 0; width: 0; overflow: hidden; pointer-events: none;',
 	)
 	$block.id = a11yID
-	document.querySelector('body').appendChild($block)
+	document.querySelector('body')?.appendChild($block)
 	return $block
 }
 
@@ -44,7 +44,11 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 	html = html.replace(/\$segmentValue/g, `${segmentValue}`)
 	html = html.replace(/\$fullValue/g, fullValue)
 
-	document.getElementById(a11yID).innerHTML = html
+	const $a11y = document.getElementById(a11yID)
+
+	if ($a11y) {
+		$a11y.innerHTML = html
+	}
 
 	return html
 }
