@@ -1,3 +1,4 @@
+// import './dom.ie'
 import { convertString12hr, convertString24hr } from '../convert/convert'
 import {
 	SelectionIndex,

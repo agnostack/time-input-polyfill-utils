@@ -3,6 +3,7 @@
 	"version": "1.0.0-beta.4",
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "index.js",
+	"jsdelivr": "dist/timeInputPolyfillUtils.min.js",
 	"type": "module",
 	"scripts": {
 		"start": "cypress open",
@@ -13,7 +14,8 @@
 		"cy:converters": "cypress run --spec \"cypress/integration/converters.test.ts\"",
 		"cy:getters": "cypress run --spec \"cypress/integration/getters.test.ts\"",
 		"cy:modifiers": "cypress run --spec \"cypress/integration/modifiers.test.ts\"",
-		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\""
+		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
+		"rollup": "rollup -c"
 	},
 	"repository": {
 		"type": "git",
@@ -36,8 +38,11 @@
 	"homepage": "https://github.com/Dan503/time-input-polyfill-utils#readme",
 	"devDependencies": {
 		"@cypress/webpack-preprocessor": "^4.1.1",
+		"@rollup/plugin-typescript": "^4.0.0",
 		"@typescript-eslint/eslint-plugin": "^2.25.0",
 		"@typescript-eslint/parser": "^2.25.0",
+		"babel-plugin-external-helpers": "^6.22.0",
+		"babel-preset-env": "^1.7.0",
 		"cypress": "^4.1.0",
 		"cypress-promise": "^1.1.0",
 		"eslint": "^6.8.0",
@@ -45,7 +50,11 @@
 		"eslint-plugin-cypress": "^2.10.3",
 		"eslint-plugin-prettier": "^3.1.2",
 		"prettier": "^1.19.1",
+		"rollup": "^2.3.3",
+		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-terser": "^5.3.0",
 		"ts-loader": "^6.2.1",
+		"ts-node": "^8.8.2",
 		"typescript": "^3.7.3",
 		"webpack": "^4.41.2"
 	}

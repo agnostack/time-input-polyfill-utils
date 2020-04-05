@@ -3,7 +3,7 @@
 		"alwaysStrict": true,
 		"noImplicitAny": true,
 		"target": "es5",
-		"module": "commonjs",
+		"module": "ES2015",
 		"lib": ["es2015", "es2017", "dom"],
 		"baseUrl": "../node_modules",
 		"types": ["cypress"]
