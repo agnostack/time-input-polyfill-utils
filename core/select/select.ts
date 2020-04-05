@@ -1,27 +1,31 @@
 import { toArray } from '../convert/convert'
 import { getRangeOf } from '../get/get'
 import { ranges } from '../staticValues'
-import { Select, QuerySelectAll } from './select.types'
+import {
+	QuerySelectAll,
+	SelectSegment,
+	SelectNextSegment,
+	SelectPrevSegment,
+	SelectCursorSegment,
+} from './select.types'
 
 export const _$$: QuerySelectAll = selector => {
 	const elements = document.querySelectorAll(selector)
 	return toArray(elements)
 }
 
-export const select: Select = $input => ({
-	segment(segment): void {
-		$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
-	},
-	nextSegment(): void {
-		const { start, end } = getRangeOf($input).nextSegment()
-		$input.setSelectionRange(start, end)
-	},
-	prevSegment(): void {
-		const { start, end } = getRangeOf($input).prevSegment()
-		$input.setSelectionRange(start, end)
-	},
-	cursorSegment(): void {
-		const { start, end } = getRangeOf($input).cursorSegment()
-		$input.setSelectionRange(start, end)
-	},
-})
+export const selectSegment: SelectSegment = ($input, segment) => {
+	$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
+}
+export const selectNextSegment: SelectNextSegment = $input => {
+	const { start, end } = getRangeOf($input).nextSegment()
+	$input.setSelectionRange(start, end)
+}
+export const selectPrevSegment: SelectPrevSegment = $input => {
+	const { start, end } = getRangeOf($input).prevSegment()
+	$input.setSelectionRange(start, end)
+}
+export const selectCursorSegment: SelectCursorSegment = $input => {
+	const { start, end } = getRangeOf($input).cursorSegment()
+	$input.setSelectionRange(start, end)
+}

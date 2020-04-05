@@ -11,7 +11,13 @@ import {
 } from '../core/convert/convert.types'
 import { ManualEntryLog } from '../core/ManualEntryLog/ManualEntryLog'
 import { ModifyString12hr, ModifyString24hr, ModifyTimeObject } from '../core/modify/modify.types'
-import { QuerySelectAll } from '../core/select/select.types'
+import {
+	QuerySelectAll,
+	SelectSegment,
+	SelectNextSegment,
+	SelectPrevSegment,
+	SelectCursorSegment,
+} from '../core/select/select.types'
 import {
 	GetString24hr,
 	GetString12hr,
@@ -84,7 +90,10 @@ declare global {
 
 			_$$: QuerySelectAll
 
-			// TO DO: select
+			selectSegment: SelectSegment
+			selectNextSegment: SelectNextSegment
+			selectPrevSegment: SelectPrevSegment
+			selectCursorSegment: SelectCursorSegment
 
 			// TO DO: validate
 		}
