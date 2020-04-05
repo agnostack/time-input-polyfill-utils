@@ -43,6 +43,7 @@ import {
 	ValidateTimeObject,
 	ValidateHours24,
 } from '../core/validate/validate.types'
+import { SelectionRange, Ranges, MaxAndMins, Segment } from './index'
 
 declare global {
 	interface Window {
@@ -105,6 +106,11 @@ declare global {
 			validateString24hr: ValidateString24hr
 			validateTimeObject: ValidateTimeObject
 			validateHours24: ValidateHours24
+
+			ranges: Ranges
+			rangesList: Array<SelectionRange>
+			maxAndMins: MaxAndMins
+			segments: Array<Segment>
 		}
 		supportsTime?: boolean
 	}
