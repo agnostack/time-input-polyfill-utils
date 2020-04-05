@@ -83,6 +83,8 @@ declare global {
 			isString12hr: IsString12hr
 			isString24hr: IsString24hr
 
+			// I don't know why ES Lint thinks ManualEntryLog is undefined
+			// eslint-disable-next-line no-undef
 			ManualEntryLog: typeof ManualEntryLog
 
 			modifyString12hr: ModifyString12hr
