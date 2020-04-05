@@ -15,23 +15,8 @@ import {
 	ConvertHours24,
 	ConvertTimeObject,
 	ConvertDateObject,
-	ToArray,
-	ToNumber,
-	ToLeadingZero,
 } from './convert.types'
-
-export const toArray: ToArray = NodeList => Array.prototype.slice.call(NodeList, 0)
-
-export const toNumber: ToNumber = value => {
-	const number = Number(value)
-	return isNaN(number) ? value : number
-}
-
-export const toLeadingZero: ToLeadingZero = value => {
-	const number = Number(value)
-	if (isNaN(number) && typeof value !== 'number') return value
-	return number < 10 ? `0${number}` : `${number}`
-}
+import { toLeadingZero, toNumber } from '../utils/utils'
 
 export const convertString12hr: ConvertString12hr = string12hr => {
 	validateString12hr(string12hr)

@@ -1,6 +1,6 @@
 import { TimeObjectKeys } from '../../types/timeObject'
 import { regex } from '../regex/regex'
-import { toNumber } from '../convert/convert'
+import { toNumber } from '../utils/utils'
 import {
 	ValidateTimeStringProps,
 	IsPmHrs24,

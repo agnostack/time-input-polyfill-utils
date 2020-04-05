@@ -1,8 +1,6 @@
+import { ToArray, ToNumber, ToLeadingZero } from '../core/utils/utils.types'
 import { A11yCreate, A11yUpdate } from '../core/a11y/a11y.types'
 import {
-	ToArray,
-	ToNumber,
-	ToLeadingZero,
 	ConvertString24hr,
 	ConvertTimeObject,
 	ConvertHours24,

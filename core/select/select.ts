@@ -1,4 +1,4 @@
-import { toArray } from '../convert/convert'
+import { toArray } from '../utils/utils'
 import { getRangeOf } from '../get/get'
 import { ranges } from '../staticValues'
 import {

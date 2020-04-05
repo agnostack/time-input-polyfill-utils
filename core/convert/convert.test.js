@@ -4,9 +4,6 @@ import {
 	convertTimeObject,
 	convertHours24,
 	convertDateObject,
-	toLeadingZero,
-	toNumber,
-	toArray,
 } from './convert'
 import { failTest } from '../../cypress/support/failTest'
 
@@ -14,31 +11,12 @@ import { current } from '../../helpers/currentDate'
 
 /* global describe, it, expect */
 
-NodeList_to_array()
 convert_hours24_to_hours12()
-convert_possible_number_to_guaranteed_number()
-give_number_leading_zero()
 
 convert_24hr_time()
 convert_12hr_time()
 convert_time_object()
 convert_date_object()
-
-function NodeList_to_array() {
-	describe('NodeList to array', () => {
-		it('Expect node element list to become an array of elements', () => {
-			const create = () => {
-				const div = document.createElement('div')
-				div.classList.add('NodeList-test')
-				document.querySelector('body').appendChild(div)
-				return div
-			}
-			const elementsArray = [create(), create(), create()]
-			const nodeList = document.querySelectorAll('.NodeList-test')
-			expect(toArray(nodeList)).to.deep.equal(elementsArray)
-		})
-	})
-}
 
 function convert_hours24_to_hours12() {
 	describe('convertHours24', () => {
@@ -71,40 +49,6 @@ function convert_hours24_to_hours12() {
 				() => convertHours24(24).toHours12(),
 				'"24" must be a number between 0 and 23 or "--", use 0 instead of 24',
 			)
-		})
-	})
-}
-
-function convert_possible_number_to_guaranteed_number() {
-	describe('convert to number', () => {
-		it('Expect "0" to be 0', () => {
-			expect(toNumber('0')).to.equal(0)
-		})
-		it('Expect "--" to be "--"', () => {
-			expect(toNumber('--')).to.equal('--')
-		})
-		it('Expect 0 to be 0', () => {
-			expect(toNumber(0)).to.equal(0)
-		})
-	})
-}
-
-function give_number_leading_zero() {
-	describe('leading zero', () => {
-		it('Expect 0 to be "00"', () => {
-			expect(toLeadingZero(0)).to.equal('00')
-		})
-		it('Expect "0" to be "00"', () => {
-			expect(toLeadingZero('0')).to.equal('00')
-		})
-		it('Expect "--" to be "--"', () => {
-			expect(toLeadingZero('--')).to.equal('--')
-		})
-		it('Expect 10 to be "10"', () => {
-			expect(toLeadingZero(10)).to.equal('10')
-		})
-		it('Expect "10" to be "10"', () => {
-			expect(toLeadingZero('10')).to.equal('10')
 		})
 	})
 }
