@@ -1,3 +1,4 @@
+export * from './Polyfill'
 export * from './hour'
 export * from './minute'
 export * from './mode'
