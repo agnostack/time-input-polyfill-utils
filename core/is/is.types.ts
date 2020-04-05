@@ -1,4 +1,4 @@
-import { Hour24, Hour12, String12hr, String24hr, TimeObject } from '../../types'
+import { Hour24, Hour12, String12hr, String24hr, TimeObject } from '../../types/index'
 
 export interface ValidateTimeStringProps {
 	value: string

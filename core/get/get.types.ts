@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject, SelectionRange } from '../../types'
+import { String12hr, String24hr, TimeObject, SelectionRange } from '../../types/index'
 
 interface ExtendedTimeObject extends TimeObject {
 	timeObject: TimeObject

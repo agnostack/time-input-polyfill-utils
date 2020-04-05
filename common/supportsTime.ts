@@ -1,3 +1,4 @@
+import '../types/Window'
 // This is intentionally separate from index.ts since it needs to be downloaded in modern browsers
 
 // https://stackoverflow.com/a/10199306/1611058

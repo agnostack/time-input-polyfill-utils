@@ -1,4 +1,4 @@
-import { Segment } from '../../types'
+import { Segment } from '../../types/index'
 
 // Note: Due to this being a class, it does not need an interface
 export class ManualEntryLog {

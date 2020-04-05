@@ -1,6 +1,6 @@
 import { selectCursorSegment, selectSegment, selectNextSegment, selectPrevSegment } from './select'
 import { getRangeOf } from '../get/get'
-import { SelectionRange, Segment } from '../../types'
+import { SelectionRange, Segment } from '../../types/index'
 import { ranges } from '../staticValues'
 import { inputID } from '../../cypress/support/staticTestValues'
 import { loadTestPage } from '../../cypress/support/loadTestPage'

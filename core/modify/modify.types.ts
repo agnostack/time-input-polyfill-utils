@@ -1,4 +1,4 @@
-import { TimeObject, String12hr, String24hr } from '../../types'
+import { TimeObject, String12hr, String24hr } from '../../types/index'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'

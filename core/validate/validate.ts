@@ -1,7 +1,7 @@
 import { TimeObject } from '../../types/timeObject'
 import { String24hr, String12hr } from '../../types/strings'
 import { isString12hr, isString24hr, isTimeObject } from '../is/is'
-import { Hour24 } from '../../types'
+import { Hour24 } from '../../types/index'
 import {
 	ValidateString12hr,
 	ValidateString24hr,

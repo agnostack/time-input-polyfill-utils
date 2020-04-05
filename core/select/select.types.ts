@@ -1,4 +1,4 @@
-import { Segment } from '../../types'
+import { Segment } from '../../types/index'
 
 export type SelectSegment = ($input: HTMLInputElement, segment: Segment) => void
 export type SelectNextSegment = ($input: HTMLInputElement) => void

@@ -7,7 +7,7 @@ import {
 	String12hr,
 	String24hr,
 	TimeObject,
-} from '../../types'
+} from '../../types/index'
 import { ranges, rangesList } from '../staticValues'
 import { regex } from '../regex/regex'
 import {

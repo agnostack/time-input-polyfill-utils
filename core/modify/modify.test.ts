@@ -1,7 +1,7 @@
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from './modify'
 import { Integration, Action, Target } from './modify.types'
 
-import { TimeObject, String12hr, String24hr } from '../../types'
+import { TimeObject, String12hr, String24hr } from '../../types/index'
 
 import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'

@@ -8,7 +8,7 @@ import {
 } from './get'
 import { loadTestPage, LoadedPage } from '../../cypress/support/loadTestPage'
 import { preFilledValues } from '../../cypress/support/staticTestValues'
-import { SelectionRange } from '../../types'
+import { SelectionRange } from '../../types/index'
 import { ranges } from '../staticValues'
 import { failTest } from '../../cypress/support/failTest'
 import { blankValues } from '../../common'

@@ -1,4 +1,4 @@
-import { Hour12, Hour24, Minute, Mode } from '.'
+import { Hour12, Hour24, Minute, Mode } from './index'
 
 export interface TimeObject {
 	hrs24: Hour24

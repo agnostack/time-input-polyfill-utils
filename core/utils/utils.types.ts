@@ -1,4 +1,4 @@
-import { Dashes } from '../../types'
+import { Dashes } from '../../types/index'
 
 export type ToArray = (NodeList: NodeList) => Array<HTMLInputElement>
 
