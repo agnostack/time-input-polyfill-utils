@@ -17,36 +17,10 @@ describe('Basic setup', () => {
 	})
 })
 
-testCursorRangeValues()
 testCursorSegmentSelection()
 testSpecificSegmentSelection()
 testNextSegmentSelection()
 testPrevSegmentSelection()
-
-function testCursorRangeValues(): void {
-	describe('Test cursor range values', () => {
-		const testCursorRange = (index: number, expectation: SelectionRange): void => {
-			it(`test range index ${index}`, async () => {
-				const { $input } = await loadTestPage()
-				$input.selectionStart = index
-				const output = getRangeOf($input).cursorSegment()
-				expect(output).to.deep.equal(expectation)
-			})
-		}
-
-		testCursorRange(0, ranges.hrs12)
-		testCursorRange(1, ranges.hrs12)
-		testCursorRange(2, ranges.hrs12)
-
-		testCursorRange(3, ranges.min)
-		testCursorRange(4, ranges.min)
-		testCursorRange(5, ranges.min)
-
-		testCursorRange(6, ranges.mode)
-		testCursorRange(7, ranges.mode)
-		testCursorRange(8, ranges.mode)
-	})
-}
 
 function testCursorSegmentSelection(): void {
 	describe('Test cursor segment selection', () => {
