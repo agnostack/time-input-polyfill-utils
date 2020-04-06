@@ -7,7 +7,7 @@ interface ExtendedTimeObject extends TimeObject {
 export type GetString12hr = (string12hr: String12hr) => ExtendedTimeObject
 export type GetString24hr = (string24hr: String24hr) => ExtendedTimeObject
 export type GetInputValue = (
-	$input: HTMLInputElement,
+	$input: HTMLInputElement | null,
 ) => {
 	as12hrString: () => String12hr
 	as24hrString: () => String24hr
@@ -15,7 +15,7 @@ export type GetInputValue = (
 }
 export type GetLabelTextOf = ($input: HTMLInputElement | null, document?: Document) => string
 export type GetRangeOf = (
-	$input: HTMLInputElement,
+	$input: HTMLInputElement | null,
 ) => {
 	rawSelection: () => SelectionRange
 	cursorSegment: () => SelectionRange
@@ -23,6 +23,6 @@ export type GetRangeOf = (
 	prevSegment: () => SelectionRange
 }
 export type GetAncestorsOf = (
-	$startingElem: HTMLElement,
+	$startingElem: HTMLElement | null,
 	selectorString?: string,
 ) => Array<HTMLElement>

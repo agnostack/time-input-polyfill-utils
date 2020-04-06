@@ -20,7 +20,7 @@ import {
 } from './get.types'
 
 const traverseSegmentRanges = (
-	$input: HTMLInputElement,
+	$input: HTMLInputElement | null,
 	direction: 'forward' | 'backward',
 ): SelectionRange => {
 	const currentSegmentRange = getRangeOf($input).cursorSegment()
@@ -45,7 +45,7 @@ export const getString24hr: GetString24hr = string24hr => {
 	}
 }
 export const getInputValue: GetInputValue = $input => {
-	const value = $input.value
+	const value = $input?.value || ''
 	const is12hrTime = regex.string12hr.test(value)
 	const is24hrTime = regex.string24hr.test(value)
 	return {
@@ -58,6 +58,7 @@ export const getInputValue: GetInputValue = $input => {
 	}
 }
 export const getLabelTextOf: GetLabelTextOf = ($input, document = window.document) => {
+	if (!$input) return ''
 	const labelText =
 		aria_labelledby($input, document) ||
 		aria_label($input) ||
@@ -72,6 +73,13 @@ export const getLabelTextOf: GetLabelTextOf = ($input, document = window.documen
 }
 export const getRangeOf: GetRangeOf = $input => ({
 	rawSelection: (): SelectionRange => {
+		if (!$input) {
+			return {
+				start: 0,
+				end: 0,
+				segment: 'hrs12',
+			}
+		}
 		const within = (segment: Segment, value: number): boolean =>
 			ranges[segment].start <= value && value <= ranges[segment].end
 		const start = <SelectionIndex>$input.selectionStart
@@ -116,41 +124,30 @@ export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) =>
 
 const elemText = ($elem: HTMLElement | null): string => $elem?.textContent?.trim() || ''
 
-function aria_labelledby(
-	$input: HTMLInputElement | null,
-	document: Document = window.document,
-): string {
-	if (!$input) return ''
+function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
 	const ariaLabelByID = $input?.getAttribute('aria-labelledby') || ''
 	const $ariaLabelBy = document.getElementById(ariaLabelByID)
 	return elemText($ariaLabelBy)
 }
 
-function aria_label($input: HTMLInputElement | null): string {
-	if (!$input) return ''
+function aria_label($input: HTMLInputElement): string {
 	const ariaLabel = $input.getAttribute('aria-label')
 	return ariaLabel || ''
 }
 
-function for_attribute(
-	$input: HTMLInputElement | null,
-	document: Document = window.document,
-): string {
-	if (!$input || !$input.id) return ''
+function for_attribute($input: HTMLInputElement, document: Document = window.document): string {
 	const $forLabel = <HTMLElement | null>document.querySelector('label[for="' + $input.id + '"]')
 	return elemText($forLabel)
 }
 
-function label_wrapper_element($input: HTMLInputElement | null): string {
-	if (!$input) return ''
+function label_wrapper_element($input: HTMLInputElement): string {
 	const ancestors = getAncestorsOf($input, 'label')
 	const $parentLabel = ancestors[ancestors.length - 1]
 	if ($parentLabel.nodeName == 'LABEL') return elemText($parentLabel)
 	return ''
 }
 
-function title_attribute($input: HTMLInputElement | null): string {
-	if (!$input) return ''
+function title_attribute($input: HTMLInputElement): string {
 	const titleLabel = $input.getAttribute('title')
 	return titleLabel || ''
 }

@@ -35,6 +35,9 @@ function getAncestorsTests(): void {
 			const { $input } = await loadTestPage()
 			expect(getAncestorsOf($input, 'div')).to.deep.equal([$input.parentElement])
 		})
+		it(`getAncestorsOf(null, 'div')`, async () => {
+			expect(getAncestorsOf(null, 'div')).to.deep.equal([])
+		})
 	})
 }
 
@@ -75,6 +78,7 @@ function getString24hrTests(): void {
 function getValueTests(): void {
 	describe('Get value from input', () => {
 		blankInputTests()
+		nullInputTests()
 		preFilledInputTests()
 
 		function blankInputTests(): void {
@@ -92,6 +96,23 @@ function getValueTests(): void {
 					expect(getInputValue($input).asTimeObject()).to.deep.equal(
 						blankValues.timeObject,
 					)
+				})
+				it(`expects null => "${blankValues.string12hr}"`, async () => {
+					expect(getInputValue(null).as12hrString()).to.equal(blankValues.string12hr)
+				})
+			})
+		}
+
+		function nullInputTests(): void {
+			describe('null input', () => {
+				it(`null => "${blankValues.string12hr}"`, () => {
+					expect(getInputValue(null).as12hrString()).to.equal(blankValues.string12hr)
+				})
+				it(`null => "${blankValues.string24hr}"`, () => {
+					expect(getInputValue(null).as24hrString()).to.equal(blankValues.string24hr)
+				})
+				it(`null => ${JSON.stringify(blankValues.timeObject)}`, () => {
+					expect(getInputValue(null).asTimeObject()).to.deep.equal(blankValues.timeObject)
 				})
 			})
 		}
@@ -127,6 +148,9 @@ function getLabelTextTests(): void {
 	describe('Get label text for input', async () => {
 		const loadPage = (): LoadedPage => loadTestPage('./core/get/label-tests-file.html')
 
+		it(`null`, () => {
+			expect(getLabelTextOf(null)).to.equal('')
+		})
 		it(`aria-labelledby`, async () => {
 			const { document } = await loadPage()
 			const $input = <HTMLInputElement>(
@@ -167,17 +191,27 @@ function getLabelTextTests(): void {
 	})
 }
 
+type RangeTestAction = 'rawSelection' | 'cursorSegment' | 'nextSegment' | 'prevSegment'
+
 function getRangeTests(): void {
-	function generateRangeTest(
-		action: 'rawSelection' | 'cursorSegment' | 'nextSegment' | 'prevSegment',
-	) {
-		return (position: number, expectation: SelectionRange, position2 = position): void => {
+	function generateRangeTest(action: RangeTestAction): Function {
+		return (
+			position: number,
+			expectation: SelectionRange,
+			position2: number = position,
+		): void => {
 			it(`range at ${position}-${position2}`, async () => {
 				const { $input } = await loadTestPage()
 				$input.setSelectionRange(position, position2)
 				expect(getRangeOf($input)[action]()).to.deep.equal(expectation)
 			})
 		}
+	}
+
+	function nullRangeTest(action: RangeTestAction, expectation: SelectionRange): void {
+		it(`null and action is "${action}"`, () => {
+			expect(getRangeOf(null)[action]()).to.deep.equal(expectation)
+		})
 	}
 
 	describe('Get range of input tests', () => {
@@ -189,6 +223,8 @@ function getRangeTests(): void {
 		function fullSelectionTests(): void {
 			describe('rawSelection tests', () => {
 				const testRangeAt = generateRangeTest('rawSelection')
+
+				nullRangeTest('rawSelection', { start: 0, end: 0, segment: 'hrs12' })
 
 				testRangeAt(0, { start: 0, end: 0, segment: 'hrs12' })
 				testRangeAt(1, { start: 1, end: 1, segment: 'hrs12' })
@@ -219,6 +255,8 @@ function getRangeTests(): void {
 			describe('cursorSegment tests', () => {
 				const testRangeAt = generateRangeTest('cursorSegment')
 
+				nullRangeTest('cursorSegment', ranges.hrs12)
+
 				testRangeAt(0, ranges.hrs12)
 				testRangeAt(1, ranges.hrs12)
 				testRangeAt(2, ranges.hrs12)
@@ -248,6 +286,8 @@ function getRangeTests(): void {
 			describe('nextSegment tests', () => {
 				const testRangeAt = generateRangeTest('nextSegment')
 
+				nullRangeTest('nextSegment', ranges.min)
+
 				testRangeAt(0, ranges.min)
 				testRangeAt(1, ranges.min)
 				testRangeAt(2, ranges.min)
@@ -276,6 +316,8 @@ function getRangeTests(): void {
 		function prevSegmentTests(): void {
 			describe('prevSegment tests', () => {
 				const testRangeAt = generateRangeTest('prevSegment')
+
+				nullRangeTest('prevSegment', ranges.hrs12)
 
 				testRangeAt(0, ranges.hrs12)
 				testRangeAt(1, ranges.hrs12)
