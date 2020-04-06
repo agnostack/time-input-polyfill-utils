@@ -4,7 +4,7 @@ export interface A11yCreate {
 
 export interface A11yUpdate {
 	(
-		$input: HTMLInputElement,
+		$input: HTMLInputElement | null,
 		announcementArray: Array<'initial' | 'select' | 'update'>,
 		document?: Document,
 	): string

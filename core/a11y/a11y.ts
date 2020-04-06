@@ -15,6 +15,7 @@ export const a11yCreate: A11yCreate = (document = window.document) => {
 }
 
 export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = window.document) => {
+	if (!$input) return ''
 	const currentSegment = getRangeOf($input).cursorSegment().segment
 
 	const values = getInputValue($input).asTimeObject()
