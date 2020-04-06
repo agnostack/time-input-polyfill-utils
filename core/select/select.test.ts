@@ -5,7 +5,7 @@ import { ranges } from '../staticValues'
 import { inputID } from '../../cypress/support/staticTestValues'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 
-const expectRange = ($input: HTMLInputElement, expectedRange: SelectionRange): void => {
+const expectRange = ($input: HTMLInputElement | null, expectedRange: SelectionRange): void => {
 	const currentRange = getRangeOf($input).rawSelection()
 	expect(currentRange).to.deep.equal(expectedRange)
 }
@@ -59,6 +59,11 @@ function testCursorSegmentSelection(): void {
 			})
 		}
 
+		it(`null selectCursorSegment`, () => {
+			selectCursorSegment(null)
+			expect('it_worked').to.equal('it_worked')
+		})
+
 		testCursorSelection(0, ranges.hrs12)
 		testCursorSelection(1, ranges.hrs12)
 		testCursorSelection(2, ranges.hrs12)
@@ -76,6 +81,11 @@ function testCursorSegmentSelection(): void {
 function testSpecificSegmentSelection(): void {
 	describe('Test specific segment selection', () => {
 		const testSegmentSelect = (segment: Segment, expectation: SelectionRange): void => {
+			it(`null select ${segment}`, () => {
+				selectSegment(null, segment)
+				expect('it_worked').to.equal('it_worked')
+			})
+
 			it(`select segment ${segment}`, async () => {
 				const { $input } = await loadTestPage()
 				selectSegment($input, segment)
@@ -100,6 +110,11 @@ function testNextSegmentSelection(): void {
 			})
 		}
 
+		it(`null select next`, () => {
+			selectNextSegment(null)
+			expect('it_worked').to.equal('it_worked')
+		})
+
 		testSegmentAfter('hrs12', ranges.min)
 		testSegmentAfter('min', ranges.mode)
 		testSegmentAfter('mode', ranges.mode)
@@ -116,6 +131,11 @@ function testPrevSegmentSelection(): void {
 				expectRange($input, expectation)
 			})
 		}
+
+		it(`null select previous`, () => {
+			selectPrevSegment(null)
+			expect('it_worked').to.equal('it_worked')
+		})
 
 		testSegmentBefore('hrs12', ranges.hrs12)
 		testSegmentBefore('min', ranges.hrs12)
