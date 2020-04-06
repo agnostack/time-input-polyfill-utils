@@ -137,7 +137,7 @@ describe('Update a11y element', () => {
 						)
 					})
 					it('null [select (mode)]', async () => {
-						const { $inputPreFilled, document } = await createA11y()
+						const { document } = await createA11y()
 						selectSegment(null, 'mode')
 						a11yUpdate(null, ['select'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal('')
