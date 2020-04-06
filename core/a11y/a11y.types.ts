@@ -1,11 +1,11 @@
 export interface A11yCreate {
-	(document: Document): HTMLDivElement
+	(document?: Document): HTMLDivElement
 }
 
 export interface A11yUpdate {
 	(
 		$input: HTMLInputElement,
 		announcementArray: Array<'initial' | 'select' | 'update'>,
-		document: Document,
+		document?: Document,
 	): string
 }
