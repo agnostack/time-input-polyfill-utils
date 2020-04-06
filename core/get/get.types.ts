@@ -13,7 +13,7 @@ export type GetInputValue = (
 	as24hrString: () => String24hr
 	asTimeObject: () => TimeObject
 }
-export type GetLabelTextOf = ($input: HTMLInputElement, document: Document) => string
+export type GetLabelTextOf = ($input: HTMLInputElement, document?: Document) => string
 export type GetRangeOf = (
 	$input: HTMLInputElement,
 ) => {
