@@ -116,38 +116,41 @@ export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) =>
 
 const elemText = ($elem: HTMLElement | null): string => $elem?.textContent?.trim() || ''
 
-function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
-	const ariaLabelByID = $input.getAttribute('aria-labelledby')
-	if (ariaLabelByID) {
-		const $ariaLabelBy = document.getElementById(ariaLabelByID)
-		return elemText($ariaLabelBy)
-	}
-	return ''
+function aria_labelledby(
+	$input: HTMLInputElement | null,
+	document: Document = window.document,
+): string {
+	if (!$input) return ''
+	const ariaLabelByID = $input?.getAttribute('aria-labelledby') || ''
+	const $ariaLabelBy = document.getElementById(ariaLabelByID)
+	return elemText($ariaLabelBy)
 }
 
-function aria_label($input: HTMLInputElement): string {
+function aria_label($input: HTMLInputElement | null): string {
+	if (!$input) return ''
 	const ariaLabel = $input.getAttribute('aria-label')
 	return ariaLabel || ''
 }
 
-function for_attribute($input: HTMLInputElement, document: Document = window.document): string {
-	if ($input.id) {
-		const $forLabel = <HTMLElement | null>(
-			document.querySelector('label[for="' + $input.id + '"]')
-		)
-		return elemText($forLabel)
-	}
-	return ''
+function for_attribute(
+	$input: HTMLInputElement | null,
+	document: Document = window.document,
+): string {
+	if (!$input || !$input.id) return ''
+	const $forLabel = <HTMLElement | null>document.querySelector('label[for="' + $input.id + '"]')
+	return elemText($forLabel)
 }
 
-function label_wrapper_element($input: HTMLInputElement): string {
+function label_wrapper_element($input: HTMLInputElement | null): string {
+	if (!$input) return ''
 	const ancestors = getAncestorsOf($input, 'label')
 	const $parentLabel = ancestors[ancestors.length - 1]
 	if ($parentLabel.nodeName == 'LABEL') return elemText($parentLabel)
 	return ''
 }
 
-function title_attribute($input: HTMLInputElement): string {
+function title_attribute($input: HTMLInputElement | null): string {
+	if (!$input) return ''
 	const titleLabel = $input.getAttribute('title')
 	return titleLabel || ''
 }
