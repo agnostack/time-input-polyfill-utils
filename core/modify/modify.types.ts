@@ -2,7 +2,7 @@ import { TimeObject, String12hr, String24hr } from '../../types/index'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
-export type Target = 'hours' | 'minutes' // | 'mode'
+export type Target = 'hrs12' | 'hrs24' | 'min' | 'mode'
 export type ToHr = 'to12hr' | 'to24hr'
 
 interface ModifierFunctionProps {
