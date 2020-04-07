@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject, SelectionRange } from '../../types/index'
+import { String12hr, String24hr, TimeObject, SelectionRange, Segment } from '../../types/index'
 
 interface ExtendedTimeObject extends TimeObject {
 	timeObject: TimeObject
@@ -14,6 +14,9 @@ export type GetInputValue = (
 	asTimeObject: () => TimeObject
 }
 export type GetLabelTextOf = ($input: HTMLInputElement | null, document?: Document) => string
+
+export type GetCursorSegment = ($input: HTMLInputElement | null) => Segment
+
 export type GetRangeOf = (
 	$input: HTMLInputElement | null,
 ) => {

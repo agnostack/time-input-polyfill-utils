@@ -255,6 +255,9 @@ function getRangeTests(): void {
 			describe('cursorSegment tests', () => {
 				const testRangeAt = generateRangeTest('cursorSegment')
 
+				// not testing getCursorSegment because it is just an alias for:
+				// getRangeOf($input).cursorSegment().segment
+
 				nullRangeTest('cursorSegment', ranges.hrs12)
 
 				testRangeAt(0, ranges.hrs12)

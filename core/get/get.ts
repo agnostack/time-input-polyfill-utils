@@ -17,6 +17,7 @@ import {
 	GetLabelTextOf,
 	GetRangeOf,
 	GetAncestorsOf,
+	GetCursorSegment,
 } from './get.types'
 
 const traverseSegmentRanges = (
@@ -71,6 +72,10 @@ export const getLabelTextOf: GetLabelTextOf = ($input, document = window.documen
 	console.error('Label text for input not found.', $input)
 	throw new Error('Cannot polyfill time input due to a missing label.')
 }
+
+export const getCursorSegment: GetCursorSegment = $input =>
+	getRangeOf($input).cursorSegment().segment
+
 export const getRangeOf: GetRangeOf = $input => ({
 	rawSelection: (): SelectionRange => {
 		if (!$input) {

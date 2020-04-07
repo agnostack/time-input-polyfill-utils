@@ -23,6 +23,7 @@ import {
 	GetLabelTextOf,
 	GetRangeOf,
 	GetAncestorsOf,
+	GetCursorSegment,
 } from '../core/get/get.types'
 import {
 	IsPmHrs24,
@@ -63,6 +64,7 @@ export interface Polyfill {
 	getString24hr: GetString24hr
 	getInputValue: GetInputValue
 	getLabelTextOf: GetLabelTextOf
+	getCursorSegment: GetCursorSegment
 	getRangeOf: GetRangeOf
 	getAncestorsOf: GetAncestorsOf
 
