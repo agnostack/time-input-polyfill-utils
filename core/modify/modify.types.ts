@@ -28,21 +28,41 @@ export type ModifyTimeString = (props: ModifyTimeStringProps) => String12hr | St
 export interface ModifyString12hr {
 	(string12hr: String12hr): {
 		increment: {
-			hours: {
+			hrs12: {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			minutes: {
+			min: {
+				isolated: () => String12hr
+				integrated: () => String12hr
+			}
+			mode: {
+				isolated: () => String12hr
+				integrated: () => String12hr
+			}
+			currentSegment: (
+				$input: HTMLInputElement | null,
+			) => {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
 		}
 		decrement: {
-			hours: {
+			hrs12: {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			minutes: {
+			min: {
+				isolated: () => String12hr
+				integrated: () => String12hr
+			}
+			mode: {
+				isolated: () => String12hr
+				integrated: () => String12hr
+			}
+			currentSegment: (
+				$input: HTMLInputElement | null,
+			) => {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
@@ -53,21 +73,29 @@ export interface ModifyString12hr {
 export interface ModifyString24hr {
 	(string24hr: String24hr): {
 		increment: {
-			hours: {
+			hrs24: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
-			minutes: {
+			min: {
+				isolated: () => String24hr
+				integrated: () => String24hr
+			}
+			mode: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
 		}
 		decrement: {
-			hours: {
+			hrs24: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
-			minutes: {
+			min: {
+				isolated: () => String24hr
+				integrated: () => String24hr
+			}
+			mode: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
@@ -78,21 +106,41 @@ export interface ModifyString24hr {
 export interface ModifyTimeObject {
 	(timeObject: TimeObject): {
 		increment: {
-			hours: {
+			hrs12: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			minutes: {
+			min: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
+			mode: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
+			currentSegment: (
+				$input: HTMLInputElement | null,
+			) => {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
 		}
 		decrement: {
-			hours: {
+			hrs12: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			minutes: {
+			min: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
+			mode: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
+			currentSegment: (
+				$input: HTMLInputElement | null,
+			) => {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
