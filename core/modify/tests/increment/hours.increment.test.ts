@@ -4,10 +4,8 @@ import {
 	current,
 	BeforeAfterString,
 	BeforeAfterObject,
-	CommonSettingsString,
-	CommonSettingsObject,
 } from '../../modify.test'
-import { Hour24, Hour12 } from '../../../../types'
+import { Hour24, Hour12 } from '../../../../types/index'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
@@ -19,12 +17,6 @@ export default (): void => {
 
 		function tests12hr(): void {
 			describe('12 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string12hr',
-					action: 'increment',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -96,12 +88,6 @@ export default (): void => {
 
 		function tests24hr(): void {
 			describe('24 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string24hr',
-					action: 'increment',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -147,12 +133,6 @@ export default (): void => {
 
 		function testsTimeObject(): void {
 			describe('Time object', () => {
-				const settings: CommonSettingsObject = {
-					format: 'timeObject',
-					action: 'increment',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 

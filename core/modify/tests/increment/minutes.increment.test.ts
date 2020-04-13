@@ -5,7 +5,7 @@ import {
 	BeforeAfterString,
 	BeforeAfterObject,
 } from '../../modify.test'
-import { Minute } from '../../../../types'
+import { Minute } from '../../../../types/index'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
@@ -75,12 +75,6 @@ export default (): void => {
 
 		function tests24hr(): void {
 			describe('24 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string24hr',
-					action: 'increment',
-					target: 'minutes',
-				}
-
 				isolatedTests()
 				integratedTests()
 
