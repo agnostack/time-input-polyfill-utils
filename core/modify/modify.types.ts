@@ -5,26 +5,6 @@ export type Action = 'increment' | 'decrement'
 export type Target = 'hrs12' | 'hrs24' | 'min' | 'mode'
 export type ToHr = 'to12hr' | 'to24hr'
 
-interface ModifierFunctionProps {
-	timeObject: TimeObject
-	action: Action
-	target: Target
-	integration: Integration
-	toHr: ToHr
-}
-
-export type ModifierFunction = (props: ModifierFunctionProps) => String12hr | String24hr
-
-interface ModifyTimeStringProps {
-	timeString: String12hr | String24hr
-	format: 'string12hr' | 'string24hr'
-	action: Action
-	target: Target
-	integration: Integration
-}
-
-export type ModifyTimeString = (props: ModifyTimeStringProps) => String12hr | String24hr
-
 export interface ModifyString12hr {
 	(string12hr: String12hr): {
 		increment: {
@@ -110,6 +90,10 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
+			hrs24: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
 			min: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
@@ -127,6 +111,10 @@ export interface ModifyTimeObject {
 		}
 		decrement: {
 			hrs12: {
+				isolated: () => TimeObject
+				integrated: () => TimeObject
+			}
+			hrs24: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}

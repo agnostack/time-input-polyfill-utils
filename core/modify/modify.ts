@@ -10,8 +10,6 @@ import {
 import { maxAndMins } from '../staticValues'
 import { isAmTimeObject } from '../is/is'
 import {
-	ModifierFunction,
-	ModifyTimeString,
 	Integration,
 	ModifyString12hr,
 	ModifyString24hr,
@@ -25,29 +23,6 @@ const convert = {
 	string24hr: convertString24hr,
 }
 
-const modifier: ModifierFunction = ({ timeObject, action, target, integration, toHr }) => {
-	const modifiedObject = modifyTimeObject(timeObject)[action][target][integration]()
-	return convertTimeObject(modifiedObject)[toHr]()
-}
-
-const modifyTimeString: ModifyTimeString = ({
-	timeString,
-	format,
-	action,
-	target,
-	integration,
-}) => {
-	const timeObject = convert[format](timeString).toTimeObject()
-	const toHr = format === 'string12hr' ? 'to12hr' : 'to24hr'
-	return modifier({
-		timeObject,
-		toHr,
-		target,
-		action,
-		integration,
-	})
-}
-
 export const modifyString12hr: ModifyString12hr = string12hr => {
 	const modeToggle = {
 		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
@@ -58,43 +33,29 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		const segment = getCursorSegment($input)
 		return modifyString12hr(string12hr)[action][segment]
 	}
+
+	const modify = (
+		modification: (timeObject: TimeObject) => TimeObject,
+		skipValidation?: boolean | undefined,
+	): String12hr => {
+		const timeObject = convertString12hr(string12hr).toTimeObject()
+		const modified = modification(timeObject)
+		return convertTimeObject(modified, skipValidation).to12hr()
+	}
+
 	return {
 		increment: {
 			hrs12: {
 				isolated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'increment',
-						target: 'hrs12',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.hrs12.isolated()),
 				integrated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'increment',
-						target: 'hrs12',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.hrs12.integrated()),
 			},
 			min: {
 				isolated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'increment',
-						target: 'min',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.min.isolated()),
 				integrated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'increment',
-						target: 'min',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.min.integrated()),
 			},
 			mode: modeToggle,
 			currentSegment: currentSegmentModifier('increment'),
@@ -102,48 +63,21 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		decrement: {
 			hrs12: {
 				isolated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'decrement',
-						target: 'hrs12',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs12.isolated()),
 				integrated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'decrement',
-						target: 'min',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs12.integrated()),
 			},
 			min: {
 				isolated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'decrement',
-						target: 'min',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.min.isolated()),
 				integrated: (): String12hr =>
-					modifyTimeString({
-						timeString: string12hr,
-						format: 'string12hr',
-						action: 'decrement',
-						target: 'min',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.min.integrated()),
 			},
 			mode: modeToggle,
 			currentSegment: currentSegmentModifier('decrement'),
 		},
-		toggleMode: (): String12hr => {
-			const timeObject = convertString12hr(string12hr).toTimeObject()
-			const modified = modifyTimeObject(timeObject).toggleMode()
-			return convertTimeObject(modified, true).to12hr()
-		},
+		toggleMode: (): String12hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
 	}
 }
 export const modifyString24hr: ModifyString24hr = string24hr => {
@@ -151,90 +85,49 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
 		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
 	}
+
+	const modify = (
+		modification: (timeObject: TimeObject) => TimeObject,
+		skipValidation?: boolean | undefined,
+	): String24hr => {
+		const timeObject = convertString24hr(string24hr).toTimeObject()
+		const modified = modification(timeObject)
+		return convertTimeObject(modified, skipValidation).to24hr()
+	}
+
 	return {
 		increment: {
 			hrs24: {
 				isolated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'increment',
-						target: 'hrs24',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.hrs24.isolated()),
 				integrated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'increment',
-						target: 'hrs24',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.hrs24.integrated()),
 			},
 			min: {
 				isolated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'increment',
-						target: 'min',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.min.isolated()),
 				integrated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'increment',
-						target: 'min',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).increment.min.integrated()),
 			},
 			mode: modeToggle,
 		},
 		decrement: {
 			hrs24: {
 				isolated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'decrement',
-						target: 'hrs24',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs24.isolated()),
 				integrated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'decrement',
-						target: 'hrs24',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs24.integrated()),
 			},
 			min: {
 				isolated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'decrement',
-						target: 'min',
-						integration: 'isolated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.min.isolated()),
 				integrated: (): String24hr =>
-					modifyTimeString({
-						timeString: string24hr,
-						format: 'string24hr',
-						action: 'decrement',
-						target: 'min',
-						integration: 'integrated',
-					}),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.min.integrated()),
 			},
 			mode: modeToggle,
 		},
-		toggleMode: (): String24hr => {
-			const timeObject = convertString24hr(string24hr).toTimeObject()
-			const modified = modifyTimeObject(timeObject).toggleMode()
-			return convertTimeObject(modified, true).to24hr()
-		},
+		toggleMode: (): String24hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
 	}
 }
 export const modifyTimeObject: ModifyTimeObject = timeObject => {
@@ -252,6 +145,12 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			hrs12: {
 				isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('up', timeObject),
 				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('up', timeObject),
+			},
+			// hrs24 is just an alias for hrs12 since the 24hr doesn't matter
+			hrs24: {
+				isolated: (): TimeObject => modifyTimeObject(timeObject).increment.hrs12.isolated(),
+				integrated: (): TimeObject =>
+					modifyTimeObject(timeObject).increment.hrs12.integrated(),
 			},
 			min: {
 				isolated: (): TimeObject => {
@@ -290,6 +189,12 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			hrs12: {
 				isolated: (): TimeObject => nudgeIsolatedTimeObjectHrs('down', timeObject),
 				integrated: (): TimeObject => nudgeIntegratedTimeObjectHrs('down', timeObject),
+			},
+			// hrs24 is just an alias for hrs12 since the 24hr doesn't matter
+			hrs24: {
+				isolated: (): TimeObject => modifyTimeObject(timeObject).decrement.hrs12.isolated(),
+				integrated: (): TimeObject =>
+					modifyTimeObject(timeObject).decrement.hrs12.integrated(),
 			},
 			min: {
 				isolated: (): TimeObject => {
