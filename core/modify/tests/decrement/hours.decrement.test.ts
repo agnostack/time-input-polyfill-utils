@@ -4,10 +4,9 @@ import {
 	current,
 	BeforeAfterString,
 	BeforeAfterObject,
-	CommonSettingsString,
-	CommonSettingsObject,
 } from '../../modify.test'
-import { Hour24, Hour12 } from '../../../../types'
+import { Hour24, Hour12 } from '../../../../types/index'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
 	describe('Decrement hours', () => {
@@ -19,12 +18,6 @@ export default (): void => {
 
 		function tests12hr(): void {
 			describe('12 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string12hr',
-					action: 'decrement',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -35,10 +28,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString12hr(before).decrement.hrs12.isolated(),
 							})
 						}
 						decrement12hrIsolated({
@@ -68,10 +60,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString12hr(before).decrement.hrs12.integrated(),
 							})
 						}
 						decrement12hrIntegrated({
@@ -98,12 +89,6 @@ export default (): void => {
 
 		function tests24hr(): void {
 			describe('24 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string24hr',
-					action: 'decrement',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -114,10 +99,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString24hr(before).decrement.hrs24.isolated(),
 							})
 						}
 						decrement24hrIsolated({ before: '10:00', after: '09:00' })
@@ -134,10 +118,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString24hr(before).decrement.hrs24.integrated(),
 							})
 						}
 						decrement24hrIntegrated({ before: '10:00', after: '09:00' })
@@ -151,12 +134,6 @@ export default (): void => {
 
 		function testsTimeObject(): void {
 			describe('Time object', () => {
-				const settings: CommonSettingsObject = {
-					format: 'timeObject',
-					action: 'decrement',
-					target: 'hours',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -167,10 +144,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyTimeObject(before).decrement.hrs12.isolated(),
 							})
 						}
 
@@ -296,10 +272,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyTimeObject(before).decrement.hrs12.integrated(),
 							})
 						}
 

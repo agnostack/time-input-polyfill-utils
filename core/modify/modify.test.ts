@@ -1,6 +1,3 @@
-import { modifyString12hr, modifyString24hr, modifyTimeObject } from './modify'
-import { Integration, Action, Target } from './modify.types'
-
 import { TimeObject, String12hr, String24hr } from '../../types/index'
 
 import hoursIncrementTests from './tests/increment/hours.increment.test'
@@ -11,30 +8,18 @@ import toggleModeTest from './tests/toggleMode.test'
 
 export { current } from '../../helpers/currentDate'
 
-const modify = {
-	string12hr: modifyString12hr,
-	string24hr: modifyString24hr,
-	timeObject: modifyTimeObject,
-}
-
 type TimeStringFormat = 'string24hr' | 'string12hr'
 
-interface ModifierTest {
-	action: Action
-	target: Target
-	integration: Integration
-}
-
-interface StringModifierTest extends ModifierTest {
-	format: TimeStringFormat
+interface StringModifierTest {
 	before: String24hr | String12hr
 	after: String24hr | String12hr
+	test: () => String24hr | String12hr
 }
 
-interface ObjectModifierTest extends ModifierTest {
-	format?: 'timeObject'
+interface ObjectModifierTest {
 	before: TimeObject
 	after: TimeObject
+	test: () => TimeObject
 }
 
 export interface BeforeAfterString {
@@ -47,41 +32,15 @@ export interface BeforeAfterObject {
 	after: TimeObject
 }
 
-export interface CommonSettingsString {
-	format: TimeStringFormat
-	action: Action
-	target: Target
-}
-
-export interface CommonSettingsObject {
-	format?: 'timeObject'
-	action: Action
-	target: Target
-}
-
-export function modifierTest({
-	before,
-	after,
-	format,
-	action,
-	target,
-	integration,
-}: StringModifierTest): void {
+export function modifierTest({ before, after, test }: StringModifierTest): void {
 	it(`${before} => ${after}`, () => {
-		expect(modify[format](before)[action][target][integration]()).to.equal(after)
+		expect(test()).to.equal(after)
 	})
 }
 
-export function deepModifierTest({
-	before,
-	after,
-	format = 'timeObject',
-	action,
-	target,
-	integration,
-}: ObjectModifierTest): void {
+export function deepModifierTest({ before, after, test }: ObjectModifierTest): void {
 	it(`${JSON.stringify(before)} => ${JSON.stringify(after)}`, () => {
-		expect(modify[format](before)[action][target][integration]()).to.deep.equal(after)
+		expect(test()).to.deep.equal(after)
 	})
 }
 

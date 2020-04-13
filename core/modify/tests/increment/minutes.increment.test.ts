@@ -4,10 +4,9 @@ import {
 	current,
 	BeforeAfterString,
 	BeforeAfterObject,
-	CommonSettingsString,
-	CommonSettingsObject,
 } from '../../modify.test'
 import { Minute } from '../../../../types'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
 	describe('Increment minutes', () => {
@@ -19,12 +18,6 @@ export default (): void => {
 
 		function tests12hr(): void {
 			describe('12 hour time', () => {
-				const settings: CommonSettingsString = {
-					format: 'string12hr',
-					action: 'increment',
-					target: 'minutes',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -35,10 +28,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString12hr(before).increment.min.isolated(),
 							})
 						}
 						increment12hrIsolated({ before: '--:-- --', after: `--:${current.min} --` })
@@ -57,10 +49,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString12hr(before).increment.min.integrated(),
 							})
 						}
 						increment12hrIntegrated({
@@ -100,10 +91,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString24hr(before).increment.min.isolated(),
 							})
 						}
 						increment24hrIsolated({ before: '09:00', after: '09:01' })
@@ -121,10 +111,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString24hr(before).increment.min.integrated(),
 							})
 						}
 						increment24hrIntegrated({ before: '09:00', after: '09:01' })
@@ -139,12 +128,6 @@ export default (): void => {
 
 		function testsTimeObject(): void {
 			describe('Time object', () => {
-				const settings: CommonSettingsObject = {
-					format: 'timeObject',
-					action: 'increment',
-					target: 'minutes',
-				}
-
 				isolatedTests()
 				integratedTests()
 
@@ -155,10 +138,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyTimeObject(before).increment.min.isolated(),
 							})
 						}
 
@@ -261,10 +243,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyTimeObject(before).increment.min.integrated(),
 							})
 						}
 

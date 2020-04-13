@@ -8,6 +8,7 @@ import {
 	CommonSettingsObject,
 } from '../../modify.test'
 import { Hour24, Hour12 } from '../../../../types'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
 	describe('Increment hours', () => {
@@ -34,10 +35,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString12hr(before).increment.hrs12.isolated(),
 							})
 						}
 						increment12hrIsolated({
@@ -67,10 +67,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString12hr(before).increment.hrs12.integrated(),
 							})
 						}
 						increment12hrIntegrated({
@@ -113,10 +112,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyString24hr(before).increment.hrs24.isolated(),
 							})
 						}
 						increment24hrIsolated({ before: '09:00', after: '10:00' })
@@ -133,10 +131,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterString): void => {
 							modifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyString24hr(before).increment.hrs24.integrated(),
 							})
 						}
 						increment24hrIntegrated({ before: '09:00', after: '10:00' })
@@ -166,10 +163,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'isolated',
+								test: () => modifyTimeObject(before).increment.hrs12.isolated(),
 							})
 						}
 
@@ -295,10 +291,9 @@ export default (): void => {
 							after,
 						}: BeforeAfterObject): void => {
 							deepModifierTest({
-								...settings,
 								before,
 								after,
-								integration: 'integrated',
+								test: () => modifyTimeObject(before).increment.hrs12.integrated(),
 							})
 						}
 
