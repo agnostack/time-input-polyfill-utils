@@ -1,14 +1,16 @@
-import { TimeObject, String12hr, String24hr } from '../../types/index'
+import { TimeObject, String12hr, String24hr, Segment } from '../../types/index'
 
 import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
+import currentSegmentIncrement from './tests/increment/currentSegment.increment.test'
+// import currentSegmentDecrement from './tests/decrement/currentSegment.test'
 import toggleModeTest from './tests/toggleMode.test'
+import { loadTestPage } from '../../cypress/support/loadTestPage'
+import { selectSegment } from '../select/select'
 
 export { current } from '../../helpers/currentDate'
-
-type TimeStringFormat = 'string24hr' | 'string12hr'
 
 interface StringModifierTest {
 	before: String24hr | String12hr
@@ -44,6 +46,24 @@ export function deepModifierTest({ before, after, test }: ObjectModifierTest): v
 	})
 }
 
+interface SegmentTest {
+	segment?: Segment
+	before: string
+	after: string
+	test: ($input: HTMLInputElement) => string
+}
+
+export function segmentTest({ segment, before, after, test }: SegmentTest): void {
+	it(`${segment || '[no segment]'}: ${before} => ${after}`, async () => {
+		const { $input } = await loadTestPage()
+		$input.value = before
+		if (segment) {
+			selectSegment($input, segment)
+		}
+		expect(test($input)).to.equal(after)
+	})
+}
+
 describe('Hours', () => {
 	hoursIncrementTests()
 	hoursDecrementTests()
@@ -55,3 +75,8 @@ describe('Minutes', () => {
 })
 
 toggleModeTest()
+
+describe('Current Segment', () => {
+	currentSegmentIncrement()
+	// currentSegmentDecrement()
+})
