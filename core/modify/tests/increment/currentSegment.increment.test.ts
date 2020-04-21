@@ -1,3 +1,6 @@
+// TO DO: Need to add time object tests
+// TO DO: Need to add decrement tests
+
 import { segmentTest } from '../../modify.test'
 import { modifyString12hr } from '../../modify'
 import { current } from '../../../../helpers/currentDate'
