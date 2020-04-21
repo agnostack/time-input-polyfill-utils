@@ -69,6 +69,8 @@ describe('Hours', () => {
 	hoursDecrementTests()
 })
 
+// Note: Some minute tests can return false negatives.
+// This is because the test suite can take longer than a minute to run.
 describe('Minutes', () => {
 	minutesIncrementTests()
 	minutesDecrementTests()
