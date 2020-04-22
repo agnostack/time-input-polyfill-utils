@@ -1,3 +1,5 @@
+// TO DO: Add tests for when segment is undefined
+
 import { segmentTest, segmentTimeObjectTest } from '../../modify.test'
 import { current } from '../../../../helpers/currentDate'
 import { Segment, TimeObject, Hour24, Hour12, Minute } from '../../../../types/index'
