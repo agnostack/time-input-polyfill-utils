@@ -8,7 +8,6 @@ export const ranges: Ranges = {
 
 export const rangesList: Array<SelectionRange> = [ranges.hrs12, ranges.min, ranges.mode]
 
-// TO DO: convert to new types format
 export const maxAndMins: MaxAndMins = {
 	hrs24: { min: 0, max: 23 },
 	hrs12: { min: 1, max: 12 },
