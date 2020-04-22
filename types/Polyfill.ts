@@ -45,6 +45,7 @@ import {
 	ValidateHours24,
 } from '../core/validate/validate.types'
 import { SelectionRange, Ranges, MaxAndMins, Segment } from './index'
+import { Regex } from '../core/regex/regex.types'
 
 export interface Polyfill {
 	a11yCreate: A11yCreate
@@ -90,10 +91,7 @@ export interface Polyfill {
 	modifyString24hr: ModifyString24hr
 	modifyTimeObject: ModifyTimeObject
 
-	regex: {
-		string12hr: RegExp
-		string24hr: RegExp
-	}
+	regex: Regex
 
 	_$$: QuerySelectAll
 
