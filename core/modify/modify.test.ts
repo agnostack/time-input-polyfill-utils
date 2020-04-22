@@ -5,7 +5,7 @@ import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
 import currentSegmentIncrement from './tests/increment/currentSegment.increment.test'
-// import currentSegmentDecrement from './tests/decrement/currentSegment.test'
+import currentSegmentDecrement from './tests/decrement/currentSegment.decrement.test'
 import toggleModeTest from './tests/toggleMode.test'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { selectSegment } from '../select/select'
@@ -113,5 +113,5 @@ toggleModeTest()
 
 describe('Current Segment', () => {
 	currentSegmentIncrement()
-	// currentSegmentDecrement()
+	currentSegmentDecrement()
 })
