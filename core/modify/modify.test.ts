@@ -9,6 +9,9 @@ import currentSegmentIncrement from './tests/increment/currentSegment.increment.
 import toggleModeTest from './tests/toggleMode.test'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { selectSegment } from '../select/select'
+import { convertTimeObject } from '../convert/convert'
+import { Action, Integration } from './modify.types'
+import { modifyTimeObject, modifyString12hr } from './modify'
 
 export { current } from '../../helpers/currentDate'
 
@@ -50,17 +53,47 @@ interface SegmentTest {
 	segment?: Segment
 	before: string
 	after: string
-	test: ($input: HTMLInputElement) => string
+	action: Action
+	integration: Integration
 }
-
-export function segmentTest({ segment, before, after, test }: SegmentTest): void {
+export function segmentTest({ segment, before, after, action, integration }: SegmentTest): void {
 	it(`${segment || '[no segment]'}: ${before} => ${after}`, async () => {
 		const { $input } = await loadTestPage()
 		$input.value = before
 		if (segment) {
 			selectSegment($input, segment)
 		}
-		expect(test($input)).to.equal(after)
+		expect(
+			// eslint-disable-next-line prettier/prettier
+			modifyString12hr(before)[action].currentSegment($input)[integration]()).to.equal(after)
+	})
+}
+
+interface SegmentTimeObjectTest {
+	segment?: Segment
+	before: TimeObject
+	after: TimeObject
+	action: Action
+	integration: Integration
+}
+export function segmentTimeObjectTest({
+	segment,
+	before,
+	after,
+	action,
+	integration,
+}: SegmentTimeObjectTest): void {
+	const [beforeString, afterString] = [JSON.stringify(before), JSON.stringify(after)]
+	it(`${segment || '[no segment]'}: ${beforeString} => ${afterString}`, async () => {
+		const { $input } = await loadTestPage()
+		$input.value = convertTimeObject(before).to12hr()
+		if (segment) {
+			selectSegment($input, segment)
+		}
+		expect(
+			// eslint-disable-next-line prettier/prettier
+			modifyTimeObject(before)[action].currentSegment($input)[integration](),
+		).to.deep.equal(after)
 	})
 }
 
