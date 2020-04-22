@@ -1,5 +1,5 @@
-import { Hour24, Mode } from '../types'
-import { toLeadingZero, isAmHrs24, convertHours24, convertDateObject } from '..'
+import { Hour24, Mode } from '../types/index'
+import { toLeadingZero, isAmHrs24, convertHours24, convertDateObject } from '../index'
 
 const date = new Date()
 const current24hrs = <Hour24>date.getHours()

@@ -1,5 +1,3 @@
-// TO DO: Update existing tests and add tests for new things
-
 import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode } from '../../types/index'
 import {
 	convertString12hr,
