@@ -1,4 +1,4 @@
-import { ToArray, ToNumber, ToLeadingZero } from '../core/utils/utils.types'
+import { ToArray, ToNumber, ToLeadingZero, Flash24hrTime } from '../core/utils/utils.types'
 import { A11yCreate, A11yUpdate } from '../core/a11y/a11y.types'
 import {
 	ConvertString24hr,
@@ -54,6 +54,7 @@ export interface Polyfill {
 	toArray: ToArray
 	toNumber: ToNumber
 	toLeadingZero: ToLeadingZero
+	flash24hrTime: Flash24hrTime
 
 	convertString12hr: ConvertString12hr
 	convertString24hr: ConvertString24hr
