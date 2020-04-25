@@ -1,12 +1,10 @@
-// TO DO: Add tests for when segment is undefined
-
 import { segmentTest, segmentTimeObjectTest } from '../../modify.test'
 import { current } from '../../../../helpers/currentDate'
 import { Segment, TimeObject, Hour24, Hour12, Minute } from '../../../../types/index'
 import { Integration } from '../../modify.types'
 
 interface CreateSegmentTest {
-	segment: Segment
+	segment?: Segment
 	integration: Integration
 }
 
@@ -48,12 +46,7 @@ export default (): void => {
 
 		function isolated12hrStringTests(): void {
 			describe('Isolated (12hr)', () => {
-				describe('hrs12 - Isolated (12hr)', () => {
-					const hrs12Test = createSegmentTest({
-						segment: 'hrs12',
-						integration: 'isolated',
-					})
-
+				const hrs12Tests = (hrs12Test: Function): void => {
 					hrs12Test('--:-- --', `${current.hrs12}:-- --`)
 					hrs12Test('--:00 AM', `${current.hrs12}:00 AM`)
 					hrs12Test('--:00 PM', `${current.hrs12}:00 PM`)
@@ -62,6 +55,19 @@ export default (): void => {
 					// incrementing hours does not affect AM/PM
 					hrs12Test('12:30 AM', '11:30 AM')
 					hrs12Test('12:00 PM', '11:00 PM')
+				}
+				describe('undefined - Isolated (12hr) - default to hrs12', () => {
+					const hrs12Test = createSegmentTest({
+						integration: 'isolated',
+					})
+					hrs12Tests(hrs12Test)
+				})
+				describe('hrs12 - Isolated (12hr)', () => {
+					const hrs12Test = createSegmentTest({
+						segment: 'hrs12',
+						integration: 'isolated',
+					})
+					hrs12Tests(hrs12Test)
 				})
 				describe('min - Isolated (12hr)', () => {
 					const minTest = createSegmentTest({
@@ -92,12 +98,7 @@ export default (): void => {
 
 		function integrated12HrStringTests(): void {
 			describe('Integrated (12hr)', () => {
-				describe('hrs12 - Integrated (12hr)', () => {
-					const hrs12Test = createSegmentTest({
-						segment: 'hrs12',
-						integration: 'integrated',
-					})
-
+				const hrs12Tests = (hrs12Test: Function) => {
 					hrs12Test('--:-- --', `${current.hrs12}:-- --`)
 					hrs12Test('--:00 AM', `${current.hrs12}:00 AM`)
 					hrs12Test('--:00 PM', `${current.hrs12}:00 PM`)
@@ -106,6 +107,22 @@ export default (): void => {
 					// incrementing hours DOES affect AM/PM
 					hrs12Test('12:30 PM', '11:30 AM')
 					hrs12Test('12:00 AM', '11:00 PM')
+				}
+
+				describe('undefined - Integrated (12hr) - default to hrs12', () => {
+					const hrs12Test = createSegmentTest({
+						integration: 'integrated',
+					})
+
+					hrs12Tests(hrs12Test)
+				})
+				describe('hrs12 - Integrated (12hr)', () => {
+					const hrs12Test = createSegmentTest({
+						segment: 'hrs12',
+						integration: 'integrated',
+					})
+
+					hrs12Tests(hrs12Test)
 				})
 				describe('min - Integrated (12hr)', () => {
 					const minTest = createSegmentTest({
@@ -138,75 +155,87 @@ export default (): void => {
 
 		function isolatedTimeObjectTests(): void {
 			describe('Isolated (Time Object)', () => {
+				undefinedTests()
 				hour12Tests()
 				minuteTests()
 				modeTests()
 
+				function hoursTests(hrs12Test: Function): void {
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
+						{
+							hrs24: <Hour24>parseInt(current.hrs24),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: '--',
+							mode: '--',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
+						{
+							hrs24: <Hour24>(
+								(current.mode === 'PM'
+									? parseInt(current.hrs24) - 12
+									: parseInt(current.hrs24))
+							),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: 0,
+							mode: 'AM',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: 0, mode: 'PM' },
+						{
+							hrs24: <Hour24>(
+								(current.mode === 'AM'
+									? parseInt(current.hrs12)
+									: parseInt(current.hrs24))
+							),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: 0,
+							mode: 'PM',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: 10, hrs12: 10, min: 0, mode: 'AM' },
+						{ hrs24: 9, hrs12: 9, min: 0, mode: 'AM' },
+					)
+
+					hrs12Test(
+						{ hrs24: 0, hrs12: 12, min: 30, mode: 'AM' },
+						{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
+					)
+
+					hrs12Test(
+						{ hrs24: 13, hrs12: 1, min: 30, mode: 'PM' },
+						{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
+					)
+
+					hrs12Test(
+						{ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' },
+						// modifying hrs does not modify mode
+						{ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' },
+					)
+				}
+
+				function undefinedTests(): void {
+					describe('undefined - Isolated (Time Object)', () => {
+						const hrs12Test = createSegmentTimeObjectTest({
+							integration: 'isolated',
+						})
+						hoursTests(hrs12Test)
+					})
+				}
 				function hour12Tests(): void {
 					describe('hrs12 - Isolated (Time Object)', () => {
 						const hrs12Test = createSegmentTimeObjectTest({
 							segment: 'hrs12',
 							integration: 'isolated',
 						})
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
-							{
-								hrs24: <Hour24>parseInt(current.hrs24),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: '--',
-								mode: '--',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
-							{
-								hrs24: <Hour24>(
-									(current.mode === 'PM'
-										? parseInt(current.hrs24) - 12
-										: parseInt(current.hrs24))
-								),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
-								mode: 'AM',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: 0, mode: 'PM' },
-							{
-								hrs24: <Hour24>(
-									(current.mode === 'AM'
-										? parseInt(current.hrs12)
-										: parseInt(current.hrs24))
-								),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
-								mode: 'PM',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: 10, hrs12: 10, min: 0, mode: 'AM' },
-							{ hrs24: 9, hrs12: 9, min: 0, mode: 'AM' },
-						)
-
-						hrs12Test(
-							{ hrs24: 0, hrs12: 12, min: 30, mode: 'AM' },
-							{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
-						)
-
-						hrs12Test(
-							{ hrs24: 13, hrs12: 1, min: 30, mode: 'PM' },
-							{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
-						)
-
-						hrs12Test(
-							{ hrs24: 12, hrs12: 12, min: 0, mode: 'PM' },
-							// modifying hrs does not modify mode
-							{ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' },
-						)
+						hoursTests(hrs12Test)
 					})
 				}
 				function minuteTests(): void {
@@ -304,79 +333,91 @@ export default (): void => {
 
 		function integratedTimeObjectTests(): void {
 			describe('Integrated (Time Object)', () => {
+				undefinedTests()
 				hour12Tests()
 				minuteTests()
 				modeTests()
 
+				function hoursTests(hrs12Test: Function): void {
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
+						{
+							hrs24: <Hour24>parseInt(current.hrs24),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: '--',
+							mode: '--',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
+						{
+							hrs24: <Hour24>(
+								(current.mode === 'PM'
+									? parseInt(current.hrs24) - 12
+									: parseInt(current.hrs24))
+							),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: 0,
+							mode: 'AM',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: '--', hrs12: '--', min: 0, mode: 'PM' },
+						{
+							hrs24: <Hour24>(
+								(current.mode === 'AM'
+									? parseInt(current.hrs12)
+									: parseInt(current.hrs24))
+							),
+							hrs12: <Hour12>parseInt(current.hrs12),
+							min: 0,
+							mode: 'PM',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: 10, hrs12: 10, min: 0, mode: 'AM' },
+						{
+							hrs24: 9,
+							hrs12: 9,
+							min: 0,
+							mode: 'AM',
+						},
+					)
+
+					hrs12Test(
+						{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
+						{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
+					)
+
+					hrs12Test(
+						{ hrs24: 13, hrs12: 1, min: 30, mode: 'PM' },
+						{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
+					)
+
+					hrs12Test(
+						{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
+						{ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' },
+					)
+				}
+
+				function undefinedTests(): void {
+					describe('undefined - Integrated (Time Object)', () => {
+						const hrs12Test = createSegmentTimeObjectTest({
+							integration: 'integrated',
+						})
+						hoursTests(hrs12Test)
+					})
+				}
 				function hour12Tests(): void {
 					describe('hrs12 - Integrated (Time Object)', () => {
 						const hrs12Test = createSegmentTimeObjectTest({
 							segment: 'hrs12',
 							integration: 'integrated',
 						})
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
-							{
-								hrs24: <Hour24>parseInt(current.hrs24),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: '--',
-								mode: '--',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
-							{
-								hrs24: <Hour24>(
-									(current.mode === 'PM'
-										? parseInt(current.hrs24) - 12
-										: parseInt(current.hrs24))
-								),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
-								mode: 'AM',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: '--', hrs12: '--', min: 0, mode: 'PM' },
-							{
-								hrs24: <Hour24>(
-									(current.mode === 'AM'
-										? parseInt(current.hrs12)
-										: parseInt(current.hrs24))
-								),
-								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
-								mode: 'PM',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: 10, hrs12: 10, min: 0, mode: 'AM' },
-							{
-								hrs24: 9,
-								hrs12: 9,
-								min: 0,
-								mode: 'AM',
-							},
-						)
-
-						hrs12Test(
-							{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
-							{ hrs24: 11, hrs12: 11, min: 30, mode: 'AM' },
-						)
-
-						hrs12Test(
-							{ hrs24: 13, hrs12: 1, min: 30, mode: 'PM' },
-							{ hrs24: 12, hrs12: 12, min: 30, mode: 'PM' },
-						)
-
-						hrs12Test(
-							{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-							{ hrs24: 23, hrs12: 11, min: 0, mode: 'PM' },
-						)
+						hoursTests(hrs12Test)
 					})
 				}
 				function minuteTests(): void {
