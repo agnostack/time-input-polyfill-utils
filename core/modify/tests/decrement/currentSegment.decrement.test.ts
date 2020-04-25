@@ -98,7 +98,7 @@ export default (): void => {
 
 		function integrated12HrStringTests(): void {
 			describe('Integrated (12hr)', () => {
-				const hrs12Tests = (hrs12Test: Function) => {
+				const hrs12Tests = (hrs12Test: Function): void => {
 					hrs12Test('--:-- --', `${current.hrs12}:-- --`)
 					hrs12Test('--:00 AM', `${current.hrs12}:00 AM`)
 					hrs12Test('--:00 PM', `${current.hrs12}:00 PM`)
