@@ -19,7 +19,7 @@ import {
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
 	if (!isFormatValid) return false
-	const parsedString = regex[format].exec(value) || []
+	const parsedString: Array<string> = regex[format].exec(value) || []
 	const hrsVal = toNumber(parsedString[1])
 	const minsVal = toNumber(parsedString[2])
 	const isHrsValid = hrsVal === '--' || (hrsVal >= minHrs && hrsVal <= maxHrs)

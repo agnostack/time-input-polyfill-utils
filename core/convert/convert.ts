@@ -27,7 +27,7 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 			return convertTimeObject(timeObject).to24hr()
 		},
 		toTimeObject(): TimeObject {
-			const result = regex.string12hr.exec(string12hr) || []
+			const result: Array<string> = regex.string12hr.exec(string12hr) || []
 			const [hrs12, min, mode] = [
 				<Hour12>toNumber(result[1]),
 				<Minute>toNumber(result[2]),
@@ -78,7 +78,7 @@ export const convertString24hr: ConvertString24hr = string24hr => {
 				return blankValues.timeObject
 			}
 			// string24hr
-			const regResult = regex.string24hr.exec(string24hr) || []
+			const regResult: Array<string> = regex.string24hr.exec(string24hr) || []
 			const [hrsString24, minString] = [regResult[1], regResult[2]]
 			const [hrs24, min] = [<Hour24>toNumber(hrsString24), <Minute>toNumber(minString)]
 
