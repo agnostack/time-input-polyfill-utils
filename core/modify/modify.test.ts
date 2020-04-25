@@ -60,9 +60,7 @@ export function segmentTest({ segment, before, after, action, integration }: Seg
 	it(`${segment || '[no segment]'}: ${before} => ${after}`, async () => {
 		const { $input } = await loadTestPage()
 		$input.value = before
-		if (segment) {
 			selectSegment($input, segment)
-		}
 		expect(
 			// eslint-disable-next-line prettier/prettier
 			modifyString12hr(before)[action].currentSegment($input)[integration]()).to.equal(after)
@@ -87,9 +85,7 @@ export function segmentTimeObjectTest({
 	it(`${segment || '[no segment]'}: ${beforeString} => ${afterString}`, async () => {
 		const { $input } = await loadTestPage()
 		$input.value = convertTimeObject(before).to12hr()
-		if (segment) {
 			selectSegment($input, segment)
-		}
 		expect(
 			// eslint-disable-next-line prettier/prettier
 			modifyTimeObject(before)[action].currentSegment($input)[integration](),

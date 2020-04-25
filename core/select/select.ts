@@ -14,7 +14,7 @@ export const _$$: QuerySelectAll = selector => {
 	return toArray(elements)
 }
 
-export const selectSegment: SelectSegment = ($input, segment) => {
+export const selectSegment: SelectSegment = ($input, segment = 'hrs12') => {
 	if (!$input) return
 	$input.setSelectionRange(ranges[segment].start, ranges[segment].end)
 }
