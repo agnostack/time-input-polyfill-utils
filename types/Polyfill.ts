@@ -1,4 +1,4 @@
-import { ToArray, ToNumber, ToLeadingZero, Flash24hrTime } from '../core/utils/utils.types'
+import { ToArray, ToNumber, ToLeadingZero } from '../core/utils/utils.types'
 import { A11yCreate, A11yUpdate } from '../core/a11y/a11y.types'
 import {
 	ConvertString24hr,
@@ -46,6 +46,7 @@ import {
 } from '../core/validate/validate.types'
 import { SelectionRange, Ranges, MaxAndMins, Segment } from './index'
 import { Regex } from '../core/regex/regex.types'
+import { Flash24hrTime } from '../core/flash24hrTime/flash24hrTime.types'
 
 export interface Polyfill {
 	a11yCreate: A11yCreate
@@ -54,6 +55,7 @@ export interface Polyfill {
 	toArray: ToArray
 	toNumber: ToNumber
 	toLeadingZero: ToLeadingZero
+
 	flash24hrTime: Flash24hrTime
 
 	convertString12hr: ConvertString12hr

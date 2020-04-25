@@ -1,10 +1,8 @@
-import { toLeadingZero, toNumber, toArray, flash24hrTime } from './utils'
-import { loadTestPage } from '../../cypress/support/loadTestPage'
+import { toLeadingZero, toNumber, toArray } from './utils'
 
 give_number_leading_zero()
 convert_possible_number_to_guaranteed_number()
 NodeList_to_array()
-flash_24hr_time_test()
 
 function give_number_leading_zero(): void {
 	describe('leading zero', () => {
@@ -52,23 +50,6 @@ function NodeList_to_array(): void {
 			const elementsArray = [create(), create(), create()]
 			const nodeList = document.querySelectorAll('.NodeList-test')
 			expect(toArray(nodeList)).to.deep.equal(elementsArray)
-		})
-	})
-}
-
-function flash_24hr_time_test(): void {
-	describe('Flash 24hr time', () => {
-		it('Expect 08:30 PM -> 20:30 -> 08:30 PM', async () => {
-			const { $input } = await loadTestPage()
-			$input.value = '08:30 PM'
-			flash24hrTime($input)
-			expect($input.value).to.equal('20:30')
-			await new Promise(resolve => {
-				setTimeout(() => {
-					resolve()
-				}, 1)
-			})
-			expect($input.value).to.equal('08:30 PM')
 		})
 	})
 }
