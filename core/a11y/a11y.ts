@@ -1,5 +1,5 @@
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { getRangeOf, getInputValue, getLabelTextOf } from '../get/get'
+import { getRangeOf, getInputValue, getLabelTextOf, getCursorSegment } from '../get/get'
 import { A11yCreate, A11yUpdate } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
@@ -16,17 +16,17 @@ export const a11yCreate: A11yCreate = (document = window.document) => {
 
 export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = window.document) => {
 	if (!$input) return ''
-	const currentSegment = getRangeOf($input).cursorSegment().segment
+	const cursorSegment = getCursorSegment($input)
 
 	const values = getInputValue($input).asTimeObject()
-	const value = values[currentSegment]
+	const value = values[cursorSegment]
 	const segmentValue = value == '--' ? 'blank' : value
 
 	const segmentName = {
 		hrs12: 'Hours',
 		min: 'Minutes',
 		mode: 'AM/PM',
-	}[currentSegment]
+	}[cursorSegment]
 
 	const announcements = {
 		initial: '$label grouping $fullValue.',

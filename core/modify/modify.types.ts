@@ -20,7 +20,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			currentSegment: (
+			cursorSegment: (
 				$input: HTMLInputElement | null,
 			) => {
 				isolated: () => String12hr
@@ -40,7 +40,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			currentSegment: (
+			cursorSegment: (
 				$input: HTMLInputElement | null,
 			) => {
 				isolated: () => String12hr
@@ -102,7 +102,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			currentSegment: (
+			cursorSegment: (
 				$input: HTMLInputElement | null,
 			) => {
 				isolated: () => TimeObject
@@ -126,7 +126,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			currentSegment: (
+			cursorSegment: (
 				$input: HTMLInputElement | null,
 			) => {
 				isolated: () => TimeObject

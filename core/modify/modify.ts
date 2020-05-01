@@ -27,7 +27,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
 	}
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-	const currentSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
+	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
 		return modifyString12hr(string12hr)[action][segment]
 	}
@@ -56,7 +56,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 					modify(timeObject => modifyTimeObject(timeObject).increment.min.integrated()),
 			},
 			mode: modeToggle,
-			currentSegment: currentSegmentModifier('increment'),
+			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
 			hrs12: {
@@ -72,7 +72,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 					modify(timeObject => modifyTimeObject(timeObject).decrement.min.integrated()),
 			},
 			mode: modeToggle,
-			currentSegment: currentSegmentModifier('decrement'),
+			cursorSegment: cursorSegmentModifier('decrement'),
 		},
 		toggleMode: (): String12hr =>
 			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
@@ -134,7 +134,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(),
 	}
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-	const currentSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
+	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
 		return modifyTimeObject(timeObject)[action][segment]
 	}
@@ -181,7 +181,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				},
 			},
 			mode: modeToggle,
-			currentSegment: currentSegmentModifier('increment'),
+			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
 			hrs12: {
@@ -225,7 +225,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				},
 			},
 			mode: modeToggle,
-			currentSegment: currentSegmentModifier('decrement'),
+			cursorSegment: cursorSegmentModifier('decrement'),
 		},
 		toggleMode: (): TimeObject => {
 			const { hrs12, mode } = timeObject

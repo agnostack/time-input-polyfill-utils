@@ -24,11 +24,11 @@ const traverseSegmentRanges = (
 	$input: HTMLInputElement | null,
 	direction: 'forward' | 'backward',
 ): SelectionRange => {
-	const currentSegmentRange = getRangeOf($input).cursorSegment()
-	const currentType = currentSegmentRange.segment
+	const cursorSegmentRange = getRangeOf($input).cursorSegment()
+	const currentType = cursorSegmentRange.segment
 	const modifier = direction === 'forward' ? 1 : -1
 	const nextTypeIndex = rangesList.map(range => range.segment).indexOf(currentType) + modifier
-	return rangesList[nextTypeIndex] || currentSegmentRange
+	return rangesList[nextTypeIndex] || cursorSegmentRange
 }
 
 export const getString12hr: GetString12hr = string12hr => {

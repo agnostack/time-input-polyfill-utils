@@ -4,8 +4,8 @@ import hoursIncrementTests from './tests/increment/hours.increment.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
-import currentSegmentIncrement from './tests/increment/currentSegment.increment.test'
-import currentSegmentDecrement from './tests/decrement/currentSegment.decrement.test'
+import cursorSegmentIncrement from './tests/increment/cursorSegment.increment.test'
+import cursorSegmentDecrement from './tests/decrement/cursorSegment.decrement.test'
 import toggleModeTest from './tests/toggleMode.test'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { selectSegment } from '../select/select'
@@ -63,7 +63,7 @@ export function segmentTest({ segment, before, after, action, integration }: Seg
 		selectSegment($input, segment)
 		expect(
 			// eslint-disable-next-line prettier/prettier
-			modifyString12hr(before)[action].currentSegment($input)[integration]()).to.equal(after)
+			modifyString12hr(before)[action].cursorSegment($input)[integration]()).to.equal(after)
 	})
 }
 
@@ -88,7 +88,7 @@ export function segmentTimeObjectTest({
 		selectSegment($input, segment)
 		expect(
 			// eslint-disable-next-line prettier/prettier
-			modifyTimeObject(before)[action].currentSegment($input)[integration](),
+			modifyTimeObject(before)[action].cursorSegment($input)[integration](),
 		).to.deep.equal(after)
 	})
 }
@@ -108,6 +108,6 @@ describe('Minutes', () => {
 toggleModeTest()
 
 describe('Current Segment', () => {
-	currentSegmentIncrement()
-	currentSegmentDecrement()
+	cursorSegmentIncrement()
+	cursorSegmentDecrement()
 })
