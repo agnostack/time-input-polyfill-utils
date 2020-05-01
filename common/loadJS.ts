@@ -9,5 +9,7 @@ export default function loadJS(src: string, callback: Function): void {
 		script.src = src
 		script.onload = (): any => callback()
 		document.head.appendChild(script)
+	} else {
+		callback()
 	}
 }
