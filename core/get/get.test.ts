@@ -5,6 +5,8 @@ import {
 	getInputValue,
 	getLabelTextOf,
 	getRangeOf,
+	getNextSegment,
+	getPrevSegment,
 } from './get'
 import { loadTestPage, LoadedPage } from '../../cypress/support/loadTestPage'
 import { preFilledValues } from '../../cypress/support/staticTestValues'
@@ -215,8 +217,8 @@ function getRangeTests(): void {
 	}
 
 	describe('Get range of input tests', () => {
-		fullSelectionTests()
-		cursorSegmentTests()
+		// fullSelectionTests()
+		// cursorSegmentTests()
 		nextSegmentTests()
 		prevSegmentTests()
 
@@ -255,7 +257,7 @@ function getRangeTests(): void {
 			describe('cursorSegment tests', () => {
 				const testRangeAt = generateRangeTest('cursorSegment')
 
-				// not testing getCursorSegment because it is just an alias for:
+				// Not testing getCursorSegment because it is just an alias for:
 				// getRangeOf($input).cursorSegment().segment
 
 				nullRangeTest('cursorSegment', ranges.hrs12)
@@ -313,6 +315,19 @@ function getRangeTests(): void {
 
 				testRangeAt(6, ranges.mode, 8)
 				testRangeAt(7, ranges.mode, 8)
+
+				// Not testing getNextSegment($input) because it is just an alias for:
+				// getRangeOf($input).nextSegment().segment
+
+				it('gets min segment', () => {
+					expect(getNextSegment('hrs12')).to.equal('min')
+				})
+				it('gets mode segment', () => {
+					expect(getNextSegment('min')).to.equal('mode')
+				})
+				it('stops at mode segment', () => {
+					expect(getNextSegment('mode')).to.equal('mode')
+				})
 			})
 		}
 
@@ -344,6 +359,19 @@ function getRangeTests(): void {
 
 				testRangeAt(6, ranges.min, 8)
 				testRangeAt(7, ranges.min, 8)
+
+				// Not testing getPrevSegment($input) because it is just an alias for:
+				// getRangeOf($input).prevSegment().segment
+
+				it('stops at hrs12 segment', () => {
+					expect(getPrevSegment('hrs12')).to.equal('hrs12')
+				})
+				it('gets hrs12 segment', () => {
+					expect(getPrevSegment('min')).to.equal('hrs12')
+				})
+				it('gets min segment', () => {
+					expect(getPrevSegment('mode')).to.equal('min')
+				})
 			})
 		}
 	})

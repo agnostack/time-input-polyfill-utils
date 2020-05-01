@@ -16,6 +16,7 @@ export type GetInputValue = (
 export type GetLabelTextOf = ($input: HTMLInputElement | null, document?: Document) => string
 
 export type GetCursorSegment = ($input: HTMLInputElement | null) => Segment
+export type GetNextPrevSegment = ($inputOrSegment: HTMLInputElement | Segment | null) => Segment
 
 export type GetRangeOf = (
 	$input: HTMLInputElement | null,

@@ -18,6 +18,7 @@ import {
 	GetRangeOf,
 	GetAncestorsOf,
 	GetCursorSegment,
+	GetNextPrevSegment,
 } from './get.types'
 
 const traverseSegmentRanges = (
@@ -75,6 +76,26 @@ export const getLabelTextOf: GetLabelTextOf = ($input, document = window.documen
 
 export const getCursorSegment: GetCursorSegment = $input =>
 	getRangeOf($input).cursorSegment().segment
+
+export const getPrevSegment: GetNextPrevSegment = $inputOrSegment => {
+	if (typeof $inputOrSegment === 'string') {
+		if ($inputOrSegment === 'hrs12') return 'hrs12'
+		if ($inputOrSegment === 'min') return 'hrs12'
+		if ($inputOrSegment === 'mode') return 'min'
+	}
+
+	return getRangeOf($inputOrSegment).prevSegment().segment
+}
+
+export const getNextSegment: GetNextPrevSegment = $inputOrSegment => {
+	if (typeof $inputOrSegment === 'string') {
+		if ($inputOrSegment === 'hrs12') return 'min'
+		if ($inputOrSegment === 'min') return 'mode'
+		if ($inputOrSegment === 'mode') return 'mode'
+	}
+
+	return getRangeOf($inputOrSegment).nextSegment().segment
+}
 
 export const getRangeOf: GetRangeOf = $input => ({
 	rawSelection: (): SelectionRange => {
