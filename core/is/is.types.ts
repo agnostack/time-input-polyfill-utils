@@ -1,4 +1,5 @@
 import { Hour24, Hour12, String12hr, String24hr, TimeObject } from '../../types/index'
+import { isShiftHeldDown } from './is'
 
 export interface ValidateTimeStringProps {
 	value: string
@@ -20,3 +21,5 @@ export type IsAmTimeObject = (timeObject: TimeObject) => boolean
 export type IsString12hr = (value: any) => boolean
 export type IsString24hr = (value: any) => boolean
 export type IsTimeObject = (value: any) => boolean
+
+export type IsShiftHeldDown = boolean

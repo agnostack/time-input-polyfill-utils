@@ -14,7 +14,12 @@ import {
 	IsString12hr,
 	IsString24hr,
 	IsTimeObject,
+	IsShiftHeldDown,
 } from './is.types'
+
+export let isShiftHeldDown: IsShiftHeldDown = false
+window.addEventListener('keyup', e => (isShiftHeldDown = e.shiftKey))
+window.addEventListener('keydown', e => (isShiftHeldDown = e.shiftKey))
 
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)

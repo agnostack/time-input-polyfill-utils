@@ -38,6 +38,7 @@ import {
 	IsTimeObject,
 	IsString12hr,
 	IsString24hr,
+	IsShiftHeldDown,
 } from '../core/is/is.types'
 import {
 	ValidateString12hr,
@@ -74,6 +75,8 @@ export interface Polyfill {
 	getNextSegment: GetNextPrevSegment
 	getRangeOf: GetRangeOf
 	getAncestorsOf: GetAncestorsOf
+
+	isShiftHeldDown: IsShiftHeldDown
 
 	isPmHrs24: IsPmHrs24
 	isPmString12hr: IsPmString12hr
