@@ -7,6 +7,7 @@ import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
 import cursorSegmentIncrement from './tests/increment/cursorSegment.increment.test'
 import cursorSegmentDecrement from './tests/decrement/cursorSegment.decrement.test'
 import toggleModeTest from './tests/toggleMode.test'
+import clearTests from './tests/clear.test'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { selectSegment } from '../select/select'
 import { convertTimeObject } from '../convert/convert'
@@ -106,6 +107,8 @@ describe('Minutes', () => {
 })
 
 toggleModeTest()
+
+clearTests()
 
 describe('Current Segment', () => {
 	cursorSegmentIncrement()

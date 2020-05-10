@@ -76,6 +76,14 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		},
 		toggleMode: (): String12hr =>
 			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
+
+		// To Do: do properly
+		clear: {
+			hrs12: (): String12hr => string12hr,
+			min: (): String12hr => string12hr,
+			mode: (): String12hr => string12hr,
+			all: (): String12hr => string12hr,
+		},
 	}
 }
 export const modifyString24hr: ModifyString24hr = string24hr => {
@@ -265,6 +273,14 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			}
 
 			return straightenTimeObjectHrs('hrs24', returnVal)
+		},
+		// To Do: do properly
+		clear: {
+			hrs24: (): TimeObject => timeObject,
+			hrs12: (): TimeObject => timeObject,
+			min: (): TimeObject => timeObject,
+			mode: (): TimeObject => timeObject,
+			all: (): TimeObject => timeObject,
 		},
 	}
 }

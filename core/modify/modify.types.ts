@@ -47,6 +47,12 @@ export interface ModifyString12hr {
 				integrated: () => String12hr
 			}
 		}
+		clear: {
+			hrs12: () => String12hr
+			min: () => String12hr
+			mode: () => String12hr
+			all: () => String12hr
+		}
 		toggleMode: () => String12hr
 	}
 }
@@ -132,6 +138,13 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
+		}
+		clear: {
+			hrs12: () => TimeObject
+			hrs24: () => TimeObject
+			min: () => TimeObject
+			mode: () => TimeObject
+			all: () => TimeObject
 		}
 		toggleMode: () => TimeObject
 	}
