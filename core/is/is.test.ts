@@ -10,14 +10,32 @@ import {
 	isTimeObject,
 	isString12hr,
 	isString24hr,
+	isShiftHeldDown,
 } from './is'
 import { current } from '../../helpers/currentDate'
+import { loadTestPage } from '../../cypress/support/loadTestPage'
 
+isShiftHeldDownTests()
 isPmTests()
 isAmTests()
 isTimeObjectTests()
 isString12hrTests()
 isString24hrTests()
+
+function isShiftHeldDownTests(): void {
+	describe('Is shift held down', () => {
+		it('detects shift down then release', async () => {
+			await loadTestPage()
+			expect(isShiftHeldDown).to.equal(false)
+			cy.get('#testInput').trigger('keydown', { keycode: 16, release: false })
+			cy.wait(50)
+			expect(isShiftHeldDown).to.equal(true)
+			cy.get('#testInput').trigger('keyup', { keycode: 16, release: false })
+			cy.wait(50)
+			expect(isShiftHeldDown).to.equal(false)
+		})
+	})
+}
 
 function isPmTests(): void {
 	describe('is PM', () => {
