@@ -47,7 +47,11 @@ export default (): void => {
 				test('12:30 AM', '12:30 PM')
 				test('11:30 AM', '11:30 PM')
 				test('01:30 PM', '01:30 AM')
+				test('01:-- PM', '01:-- AM')
+				test('--:30 PM', '--:30 AM')
 				test('12:30 --', `12:30 ${current.mode}`)
+				test('12:-- --', `12:-- ${current.mode}`)
+				test('--:30 --', `--:30 ${current.mode}`)
 				test('--:-- --', `--:-- ${current.mode}`)
 			})
 		}
@@ -82,6 +86,18 @@ export default (): void => {
 					{ hrs24: 0, hrs12: 12, min: 30, mode: 'AM' },
 				)
 				testTimeObject(
+					{ hrs24: 13, hrs12: 1, min: '--', mode: 'PM' },
+					{ hrs24: 1, hrs12: 1, min: '--', mode: 'AM' },
+				)
+				testTimeObject(
+					{ hrs24: 13, hrs12: 1, min: '--', mode: 'PM' },
+					{ hrs24: 1, hrs12: 1, min: '--', mode: 'AM' },
+				)
+				testTimeObject(
+					{ hrs24: '--', hrs12: '--', min: 30, mode: 'PM' },
+					{ hrs24: '--', hrs12: '--', min: 30, mode: 'AM' },
+				)
+				testTimeObject(
 					{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
 					{ hrs24: '--', hrs12: '--', min: '--', mode: current.mode },
 				)
@@ -108,6 +124,24 @@ export default (): void => {
 					{
 						hrs24: current.mode === 'AM' ? 1 : 13,
 						hrs12: 1,
+						min: 30,
+						mode: current.mode,
+					},
+				)
+				testTimeObject(
+					{ hrs24: 1, hrs12: 1, min: '--', mode: '--' },
+					{
+						hrs24: current.mode === 'AM' ? 1 : 13,
+						hrs12: 1,
+						min: '--',
+						mode: current.mode,
+					},
+				)
+				testTimeObject(
+					{ hrs24: '--', hrs12: '--', min: 30, mode: '--' },
+					{
+						hrs24: '--',
+						hrs12: '--',
 						min: 30,
 						mode: current.mode,
 					},
