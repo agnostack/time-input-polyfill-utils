@@ -22,6 +22,8 @@ const convert = {
 	string24hr: convertString24hr,
 }
 
+const getCurrentTimeMode = (): Mode => (new Date().getHours() > 11 ? 'PM' : 'AM')
+
 export const modifyString12hr: ModifyString12hr = string12hr => {
 	const modeToggle = {
 		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
@@ -261,7 +263,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			}
 
 			if (mode === '--') {
-				const currentTimeMode = new Date().getHours() > 11 ? 'PM' : 'AM'
+				const currentTimeMode = getCurrentTimeMode()
 				returnVal.mode = currentTimeMode
 				returnVal.hrs24 = <Hour24>get24HrHours(currentTimeMode)
 			} else {
@@ -373,9 +375,21 @@ const straightenTimeObjectHrs = (
 	basedOn: 'hrs12' | 'hrs24',
 	invalidTimeObj: TimeObject,
 ): TimeObject => {
+	const { min, mode } = invalidTimeObj
+
 	const use12hr = basedOn === 'hrs12'
 	const toHr = use12hr ? 'to12hr' : 'to24hr'
 	const format = use12hr ? 'string12hr' : 'string24hr'
-	const timeString = convertTimeObject(invalidTimeObj, true)[toHr]()
-	return convert[format](timeString).toTimeObject()
+
+	const preFilledTimeObject: TimeObject = {
+		...invalidTimeObj,
+		min: 0,
+		mode: mode === '--' ? getCurrentTimeMode() : mode,
+	}
+
+	const timeString = convertTimeObject(preFilledTimeObject, true)[toHr]()
+
+	const { hrs12, hrs24 } = convert[format](timeString).toTimeObject()
+
+	return { hrs12, hrs24, min, mode }
 }
