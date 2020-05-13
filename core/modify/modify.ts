@@ -15,6 +15,7 @@ import {
 	Action,
 } from './modify.types'
 import { getCursorSegment } from '../get/get'
+import { blankValues } from '../../common/blankValues'
 
 const convert = {
 	string12hr: convertString12hr,
@@ -77,12 +78,12 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		toggleMode: (): String12hr =>
 			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
 
-		// To Do: do properly
 		clear: {
-			hrs12: (): String12hr => string12hr,
-			min: (): String12hr => string12hr,
-			mode: (): String12hr => string12hr,
-			all: (): String12hr => string12hr,
+			hrs12: (): String12hr =>
+				modify(timeObject => modifyTimeObject(timeObject).clear.hrs12()),
+			min: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.min()),
+			mode: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.mode()),
+			all: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.all()),
 		},
 	}
 }
@@ -274,13 +275,12 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 
 			return straightenTimeObjectHrs('hrs24', returnVal)
 		},
-		// To Do: do properly
 		clear: {
-			hrs24: (): TimeObject => timeObject,
-			hrs12: (): TimeObject => timeObject,
-			min: (): TimeObject => timeObject,
-			mode: (): TimeObject => timeObject,
-			all: (): TimeObject => timeObject,
+			hrs24: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
+			hrs12: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
+			min: (): TimeObject => ({ ...timeObject, min: '--' }),
+			mode: (): TimeObject => ({ ...timeObject, mode: '--' }),
+			all: (): TimeObject => blankValues.timeObject,
 		},
 	}
 }
