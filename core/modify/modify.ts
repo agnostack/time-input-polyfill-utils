@@ -1,4 +1,4 @@
-import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode } from '../../types/index'
+import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12 } from '../../types/index'
 import {
 	convertString12hr,
 	convertString24hr,
@@ -23,6 +23,17 @@ const convert = {
 }
 
 const getCurrentTimeMode = (): Mode => (new Date().getHours() > 11 ? 'PM' : 'AM')
+
+type GetCurrentHours = {
+	currentHour12: Hour12
+	currentHour24: Hour24
+}
+
+const getCurrentHours = (): GetCurrentHours => {
+	const currentHour24 = <Hour24>new Date().getHours()
+	const currentHour12 = convertHours24(currentHour24).toHours12()
+	return { currentHour12, currentHour24 }
+}
 
 export const modifyString12hr: ModifyString12hr = string12hr => {
 	const modeToggle = {
@@ -275,7 +286,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				return returnVal
 			}
 
-			return straightenTimeObjectHrs('hrs24', returnVal)
+			return straightenTimeObject('hrs24', returnVal)
 		},
 		clear: {
 			hrs24: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
@@ -301,18 +312,19 @@ const nudgeIsolatedTimeObjectHrs = (
 		timeObject,
 		integration: 'isolated',
 		blankCallback: (copiedObject: TimeObject): TimeObject => {
-			const currentHour24 = new Date().getHours()
-			const currentHour12 = convertHours24(<Hour24>currentHour24).toHours12()
+			const { currentHour24, currentHour12 } = getCurrentHours()
 
-			if (currentHour24 > 12 && copiedObject.mode === 'AM') {
-				copiedObject.hrs24 = currentHour12
-			} else if (currentHour24 <= 12 && copiedObject.mode === 'PM') {
-				copiedObject.hrs24 = <Hour24>(currentHour24 + 12)
-			} else {
-				copiedObject.hrs24 = <Hour24>currentHour24
+			if (typeof currentHour24 === 'number') {
+				if (currentHour24 > 12 && copiedObject.mode === 'AM') {
+					copiedObject.hrs24 = currentHour12
+				} else if (currentHour24 <= 12 && copiedObject.mode === 'PM') {
+					copiedObject.hrs24 = <Hour24>(currentHour24 + 12)
+				} else {
+					copiedObject.hrs24 = <Hour24>currentHour24
+				}
+
+				copiedObject.hrs12 = currentHour12
 			}
-
-			copiedObject.hrs12 = currentHour12
 
 			return copiedObject
 		},
@@ -365,17 +377,19 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 		} else {
 			copiedObject[hrsType] = <TimeObject[T]>(<number>hrs + modifier)
 		}
-		return straightenTimeObjectHrs(hrsType, copiedObject)
+		return straightenTimeObject(hrsType, copiedObject)
 	} else {
 		return blankCallback(copiedObject)
 	}
 }
 
-const straightenTimeObjectHrs = (
+const straightenTimeObject = (
 	basedOn: 'hrs12' | 'hrs24',
 	invalidTimeObj: TimeObject,
 ): TimeObject => {
-	const { min, mode } = invalidTimeObj
+	const { min } = invalidTimeObj
+
+	const mode = straightenTimeObjectMode(basedOn, invalidTimeObj)
 
 	const use12hr = basedOn === 'hrs12'
 	const toHr = use12hr ? 'to12hr' : 'to24hr'
@@ -384,7 +398,7 @@ const straightenTimeObjectHrs = (
 	const preFilledTimeObject: TimeObject = {
 		...invalidTimeObj,
 		min: 0,
-		mode: mode === '--' ? getCurrentTimeMode() : mode,
+		mode,
 	}
 
 	const timeString = convertTimeObject(preFilledTimeObject, true)[toHr]()
@@ -392,4 +406,16 @@ const straightenTimeObjectHrs = (
 	const { hrs12, hrs24 } = convert[format](timeString).toTimeObject()
 
 	return { hrs12, hrs24, min, mode }
+}
+
+const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {
+	const { hrs24, mode } = invalidTimeObj
+	if (mode === '--') {
+		return getCurrentTimeMode()
+	}
+	if (basedOn === 'hrs12') {
+		return mode
+	}
+
+	return hrs24 > 11 ? 'PM' : 'AM'
 }
