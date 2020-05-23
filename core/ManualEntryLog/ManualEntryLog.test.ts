@@ -17,7 +17,6 @@ describe('Initialize', () => {
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM')
 	})
 })
@@ -40,7 +39,6 @@ describe('Add "1"', () => {
 	it('mode', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('1')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 	})
 })
@@ -66,7 +64,6 @@ describe('Add "1" > add "2"', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('1')
 		entryLog.mode.add('2')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 	})
 })
@@ -95,7 +92,6 @@ describe('Add "1" > add "2" > add "3"', () => {
 		entryLog.mode.add('1')
 		entryLog.mode.add('2')
 		entryLog.mode.add('3')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 	})
 })
@@ -127,7 +123,6 @@ describe('Add "1" > add "2" > add "3" > add "4"', () => {
 		entryLog.mode.add('2')
 		entryLog.mode.add('3')
 		entryLog.mode.add('4')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 	})
 })
@@ -150,7 +145,6 @@ describe('Add "0" expect no change', () => {
 	it('mode', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('0')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 	})
 })
@@ -175,8 +169,35 @@ describe('Add "1" > add "0"', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('1')
 		entryLog.mode.add('0')
-		expect(entryLog.mode.entries).to.deep.equal([])
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
+	})
+})
+
+// reset is needed for things like typing "1" then leaving then coming back
+// The the tracker should reset if they are returning
+describe('Add "1"/"p" > then reset', () => {
+	describe('hrs12 add "1" > reset', () => {
+		const entryLog = createEntryLog()
+		entryLog.hrs12.add('1')
+		entryLog.hrs12.reset()
+		// I don't want to lose the value, just reset the entries array
+		expect(entryLog.hrs12.entries).to.deep.equal([])
+		expect(entryLog.hrs12.value).to.equal(1)
+		expect(entryLog.hrs12.isFull).to.equal(true)
+	})
+	it('min add "1" > reset', () => {
+		const entryLog = createEntryLog()
+		entryLog.min.add('1')
+		entryLog.min.reset()
+		expect(entryLog.min.entries).to.deep.equal([])
+		expect(entryLog.min.value).to.equal(1)
+		expect(entryLog.min.isFull).to.equal(true)
+	})
+	it('mode add "p" > reset', () => {
+		const entryLog = createEntryLog()
+		entryLog.mode.add('p')
+		entryLog.mode.reset() // reset doesn't really do anything for mode it's just there to prevent errors
+		expect(entryLog.mode.value).to.equal('PM')
 	})
 })
 
@@ -198,7 +219,6 @@ describe('Add "p"', () => {
 	it('mode', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('p')
-		expect(entryLog.mode.entries).to.deep.equal(['p'])
 		expect(entryLog.mode.value).to.equal('PM')
 	})
 })
@@ -222,7 +242,6 @@ describe('Other cases', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('p')
 		entryLog.mode.add('m')
-		expect(entryLog.hrs12.entries).to.deep.equal(['p'])
-		expect(entryLog.hrs12.value).to.equal('PM')
+		expect(entryLog.mode.value).to.equal('PM')
 	})
 })

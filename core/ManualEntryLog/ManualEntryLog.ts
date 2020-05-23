@@ -3,7 +3,7 @@ import { Segment, Hour12, TimeObject } from '../../types/index'
 class SegmentLogHrs {
 	value: Hour12
 	entries: Array<number> = []
-	isFull: Boolean = true
+	isFull = true
 
 	constructor(startingValue: Hour12) {
 		this.value = startingValue
@@ -15,9 +15,6 @@ class SegmentLogHrs {
 			if (number > 1) {
 				this.entries = [0, number]
 			} else {
-				if (number === 1) {
-
-				}
 				if (this.entries.length === 0) {
 					this.entries = [number]
 				}
@@ -29,13 +26,11 @@ class SegmentLogHrs {
 				}
 			}
 		}
-
-		if (this.entries[0] === 0 ||)
 	}
 
-	clear(): void {
+	reset(): void {
 		this.entries = []
-		this.value = '--'
+		this.isFull = true
 	}
 }
 
