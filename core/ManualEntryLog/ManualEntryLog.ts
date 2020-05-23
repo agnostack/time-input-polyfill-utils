@@ -2,21 +2,11 @@ import { Segment, Hour12, TimeObject } from '../../types/index'
 
 class SegmentLogHrs {
 	value: Hour12
-	entries: Array<number>
+	entries: Array<number> = []
+	isFull: Boolean = true
 
 	constructor(startingValue: Hour12) {
 		this.value = startingValue
-
-		const doubleDigits: Array<Hour12> = [10, 11, 12]
-
-		if (doubleDigits.indexOf(startingValue)) {
-			const singleDigit = <10 | 11 | 12>startingValue - 10
-			this.entries = [1, singleDigit]
-		} else if (startingValue !== '--') {
-			this.entries = [startingValue]
-		} else {
-			this.entries = []
-		}
 	}
 
 	add(value: string): void {
