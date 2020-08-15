@@ -10,6 +10,6 @@
 		"outDir": "npm"
 	},
 	"files": ["./index.ts"],
-	"include": ["./core/**/*.ts", "./common/**/*.ts"],
+	"include": ["./core/**/*.ts", "./common/**/*.ts", "./types/**/*.ts", "./helpers/**/*.ts"],
 	"exclude": ["./node_modules", "./core/**/*.test.ts"]
 }
