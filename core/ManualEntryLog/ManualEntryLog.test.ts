@@ -186,6 +186,30 @@ describe('Add "1"/"p" > then reset', () => {
 	})
 })
 
+describe('Add "1"/"p" > then clear', () => {
+	it('hrs12 add "1" > clear', () => {
+		const entryLog = createEntryLog()
+		entryLog.hrs12.add('1')
+		entryLog.hrs12.clear()
+		expect(entryLog.hrs12.entries).to.deep.equal([])
+		expect(entryLog.hrs12.value).to.equal('--')
+	})
+	it('minutes add "1" > clear', () => {
+		const entryLog = createEntryLog()
+		entryLog.minutes.add('1')
+		entryLog.minutes.clear()
+		expect(entryLog.minutes.entries).to.deep.equal([])
+		expect(entryLog.minutes.value).to.equal('--')
+	})
+	it('mode add "p" > clear', () => {
+		const entryLog = createEntryLog()
+		entryLog.mode.add('p')
+		entryLog.mode.clear()
+		expect(entryLog.mode.entries).to.deep.equal([])
+		expect(entryLog.mode.value).to.equal('--')
+	})
+})
+
 describe('Add "p"', () => {
 	it('hrs12', () => {
 		const entryLog = createEntryLog()
@@ -223,6 +247,15 @@ describe('Other cases', () => {
 		const entryLog = createEntryLog()
 		entryLog.mode.add('p')
 		entryLog.mode.add('m')
+		expect(entryLog.mode.value).to.equal('PM')
+	})
+	it('Add "p" > "a" > "p" to mode', () => {
+		const entryLog = createEntryLog()
+		entryLog.mode.add('p')
+		expect(entryLog.mode.value).to.equal('PM')
+		entryLog.mode.add('a')
+		expect(entryLog.mode.value).to.equal('AM')
+		entryLog.mode.add('p')
 		expect(entryLog.mode.value).to.equal('PM')
 	})
 })
