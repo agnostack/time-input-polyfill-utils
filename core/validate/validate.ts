@@ -30,12 +30,12 @@ export const validateString24hr: ValidateString24hr = (string24hr: String24hr) =
 	return true
 }
 export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) => {
-	const { hrs24, hrs12, min, mode } = timeObject
+	const { hrs24, hrs12, minutes, mode } = timeObject
 	if (!isTimeObject(timeObject)) {
 		throw new Error(
 			`${JSON.stringify(
 				timeObject,
-			)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
+			)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM'} (12:00 AM)`,
 		)
 	}
 
@@ -52,7 +52,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 	}
 	isValid(hrs24, 'hrs24', 0, 23)
 	isValid(hrs12, 'hrs12', 1, 12)
-	isValid(min, 'min', 0, 59)
+	isValid(minutes, 'minutes', 0, 59)
 
 	const validModes = ['AM', 'PM', '--']
 

@@ -30,11 +30,11 @@ export default (): void => {
 							modifierTest({
 								before,
 								after,
-								test: () => modifyString12hr(before).decrement.min.isolated(),
+								test: () => modifyString12hr(before).decrement.minutes.isolated(),
 							})
 						}
-						decrement12hrIsolated({ before: '--:-- --', after: `--:${current.min} --` })
-						decrement12hrIsolated({ before: '09:-- AM', after: `09:${current.min} AM` })
+						decrement12hrIsolated({ before: '--:-- --', after: `--:${current.minutes} --` })
+						decrement12hrIsolated({ before: '09:-- AM', after: `09:${current.minutes} AM` })
 						decrement12hrIsolated({ before: '09:01 AM', after: '09:00 AM' })
 						decrement12hrIsolated({ before: '09:10 PM', after: '09:09 PM' })
 						decrement12hrIsolated({ before: '11:00 AM', after: '11:59 AM' })
@@ -51,16 +51,16 @@ export default (): void => {
 							modifierTest({
 								before,
 								after,
-								test: () => modifyString12hr(before).decrement.min.integrated(),
+								test: () => modifyString12hr(before).decrement.minutes.integrated(),
 							})
 						}
 						decrement12hrIntegrated({
 							before: '--:-- --',
-							after: `--:${current.min} --`,
+							after: `--:${current.minutes} --`,
 						})
 						decrement12hrIntegrated({
 							before: '09:-- AM',
-							after: `09:${current.min} AM`,
+							after: `09:${current.minutes} AM`,
 						})
 						decrement12hrIntegrated({ before: '09:01 AM', after: '09:00 AM' })
 						decrement12hrIntegrated({ before: '09:10 PM', after: '09:09 PM' })
@@ -87,7 +87,7 @@ export default (): void => {
 							modifierTest({
 								before,
 								after,
-								test: () => modifyString24hr(before).decrement.min.isolated(),
+								test: () => modifyString24hr(before).decrement.minutes.isolated(),
 							})
 						}
 						decrement24hrIsolated({ before: '09:01', after: '09:00' })
@@ -107,7 +107,7 @@ export default (): void => {
 							modifierTest({
 								before,
 								after,
-								test: () => modifyString24hr(before).decrement.min.integrated(),
+								test: () => modifyString24hr(before).decrement.minutes.integrated(),
 							})
 						}
 						decrement24hrIntegrated({ before: '09:01', after: '09:00' })
@@ -134,7 +134,7 @@ export default (): void => {
 							deepModifierTest({
 								before,
 								after,
-								test: () => modifyTimeObject(before).decrement.min.isolated(),
+								test: () => modifyTimeObject(before).decrement.minutes.isolated(),
 							})
 						}
 
@@ -142,13 +142,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: '--',
+								minutes: '--',
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: <Minute>parseInt(current.min),
+								minutes: <Minute>parseInt(current.minutes),
 								mode: 'AM',
 							},
 						})
@@ -157,13 +157,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 1,
+								minutes: 1,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -172,13 +172,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 10,
+								minutes: 10,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 9,
+								minutes: 9,
 								mode: 'AM',
 							},
 						})
@@ -187,13 +187,13 @@ export default (): void => {
 							before: {
 								hrs24: 11,
 								hrs12: 11,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 11,
 								hrs12: 11,
-								min: 59,
+								minutes: 59,
 								mode: 'AM',
 							},
 						})
@@ -202,13 +202,13 @@ export default (): void => {
 							before: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 59,
+								minutes: 59,
 								mode: 'PM',
 							},
 						})
@@ -217,13 +217,13 @@ export default (): void => {
 							before: {
 								hrs24: 23,
 								hrs12: 11,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 23,
 								hrs12: 11,
-								min: 59,
+								minutes: 59,
 								mode: 'PM', // modifying hrs does not modify mode
 							},
 						})
@@ -239,7 +239,7 @@ export default (): void => {
 							deepModifierTest({
 								before,
 								after,
-								test: () => modifyTimeObject(before).decrement.min.integrated(),
+								test: () => modifyTimeObject(before).decrement.minutes.integrated(),
 							})
 						}
 
@@ -247,13 +247,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: '--',
+								minutes: '--',
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: <Minute>parseInt(current.min),
+								minutes: <Minute>parseInt(current.minutes),
 								mode: 'AM',
 							},
 						})
@@ -262,13 +262,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 1,
+								minutes: 1,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -277,13 +277,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 10,
+								minutes: 10,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 9,
+								minutes: 9,
 								mode: 'AM',
 							},
 						})
@@ -292,13 +292,13 @@ export default (): void => {
 							before: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 11,
 								hrs12: 11,
-								min: 59,
+								minutes: 59,
 								mode: 'AM',
 							},
 						})
@@ -307,13 +307,13 @@ export default (): void => {
 							before: {
 								hrs24: 13,
 								hrs12: 1,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 59,
+								minutes: 59,
 								mode: 'PM',
 							},
 						})
@@ -322,13 +322,13 @@ export default (): void => {
 							before: {
 								hrs24: 0,
 								hrs12: 12,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 23,
 								hrs12: 11,
-								min: 59,
+								minutes: 59,
 								mode: 'PM', // modifying hrs does not modify mode
 							},
 						})

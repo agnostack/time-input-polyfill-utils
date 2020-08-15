@@ -63,11 +63,13 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 				integrated: (): String12hr =>
 					modify(timeObject => modifyTimeObject(timeObject).increment.hrs12.integrated()),
 			},
-			min: {
+			minutes: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.min.isolated()),
+					modify(timeObject => modifyTimeObject(timeObject).increment.minutes.isolated()),
 				integrated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.min.integrated()),
+					modify(timeObject =>
+						modifyTimeObject(timeObject).increment.minutes.integrated(),
+					),
 			},
 			mode: modeToggle,
 			cursorSegment: cursorSegmentModifier('increment'),
@@ -79,11 +81,13 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 				integrated: (): String12hr =>
 					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs12.integrated()),
 			},
-			min: {
+			minutes: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.min.isolated()),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.minutes.isolated()),
 				integrated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.min.integrated()),
+					modify(timeObject =>
+						modifyTimeObject(timeObject).decrement.minutes.integrated(),
+					),
 			},
 			mode: modeToggle,
 			cursorSegment: cursorSegmentModifier('decrement'),
@@ -94,7 +98,8 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		clear: {
 			hrs12: (): String12hr =>
 				modify(timeObject => modifyTimeObject(timeObject).clear.hrs12()),
-			min: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.min()),
+			minutes: (): String12hr =>
+				modify(timeObject => modifyTimeObject(timeObject).clear.minutes()),
 			mode: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.mode()),
 			all: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.all()),
 		},
@@ -123,11 +128,13 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 				integrated: (): String24hr =>
 					modify(timeObject => modifyTimeObject(timeObject).increment.hrs24.integrated()),
 			},
-			min: {
+			minutes: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.min.isolated()),
+					modify(timeObject => modifyTimeObject(timeObject).increment.minutes.isolated()),
 				integrated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.min.integrated()),
+					modify(timeObject =>
+						modifyTimeObject(timeObject).increment.minutes.integrated(),
+					),
 			},
 			mode: modeToggle,
 		},
@@ -138,11 +145,13 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 				integrated: (): String24hr =>
 					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs24.integrated()),
 			},
-			min: {
+			minutes: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.min.isolated()),
+					modify(timeObject => modifyTimeObject(timeObject).decrement.minutes.isolated()),
 				integrated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.min.integrated()),
+					modify(timeObject =>
+						modifyTimeObject(timeObject).decrement.minutes.integrated(),
+					),
 			},
 			mode: modeToggle,
 		},
@@ -172,33 +181,33 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				integrated: (): TimeObject =>
 					modifyTimeObject(timeObject).increment.hrs12.integrated(),
 			},
-			min: {
+			minutes: {
 				isolated: (): TimeObject => {
-					const { min } = timeObject
+					const { minutes } = timeObject
 
 					const newMin =
-						min === maxAndMins.minutes.max
-							? maxAndMins.minutes.min
-							: nudgeMinutes(min, 'up')
+						minutes === maxAndMins.minutes.max
+							? maxAndMins.minutes.minutes
+							: nudgeMinutes(minutes, 'up')
 
 					return {
 						...timeObject,
-						min: newMin,
+						minutes: newMin,
 					}
 				},
 				integrated: (): TimeObject => {
-					const { min } = timeObject
+					const { minutes } = timeObject
 
-					if (min === maxAndMins.minutes.max) {
+					if (minutes === maxAndMins.minutes.max) {
 						return nudgeIntegratedTimeObjectHrs('up', {
 							...timeObject,
-							min: maxAndMins.minutes.min,
+							minutes: maxAndMins.minutes.minutes,
 						})
 					}
 
 					return {
 						...timeObject,
-						min: nudgeMinutes(min, 'up'),
+						minutes: nudgeMinutes(minutes, 'up'),
 					}
 				},
 			},
@@ -216,33 +225,33 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				integrated: (): TimeObject =>
 					modifyTimeObject(timeObject).decrement.hrs12.integrated(),
 			},
-			min: {
+			minutes: {
 				isolated: (): TimeObject => {
-					const { min } = timeObject
+					const { minutes } = timeObject
 
 					const newMin =
-						min === maxAndMins.minutes.min
+						minutes === maxAndMins.minutes.minutes
 							? maxAndMins.minutes.max
-							: nudgeMinutes(min, 'down')
+							: nudgeMinutes(minutes, 'down')
 
 					return {
 						...timeObject,
-						min: newMin,
+						minutes: newMin,
 					}
 				},
 				integrated: (): TimeObject => {
-					const { min } = timeObject
+					const { minutes } = timeObject
 
-					if (min === maxAndMins.minutes.min) {
+					if (minutes === maxAndMins.minutes.minutes) {
 						return nudgeIntegratedTimeObjectHrs('down', {
 							...timeObject,
-							min: maxAndMins.minutes.max,
+							minutes: maxAndMins.minutes.max,
 						})
 					}
 
 					return {
 						...timeObject,
-						min: nudgeMinutes(min, 'down'),
+						minutes: nudgeMinutes(minutes, 'down'),
 					}
 				},
 			},
@@ -291,7 +300,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 		clear: {
 			hrs24: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
 			hrs12: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
-			min: (): TimeObject => ({ ...timeObject, min: '--' }),
+			minutes: (): TimeObject => ({ ...timeObject, minutes: '--' }),
 			mode: (): TimeObject => ({ ...timeObject, mode: '--' }),
 			all: (): TimeObject => blankValues.timeObject,
 		},
@@ -367,8 +376,8 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 
 	const isUp = direction === 'up'
 
-	const limit = isUp ? maxAndMins[hrsType].max : maxAndMins[hrsType].min
-	const opposingLimit = isUp ? maxAndMins[hrsType].min : maxAndMins[hrsType].max
+	const limit = isUp ? maxAndMins[hrsType].max : maxAndMins[hrsType].minutes
+	const opposingLimit = isUp ? maxAndMins[hrsType].minutes : maxAndMins[hrsType].max
 	const modifier = isUp ? 1 : -1
 
 	if (typeof hrs === 'number') {
@@ -387,7 +396,7 @@ const straightenTimeObject = (
 	basedOn: 'hrs12' | 'hrs24',
 	invalidTimeObj: TimeObject,
 ): TimeObject => {
-	const { min } = invalidTimeObj
+	const { minutes } = invalidTimeObj
 
 	const mode = straightenTimeObjectMode(basedOn, invalidTimeObj)
 
@@ -397,7 +406,7 @@ const straightenTimeObject = (
 
 	const preFilledTimeObject: TimeObject = {
 		...invalidTimeObj,
-		min: 0,
+		minutes: 0,
 		mode,
 	}
 
@@ -405,7 +414,7 @@ const straightenTimeObject = (
 
 	const { hrs12, hrs24 } = convert[format](timeString).toTimeObject()
 
-	return { hrs12, hrs24, min, mode }
+	return { hrs12, hrs24, minutes, mode }
 }
 
 const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {

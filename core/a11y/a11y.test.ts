@@ -96,7 +96,7 @@ describe('Update a11y element', () => {
 				describe('minutes', () => {
 					it('$input [select (minutes)]', async () => {
 						const { $input, document } = await createA11y()
-						selectSegment($input, 'min')
+						selectSegment($input, 'minutes')
 						a11yUpdate($input, ['select'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal(
 							'Minutes spin button blank.',
@@ -104,7 +104,7 @@ describe('Update a11y element', () => {
 					})
 					it('$inputPreFilled [select (minutes)]', async () => {
 						const { $inputPreFilled, document } = await createA11y()
-						selectSegment($inputPreFilled, 'min')
+						selectSegment($inputPreFilled, 'minutes')
 						a11yUpdate($inputPreFilled, ['select'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal(
 							'Minutes spin button 0.',
@@ -112,7 +112,7 @@ describe('Update a11y element', () => {
 					})
 					it('null [select (minutes)]', async () => {
 						const { document } = await createA11y()
-						selectSegment(null, 'min')
+						selectSegment(null, 'minutes')
 						a11yUpdate(null, ['select'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal('')
 					})
@@ -176,19 +176,19 @@ describe('Update a11y element', () => {
 				describe('minutes', () => {
 					it('$input [update (minutes)]', async () => {
 						const { $input, document } = await createA11y()
-						selectSegment($input, 'min')
+						selectSegment($input, 'minutes')
 						a11yUpdate($input, ['update'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal('blank.')
 					})
 					it('$inputPreFilled [update (minutes)]', async () => {
 						const { $inputPreFilled, document } = await createA11y()
-						selectSegment($inputPreFilled, 'min')
+						selectSegment($inputPreFilled, 'minutes')
 						a11yUpdate($inputPreFilled, ['update'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal('0.')
 					})
 					it('null [update (minutes)]', async () => {
 						const { document } = await createA11y()
-						selectSegment(null, 'min')
+						selectSegment(null, 'minutes')
 						a11yUpdate(null, ['update'], document)
 						expect(document.getElementById(a11yID)?.textContent).to.equal('')
 					})
@@ -252,7 +252,7 @@ describe('Update a11y element', () => {
 				describe('minutes', () => {
 					it('$input [initial, select, update] (minutes)', async () => {
 						const { $input, document } = await createA11y()
-						selectSegment($input, 'min')
+						selectSegment($input, 'minutes')
 						a11yUpdate($input, ['initial', 'select', 'update'], document)
 						expect(document.getElementById(a11yID)?.innerHTML).to.equal(
 							'<p>Blank input grouping blank:blank blank.</p><p>Minutes spin button blank.</p><p>blank.</p>',
@@ -260,7 +260,7 @@ describe('Update a11y element', () => {
 					})
 					it('$inputPreFilled [initial, select, update] (minutes)', async () => {
 						const { $inputPreFilled, document } = await createA11y()
-						selectSegment($inputPreFilled, 'min')
+						selectSegment($inputPreFilled, 'minutes')
 						a11yUpdate($inputPreFilled, ['initial', 'select', 'update'], document)
 						expect(document.getElementById(a11yID)?.innerHTML).to.equal(
 							'<p>Pre-filled input grouping 12:00 AM.</p><p>Minutes spin button 0.</p><p>0.</p>',
@@ -268,7 +268,7 @@ describe('Update a11y element', () => {
 					})
 					it('null [initial, select, update] (minutes)', async () => {
 						const { document } = await createA11y()
-						selectSegment(null, 'min')
+						selectSegment(null, 'minutes')
 						a11yUpdate(null, ['initial', 'select', 'update'], document)
 						expect(document.getElementById(a11yID)?.innerHTML).to.equal('')
 					})

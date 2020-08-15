@@ -11,7 +11,7 @@ export const preFilledValues = {
 	timeObject: <TimeObject>{
 		hrs24: 0,
 		hrs12: 12,
-		min: 0,
+		minutes: 0,
 		mode: 'AM',
 	},
 }

@@ -80,8 +80,8 @@ export const getCursorSegment: GetCursorSegment = $input =>
 export const getPrevSegment: GetNextPrevSegment = $inputOrSegment => {
 	if (typeof $inputOrSegment === 'string') {
 		if ($inputOrSegment === 'hrs12') return 'hrs12'
-		if ($inputOrSegment === 'min') return 'hrs12'
-		if ($inputOrSegment === 'mode') return 'min'
+		if ($inputOrSegment === 'minutes') return 'hrs12'
+		if ($inputOrSegment === 'mode') return 'minutes'
 	}
 
 	return getRangeOf($inputOrSegment).prevSegment().segment
@@ -89,8 +89,8 @@ export const getPrevSegment: GetNextPrevSegment = $inputOrSegment => {
 
 export const getNextSegment: GetNextPrevSegment = $inputOrSegment => {
 	if (typeof $inputOrSegment === 'string') {
-		if ($inputOrSegment === 'hrs12') return 'min'
-		if ($inputOrSegment === 'min') return 'mode'
+		if ($inputOrSegment === 'hrs12') return 'minutes'
+		if ($inputOrSegment === 'minutes') return 'mode'
 		if ($inputOrSegment === 'mode') return 'mode'
 	}
 
@@ -111,7 +111,7 @@ export const getRangeOf: GetRangeOf = $input => ({
 		const start = <SelectionIndex>$input.selectionStart
 		const end = <SelectionIndex>$input.selectionEnd
 		const segment: Segment =
-			(within('mode', start) && 'mode') || (within('min', start) && 'min') || 'hrs12'
+			(within('mode', start) && 'mode') || (within('minutes', start) && 'minutes') || 'hrs12'
 		return {
 			start,
 			end,

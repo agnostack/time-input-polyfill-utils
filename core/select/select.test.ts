@@ -42,9 +42,9 @@ function testCursorSegmentSelection(): void {
 		testCursorSelection(1, ranges.hrs12)
 		testCursorSelection(2, ranges.hrs12)
 
-		testCursorSelection(3, ranges.min)
-		testCursorSelection(4, ranges.min)
-		testCursorSelection(5, ranges.min)
+		testCursorSelection(3, ranges.minutes)
+		testCursorSelection(4, ranges.minutes)
+		testCursorSelection(5, ranges.minutes)
 
 		testCursorSelection(6, ranges.mode)
 		testCursorSelection(7, ranges.mode)
@@ -68,7 +68,7 @@ function testSpecificSegmentSelection(): void {
 		}
 
 		testSegmentSelect('hrs12', ranges.hrs12)
-		testSegmentSelect('min', ranges.min)
+		testSegmentSelect('minutes', ranges.minutes)
 		testSegmentSelect('mode', ranges.mode)
 	})
 }
@@ -89,8 +89,8 @@ function testNextSegmentSelection(): void {
 			expect('it_worked').to.equal('it_worked')
 		})
 
-		testSegmentAfter('hrs12', ranges.min)
-		testSegmentAfter('min', ranges.mode)
+		testSegmentAfter('hrs12', ranges.minutes)
+		testSegmentAfter('minutes', ranges.mode)
 		testSegmentAfter('mode', ranges.mode)
 	})
 }
@@ -112,7 +112,7 @@ function testPrevSegmentSelection(): void {
 		})
 
 		testSegmentBefore('hrs12', ranges.hrs12)
-		testSegmentBefore('min', ranges.hrs12)
-		testSegmentBefore('mode', ranges.min)
+		testSegmentBefore('minutes', ranges.hrs12)
+		testSegmentBefore('mode', ranges.minutes)
 	})
 }

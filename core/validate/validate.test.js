@@ -91,18 +91,18 @@ function validateTimeObjectTests() {
 			describe('Basic tests', () => {
 				it('basic time object', () => {
 					expect(
-						validateTimeObject({ hrs24: 13, hrs12: 1, min: 0, mode: 'PM' }),
+						validateTimeObject({ hrs24: 13, hrs12: 1, minutes: 0, mode: 'PM' }),
 					).to.equal(true)
 				})
 				it('hrs12 & hrs24 mismatch', () => {
 					failTest(
-						() => validateTimeObject({ hrs24: 2, hrs12: 1, min: 0, mode: 'AM' }),
+						() => validateTimeObject({ hrs24: 2, hrs12: 1, minutes: 0, mode: 'AM' }),
 						'hrs12 (1) should be equal to or 12 hours behind hrs24 (2)',
 					)
 				})
 				it('hrs24 & AM/PM mismatch', () => {
 					failTest(
-						() => validateTimeObject({ hrs24: 1, hrs12: 1, min: 0, mode: 'PM' }),
+						() => validateTimeObject({ hrs24: 1, hrs12: 1, minutes: 0, mode: 'PM' }),
 						'If mode (PM) is "PM", hrs24 (1) should be greater than or equal to 12',
 					)
 				})
@@ -116,7 +116,7 @@ function validateTimeObjectTests() {
 						const testObject = {
 							hrs24: 1,
 							hrs12: 1,
-							min: 0,
+							minutes: 0,
 							mode: 'AM',
 							[propName]: 1,
 						}
@@ -124,7 +124,7 @@ function validateTimeObjectTests() {
 							() => validateTimeObject(testObject),
 							`${JSON.stringify(
 								testObject,
-							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
+							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM'} (12:00 AM)`,
 						)
 					})
 				}
@@ -145,7 +145,7 @@ function validateTimeObjectTests() {
 		function invalidPropTypeTests() {
 			describe('invalid property types', () => {
 				const numberTypeCheck = ({ propName, lower, upper }) => {
-					const validTimeObject = { hrs24: 1, hrs12: 1, min: 0, mode: 'AM' }
+					const validTimeObject = { hrs24: 1, hrs12: 1, minutes: 0, mode: 'AM' }
 					const goodValue = validTimeObject[propName]
 					const badPropValues = [`${goodValue}`, upper + 1, lower - 1]
 					const badTimeObjects = badPropValues.map(badValue => ({
@@ -174,14 +174,14 @@ function validateTimeObjectTests() {
 
 				numberTypeCheck({ propName: 'hrs24', lower: 0, upper: 23 })
 				numberTypeCheck({ propName: 'hrs12', lower: 1, upper: 12 })
-				numberTypeCheck({ propName: 'min', lower: 0, upper: 59 })
+				numberTypeCheck({ propName: 'minutes', lower: 0, upper: 59 })
 
 				describe('mode', () => {
 					const modeTest = (testName, mode) => {
 						const badValue = writeBadValue(mode)
 						it(testName, () => {
 							failTest(
-								() => validateTimeObject({ hrs24: 1, hrs12: 1, min: 0, mode }),
+								() => validateTimeObject({ hrs24: 1, hrs12: 1, minutes: 0, mode }),
 								`Mode (${badValue}) is invalid. Valid values are: "AM","PM","--"`,
 							)
 						})
@@ -196,7 +196,7 @@ function validateTimeObjectTests() {
 
 		function missingPropTests() {
 			describe('missing properties', () => {
-				const validTimeObject = { hrs24: 1, hrs12: 1, min: 0, mode: 'AM' }
+				const validTimeObject = { hrs24: 1, hrs12: 1, minutes: 0, mode: 'AM' }
 
 				const missingPropTest = missingProp => {
 					const badTimeObject = { ...validTimeObject }
@@ -207,14 +207,14 @@ function validateTimeObjectTests() {
 							() => validateTimeObject(badTimeObject),
 							`${JSON.stringify(
 								badTimeObject,
-							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, min: 0, mode: 'AM'} (12:00 AM)`,
+							)} is not a valid time object. Must be in the format {hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM'} (12:00 AM)`,
 						)
 					})
 				}
 
 				missingPropTest('hrs24')
 				missingPropTest('hrs12')
-				missingPropTest('min')
+				missingPropTest('minutes')
 				missingPropTest('mode')
 			})
 		}

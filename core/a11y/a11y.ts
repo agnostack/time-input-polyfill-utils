@@ -24,7 +24,7 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 
 	const segmentName = {
 		hrs12: 'Hours',
-		min: 'Minutes',
+		minutes: 'Minutes',
 		mode: 'AM/PM',
 	}[cursorSegment]
 

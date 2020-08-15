@@ -153,13 +153,13 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: '--',
+								minutes: '--',
 								mode: '--',
 							},
 							after: {
 								hrs24: <Hour24>parseInt(current.hrs24),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: '--',
+								minutes: '--',
 								mode: '--',
 							},
 						})
@@ -168,7 +168,7 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
@@ -178,7 +178,7 @@ export default (): void => {
 										: parseInt(current.hrs24))
 								),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -187,7 +187,7 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
@@ -197,7 +197,7 @@ export default (): void => {
 										: parseInt(current.hrs24))
 								),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 						})
@@ -206,13 +206,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 10,
 								hrs12: 10,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -221,13 +221,13 @@ export default (): void => {
 							before: {
 								hrs24: 11,
 								hrs12: 11,
-								min: 30,
+								minutes: 30,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 0,
 								hrs12: 12,
-								min: 30,
+								minutes: 30,
 								mode: 'AM',
 							},
 						})
@@ -236,13 +236,13 @@ export default (): void => {
 							before: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 30,
+								minutes: 30,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 13,
 								hrs12: 1,
-								min: 30,
+								minutes: 30,
 								mode: 'PM',
 							},
 						})
@@ -251,13 +251,13 @@ export default (): void => {
 							before: {
 								hrs24: 23,
 								hrs12: 11,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 0,
+								minutes: 0,
 								mode: 'PM', // modifying hrs does not modify mode
 							},
 						})
@@ -281,13 +281,13 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: '--',
+								minutes: '--',
 								mode: '--',
 							},
 							after: {
 								hrs24: <Hour24>parseInt(current.hrs24),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: '--',
+								minutes: '--',
 								mode: '--',
 							},
 						})
@@ -296,7 +296,7 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
@@ -306,7 +306,7 @@ export default (): void => {
 										: parseInt(current.hrs24))
 								),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -315,7 +315,7 @@ export default (): void => {
 							before: {
 								hrs24: '--',
 								hrs12: '--',
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
@@ -325,7 +325,7 @@ export default (): void => {
 										: parseInt(current.hrs24))
 								),
 								hrs12: <Hour12>parseInt(current.hrs12),
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 						})
@@ -334,13 +334,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 10,
 								hrs12: 10,
-								min: 0,
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -349,13 +349,13 @@ export default (): void => {
 							before: {
 								hrs24: 11,
 								hrs12: 11,
-								min: 30,
+								minutes: 30,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 30,
+								minutes: 30,
 								mode: 'PM',
 							},
 						})
@@ -364,13 +364,13 @@ export default (): void => {
 							before: {
 								hrs24: 12,
 								hrs12: 12,
-								min: 30,
+								minutes: 30,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 13,
 								hrs12: 1,
-								min: 30,
+								minutes: 30,
 								mode: 'PM',
 							},
 						})
@@ -379,13 +379,13 @@ export default (): void => {
 							before: {
 								hrs24: 23,
 								hrs12: 11,
-								min: 0,
+								minutes: 0,
 								mode: 'PM',
 							},
 							after: {
 								hrs24: 0,
 								hrs12: 12,
-								min: 0,
+								minutes: 0,
 								mode: 'AM', // modifying hrs does not modify mode
 							},
 						})

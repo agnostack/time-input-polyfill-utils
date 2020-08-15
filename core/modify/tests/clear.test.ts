@@ -12,8 +12,8 @@ export default (): void => {
 					expect(modifyString12hr('12:00 AM').clear.hrs12()).to.equal('--:00 AM')
 				})
 
-				it('Clear min', () => {
-					expect(modifyString12hr('12:00 AM').clear.min()).to.equal('12:-- AM')
+				it('Clear minutes', () => {
+					expect(modifyString12hr('12:00 AM').clear.minutes()).to.equal('12:-- AM')
 				})
 
 				it('Clear mode', () => {
@@ -39,28 +39,28 @@ export default (): void => {
 
 				test(
 					'hrs24',
-					{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
+					{ hrs24: '--', hrs12: '--', minutes: 0, mode: 'AM' },
 				)
 				test(
 					'hrs12',
-					{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', min: 0, mode: 'AM' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
+					{ hrs24: '--', hrs12: '--', minutes: 0, mode: 'AM' },
 				)
 				test(
-					'min',
-					{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-					{ hrs24: 0, hrs12: 12, min: '--', mode: 'AM' },
+					'minutes',
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
+					{ hrs24: 0, hrs12: 12, minutes: '--', mode: 'AM' },
 				)
 				test(
 					'mode',
-					{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-					{ hrs24: 0, hrs12: 12, min: 0, mode: '--' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: '--' },
 				)
 				test(
 					'all',
-					{ hrs24: 0, hrs12: 12, min: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', min: '--', mode: '--' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
+					{ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' },
 				)
 			})
 		}

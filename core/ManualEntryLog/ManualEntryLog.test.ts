@@ -1,6 +1,6 @@
 import { ManualEntryLog } from './ManualEntryLog'
 
-const createEntryLog = () => new ManualEntryLog({ hrs12: 12, hrs24: 0, min: 30, mode: 'AM' })
+const createEntryLog = () => new ManualEntryLog({ hrs12: 12, hrs24: 0, minutes: 30, mode: 'AM' })
 
 describe('Initialize', () => {
 	it('hrs12', () => {
@@ -9,11 +9,11 @@ describe('Initialize', () => {
 		expect(entryLog.hrs12.value).to.equal(12)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		expect(entryLog.min.entries).to.deep.equal([])
-		expect(entryLog.min.value).to.equal(30)
-		expect(entryLog.min.isFull).to.equal(true)
+		expect(entryLog.minutes.entries).to.deep.equal([])
+		expect(entryLog.minutes.value).to.equal(30)
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -29,12 +29,12 @@ describe('Add "1"', () => {
 		expect(entryLog.hrs12.value).to.equal(1)
 		expect(entryLog.hrs12.isFull).to.equal(false)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		expect(entryLog.min.entries).to.deep.equal([1])
-		expect(entryLog.min.value).to.equal(1)
-		expect(entryLog.min.isFull).to.equal(false)
+		entryLog.minutes.add('1')
+		expect(entryLog.minutes.entries).to.deep.equal([1])
+		expect(entryLog.minutes.value).to.equal(1)
+		expect(entryLog.minutes.isFull).to.equal(false)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -52,13 +52,13 @@ describe('Add "1" > add "2"', () => {
 		expect(entryLog.hrs12.value).to.equal(12)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		entryLog.min.add('2')
-		expect(entryLog.min.entries).to.deep.equal([1, 2])
-		expect(entryLog.min.value).to.equal(12)
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('1')
+		entryLog.minutes.add('2')
+		expect(entryLog.minutes.entries).to.deep.equal([1, 2])
+		expect(entryLog.minutes.value).to.equal(12)
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -78,14 +78,14 @@ describe('Add "1" > add "2" > add "3"', () => {
 		expect(entryLog.hrs12.value).to.equal(3)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		entryLog.min.add('2')
-		entryLog.min.add('3')
-		expect(entryLog.min.entries).to.deep.equal([3])
-		expect(entryLog.min.value).to.equal(3)
-		expect(entryLog.min.isFull).to.equal(false)
+		entryLog.minutes.add('1')
+		entryLog.minutes.add('2')
+		entryLog.minutes.add('3')
+		expect(entryLog.minutes.entries).to.deep.equal([3])
+		expect(entryLog.minutes.value).to.equal(3)
+		expect(entryLog.minutes.isFull).to.equal(false)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -107,15 +107,15 @@ describe('Add "1" > add "2" > add "3" > add "4"', () => {
 		expect(entryLog.hrs12.value).to.equal(4)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		entryLog.min.add('2')
-		entryLog.min.add('3')
-		entryLog.min.add('4')
-		expect(entryLog.min.entries).to.deep.equal([3, 4])
-		expect(entryLog.min.value).to.equal(34)
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('1')
+		entryLog.minutes.add('2')
+		entryLog.minutes.add('3')
+		entryLog.minutes.add('4')
+		expect(entryLog.minutes.entries).to.deep.equal([3, 4])
+		expect(entryLog.minutes.value).to.equal(34)
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -135,12 +135,12 @@ describe('Add "0" expect no change', () => {
 		expect(entryLog.hrs12.value).to.equal(12) // no change
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('0')
-		expect(entryLog.min.entries).to.deep.equal([])
-		expect(entryLog.min.value).to.equal(30) // no change
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('0')
+		expect(entryLog.minutes.entries).to.deep.equal([])
+		expect(entryLog.minutes.value).to.equal(30) // no change
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -157,13 +157,13 @@ describe('Add "1" > add "0"', () => {
 		expect(entryLog.hrs12.value).to.equal(10)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		entryLog.min.add('0')
-		expect(entryLog.min.entries).to.deep.equal([1, 0])
-		expect(entryLog.min.value).to.equal(10)
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('1')
+		entryLog.minutes.add('0')
+		expect(entryLog.minutes.entries).to.deep.equal([1, 0])
+		expect(entryLog.minutes.value).to.equal(10)
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
@@ -185,13 +185,13 @@ describe('Add "1"/"p" > then reset', () => {
 		expect(entryLog.hrs12.value).to.equal(1)
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min add "1" > reset', () => {
+	it('minutes add "1" > reset', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('1')
-		entryLog.min.reset()
-		expect(entryLog.min.entries).to.deep.equal([])
-		expect(entryLog.min.value).to.equal(1)
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('1')
+		entryLog.minutes.reset()
+		expect(entryLog.minutes.entries).to.deep.equal([])
+		expect(entryLog.minutes.value).to.equal(1)
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode add "p" > reset', () => {
 		const entryLog = createEntryLog()
@@ -209,12 +209,12 @@ describe('Add "p"', () => {
 		expect(entryLog.hrs12.value).to.equal(12) // expect no change
 		expect(entryLog.hrs12.isFull).to.equal(true)
 	})
-	it('min', () => {
+	it('minutes', () => {
 		const entryLog = createEntryLog()
-		entryLog.min.add('p')
-		expect(entryLog.min.entries).to.deep.equal([])
-		expect(entryLog.min.value).to.equal(30) // expect no change
-		expect(entryLog.min.isFull).to.equal(true)
+		entryLog.minutes.add('p')
+		expect(entryLog.minutes.entries).to.deep.equal([])
+		expect(entryLog.minutes.value).to.equal(30) // expect no change
+		expect(entryLog.minutes.isFull).to.equal(true)
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()

@@ -12,7 +12,7 @@ export const blankValues: BlankValues = {
 	timeObject: {
 		hrs24: '--',
 		hrs12: '--',
-		min: '--',
+		minutes: '--',
 		mode: '--',
 	},
 }

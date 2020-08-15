@@ -2,7 +2,7 @@ import { TimeObject, String12hr, String24hr } from '../../types/index'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
-export type Target = 'hrs12' | 'hrs24' | 'min' | 'mode'
+export type Target = 'hrs12' | 'hrs24' | 'minutes' | 'mode'
 export type ToHr = 'to12hr' | 'to24hr'
 
 export interface ModifyString12hr {
@@ -12,7 +12,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			min: {
+			minutes: {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
@@ -32,7 +32,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			min: {
+			minutes: {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
@@ -49,7 +49,7 @@ export interface ModifyString12hr {
 		}
 		clear: {
 			hrs12: () => String12hr
-			min: () => String12hr
+			minutes: () => String12hr
 			mode: () => String12hr
 			all: () => String12hr
 		}
@@ -63,7 +63,7 @@ export interface ModifyString24hr {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
-			min: {
+			minutes: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
@@ -77,7 +77,7 @@ export interface ModifyString24hr {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
-			min: {
+			minutes: {
 				isolated: () => String24hr
 				integrated: () => String24hr
 			}
@@ -100,7 +100,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			min: {
+			minutes: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
@@ -124,7 +124,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			min: {
+			minutes: {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
@@ -142,7 +142,7 @@ export interface ModifyTimeObject {
 		clear: {
 			hrs12: () => TimeObject
 			hrs24: () => TimeObject
-			min: () => TimeObject
+			minutes: () => TimeObject
 			mode: () => TimeObject
 			all: () => TimeObject
 		}

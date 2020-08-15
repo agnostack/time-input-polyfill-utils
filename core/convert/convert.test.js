@@ -111,59 +111,59 @@ function convert_24hr_time() {
 
 		function hr24_to_time_object() {
 			describe('24hr to time object', () => {
-				it('Expect "" to be {hrs24: "--", hrs12: "--", min: "--", mode: "--"}', () => {
+				it('Expect "" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "--"}', () => {
 					expect(convertString24hr('').toTimeObject()).to.deep.equal({
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					})
 				})
-				it('Expect "00:00" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+				it('Expect "00:00" to be {hrs24: 0, hrs12: 12, minutes: 0, mode: "AM"}', () => {
 					expect(convertString24hr('00:00').toTimeObject()).to.deep.equal({
 						hrs24: 0,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					})
 				})
-				it('Expect "05:30" to be {hrs24: 5, hrs12: 5, min: 30, mode: "AM"}', () => {
+				it('Expect "05:30" to be {hrs24: 5, hrs12: 5, minutes: 30, mode: "AM"}', () => {
 					expect(convertString24hr('05:30').toTimeObject()).to.deep.equal({
 						hrs24: 5,
 						hrs12: 5,
-						min: 30,
+						minutes: 30,
 						mode: 'AM',
 					})
 				})
-				it('Expect "11:00" to be {hrs24: 11, hrs12: 11, min: 0, mode: "AM"}', () => {
+				it('Expect "11:00" to be {hrs24: 11, hrs12: 11, minutes: 0, mode: "AM"}', () => {
 					expect(convertString24hr('11:00').toTimeObject()).to.deep.equal({
 						hrs24: 11,
 						hrs12: 11,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					})
 				})
-				it('Expect "12:00" to be {hrs24: 12, hrs12: 12, min: 0, mode: "PM"}', () => {
+				it('Expect "12:00" to be {hrs24: 12, hrs12: 12, minutes: 0, mode: "PM"}', () => {
 					expect(convertString24hr('12:00').toTimeObject()).to.deep.equal({
 						hrs24: 12,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					})
 				})
-				it('Expect "13:00" to be {hrs24: 13, hrs12: 1, min: 0, mode: "PM"}', () => {
+				it('Expect "13:00" to be {hrs24: 13, hrs12: 1, minutes: 0, mode: "PM"}', () => {
 					expect(convertString24hr('13:00').toTimeObject()).to.deep.equal({
 						hrs24: 13,
 						hrs12: 1,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					})
 				})
-				it('Expect "00:00" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+				it('Expect "00:00" to be {hrs24: 0, hrs12: 12, minutes: 0, mode: "AM"}', () => {
 					expect(convertString24hr('00:00').toTimeObject()).to.deep.equal({
 						hrs24: 0,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					})
 				})
@@ -250,83 +250,83 @@ function convert_12hr_time() {
 						'"--:--" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
 					)
 				})
-				it('Expect "--:-- --" to be {hrs24: "--", hrs12: "--", min: "--", mode: "--"}', () => {
+				it('Expect "--:-- --" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "--"}', () => {
 					expect(convertString12hr('--:-- --').toTimeObject()).to.deep.equal({
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					})
 				})
-				it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, min: "--", mode: "--"}', () => {
+				it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, minutes: "--", mode: "--"}', () => {
 					expect(convertString12hr('01:-- --').toTimeObject()).to.deep.equal({
 						hrs24: 1,
 						hrs12: 1,
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					})
 				})
-				it('Expect "--:02 --" to be {hrs24: "--", hrs12: "--", min: 2, mode: "--"}', () => {
+				it('Expect "--:02 --" to be {hrs24: "--", hrs12: "--", minutes: 2, mode: "--"}', () => {
 					expect(convertString12hr('--:02 --').toTimeObject()).to.deep.equal({
 						hrs24: '--',
 						hrs12: '--',
-						min: 2,
+						minutes: 2,
 						mode: '--',
 					})
 				})
-				it('Expect "--:-- AM" to be {hrs24: "--", hrs12: "--", min: "--", mode: "AM"}', () => {
+				it('Expect "--:-- AM" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "AM"}', () => {
 					expect(convertString12hr('--:-- AM').toTimeObject()).to.deep.equal({
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: 'AM',
 					})
 				})
-				it('Expect "12:00 AM" to be {hrs24: 0, hrs12: 12, min: 0, mode: "AM"}', () => {
+				it('Expect "12:00 AM" to be {hrs24: 0, hrs12: 12, minutes: 0, mode: "AM"}', () => {
 					expect(convertString12hr('12:00 AM').toTimeObject()).to.deep.equal({
 						hrs24: 0,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					})
 				})
-				it('Expect "05:30 AM" to be {hrs24: 5, hrs12: 5, min: 30, mode: "AM"}', () => {
+				it('Expect "05:30 AM" to be {hrs24: 5, hrs12: 5, minutes: 30, mode: "AM"}', () => {
 					expect(convertString12hr('05:30 AM').toTimeObject()).to.deep.equal({
 						hrs24: 5,
 						hrs12: 5,
-						min: 30,
+						minutes: 30,
 						mode: 'AM',
 					})
 				})
-				it('Expect "11:00 AM" to be {hrs24: 11, hrs12: 11, min: 0, mode: "AM"}', () => {
+				it('Expect "11:00 AM" to be {hrs24: 11, hrs12: 11, minutes: 0, mode: "AM"}', () => {
 					expect(convertString12hr('11:00 AM').toTimeObject()).to.deep.equal({
 						hrs24: 11,
 						hrs12: 11,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					})
 				})
-				it('Expect "12:00 PM" to be {hrs24: 12, hrs12: 12, min: 0, mode: "PM"}', () => {
+				it('Expect "12:00 PM" to be {hrs24: 12, hrs12: 12, minutes: 0, mode: "PM"}', () => {
 					expect(convertString12hr('12:00 PM').toTimeObject()).to.deep.equal({
 						hrs24: 12,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					})
 				})
-				it('Expect "01:00 PM" to be {hrs24: 13, hrs12: 1, min: 0, mode: "PM"}', () => {
+				it('Expect "01:00 PM" to be {hrs24: 13, hrs12: 1, minutes: 0, mode: "PM"}', () => {
 					expect(convertString12hr('01:00 PM').toTimeObject()).to.deep.equal({
 						hrs24: 13,
 						hrs12: 1,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					})
 				})
-				it('Expect "11:30 PM" to be {hrs24: 23, hrs12: 11, min: 30, mode: "PM"}', () => {
+				it('Expect "11:30 PM" to be {hrs24: 23, hrs12: 11, minutes: 30, mode: "PM"}', () => {
 					expect(convertString12hr('11:30 PM').toTimeObject()).to.deep.equal({
 						hrs24: 23,
 						hrs12: 11,
-						min: 30,
+						minutes: 30,
 						mode: 'PM',
 					})
 				})
@@ -369,7 +369,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					},
 					'',
@@ -379,7 +379,7 @@ function convert_time_object() {
 					{
 						hrs24: 1,
 						hrs12: 1,
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					},
 					'',
@@ -389,7 +389,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: 2,
+						minutes: 2,
 						mode: '--',
 					},
 					'',
@@ -399,7 +399,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: 'AM',
 					},
 					'',
@@ -409,7 +409,7 @@ function convert_time_object() {
 					{
 						hrs24: 0,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					},
 					'00:00',
@@ -419,7 +419,7 @@ function convert_time_object() {
 					{
 						hrs24: 5,
 						hrs12: 5,
-						min: 30,
+						minutes: 30,
 						mode: 'AM',
 					},
 					'05:30',
@@ -429,7 +429,7 @@ function convert_time_object() {
 					{
 						hrs24: 11,
 						hrs12: 11,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					},
 					'11:00',
@@ -439,7 +439,7 @@ function convert_time_object() {
 					{
 						hrs24: 12,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					},
 					'12:00',
@@ -449,7 +449,7 @@ function convert_time_object() {
 					{
 						hrs24: 13,
 						hrs12: 1,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					},
 					'13:00',
@@ -459,7 +459,7 @@ function convert_time_object() {
 					{
 						hrs24: 23,
 						hrs12: 11,
-						min: 30,
+						minutes: 30,
 						mode: 'PM',
 					},
 					'23:30',
@@ -474,7 +474,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					},
 					'--:-- --',
@@ -484,7 +484,7 @@ function convert_time_object() {
 					{
 						hrs24: 1,
 						hrs12: 1,
-						min: '--',
+						minutes: '--',
 						mode: '--',
 					},
 					'01:-- --',
@@ -494,7 +494,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: 2,
+						minutes: 2,
 						mode: '--',
 					},
 					'--:02 --',
@@ -504,7 +504,7 @@ function convert_time_object() {
 					{
 						hrs24: '--',
 						hrs12: '--',
-						min: '--',
+						minutes: '--',
 						mode: 'AM',
 					},
 					'--:-- AM',
@@ -514,7 +514,7 @@ function convert_time_object() {
 					{
 						hrs24: 0,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					},
 					'12:00 AM',
@@ -524,7 +524,7 @@ function convert_time_object() {
 					{
 						hrs24: 5,
 						hrs12: 5,
-						min: 30,
+						minutes: 30,
 						mode: 'AM',
 					},
 					'05:30 AM',
@@ -534,7 +534,7 @@ function convert_time_object() {
 					{
 						hrs24: 11,
 						hrs12: 11,
-						min: 0,
+						minutes: 0,
 						mode: 'AM',
 					},
 					'11:00 AM',
@@ -544,7 +544,7 @@ function convert_time_object() {
 					{
 						hrs24: 12,
 						hrs12: 12,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					},
 					'12:00 PM',
@@ -554,7 +554,7 @@ function convert_time_object() {
 					{
 						hrs24: 13,
 						hrs12: 1,
-						min: 0,
+						minutes: 0,
 						mode: 'PM',
 					},
 					'01:00 PM',
@@ -564,7 +564,7 @@ function convert_time_object() {
 					{
 						hrs24: 23,
 						hrs12: 11,
-						min: 30,
+						minutes: 30,
 						mode: 'PM',
 					},
 					'11:30 PM',
@@ -587,12 +587,12 @@ function convert_date_object() {
 
 		describe('date to 24hr', () => {
 			const dateTest24hr = dateTest('to24hr')
-			dateTest24hr(`${current.hrs24}:${current.min}`)
+			dateTest24hr(`${current.hrs24}:${current.minutes}`)
 		})
 
 		describe('date to 12hr', () => {
 			const dateTest12hr = dateTest('to12hr')
-			dateTest12hr(`${current.hrs12}:${current.min} ${current.mode}`)
+			dateTest12hr(`${current.hrs12}:${current.minutes} ${current.mode}`)
 		})
 
 		describe('date to time object', () => {
@@ -600,7 +600,7 @@ function convert_date_object() {
 			dateTest12hr({
 				hrs24: parseInt(current.hrs24),
 				hrs12: parseInt(current.hrs12),
-				min: parseInt(current.min),
+				minutes: parseInt(current.minutes),
 				mode: current.mode,
 			})
 		})

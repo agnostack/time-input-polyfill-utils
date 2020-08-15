@@ -1,12 +1,13 @@
-import { Segment, Hour12, TimeObject, Minute, Mode, Hrs12, Min } from '../../types/index'
+import { Segment, Hour12, TimeObject, Minute, Mode, Hrs12, minutes } from '../../types/index'
+import { maxAndMins } from '../staticValues'
 
 class SegmentLog {
 	value: Hour12 | Minute
-	segment: Hrs12 | Min
+	segment: Hrs12 | minutes
 	entries: Array<number> = []
 	isFull = true
 
-	constructor(startingValue: Hour12 | Minute, segment: Hrs12 | Min) {
+	constructor(startingValue: Hour12 | Minute, segment: Hrs12 | minutes) {
 		this.value = startingValue
 		this.segment = segment
 	}
@@ -14,10 +15,7 @@ class SegmentLog {
 	add(value: string): void {
 		const number = parseInt(value)
 		if (!isNaN(number)) {
-			const value_x10_is_greater_than_max = {
-				hrs12: number > 1,
-				min: number > 5,
-			}[this.segment]
+			const value_x10_is_greater_than_max = number * 10 > maxAndMins[this.segment].max
 
 			if (value_x10_is_greater_than_max) {
 				this.entries = [0, number]
@@ -58,7 +56,7 @@ class SegmentLogHrs extends SegmentLog {
 class SegmentLogMin extends SegmentLog {
 	value: Minute
 	constructor(startingValue: Minute) {
-		super(startingValue, 'min')
+		super(startingValue, 'minutes')
 		this.value = startingValue
 	}
 }
@@ -97,12 +95,12 @@ class SegmentLogMode {
 // Note: Due to this being a class, it does not need an interface
 export class ManualEntryLog {
 	hrs12: SegmentLogHrs
-	min: SegmentLogMin
+	minutes: SegmentLogMin
 	mode: SegmentLogMode
 
 	constructor(timeObject: TimeObject) {
 		this.hrs12 = new SegmentLogHrs(timeObject.hrs12)
-		this.min = new SegmentLogMin(timeObject.min)
+		this.minutes = new SegmentLogMin(timeObject.minutes)
 		this.mode = new SegmentLogMode(timeObject.mode)
 	}
 
@@ -112,7 +110,7 @@ export class ManualEntryLog {
 
 	clearAll(): void {
 		this.hrs12.clear()
-		this.min.clear()
+		this.minutes.clear()
 		this.mode.clear()
 	}
 

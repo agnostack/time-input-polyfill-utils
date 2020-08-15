@@ -51,8 +51,8 @@ function getString12hrTests(): void {
 		it('expects get 1:30 PM hrs24 => 13', () => {
 			expect(getString12hr('1:30 PM').hrs24).to.equal(13)
 		})
-		it('expects get 1:30 PM min => 30', () => {
-			expect(getString12hr('1:30 PM').min).to.equal(30)
+		it('expects get 1:30 PM minutes => 30', () => {
+			expect(getString12hr('1:30 PM').minutes).to.equal(30)
 		})
 		it('expects get 1:30 PM mode => PM', () => {
 			expect(getString12hr('1:30 PM').mode).to.equal('PM')
@@ -68,8 +68,8 @@ function getString24hrTests(): void {
 		it('expects get 0:30 hrs24 => 0', () => {
 			expect(getString24hr('00:30').hrs24).to.equal(0)
 		})
-		it('expects get 0:30 min => 30', () => {
-			expect(getString24hr('00:30').min).to.equal(30)
+		it('expects get 0:30 minutes => 30', () => {
+			expect(getString24hr('00:30').minutes).to.equal(30)
 		})
 		it('expects get 0:30 mode => AM', () => {
 			expect(getString24hr('00:30').mode).to.equal('AM')
@@ -232,9 +232,9 @@ function getRangeTests(): void {
 				testRangeAt(1, { start: 1, end: 1, segment: 'hrs12' })
 				testRangeAt(2, { start: 2, end: 2, segment: 'hrs12' })
 
-				testRangeAt(3, { start: 3, end: 3, segment: 'min' })
-				testRangeAt(4, { start: 4, end: 4, segment: 'min' })
-				testRangeAt(5, { start: 5, end: 5, segment: 'min' })
+				testRangeAt(3, { start: 3, end: 3, segment: 'minutes' })
+				testRangeAt(4, { start: 4, end: 4, segment: 'minutes' })
+				testRangeAt(5, { start: 5, end: 5, segment: 'minutes' })
 
 				testRangeAt(6, { start: 6, end: 6, segment: 'mode' })
 				testRangeAt(7, { start: 7, end: 7, segment: 'mode' })
@@ -244,9 +244,9 @@ function getRangeTests(): void {
 				testRangeAt(1, { start: 1, end: 8, segment: 'hrs12' }, 8)
 				testRangeAt(2, { start: 2, end: 8, segment: 'hrs12' }, 8)
 
-				testRangeAt(3, { start: 3, end: 8, segment: 'min' }, 8)
-				testRangeAt(4, { start: 4, end: 8, segment: 'min' }, 8)
-				testRangeAt(5, { start: 5, end: 8, segment: 'min' }, 8)
+				testRangeAt(3, { start: 3, end: 8, segment: 'minutes' }, 8)
+				testRangeAt(4, { start: 4, end: 8, segment: 'minutes' }, 8)
+				testRangeAt(5, { start: 5, end: 8, segment: 'minutes' }, 8)
 
 				testRangeAt(6, { start: 6, end: 8, segment: 'mode' }, 8)
 				testRangeAt(7, { start: 7, end: 8, segment: 'mode' }, 8)
@@ -266,9 +266,9 @@ function getRangeTests(): void {
 				testRangeAt(1, ranges.hrs12)
 				testRangeAt(2, ranges.hrs12)
 
-				testRangeAt(3, ranges.min)
-				testRangeAt(4, ranges.min)
-				testRangeAt(5, ranges.min)
+				testRangeAt(3, ranges.minutes)
+				testRangeAt(4, ranges.minutes)
+				testRangeAt(5, ranges.minutes)
 
 				testRangeAt(6, ranges.mode)
 				testRangeAt(7, ranges.mode)
@@ -278,9 +278,9 @@ function getRangeTests(): void {
 				testRangeAt(1, ranges.hrs12, 8)
 				testRangeAt(2, ranges.hrs12, 8)
 
-				testRangeAt(3, ranges.min, 8)
-				testRangeAt(4, ranges.min, 8)
-				testRangeAt(5, ranges.min, 8)
+				testRangeAt(3, ranges.minutes, 8)
+				testRangeAt(4, ranges.minutes, 8)
+				testRangeAt(5, ranges.minutes, 8)
 
 				testRangeAt(6, ranges.mode, 8)
 				testRangeAt(7, ranges.mode, 8)
@@ -291,11 +291,11 @@ function getRangeTests(): void {
 			describe('nextSegment tests', () => {
 				const testRangeAt = generateRangeTest('nextSegment')
 
-				nullRangeTest('nextSegment', ranges.min)
+				nullRangeTest('nextSegment', ranges.minutes)
 
-				testRangeAt(0, ranges.min)
-				testRangeAt(1, ranges.min)
-				testRangeAt(2, ranges.min)
+				testRangeAt(0, ranges.minutes)
+				testRangeAt(1, ranges.minutes)
+				testRangeAt(2, ranges.minutes)
 
 				testRangeAt(3, ranges.mode)
 				testRangeAt(4, ranges.mode)
@@ -305,9 +305,9 @@ function getRangeTests(): void {
 				testRangeAt(7, ranges.mode)
 				testRangeAt(8, ranges.mode)
 
-				testRangeAt(0, ranges.min, 8)
-				testRangeAt(1, ranges.min, 8)
-				testRangeAt(2, ranges.min, 8)
+				testRangeAt(0, ranges.minutes, 8)
+				testRangeAt(1, ranges.minutes, 8)
+				testRangeAt(2, ranges.minutes, 8)
 
 				testRangeAt(3, ranges.mode, 8)
 				testRangeAt(4, ranges.mode, 8)
@@ -319,11 +319,11 @@ function getRangeTests(): void {
 				// Not testing getNextSegment($input) because it is just an alias for:
 				// getRangeOf($input).nextSegment().segment
 
-				it('gets min segment', () => {
-					expect(getNextSegment('hrs12')).to.equal('min')
+				it('gets minutes segment', () => {
+					expect(getNextSegment('hrs12')).to.equal('minutes')
 				})
 				it('gets mode segment', () => {
-					expect(getNextSegment('min')).to.equal('mode')
+					expect(getNextSegment('minutes')).to.equal('mode')
 				})
 				it('stops at mode segment', () => {
 					expect(getNextSegment('mode')).to.equal('mode')
@@ -345,9 +345,9 @@ function getRangeTests(): void {
 				testRangeAt(4, ranges.hrs12)
 				testRangeAt(5, ranges.hrs12)
 
-				testRangeAt(6, ranges.min)
-				testRangeAt(7, ranges.min)
-				testRangeAt(8, ranges.min)
+				testRangeAt(6, ranges.minutes)
+				testRangeAt(7, ranges.minutes)
+				testRangeAt(8, ranges.minutes)
 
 				testRangeAt(0, ranges.hrs12, 8)
 				testRangeAt(1, ranges.hrs12, 8)
@@ -357,8 +357,8 @@ function getRangeTests(): void {
 				testRangeAt(4, ranges.hrs12, 8)
 				testRangeAt(5, ranges.hrs12, 8)
 
-				testRangeAt(6, ranges.min, 8)
-				testRangeAt(7, ranges.min, 8)
+				testRangeAt(6, ranges.minutes, 8)
+				testRangeAt(7, ranges.minutes, 8)
 
 				// Not testing getPrevSegment($input) because it is just an alias for:
 				// getRangeOf($input).prevSegment().segment
@@ -367,10 +367,10 @@ function getRangeTests(): void {
 					expect(getPrevSegment('hrs12')).to.equal('hrs12')
 				})
 				it('gets hrs12 segment', () => {
-					expect(getPrevSegment('min')).to.equal('hrs12')
+					expect(getPrevSegment('minutes')).to.equal('hrs12')
 				})
-				it('gets min segment', () => {
-					expect(getPrevSegment('mode')).to.equal('min')
+				it('gets minutes segment', () => {
+					expect(getPrevSegment('mode')).to.equal('minutes')
 				})
 			})
 		}
