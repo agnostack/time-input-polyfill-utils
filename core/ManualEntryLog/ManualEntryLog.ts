@@ -5,7 +5,6 @@ class SegmentLog {
 	value: Hour12 | Minute
 	segment: Hrs12 | minutes
 	entries: Array<number> = []
-	isFull = true
 
 	constructor(startingValue: Hour12 | Minute, segment: Hrs12 | minutes) {
 		this.value = startingValue
@@ -14,20 +13,17 @@ class SegmentLog {
 
 	add(value: string): void {
 		const number = parseInt(value)
-		if (!isNaN(number)) {
-			const value_x10_is_greater_than_max = number * 10 > maxAndMins[this.segment].max
-
-			if (value_x10_is_greater_than_max) {
-				this.entries = [0, number]
+		if (!isNaN(number) && !(this.entries.length === 0 && number === 0)) {
+			if ([0, 2].includes(this.entries.length)) {
+				this.entries = [number]
 			} else {
-				if (this.entries.length === 0) {
-					this.entries = [number]
-				}
-				if (this.entries.length === 1) {
+				const fullNumber = parseInt([...this.entries, number].join(''))
+				const fullNumberGreaterThanMax = fullNumber > maxAndMins[this.segment].max
+
+				if (fullNumberGreaterThanMax) {
+					this.entries = [0, number]
+				} else {
 					this.entries.push(number)
-				}
-				if (this.entries.length === 2) {
-					this.entries = [number]
 				}
 			}
 
@@ -37,7 +33,6 @@ class SegmentLog {
 
 	reset(): void {
 		this.entries = []
-		this.isFull = true
 	}
 
 	clear(): void {
@@ -64,7 +59,6 @@ class SegmentLogMin extends SegmentLog {
 class SegmentLogMode {
 	value: Mode
 	entries: Array<string> = []
-	isFull = true
 
 	constructor(startingValue: Mode) {
 		this.value = startingValue
@@ -83,7 +77,6 @@ class SegmentLogMode {
 
 	reset(): void {
 		this.entries = []
-		this.isFull = true
 	}
 
 	clear(): void {
