@@ -1,7 +1,6 @@
 import '../types/Window'
 
 const alreadyCalledSources: Array<string> = []
-const loadedSources: Array<string> = []
 
 interface Callbacks {
 	[key: string]: Array<Function>
