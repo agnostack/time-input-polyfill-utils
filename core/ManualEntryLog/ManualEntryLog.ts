@@ -1,14 +1,19 @@
-import { Segment, Hour12, TimeObject, Minute, Mode } from '../../types/index'
+import { Segment, Hour12, TimeObject, Minute, Mode, String12hr } from '../../types/index'
 import { maxAndMins } from '../staticValues'
+import { toLeadingZero } from '../utils/utils'
+
+type UpdateFunc = () => void
 
 class SegmentLog {
 	value: Hour12 | Minute | Mode
 	segment: Segment
 	entries: Array<number | string> = []
+	update: UpdateFunc
 
-	constructor(startingValue: Hour12 | Minute | Mode, segment: Segment) {
+	constructor(startingValue: Hour12 | Minute | Mode, segment: Segment, update: UpdateFunc) {
 		this.value = startingValue
 		this.segment = segment
+		this.update = update
 	}
 
 	/**
@@ -45,6 +50,8 @@ class SegmentLog {
 
 			this.value = <Hour12 | Minute>parseInt(this.entries.join(''))
 		}
+
+		this.update()
 	}
 
 	/**
@@ -62,24 +69,25 @@ class SegmentLog {
 	clear(): void {
 		this.reset()
 		this.value = '--'
+		this.update()
 	}
 }
 
 class SegmentLogHrs extends SegmentLog {
-	constructor(startingValue: Hour12) {
-		super(startingValue, 'hrs12')
+	constructor(startingValue: Hour12, update: UpdateFunc) {
+		super(startingValue, 'hrs12', update)
 	}
 }
 
 class SegmentLogMin extends SegmentLog {
-	constructor(startingValue: Minute) {
-		super(startingValue, 'minutes')
+	constructor(startingValue: Minute, update: UpdateFunc) {
+		super(startingValue, 'minutes', update)
 	}
 }
 
 class SegmentLogMode extends SegmentLog {
-	constructor(startingValue: Mode) {
-		super(startingValue, 'mode')
+	constructor(startingValue: Mode, update: UpdateFunc) {
+		super(startingValue, 'mode', update)
 	}
 }
 
@@ -92,11 +100,27 @@ export class ManualEntryLog {
 	hrs12: SegmentLogHrs
 	minutes: SegmentLogMin
 	mode: SegmentLogMode
+	fullValue12hr: String12hr
 
 	constructor(timeObject: TimeObject) {
-		this.hrs12 = new SegmentLogHrs(timeObject.hrs12)
-		this.minutes = new SegmentLogMin(timeObject.minutes)
-		this.mode = new SegmentLogMode(timeObject.mode)
+		this.hrs12 = new SegmentLogHrs(timeObject.hrs12, () => this.update())
+		this.minutes = new SegmentLogMin(timeObject.minutes, () => this.update())
+		this.mode = new SegmentLogMode(timeObject.mode, () => this.update())
+		this.fullValue12hr = this.getFullValue12hr()
+	}
+
+	update(): void {
+		this.fullValue12hr = this.getFullValue12hr()
+	}
+
+	getFullValue12hr(): String12hr {
+		return [
+			toLeadingZero(this.hrs12.value),
+			':',
+			toLeadingZero(this.minutes.value),
+			' ',
+			this.mode.value,
+		].join('')
 	}
 
 	/**
