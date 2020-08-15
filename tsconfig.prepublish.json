@@ -3,10 +3,13 @@
 		"alwaysStrict": true,
 		"noImplicitAny": true,
 		"target": "es5",
-		"module": "ES2015",
+		"module": "commonjs",
+		"declaration": true,
 		"lib": ["es2015", "es2017", "dom"],
-		"removeComments": true
+		"removeComments": false,
+		"outDir": "npm"
 	},
+	"files": ["./index.ts"],
 	"include": ["./core/**/*.ts", "./common/**/*.ts"],
 	"exclude": ["./node_modules", "./core/**/*.test.ts"]
 }
