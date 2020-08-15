@@ -187,7 +187,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 
 					const newMin =
 						minutes === maxAndMins.minutes.max
-							? maxAndMins.minutes.minutes
+							? maxAndMins.minutes.min
 							: nudgeMinutes(minutes, 'up')
 
 					return {
@@ -201,7 +201,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					if (minutes === maxAndMins.minutes.max) {
 						return nudgeIntegratedTimeObjectHrs('up', {
 							...timeObject,
-							minutes: maxAndMins.minutes.minutes,
+							minutes: maxAndMins.minutes.min,
 						})
 					}
 
@@ -230,7 +230,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					const { minutes } = timeObject
 
 					const newMin =
-						minutes === maxAndMins.minutes.minutes
+						minutes === maxAndMins.minutes.min
 							? maxAndMins.minutes.max
 							: nudgeMinutes(minutes, 'down')
 
@@ -242,7 +242,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				integrated: (): TimeObject => {
 					const { minutes } = timeObject
 
-					if (minutes === maxAndMins.minutes.minutes) {
+					if (minutes === maxAndMins.minutes.min) {
 						return nudgeIntegratedTimeObjectHrs('down', {
 							...timeObject,
 							minutes: maxAndMins.minutes.max,
@@ -376,8 +376,8 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 
 	const isUp = direction === 'up'
 
-	const limit = isUp ? maxAndMins[hrsType].max : maxAndMins[hrsType].minutes
-	const opposingLimit = isUp ? maxAndMins[hrsType].minutes : maxAndMins[hrsType].max
+	const limit = isUp ? maxAndMins[hrsType].max : maxAndMins[hrsType].min
+	const opposingLimit = isUp ? maxAndMins[hrsType].min : maxAndMins[hrsType].max
 	const modifier = isUp ? 1 : -1
 
 	if (typeof hrs === 'number') {
