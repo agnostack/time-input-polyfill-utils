@@ -1,6 +1,7 @@
 import { ManualEntryLog } from './ManualEntryLog'
 
-const createEntryLog = () => new ManualEntryLog({ hrs12: 12, hrs24: 0, minutes: 30, mode: 'AM' })
+const createEntryLog = (): ManualEntryLog =>
+	new ManualEntryLog({ hrs12: 12, hrs24: 0, minutes: 30, mode: 'AM' })
 
 describe('Initialize', () => {
 	it('hrs12', () => {
@@ -22,7 +23,7 @@ describe('Initialize', () => {
 })
 
 describe('Add "1"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		expect(entryLog.hrs12.entries).to.deep.equal([1])
@@ -44,7 +45,7 @@ describe('Add "1"', () => {
 })
 
 describe('Add "1" > add "2"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		entryLog.hrs12.add('2')
@@ -69,7 +70,7 @@ describe('Add "1" > add "2"', () => {
 })
 
 describe('Add "1" > add "2" > add "3"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		entryLog.hrs12.add('2')
@@ -97,7 +98,7 @@ describe('Add "1" > add "2" > add "3"', () => {
 })
 
 describe('Add "1" > add "2" > add "3" > add "4"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		entryLog.hrs12.add('2')
@@ -128,7 +129,7 @@ describe('Add "1" > add "2" > add "3" > add "4"', () => {
 })
 
 describe('Add "0" expect no change', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('0')
 		expect(entryLog.hrs12.entries).to.deep.equal([])
@@ -149,7 +150,7 @@ describe('Add "0" expect no change', () => {
 	})
 })
 describe('Add "1" > add "0"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		entryLog.hrs12.add('0')
@@ -176,7 +177,7 @@ describe('Add "1" > add "0"', () => {
 // reset is needed for things like typing "1" then leaving then coming back
 // The the tracker should reset if they are returning
 describe('Add "1"/"p" > then reset', () => {
-	describe('hrs12 add "1" > reset', () => {
+	it('hrs12 add "1" > reset', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('1')
 		entryLog.hrs12.reset()
@@ -202,7 +203,7 @@ describe('Add "1"/"p" > then reset', () => {
 })
 
 describe('Add "p"', () => {
-	describe('hrs12', () => {
+	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('p')
 		expect(entryLog.hrs12.entries).to.deep.equal([])
