@@ -2,7 +2,7 @@ import { Segment, Hour12, TimeObject, Minute, Mode, String12hr } from '../../typ
 import { maxAndMins } from '../staticValues'
 import { toLeadingZero } from '../utils/utils'
 
-type UpdateFunc = (entryLog: ManualEntryLog) => void
+type UpdateFunc = () => void
 
 class SegmentLog {
 	value: Hour12 | Minute | Mode
@@ -10,15 +10,10 @@ class SegmentLog {
 	entries: Array<number | string> = []
 	update: () => void
 
-	constructor(
-		startingValue: Hour12 | Minute | Mode,
-		segment: Segment,
-		update: UpdateFunc,
-		parent: ManualEntryLog,
-	) {
+	constructor(startingValue: Hour12 | Minute | Mode, segment: Segment, update: UpdateFunc) {
 		this.value = startingValue
 		this.segment = segment
-		this.update = (): void => update(parent)
+		this.update = (): void => update()
 	}
 
 	/**
@@ -79,20 +74,20 @@ class SegmentLog {
 }
 
 class SegmentLogHrs extends SegmentLog {
-	constructor(startingValue: Hour12, update: UpdateFunc, parent: ManualEntryLog) {
-		super(startingValue, 'hrs12', update, parent)
+	constructor(startingValue: Hour12, update: UpdateFunc) {
+		super(startingValue, 'hrs12', update)
 	}
 }
 
 class SegmentLogMin extends SegmentLog {
-	constructor(startingValue: Minute, update: UpdateFunc, parent: ManualEntryLog) {
-		super(startingValue, 'minutes', update, parent)
+	constructor(startingValue: Minute, update: UpdateFunc) {
+		super(startingValue, 'minutes', update)
 	}
 }
 
 class SegmentLogMode extends SegmentLog {
-	constructor(startingValue: Mode, update: UpdateFunc, parent: ManualEntryLog) {
-		super(startingValue, 'mode', update, parent)
+	constructor(startingValue: Mode, update: UpdateFunc) {
+		super(startingValue, 'mode', update)
 	}
 }
 
@@ -107,9 +102,8 @@ export class ManualEntryLog {
 	minutes: SegmentLogMin
 	mode: SegmentLogMode
 	fullValue12hr: String12hr
-	onUpdate: () => void
 
-	constructor(timeObject: TimeObject, onUpdate?: UpdateFunc) {
+	constructor(timeObject: TimeObject, onUpdate?: (entryLog: ManualEntryLog) => void) {
 		const getFullValue12hr = (): String12hr => {
 			return [
 				toLeadingZero(this.hrs12.value),
@@ -123,15 +117,14 @@ export class ManualEntryLog {
 		const update: UpdateFunc = () => {
 			this.fullValue12hr = getFullValue12hr()
 			if (onUpdate) {
-				this.onUpdate()
+				onUpdate(this)
 			}
 		}
 
-		this.hrs12 = new SegmentLogHrs(timeObject.hrs12, update, this)
-		this.minutes = new SegmentLogMin(timeObject.minutes, update, this)
-		this.mode = new SegmentLogMode(timeObject.mode, update, this)
+		this.hrs12 = new SegmentLogHrs(timeObject.hrs12, update)
+		this.minutes = new SegmentLogMin(timeObject.minutes, update)
+		this.mode = new SegmentLogMode(timeObject.mode, update)
 		this.fullValue12hr = getFullValue12hr()
-		this.onUpdate = (): void => onUpdate && onUpdate(this)
 	}
 
 	/**
