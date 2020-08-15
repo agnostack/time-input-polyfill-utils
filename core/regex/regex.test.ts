@@ -34,6 +34,11 @@ describe('Successful regex matches', () => {
 		regexTest('02:00', regex.string24hr, ['02:00', '02', '00'])
 		regexTest('', regex.string24hr, ['', undefined, undefined])
 	})
+
+	describe('alphaNumericKeyName regex', () => {
+		regexTest('A', regex.alphaNumericKeyName, ['A'])
+		regexTest('1', regex.alphaNumericKeyName, ['1'])
+	})
 })
 
 describe('Failed regex matches', () => {
@@ -49,5 +54,13 @@ describe('Failed regex matches', () => {
 		regexTest('02:0', regex.string24hr, null)
 		regexTest('0:0', regex.string24hr, null)
 		regexTest('--:--', regex.string24hr, null)
+	})
+
+	describe('alphaNumericKeyName regex', () => {
+		regexTest('12', regex.alphaNumericKeyName, null)
+		regexTest('plus', regex.alphaNumericKeyName, null)
+		regexTest('02:00', regex.alphaNumericKeyName, null)
+		regexTest('0:0', regex.alphaNumericKeyName, null)
+		regexTest('--:--', regex.alphaNumericKeyName, null)
 	})
 })
