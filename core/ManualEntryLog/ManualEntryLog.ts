@@ -103,24 +103,24 @@ export class ManualEntryLog {
 	fullValue12hr: String12hr
 
 	constructor(timeObject: TimeObject) {
-		this.hrs12 = new SegmentLogHrs(timeObject.hrs12, () => this.update())
-		this.minutes = new SegmentLogMin(timeObject.minutes, () => this.update())
-		this.mode = new SegmentLogMode(timeObject.mode, () => this.update())
-		this.fullValue12hr = this.getFullValue12hr()
-	}
+		const getFullValue12hr = (): String12hr => {
+			return [
+				toLeadingZero(this.hrs12.value),
+				':',
+				toLeadingZero(this.minutes.value),
+				' ',
+				this.mode.value,
+			].join('')
+		}
 
-	update(): void {
-		this.fullValue12hr = this.getFullValue12hr()
-	}
+		const update: UpdateFunc = () => {
+			this.fullValue12hr = getFullValue12hr()
+		}
 
-	getFullValue12hr(): String12hr {
-		return [
-			toLeadingZero(this.hrs12.value),
-			':',
-			toLeadingZero(this.minutes.value),
-			' ',
-			this.mode.value,
-		].join('')
+		this.hrs12 = new SegmentLogHrs(timeObject.hrs12, update)
+		this.minutes = new SegmentLogMin(timeObject.minutes, update)
+		this.mode = new SegmentLogMode(timeObject.mode, update)
+		this.fullValue12hr = getFullValue12hr()
 	}
 
 	/**
