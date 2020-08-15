@@ -11,8 +11,12 @@ class SegmentLog {
 		this.segment = segment
 	}
 
-	add(value: string): void {
-		const number = parseInt(value)
+	/**
+	 * Adds a value to the to the log and keeps track of what the end value should be
+	 * @param keyName - Expected to be a keyboard key name like "1" or "4"
+	 */
+	add(keyName: string): void {
+		const number = parseInt(keyName)
 		if (!isNaN(number) && !(this.entries.length === 0 && number === 0)) {
 			if ([0, 2].includes(this.entries.length)) {
 				this.entries = [number]
@@ -31,10 +35,18 @@ class SegmentLog {
 		}
 	}
 
+	/**
+	 * Reset is needed for things like typing "1", then leaving, then coming back.
+	 *
+	 * The tracker should reset if they are returning.
+	 */
 	reset(): void {
 		this.entries = []
 	}
 
+	/**
+	 * Deletes the current value. Use this if the user presses delete or backspace.
+	 */
 	clear(): void {
 		this.reset()
 		this.value = '--'
@@ -64,21 +76,33 @@ class SegmentLogMode {
 		this.value = startingValue
 	}
 
-	add(value: string): void {
-		if (value.toLowerCase() === 'a') {
+	/**
+	 * Adds a value to the to the log and keeps track of what the end value should be
+	 * @param keyName - Expected to be a keyboard key name like "a" or "p"
+	 */
+	add(keyName: string): void {
+		if (keyName.toLowerCase() === 'a') {
 			this.value = 'AM'
-			this.entries = [value]
+			this.entries = [keyName]
 		}
-		if (value.toLowerCase() === 'p') {
+		if (keyName.toLowerCase() === 'p') {
 			this.value = 'PM'
-			this.entries = [value]
+			this.entries = [keyName]
 		}
 	}
 
+	/**
+	 * Reset is needed for things like typing "1", then leaving, then coming back.
+	 *
+	 * The tracker should reset if they are returning.
+	 */
 	reset(): void {
 		this.entries = []
 	}
 
+	/**
+	 * Deletes the current value. Use this if the user presses delete or backspace.
+	 */
 	clear(): void {
 		this.reset()
 		this.value = '--'
@@ -86,6 +110,10 @@ class SegmentLogMode {
 }
 
 // Note: Due to this being a class, it does not need an interface
+/**
+ * Used for keeping track of Manual key strokes inside a time input
+ * @param timeObject - The current Time object value
+ */
 export class ManualEntryLog {
 	hrs12: SegmentLogHrs
 	minutes: SegmentLogMin
@@ -97,17 +125,40 @@ export class ManualEntryLog {
 		this.mode = new SegmentLogMode(timeObject.mode)
 	}
 
-	clear(segment: Segment): void {
+	/**
+	 * Reset is needed for things like typing "1", then leaving, then coming back.
+	 *
+	 * The tracker should reset if they are returning.
+	 *
+	 * @param segment - The segment that needs resetting
+	 */
+	reset(segment: Segment): void {
 		this[segment].reset()
 	}
 
+	/**
+	 * Deletes the current value. Use this if the user presses delete or backspace.
+	 * @param segment - The segment that needs to be cleared.
+	 */
+	clear(segment: Segment): void {
+		this[segment].clear()
+	}
+
+	/**
+	 * Deletes all of the values for all of the segments.
+	 */
 	clearAll(): void {
 		this.hrs12.clear()
 		this.minutes.clear()
 		this.mode.clear()
 	}
 
-	add(segment: Segment, entry: string): void {
-		this[segment].add(entry)
+	/**
+	 * Adds a value to the to the log and keeps track of what the end value should be
+	 * @param segment - The segment being added to
+	 * @param keyName - Expected to be a keyboard key name like "1" or "a"
+	 */
+	add(segment: Segment, keyName: string): void {
+		this[segment].add(keyName)
 	}
 }
