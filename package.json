@@ -1,6 +1,6 @@
 {
-	"name": "time-input-polyfill-utils",
-	"version": "1.0.0-beta.35",
+	"name": "@time-input-polyfill/utils",
+	"version": "1.0.0-beta.36",
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "npm/index.js",
 	"jsdelivr": "time-input-polyfill-utils.min.js",
@@ -38,6 +38,7 @@
 		"url": "https://github.com/Dan503/time-input-polyfill-utils/issues"
 	},
 	"homepage": "https://github.com/Dan503/time-input-polyfill-utils#readme",
+	"dependencies": {},
 	"devDependencies": {
 		"@cypress/webpack-preprocessor": "^4.1.1",
 		"@rollup/plugin-typescript": "^4.0.0",
