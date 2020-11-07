@@ -7,4 +7,11 @@ export interface TimeObject {
 	mode: Mode
 }
 
+export interface PartialTimeObject {
+	hrs24?: Hour24
+	hrs12?: Hour12
+	minutes?: Minute
+	mode?: Mode
+}
+
 export const TimeObjectKeys = ['hrs24', 'hrs12', 'minutes', 'mode']

@@ -1,9 +1,19 @@
+import { TimeObject, PartialTimeObject } from '../../types/index'
 import { ManualEntryLog } from './ManualEntryLog'
 
 const startingFullValue = '12:30 AM'
 
-const createEntryLog = (): ManualEntryLog =>
-	new ManualEntryLog({ hrs12: 12, hrs24: 0, minutes: 30, mode: 'AM' })
+/** Default start time: `12:30 AM` */
+const createEntryLog = (customStartTime?: PartialTimeObject): ManualEntryLog => {
+	const startTime = <TimeObject>{
+		hrs12: 12,
+		hrs24: 0,
+		minutes: 30,
+		mode: 'AM',
+		...customStartTime,
+	}
+	return new ManualEntryLog(startTime)
+}
 
 describe('Initialize', () => {
 	it('hrs12', () => {
@@ -135,23 +145,74 @@ describe('Add "1" > add "2" > add "3" > add "4"', () => {
 	})
 })
 
-describe('Add "0" expect no change', () => {
+describe('Add "0"', () => {
 	it('hrs12', () => {
 		const entryLog = createEntryLog()
 		entryLog.hrs12.add('0')
-		expect(entryLog.hrs12.entries).to.deep.equal([])
-		expect(entryLog.hrs12.value).to.equal(12) // no change
+		expect(entryLog.hrs12.entries).to.deep.equal([0])
+		expect(entryLog.hrs12.value).to.equal(2)
+		expect(entryLog.fullValue12hr).to.equal('02:30 AM')
+	})
+	it('minutes', () => {
+		const entryLog = createEntryLog({ minutes: 35 })
+		entryLog.minutes.add('0')
+		expect(entryLog.minutes.entries).to.deep.equal([0])
+		expect(entryLog.minutes.value).to.equal(5)
+		expect(entryLog.fullValue12hr).to.equal('12:05 AM')
+	})
+	it('mode', () => {
+		const entryLog = createEntryLog()
+		entryLog.mode.add('0')
+		expect(entryLog.mode.value).to.equal('AM') // expect no change
 		expect(entryLog.fullValue12hr).to.equal(startingFullValue)
+	})
+})
+describe('Add "0" > add "1"', () => {
+	it('hrs12', () => {
+		const entryLog = createEntryLog()
+		entryLog.hrs12.add('0')
+		entryLog.hrs12.add('1')
+		expect(entryLog.hrs12.entries).to.deep.equal([0, 1])
+		expect(entryLog.hrs12.value).to.equal(1)
+		expect(entryLog.fullValue12hr).to.equal('01:30 AM')
 	})
 	it('minutes', () => {
 		const entryLog = createEntryLog()
 		entryLog.minutes.add('0')
-		expect(entryLog.minutes.entries).to.deep.equal([])
-		expect(entryLog.minutes.value).to.equal(30) // no change
-		expect(entryLog.fullValue12hr).to.equal(startingFullValue)
+		entryLog.minutes.add('1')
+		expect(entryLog.minutes.entries).to.deep.equal([0, 1])
+		expect(entryLog.minutes.value).to.equal(1)
+		expect(entryLog.fullValue12hr).to.equal('12:01 AM')
 	})
 	it('mode', () => {
 		const entryLog = createEntryLog()
+		entryLog.mode.add('0')
+		entryLog.mode.add('1')
+		expect(entryLog.mode.value).to.equal('AM') // expect no change
+		expect(entryLog.fullValue12hr).to.equal(startingFullValue)
+	})
+})
+describe('Add "0" > add "0"', () => {
+	it('hrs12', () => {
+		const entryLog = createEntryLog()
+		entryLog.hrs12.add('0')
+		entryLog.hrs12.add('0')
+		expect(entryLog.hrs12.entries).to.deep.equal([0, 0])
+		// Entering "00" in the hours segment should return "12"
+		expect(entryLog.hrs12.value).to.equal(12)
+		expect(entryLog.fullValue12hr).to.equal('12:30 AM')
+	})
+	it('minutes', () => {
+		const entryLog = createEntryLog({ minutes: 35 })
+		entryLog.minutes.add('0')
+		entryLog.minutes.add('0')
+		expect(entryLog.minutes.entries).to.deep.equal([0, 0])
+		expect(entryLog.minutes.value).to.equal(0)
+		expect(entryLog.fullValue12hr).to.equal('12:00 AM')
+	})
+	it('mode', () => {
+		const entryLog = createEntryLog()
+		entryLog.mode.add('0')
 		entryLog.mode.add('0')
 		expect(entryLog.mode.value).to.equal('AM') // expect no change
 		expect(entryLog.fullValue12hr).to.equal(startingFullValue)
@@ -269,13 +330,6 @@ describe('Other cases', () => {
 		expect(entryLog.hrs12.entries).to.deep.equal([2])
 		expect(entryLog.hrs12.value).to.equal(2)
 		expect(entryLog.fullValue12hr).to.equal('02:30 AM')
-	})
-	it('Add "0" to hrs', () => {
-		const entryLog = createEntryLog()
-		entryLog.hrs12.add('0')
-		expect(entryLog.hrs12.entries).to.deep.equal([])
-		expect(entryLog.hrs12.value).to.equal(12) // no change
-		expect(entryLog.fullValue12hr).to.equal(startingFullValue)
 	})
 	it('Add "p" to mode > add "m" to mode', () => {
 		const entryLog = createEntryLog()
