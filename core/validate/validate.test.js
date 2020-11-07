@@ -136,7 +136,8 @@ function validateTimeObjectTests() {
 					'hours12',
 					'hours24',
 					'mins',
-					'minutes',
+					'min',
+					'minute',
 				]
 				invalidProps.forEach(prop => invalidProp(prop))
 			})
