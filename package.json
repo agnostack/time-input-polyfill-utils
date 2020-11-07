@@ -1,9 +1,9 @@
 {
 	"name": "@time-input-polyfill/utils",
-	"version": "1.0.0-beta.36",
+	"version": "1.0.0-beta.37",
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "npm/index.js",
-	"jsdelivr": "time-input-polyfill-utils.min.js",
+	"jsdelivr": "npm/time-input-polyfill-utils.min.js",
 	"type": "module",
 	"scripts": {
 		"start": "cypress open",
@@ -15,7 +15,7 @@
 		"cy:getters": "cypress run --spec \"cypress/integration/getters.test.ts\"",
 		"cy:modifiers": "cypress run --spec \"cypress/integration/modifiers.test.ts\"",
 		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
-		"prepublish": "npx rollup -c && npx tsc --project tsconfig.prepublish.json",
+		"prepublishOnly": "npx rollup -c && npx tsc --project tsconfig.prepublish.json",
 		"postpublish": "rm -rf npm",
 		"testpublish": "npm run prepublish && npm run postpublish"
 	},
