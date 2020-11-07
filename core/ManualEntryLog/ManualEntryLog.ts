@@ -4,6 +4,20 @@ import { toLeadingZero } from '../utils/utils'
 
 type UpdateFunc = () => void
 
+type zeroToNine = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+type Entries = Array<zeroToNine>
+
+const convertNumberToEntries = (number: Hour12 | Minute): Entries => {
+	return toLeadingZero(number)
+		.split('')
+		.map(value => <zeroToNine>parseInt(value))
+}
+
+const convertEntriesToNumber = (entries: Entries): Hour12 | Minute => {
+	return <Hour12 | Minute>parseInt(entries.join(''))
+}
+
 class SegmentLog {
 	value: Hour12 | Minute | Mode
 	segment: Segment
@@ -22,7 +36,8 @@ class SegmentLog {
 	 */
 	add(keyName: string): void {
 		const number = parseInt(keyName)
-		const isZero = this.entries.length === 0 && number === 0
+		const isZero = number === 0
+		const isNumber = !isNaN(number)
 
 		// Handles AM/PM
 		if (this.segment === 'mode') {
@@ -34,11 +49,24 @@ class SegmentLog {
 				this.value = 'PM'
 				this.entries = [keyName]
 			}
-		} else if (!isNaN(number) && !isZero) {
-			if ([0, 2].includes(this.entries.length)) {
+			// Handles Hours and Minutes
+		} else if (isNumber) {
+			const isEmptyOrFull = [0, 2].includes(this.entries.length)
+
+			if (isEmptyOrFull) {
+				if (isZero && typeof this.value !== 'string') {
+					const valueAsEntries = convertNumberToEntries(this.value)
+					valueAsEntries[0] = 0
+					this.entries = [number]
+					this.value = convertEntriesToNumber(valueAsEntries)
+					this.update()
+					return
+				}
+
 				this.entries = [number]
 			} else {
-				const fullNumber = parseInt([...this.entries, number].join(''))
+				const newEntries = [...this.entries, number]
+				const fullNumber = parseInt(newEntries.join(''))
 				const fullNumberGreaterThanMax = fullNumber > maxAndMins[this.segment].max
 
 				if (fullNumberGreaterThanMax) {
@@ -48,7 +76,14 @@ class SegmentLog {
 				}
 			}
 
-			this.value = <Hour12 | Minute>parseInt(this.entries.join(''))
+			const isDoubleZeroHours =
+				JSON.stringify(this.entries) === JSON.stringify([0, 0]) && this.segment === 'hrs12'
+
+			if (isDoubleZeroHours) {
+				this.value = 12
+			} else {
+				this.value = convertEntriesToNumber(<Entries>this.entries)
+			}
 		}
 
 		this.update()
