@@ -1,4 +1,13 @@
-import { Segment, Hour12, TimeObject, Minute, Mode, String12hr } from '../../types/index'
+import {
+	Segment,
+	Hour12,
+	TimeObject,
+	Minute,
+	Mode,
+	String12hr,
+	DefinedHour12,
+	DefinedMinute,
+} from '../../types/index'
 import { maxAndMins } from '../staticValues'
 import { toLeadingZero } from '../utils/utils'
 
@@ -6,22 +15,24 @@ type UpdateFunc = () => void
 
 type zeroToNine = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
-type Entries = Array<zeroToNine>
+type GenericEntry = zeroToNine | 'a' | 'p' | string
+type GenericEntries = Array<GenericEntry>
+type NumericEntries = Array<zeroToNine>
 
-const convertNumberToEntries = (number: Hour12 | Minute): Entries => {
+const convertNumberToEntries = (number: DefinedHour12 | DefinedMinute): NumericEntries => {
 	return toLeadingZero(number)
 		.split('')
 		.map(value => <zeroToNine>parseInt(value))
 }
 
-const convertEntriesToNumber = (entries: Entries): Hour12 | Minute => {
-	return <Hour12 | Minute>parseInt(entries.join(''))
+const convertEntriesToNumber = (entries: NumericEntries): DefinedHour12 | DefinedMinute => {
+	return <DefinedHour12 | DefinedMinute>parseInt(entries.join(''))
 }
 
 class SegmentLog {
 	value: Hour12 | Minute | Mode
 	segment: Segment
-	entries: Array<number | string> = []
+	entries: GenericEntries = []
 	update: () => void
 
 	constructor(startingValue: Hour12 | Minute | Mode, segment: Segment, update: UpdateFunc) {
@@ -52,27 +63,45 @@ class SegmentLog {
 			// Handles Hours and Minutes
 		} else if (isNumber) {
 			const isEmptyOrFull = [0, 2].includes(this.entries.length)
+			const numericEntries = <NumericEntries>this.entries
+			const newNumericEntry = <zeroToNine>number
+
+			const isGreaterThanMax = (number: number): boolean => {
+				if (this.segment !== 'mode') {
+					return number > maxAndMins[this.segment].max
+				}
+				return false
+			}
 
 			if (isEmptyOrFull) {
+				const newNumericEntries = [numericEntries[1], newNumericEntry]
+				const newValue = convertEntriesToNumber(newNumericEntries)
+
+				if (!isGreaterThanMax(newValue)) {
+					this.entries = newNumericEntries
+					this.value = newValue
+					this.update()
+					return
+				}
+
 				if (isZero && typeof this.value !== 'string') {
 					const valueAsEntries = convertNumberToEntries(this.value)
 					valueAsEntries[0] = 0
-					this.entries = [number]
+					this.entries = [newNumericEntry]
 					this.value = convertEntriesToNumber(valueAsEntries)
 					this.update()
 					return
 				}
 
-				this.entries = [number]
+				this.entries = [newNumericEntry]
 			} else {
-				const newEntries = [...this.entries, number]
-				const fullNumber = parseInt(newEntries.join(''))
-				const fullNumberGreaterThanMax = fullNumber > maxAndMins[this.segment].max
+				const newEntries = [...numericEntries, newNumericEntry]
+				const fullNumber = convertEntriesToNumber(newEntries)
 
-				if (fullNumberGreaterThanMax) {
-					this.entries = [0, number]
+				if (isGreaterThanMax(fullNumber)) {
+					this.entries = [0, newNumericEntry]
 				} else {
-					this.entries.push(number)
+					this.entries.push(newNumericEntry)
 				}
 			}
 
@@ -82,7 +111,7 @@ class SegmentLog {
 			if (isDoubleZeroHours) {
 				this.value = 12
 			} else {
-				this.value = convertEntriesToNumber(<Entries>this.entries)
+				this.value = convertEntriesToNumber(<NumericEntries>this.entries)
 			}
 		}
 
