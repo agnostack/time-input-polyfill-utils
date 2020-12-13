@@ -1,7 +1,12 @@
 import { Dashes } from './strings'
 
-export type Hour24 =
-	| Dashes
+export type DefinedHour12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+
+export type Hour12 = Dashes | DefinedHour12
+
+export type Hour24 = Dashes | DefinedHour24
+
+export type DefinedHour24 =
 	| 0
 	| 1
 	| 2
@@ -26,5 +31,3 @@ export type Hour24 =
 	| 21
 	| 22
 	| 23
-
-export type Hour12 = Dashes | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12

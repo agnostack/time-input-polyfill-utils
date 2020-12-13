@@ -1,7 +1,8 @@
 import { Dashes } from './strings'
 
-export type Minute =
-	| Dashes
+export type Minute = Dashes | DefinedMinute
+
+export type DefinedMinute =
 	| 0
 	| 1
 	| 2
