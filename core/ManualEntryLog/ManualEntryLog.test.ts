@@ -389,9 +389,9 @@ function Other_cases(): void {
 		})
 		it(`Add "6" > "5" > "6" to minutes: ${startingFullValue} > 12:56 AM`, () => {
 			const entryLog = createEntryLog()
-			entryLog.hrs12.add('6')
-			entryLog.hrs12.add('5')
-			entryLog.hrs12.add('6')
+			entryLog.minutes.add('6')
+			entryLog.minutes.add('5')
+			entryLog.minutes.add('6')
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])
 			expect(entryLog.minutes.value).to.equal(56)
 			expect(entryLog.fullValue12hr).to.equal('12:56 AM')
