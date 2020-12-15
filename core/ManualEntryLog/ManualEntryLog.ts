@@ -20,7 +20,7 @@ type GenericEntries = Array<GenericEntry>
 type NumericEntries = Array<zeroToNine>
 
 const convertNumberToEntries = (number: DefinedHour12 | DefinedMinute): NumericEntries => {
-	return toLeadingZero(number)
+	return String(number)
 		.split('')
 		.map(value => <zeroToNine>parseInt(value))
 }
@@ -62,8 +62,29 @@ class SegmentLog {
 			}
 			// Handles Hours and Minutes
 		} else if (isNumber) {
-			const isEmptyOrFull = [0, 2].includes(this.entries.length)
-			const numericEntries = <NumericEntries>this.entries
+			/*
+				12:30 AM >> type 1 (hrs) >> [1] >> 01:30 AM
+				12:30 AM >> type 1 > 2 (hrs) >> [1,2] >> 12:30 AM
+
+				12:30 AM >> type 2 (hrs) >> [2] >> 02:30 AM
+				12:30 AM >> type 2 > 1 (hrs) >> [1] >> 01:30 AM
+				12:30 AM >> type 2 > 1 > 2 (hrs) >> [1,2] >> 12:30 AM
+
+				12:30 AM >> type 0 (hrs) >> [2]
+			*/
+
+			const getEntriesFromValue = (): NumericEntries => {
+				if (typeof this.value === 'number') {
+					return convertNumberToEntries(this.value)
+				} else {
+					return []
+				}
+			}
+			const valueAsEntries = getEntriesFromValue()
+			const numericEntries = <NumericEntries>(
+				this.entries.filter((value, index) => value !== 0 && index !== 0)
+			)
+			const isEmptyOrFull = [0, 2].includes(numericEntries.length)
 			const newNumericEntry = <zeroToNine>number
 
 			const isGreaterThanMax = (number: number): boolean => {
@@ -73,8 +94,29 @@ class SegmentLog {
 				return false
 			}
 
+			debugger
+
 			if (isEmptyOrFull) {
-				const newNumericEntries = [numericEntries[1], newNumericEntry]
+				// const getNewNumericEntries = (): NumericEntries => {
+				// 	// if (numericEntries[0] === 0 && numericEntries[1] !== undefined) {
+				// 	// 	return [numericEntries[1], newNumericEntry]
+				// 	// }
+				// 	if (numericEntries.length === 2) {
+				// 		return [newNumericEntry, numericEntries[1]]
+				// 	}
+				// 	return [newNumericEntry]
+				// }
+
+				if (newNumericEntry === 0) {
+					const newNumericEntries = [...valueAsEntries]
+					newNumericEntries[0] = 0
+					this.entries = [0]
+					this.value = convertEntriesToNumber(newNumericEntries)
+					this.update()
+					return
+				}
+
+				const newNumericEntries = [newNumericEntry]
 				const newValue = convertEntriesToNumber(newNumericEntries)
 
 				if (!isGreaterThanMax(newValue)) {
@@ -99,7 +141,7 @@ class SegmentLog {
 				const fullNumber = convertEntriesToNumber(newEntries)
 
 				if (isGreaterThanMax(fullNumber)) {
-					this.entries = [0, newNumericEntry]
+					this.entries = [newNumericEntry]
 				} else {
 					this.entries.push(newNumericEntry)
 				}
