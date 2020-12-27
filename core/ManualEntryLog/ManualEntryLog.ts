@@ -87,12 +87,7 @@ class SegmentLog {
 
 				this.entries.push(0)
 
-				if (this.entries.length === 1) {
-					if (entriesFromInitialValue.length === 2) {
-						entriesFromInitialValue[0] = 0
-					}
-					this.value = convertEntriesToNumber(entriesFromInitialValue)
-				} else if (this.entries.length === 2) {
+				if (this.entries.length === 2) {
 					// length is 2, 2nd value will always be 0 because it was pushed, if first value is zero it means double zeros
 					const isDoubleZeros = this.entries[0] === 0
 
@@ -108,8 +103,12 @@ class SegmentLog {
 						this.entries = convertNumberToEntries(this.value)
 					}
 				} else {
-					this.entries = [0]
-					entriesFromInitialValue[0] = 0
+					if (this.entries.length > 2) {
+						this.entries = [0]
+					}
+					if (entriesFromInitialValue.length === 2) {
+						entriesFromInitialValue[0] = 0
+					}
 					this.value = convertEntriesToNumber(entriesFromInitialValue)
 				}
 			} else {
