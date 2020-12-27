@@ -5,14 +5,14 @@ const startingFullValue = '12:30 AM'
 
 interface CreateEntryLogProps {
 	customStartTime?: PartialTimeObject
-	onMaxHit?: (entryLog: ManualEntryLog) => void
+	onLimitHit?: (entryLog: ManualEntryLog) => void
 	onUpdate?: (entryLog: ManualEntryLog) => void
 }
 
 /** Default start time: `12:30 AM` */
 const createEntryLog = ({
 	customStartTime,
-	onMaxHit,
+	onLimitHit: onMaxHit,
 	onUpdate,
 }: CreateEntryLogProps = {}): ManualEntryLog => {
 	const startTime = <TimeObject>{
@@ -22,7 +22,7 @@ const createEntryLog = ({
 		mode: 'AM',
 		...customStartTime,
 	}
-	return new ManualEntryLog({ timeObject: startTime, onMaxHit, onUpdate })
+	return new ManualEntryLog({ timeObject: startTime, onLimitHit: onMaxHit, onUpdate })
 }
 
 Initialize()
@@ -158,38 +158,56 @@ function Add_1_2_3_4(): void {
 	describe('Add "1" > add "2" > add "3" > add "4"', () => {
 		it(`hrs12: ${startingFullValue} > 04:30 AM`, () => {
 			let fullVal
+			let hitLimit = false
 			const entryLog = createEntryLog({
 				onUpdate({ fullValue12hr }) {
 					fullVal = fullValue12hr
 				},
+				onLimitHit() {
+					hitLimit = true
+				},
 			})
 			entryLog.hrs12.add('1')
 			expect(fullVal).to.equal('01:30 AM')
+			expect(hitLimit).to.equal(false)
 			entryLog.hrs12.add('2')
 			expect(fullVal).to.equal('12:30 AM')
+			expect(hitLimit).to.equal(true)
+			hitLimit = false
 			entryLog.hrs12.add('3')
 			expect(fullVal).to.equal('03:30 AM')
+			expect(hitLimit).to.equal(false)
 			entryLog.hrs12.add('4')
 			expect(fullVal).to.equal('04:30 AM')
+			expect(hitLimit).to.equal(true)
 			expect(entryLog.hrs12.entries).to.deep.equal([4])
 			expect(entryLog.hrs12.value).to.equal(4)
 			expect(entryLog.fullValue12hr).to.equal('04:30 AM')
 		})
 		it(`minutes: ${startingFullValue} > 12:34 AM`, () => {
 			let fullVal
+			let hitLimit = false
 			const entryLog = createEntryLog({
 				onUpdate({ fullValue12hr }) {
 					fullVal = fullValue12hr
 				},
+				onLimitHit() {
+					hitLimit = true
+				},
 			})
 			entryLog.minutes.add('1')
 			expect(fullVal).to.equal('12:01 AM')
+			expect(hitLimit).to.equal(false)
 			entryLog.minutes.add('2')
 			expect(fullVal).to.equal('12:12 AM')
+			expect(hitLimit).to.equal(true)
+			hitLimit = false
 			entryLog.minutes.add('3')
 			expect(fullVal).to.equal('12:03 AM')
+			expect(hitLimit).to.equal(false)
 			entryLog.minutes.add('4')
 			expect(fullVal).to.equal('12:34 AM')
+			expect(hitLimit).to.equal(true)
 			expect(entryLog.minutes.entries).to.deep.equal([3, 4])
 			expect(entryLog.minutes.value).to.equal(34)
 			expect(entryLog.fullValue12hr).to.equal('12:34 AM')
@@ -481,31 +499,31 @@ function Add_P(): void {
 function greater_than_max_tests(): void {
 	describe('Greater than max tests', () => {
 		it(`Add "7" > "0" to hrs: ${startingFullValue} > 07:30 AM`, () => {
-			let hasMaxHit = false
+			let hasHitLimit = false
 			const entryLog = createEntryLog({
-				onMaxHit() {
-					hasMaxHit = true
+				onLimitHit() {
+					hasHitLimit = true
 				},
 			})
 			entryLog.hrs12.add('7')
-			expect(hasMaxHit).to.equal(false)
+			expect(hasHitLimit).to.equal(false)
 			entryLog.hrs12.add('0')
-			expect(hasMaxHit).to.equal(true)
+			expect(hasHitLimit).to.equal(true)
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
 			expect(entryLog.hrs12.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('07:30 AM')
 		})
 		it(`Add "7" > "0" to minutes: ${startingFullValue} > 12:07 AM`, () => {
-			let hasMaxHit = false
+			let hasHitLimit = false
 			const entryLog = createEntryLog({
-				onMaxHit() {
-					hasMaxHit = true
+				onLimitHit() {
+					hasHitLimit = true
 				},
 			})
 			entryLog.minutes.add('7')
-			expect(hasMaxHit).to.equal(false)
+			expect(hasHitLimit).to.equal(false)
 			entryLog.minutes.add('0')
-			expect(hasMaxHit).to.equal(true)
+			expect(hasHitLimit).to.equal(true)
 			expect(entryLog.minutes.entries).to.deep.equal([0])
 			expect(entryLog.minutes.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('12:07 AM')
@@ -529,19 +547,19 @@ function greater_than_max_tests(): void {
 			expect(entryLog.fullValue12hr).to.equal('12:06 AM')
 		})
 		it(`Add "2" > "1" > "2" to hrs: ${startingFullValue} > 12:30 AM`, () => {
-			let hasMaxHit = false
+			let hasHitLimit = false
 			let val
 			const entryLog = createEntryLog({
-				onMaxHit({ hrs12 }) {
-					hasMaxHit = true
+				onLimitHit({ hrs12 }) {
+					hasHitLimit = true
 					val = hrs12.value
 				},
 			})
 			entryLog.hrs12.add('2')
-			expect(hasMaxHit).to.equal(false)
+			expect(hasHitLimit).to.equal(false)
 			expect(val).to.equal(undefined)
 			entryLog.hrs12.add('1')
-			expect(hasMaxHit).to.equal(true)
+			expect(hasHitLimit).to.equal(true)
 			expect(val).to.equal(1)
 			entryLog.hrs12.add('2')
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
@@ -549,19 +567,19 @@ function greater_than_max_tests(): void {
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it(`Add "6" > "5" > "6" to minutes: ${startingFullValue} > 12:56 AM`, () => {
-			let hasMaxHit = false
+			let hasHitLimit = false
 			let val
 			const entryLog = createEntryLog({
-				onMaxHit({ minutes }) {
-					hasMaxHit = true
+				onLimitHit({ minutes }) {
+					hasHitLimit = true
 					val = minutes.value
 				},
 			})
 			entryLog.minutes.add('6')
-			expect(hasMaxHit).to.equal(false)
+			expect(hasHitLimit).to.equal(false)
 			expect(val).to.equal(undefined)
 			entryLog.minutes.add('5')
-			expect(hasMaxHit).to.equal(true)
+			expect(hasHitLimit).to.equal(true)
 			expect(val).to.equal(5)
 			entryLog.minutes.add('6')
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])

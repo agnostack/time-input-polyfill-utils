@@ -33,20 +33,20 @@ interface SegmentLogConstructor {
 	startingValue: Hour12 | Minute | Mode
 	segment: Segment
 	onUpdate: BlankFunc
-	onMaxHit: BlankFunc
+	onLimitHit: BlankFunc
 }
 class SegmentLog {
 	value: Hour12 | Minute | Mode
 	segment: Segment
 	entries: GenericEntries = []
 	update: () => void
-	maxHit: () => void
+	limitHit: () => void
 
-	constructor({ startingValue, segment, onUpdate, onMaxHit }: SegmentLogConstructor) {
+	constructor({ startingValue, segment, onUpdate, onLimitHit }: SegmentLogConstructor) {
 		this.value = startingValue
 		this.segment = segment
 		this.update = (): void => onUpdate()
-		this.maxHit = (): void => onMaxHit()
+		this.limitHit = (): void => onLimitHit()
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SegmentLog {
 					const entriesAsNumber = convertEntriesToNumber(entries)
 					if (isGreaterThanMax(entriesAsNumber)) {
 						this.entries = [0]
-						this.maxHit()
+						this.limitHit()
 					} else {
 						this.value = entriesAsNumber
 					}
@@ -135,7 +135,7 @@ class SegmentLog {
 				if (isGreaterThanMax(newValue)) {
 					this.value = <zeroToNine>number
 					this.entries = [<zeroToNine>number]
-					this.maxHit()
+					this.limitHit()
 				} else {
 					this.value = newValue
 					this.entries = newEntries
@@ -171,7 +171,7 @@ interface ManualEntryLogConstructor {
 	/** Callback function for when the values change */
 	onUpdate?: (entryLog: ManualEntryLog) => void
 	/** Callback function for when the manual entry exceeds the maximum range */
-	onMaxHit?: (entryLog: ManualEntryLog) => void
+	onLimitHit?: (entryLog: ManualEntryLog) => void
 }
 
 // Note: Due to this being a class, it does not need an interface
@@ -187,7 +187,7 @@ export class ManualEntryLog {
 	constructor({
 		timeObject,
 		onUpdate = (): void => {},
-		onMaxHit = (): void => {},
+		onLimitHit = (): void => {},
 	}: ManualEntryLogConstructor) {
 		const getFullValue12hr = (): String12hr => {
 			return [
@@ -206,9 +206,9 @@ export class ManualEntryLog {
 			}
 		}
 
-		const maxHit: BlankFunc = () => {
-			if (onMaxHit) {
-				onMaxHit(this)
+		const limitHit: BlankFunc = () => {
+			if (onLimitHit) {
+				onLimitHit(this)
 			}
 		}
 
@@ -216,19 +216,19 @@ export class ManualEntryLog {
 			startingValue: timeObject.hrs12,
 			segment: 'hrs12',
 			onUpdate: update,
-			onMaxHit: maxHit,
+			onLimitHit: limitHit,
 		})
 		this.minutes = new SegmentLog({
 			startingValue: timeObject.minutes,
 			segment: 'minutes',
 			onUpdate: update,
-			onMaxHit: maxHit,
+			onLimitHit: limitHit,
 		})
 		this.mode = new SegmentLog({
 			startingValue: timeObject.mode,
 			segment: 'mode',
 			onUpdate: update,
-			onMaxHit: maxHit,
+			onLimitHit: limitHit,
 		})
 		this.fullValue12hr = getFullValue12hr()
 	}
