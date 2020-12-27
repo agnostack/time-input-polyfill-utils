@@ -463,17 +463,31 @@ function Add_P(): void {
 function greater_than_max_tests(): void {
 	describe('Greater than max tests', () => {
 		it(`Add "7" > "0" to hrs: ${startingFullValue} > 07:30 AM`, () => {
-			const entryLog = createEntryLog()
+			let hasMaxHit = false
+			const entryLog = createEntryLog({
+				onMaxHit() {
+					hasMaxHit = true
+				},
+			})
 			entryLog.hrs12.add('7')
+			expect(hasMaxHit).to.equal(false)
 			entryLog.hrs12.add('0')
+			expect(hasMaxHit).to.equal(true)
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
 			expect(entryLog.hrs12.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('07:30 AM')
 		})
 		it(`Add "7" > "0" to minutes: ${startingFullValue} > 12:07 AM`, () => {
-			const entryLog = createEntryLog()
+			let hasMaxHit = false
+			const entryLog = createEntryLog({
+				onMaxHit() {
+					hasMaxHit = true
+				},
+			})
 			entryLog.minutes.add('7')
+			expect(hasMaxHit).to.equal(false)
 			entryLog.minutes.add('0')
+			expect(hasMaxHit).to.equal(true)
 			expect(entryLog.minutes.entries).to.deep.equal([0])
 			expect(entryLog.minutes.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('12:07 AM')
@@ -497,18 +511,32 @@ function greater_than_max_tests(): void {
 			expect(entryLog.fullValue12hr).to.equal('12:06 AM')
 		})
 		it(`Add "2" > "1" > "2" to hrs: ${startingFullValue} > 12:30 AM`, () => {
-			const entryLog = createEntryLog()
+			let hasMaxHit = false
+			const entryLog = createEntryLog({
+				onMaxHit() {
+					hasMaxHit = true
+				},
+			})
 			entryLog.hrs12.add('2')
+			expect(hasMaxHit).to.equal(false)
 			entryLog.hrs12.add('1')
+			expect(hasMaxHit).to.equal(true)
 			entryLog.hrs12.add('2')
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
 			expect(entryLog.hrs12.value).to.equal(12)
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it(`Add "6" > "5" > "6" to minutes: ${startingFullValue} > 12:56 AM`, () => {
-			const entryLog = createEntryLog()
+			let hasMaxHit = false
+			const entryLog = createEntryLog({
+				onMaxHit() {
+					hasMaxHit = true
+				},
+			})
 			entryLog.minutes.add('6')
+			expect(hasMaxHit).to.equal(false)
 			entryLog.minutes.add('5')
+			expect(hasMaxHit).to.equal(true)
 			entryLog.minutes.add('6')
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])
 			expect(entryLog.minutes.value).to.equal(56)
