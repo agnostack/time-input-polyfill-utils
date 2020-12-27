@@ -55,6 +55,7 @@ module.exports = {
 				// Prettier and ES Lint disagree about how some indents should work.
 				// I can't stop Prettier but I can stop ES Lint
 				'@typescript-eslint/indent': [0, 'tab'],
+				'@typescript-eslint/no-empty-function': [0, false],
 				'@typescript-eslint/no-use-before-define': [0, false],
 				'@typescript-eslint/camelcase': [0, 'never'],
 				'@typescript-eslint/semi': ['error', 'never'],
