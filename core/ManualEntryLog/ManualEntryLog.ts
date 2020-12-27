@@ -97,6 +97,7 @@ class SegmentLog {
 					if (isDoubleZeros) {
 						if (this.segment === 'hrs12') {
 							this.value = 12
+							this.entries = [1, 2]
 						} else {
 							this.value = 0
 						}

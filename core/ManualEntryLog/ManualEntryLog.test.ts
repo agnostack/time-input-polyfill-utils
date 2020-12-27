@@ -234,8 +234,8 @@ function Add_0_0(): void {
 			const entryLog = createEntryLog({ hrs12: 11, hrs24: 11 })
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0')
-			expect(entryLog.hrs12.entries).to.deep.equal([0, 0])
 			// Entering "00" in the hours segment should return "12"
+			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
 			expect(entryLog.hrs12.value).to.equal(12)
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
