@@ -530,15 +530,19 @@ function greater_than_max_tests(): void {
 		})
 		it(`Add "2" > "1" > "2" to hrs: ${startingFullValue} > 12:30 AM`, () => {
 			let hasMaxHit = false
+			let val
 			const entryLog = createEntryLog({
-				onMaxHit() {
+				onMaxHit({ hrs12 }) {
 					hasMaxHit = true
+					val = hrs12.value
 				},
 			})
 			entryLog.hrs12.add('2')
 			expect(hasMaxHit).to.equal(false)
+			expect(val).to.equal(undefined)
 			entryLog.hrs12.add('1')
 			expect(hasMaxHit).to.equal(true)
+			expect(val).to.equal(1)
 			entryLog.hrs12.add('2')
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
 			expect(entryLog.hrs12.value).to.equal(12)
@@ -546,15 +550,19 @@ function greater_than_max_tests(): void {
 		})
 		it(`Add "6" > "5" > "6" to minutes: ${startingFullValue} > 12:56 AM`, () => {
 			let hasMaxHit = false
+			let val
 			const entryLog = createEntryLog({
-				onMaxHit() {
+				onMaxHit({ minutes }) {
 					hasMaxHit = true
+					val = minutes.value
 				},
 			})
 			entryLog.minutes.add('6')
 			expect(hasMaxHit).to.equal(false)
+			expect(val).to.equal(undefined)
 			entryLog.minutes.add('5')
 			expect(hasMaxHit).to.equal(true)
+			expect(val).to.equal(5)
 			entryLog.minutes.add('6')
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])
 			expect(entryLog.minutes.value).to.equal(56)
