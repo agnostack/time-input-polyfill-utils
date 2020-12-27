@@ -34,6 +34,8 @@ Add_then_clear()
 
 Add_P()
 
+greater_than_max_tests()
+
 Other_cases()
 
 function Initialize(): void {
@@ -448,14 +450,41 @@ function Add_P(): void {
 	})
 }
 
-function Other_cases(): void {
-	describe('Other cases', () => {
-		it(`Add "2" to hrs: ${startingFullValue} > 02:30 AM`, () => {
+function greater_than_max_tests(): void {
+	describe('Greater than max tests', () => {
+		it(`Add "7" > "0" to hrs: ${startingFullValue} > 07:30 AM`, () => {
 			const entryLog = createEntryLog()
-			entryLog.hrs12.add('2')
-			expect(entryLog.hrs12.entries).to.deep.equal([2])
-			expect(entryLog.hrs12.value).to.equal(2)
-			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
+			entryLog.hrs12.add('7')
+			entryLog.hrs12.add('0')
+			expect(entryLog.hrs12.entries).to.deep.equal([0])
+			expect(entryLog.hrs12.value).to.equal(7)
+			expect(entryLog.fullValue12hr).to.equal('07:30 AM')
+		})
+		it(`Add "7" > "0" to minutes: ${startingFullValue} > 12:07 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.minutes.add('7')
+			entryLog.minutes.add('0')
+			expect(entryLog.minutes.entries).to.deep.equal([0])
+			expect(entryLog.minutes.value).to.equal(7)
+			expect(entryLog.fullValue12hr).to.equal('12:07 AM')
+		})
+		it(`Add "7" > "0" > "6" to hrs: ${startingFullValue} > 06:30 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.hrs12.add('7')
+			entryLog.hrs12.add('0')
+			entryLog.hrs12.add('6')
+			expect(entryLog.hrs12.entries).to.deep.equal([0, 6])
+			expect(entryLog.hrs12.value).to.equal(6)
+			expect(entryLog.fullValue12hr).to.equal('06:30 AM')
+		})
+		it(`Add "7" > "0" > "6" to minutes: ${startingFullValue} > 12:06 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.minutes.add('7')
+			entryLog.minutes.add('0')
+			entryLog.minutes.add('6')
+			expect(entryLog.minutes.entries).to.deep.equal([0, 6])
+			expect(entryLog.minutes.value).to.equal(6)
+			expect(entryLog.fullValue12hr).to.equal('12:06 AM')
 		})
 		it(`Add "2" > "1" > "2" to hrs: ${startingFullValue} > 12:30 AM`, () => {
 			const entryLog = createEntryLog()
@@ -474,6 +503,18 @@ function Other_cases(): void {
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])
 			expect(entryLog.minutes.value).to.equal(56)
 			expect(entryLog.fullValue12hr).to.equal('12:56 AM')
+		})
+	})
+}
+
+function Other_cases(): void {
+	describe('Other cases', () => {
+		it(`Add "2" to hrs: ${startingFullValue} > 02:30 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.hrs12.add('2')
+			expect(entryLog.hrs12.entries).to.deep.equal([2])
+			expect(entryLog.hrs12.value).to.equal(2)
+			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
 		})
 		it(`Add "p" to mode > add "m" to mode: ${startingFullValue} > 12:30 PM`, () => {
 			const entryLog = createEntryLog()
