@@ -4,15 +4,17 @@ import { ManualEntryLog } from './ManualEntryLog'
 const startingFullValue = '12:30 AM'
 
 interface CreateEntryLogProps {
+	customStartTime?: PartialTimeObject
 	onMaxHit?: () => void
 	onUpdate?: () => void
 }
 
 /** Default start time: `12:30 AM` */
-const createEntryLog = (
-	customStartTime?: PartialTimeObject,
-	{ onMaxHit, onUpdate }: CreateEntryLogProps = {},
-): ManualEntryLog => {
+const createEntryLog = ({
+	customStartTime,
+	onMaxHit,
+	onUpdate,
+}: CreateEntryLogProps = {}): ManualEntryLog => {
 	const startTime = <TimeObject>{
 		hrs12: 12,
 		hrs24: 0,
@@ -96,7 +98,7 @@ function Add_1(): void {
 function Add_1_2(): void {
 	describe('Add "1" > add "2"', () => {
 		it('hrs12: 03:30 AM > 12:30 AM', () => {
-			const entryLog = createEntryLog({ hrs12: 3, hrs24: 3 })
+			const entryLog = createEntryLog({ customStartTime: { hrs12: 3, hrs24: 3 } })
 			entryLog.hrs12.add('1')
 			entryLog.hrs12.add('2')
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
@@ -189,7 +191,7 @@ function Add_1_2_3_4(): void {
 function Add_0(): void {
 	describe('Add "0"', () => {
 		it(`hrs12: 08:30 AM > 08:30 AM`, () => {
-			const entryLog = createEntryLog({ hrs12: 8, hrs24: 8 })
+			const entryLog = createEntryLog({ customStartTime: { hrs12: 8, hrs24: 8 } })
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
 			expect(entryLog.hrs12.value).to.equal(8)
@@ -203,7 +205,7 @@ function Add_0(): void {
 			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:05 AM', () => {
-			const entryLog = createEntryLog({ minutes: 35 })
+			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
 			entryLog.minutes.add('0')
 			expect(entryLog.minutes.entries).to.deep.equal([0])
 			expect(entryLog.minutes.value).to.equal(5)
@@ -258,7 +260,7 @@ function Add_0_1_0(): void {
 			expect(entryLog.fullValue12hr).to.equal('01:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:00 AM', () => {
-			const entryLog = createEntryLog({ minutes: 35 })
+			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
 			entryLog.minutes.add('0')
 			entryLog.minutes.add('1')
 			entryLog.minutes.add('0')
@@ -288,7 +290,7 @@ function Add_0_0(): void {
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it('hrs12: 11:30 AM > 12:30 AM', () => {
-			const entryLog = createEntryLog({ hrs12: 11, hrs24: 11 })
+			const entryLog = createEntryLog({ customStartTime: { hrs12: 11, hrs24: 11 } })
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0')
 			// Entering "00" in the hours segment should return "12"
@@ -297,7 +299,7 @@ function Add_0_0(): void {
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:00 AM', () => {
-			const entryLog = createEntryLog({ minutes: 35 })
+			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
 			entryLog.minutes.add('0')
 			entryLog.minutes.add('0')
 			expect(entryLog.minutes.entries).to.deep.equal([0, 0])
@@ -317,7 +319,7 @@ function Add_0_0(): void {
 function Add_0_0_0(): void {
 	describe('Add "0" > add "0" > add "0"', () => {
 		it('hrs12: 11:30 AM > 02:30 AM', () => {
-			const entryLog = createEntryLog({ hrs12: 11, hrs24: 11 })
+			const entryLog = createEntryLog({ customStartTime: { hrs12: 11, hrs24: 11 } })
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0') // becomes 12am here
 			entryLog.hrs12.add('0')
@@ -326,7 +328,7 @@ function Add_0_0_0(): void {
 			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:00 AM', () => {
-			const entryLog = createEntryLog({ minutes: 35 })
+			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
 			entryLog.minutes.add('0')
 			entryLog.minutes.add('0')
 			entryLog.minutes.add('0')
