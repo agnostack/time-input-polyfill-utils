@@ -177,6 +177,13 @@ function Add_1_2_3_4(): void {
 
 function Add_0(): void {
 	describe('Add "0"', () => {
+		it(`hrs12: 08:30 AM > 08:30 AM`, () => {
+			const entryLog = createEntryLog({ hrs12: 8, hrs24: 8 })
+			entryLog.hrs12.add('0')
+			expect(entryLog.hrs12.entries).to.deep.equal([0])
+			expect(entryLog.hrs12.value).to.equal(8)
+			expect(entryLog.fullValue12hr).to.equal('08:30 AM')
+		})
 		it(`hrs12: ${startingFullValue} > 02:30 AM`, () => {
 			const entryLog = createEntryLog()
 			entryLog.hrs12.add('0')
@@ -230,6 +237,14 @@ function Add_0_1(): void {
 
 function Add_0_0(): void {
 	describe('Add "0" > add "0"', () => {
+		it(`hrs12: 08:30 AM > 12:30 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.hrs12.add('0')
+			entryLog.hrs12.add('0')
+			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
+			expect(entryLog.hrs12.value).to.equal(12)
+			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
+		})
 		it('hrs12: 11:30 AM > 12:30 AM', () => {
 			const entryLog = createEntryLog({ hrs12: 11, hrs24: 11 })
 			entryLog.hrs12.add('0')
