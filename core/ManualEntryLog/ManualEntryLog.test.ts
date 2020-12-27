@@ -5,8 +5,8 @@ const startingFullValue = '12:30 AM'
 
 interface CreateEntryLogProps {
 	customStartTime?: PartialTimeObject
-	onMaxHit?: () => void
-	onUpdate?: () => void
+	onMaxHit?: (entryLog: ManualEntryLog) => void
+	onUpdate?: (entryLog: ManualEntryLog) => void
 }
 
 /** Default start time: `12:30 AM` */
@@ -157,21 +157,39 @@ function Add_1_2_3(): void {
 function Add_1_2_3_4(): void {
 	describe('Add "1" > add "2" > add "3" > add "4"', () => {
 		it(`hrs12: ${startingFullValue} > 04:30 AM`, () => {
-			const entryLog = createEntryLog()
+			let fullVal
+			const entryLog = createEntryLog({
+				onUpdate({ fullValue12hr }) {
+					fullVal = fullValue12hr
+				},
+			})
 			entryLog.hrs12.add('1')
+			expect(fullVal).to.equal('01:30 AM')
 			entryLog.hrs12.add('2')
+			expect(fullVal).to.equal('12:30 AM')
 			entryLog.hrs12.add('3')
+			expect(fullVal).to.equal('03:30 AM')
 			entryLog.hrs12.add('4')
+			expect(fullVal).to.equal('04:30 AM')
 			expect(entryLog.hrs12.entries).to.deep.equal([4])
 			expect(entryLog.hrs12.value).to.equal(4)
 			expect(entryLog.fullValue12hr).to.equal('04:30 AM')
 		})
 		it(`minutes: ${startingFullValue} > 12:34 AM`, () => {
-			const entryLog = createEntryLog()
+			let fullVal
+			const entryLog = createEntryLog({
+				onUpdate({ fullValue12hr }) {
+					fullVal = fullValue12hr
+				},
+			})
 			entryLog.minutes.add('1')
+			expect(fullVal).to.equal('12:01 AM')
 			entryLog.minutes.add('2')
+			expect(fullVal).to.equal('12:12 AM')
 			entryLog.minutes.add('3')
+			expect(fullVal).to.equal('12:03 AM')
 			entryLog.minutes.add('4')
+			expect(fullVal).to.equal('12:34 AM')
 			expect(entryLog.minutes.entries).to.deep.equal([3, 4])
 			expect(entryLog.minutes.value).to.equal(34)
 			expect(entryLog.fullValue12hr).to.equal('12:34 AM')
