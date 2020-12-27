@@ -99,9 +99,11 @@ class SegmentLog {
 					const entriesAsNumber = convertEntriesToNumber(entries)
 					if (isGreaterThanMax(entriesAsNumber)) {
 						this.entries = [0]
-						this.limitHit()
 					} else {
 						this.value = entriesAsNumber
+						if (this.entries.length === 2) {
+							this.limitHit()
+						}
 					}
 				}
 
@@ -135,10 +137,16 @@ class SegmentLog {
 				if (isGreaterThanMax(newValue)) {
 					this.value = <zeroToNine>number
 					this.entries = [<zeroToNine>number]
-					this.limitHit()
+
+					if (isGreaterThanMax(number * 10)) {
+						this.limitHit()
+					}
 				} else {
 					this.value = newValue
 					this.entries = newEntries
+					if (newEntries.length === 2 || isGreaterThanMax(number * 10)) {
+						this.limitHit()
+					}
 				}
 			}
 		}
