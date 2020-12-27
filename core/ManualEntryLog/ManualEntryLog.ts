@@ -40,13 +40,13 @@ class SegmentLog {
 	segment: Segment
 	entries: GenericEntries = []
 	update: () => void
-	maxHasBeenHit: () => void
+	maxHit: () => void
 
 	constructor({ startingValue, segment, onUpdate, onMaxHit }: SegmentLogConstructor) {
 		this.value = startingValue
 		this.segment = segment
 		this.update = (): void => onUpdate()
-		this.maxHasBeenHit = (): void => onMaxHit()
+		this.maxHit = (): void => onMaxHit()
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SegmentLog {
 					const entriesAsNumber = convertEntriesToNumber(entries)
 					if (isGreaterThanMax(entriesAsNumber)) {
 						this.entries = [0]
-						this.maxHasBeenHit()
+						this.maxHit()
 					} else {
 						this.value = entriesAsNumber
 					}
@@ -135,7 +135,7 @@ class SegmentLog {
 				if (isGreaterThanMax(newValue)) {
 					this.value = <zeroToNine>number
 					this.entries = [<zeroToNine>number]
-					this.maxHasBeenHit()
+					this.maxHit()
 				} else {
 					this.value = newValue
 					this.entries = newEntries
