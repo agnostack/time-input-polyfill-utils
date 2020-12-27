@@ -87,6 +87,15 @@ class SegmentLog {
 
 				this.entries.push(0)
 
+				const handlePotentialGreaterThanMaxNumbers = (entries: NumericEntries): void => {
+					const entriesAsNumber = convertEntriesToNumber(entries)
+					if (isGreaterThanMax(entriesAsNumber)) {
+						this.entries = [0]
+					} else {
+						this.value = entriesAsNumber
+					}
+				}
+
 				if (this.entries.length === 2) {
 					// length is 2, 2nd value will always be 0 because it was pushed, if first value is zero it means double zeros
 					const isDoubleZeros = this.entries[0] === 0
@@ -99,8 +108,7 @@ class SegmentLog {
 							this.value = 0
 						}
 					} else {
-						this.value = convertEntriesToNumber(<NumericEntries>this.entries)
-						this.entries = convertNumberToEntries(this.value)
+						handlePotentialGreaterThanMaxNumbers(<NumericEntries>this.entries)
 					}
 				} else {
 					if (this.entries.length > 2) {
@@ -109,7 +117,7 @@ class SegmentLog {
 					if (entriesFromInitialValue.length === 2) {
 						entriesFromInitialValue[0] = 0
 					}
-					this.value = convertEntriesToNumber(entriesFromInitialValue)
+					handlePotentialGreaterThanMaxNumbers(entriesFromInitialValue)
 				}
 			} else {
 				const newEntries = <NumericEntries>[...this.entries, <zeroToNine>number]
