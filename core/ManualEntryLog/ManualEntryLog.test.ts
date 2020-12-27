@@ -24,6 +24,7 @@ Add_1_2_3_4()
 
 Add_0()
 Add_0_1()
+Add_0_1_0()
 Add_0_0()
 Add_0_0_0()
 Add_1_0()
@@ -229,6 +230,37 @@ function Add_0_1(): void {
 			const entryLog = createEntryLog()
 			entryLog.mode.add('0')
 			entryLog.mode.add('1')
+			expect(entryLog.mode.value).to.equal('AM') // expect no change
+			expect(entryLog.fullValue12hr).to.equal(startingFullValue)
+		})
+	})
+}
+
+function Add_0_1_0(): void {
+	describe('Add "0" > add "1" > add "0"', () => {
+		it(`hrs12: ${startingFullValue} > 01:30 AM`, () => {
+			const entryLog = createEntryLog()
+			entryLog.hrs12.add('0')
+			entryLog.hrs12.add('1') // becomes 1am here
+			entryLog.hrs12.add('0')
+			expect(entryLog.hrs12.entries).to.deep.equal([0])
+			expect(entryLog.hrs12.value).to.equal(1)
+			expect(entryLog.fullValue12hr).to.equal('01:30 AM')
+		})
+		it('minutes: 12:35 AM > 12:00 AM', () => {
+			const entryLog = createEntryLog({ minutes: 35 })
+			entryLog.minutes.add('0')
+			entryLog.minutes.add('1')
+			entryLog.minutes.add('0')
+			expect(entryLog.minutes.entries).to.deep.equal([0])
+			expect(entryLog.minutes.value).to.equal(1)
+			expect(entryLog.fullValue12hr).to.equal('12:01 AM')
+		})
+		it(`mode: ${startingFullValue} > ${startingFullValue}`, () => {
+			const entryLog = createEntryLog()
+			entryLog.mode.add('0')
+			entryLog.mode.add('1')
+			entryLog.mode.add('0')
 			expect(entryLog.mode.value).to.equal('AM') // expect no change
 			expect(entryLog.fullValue12hr).to.equal(startingFullValue)
 		})
