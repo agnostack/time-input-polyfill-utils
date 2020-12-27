@@ -73,20 +73,6 @@ class SegmentLog {
 				12:30 AM >> type 0 (hrs) >> [2]
 			*/
 
-			const getEntriesFromValue = (): NumericEntries => {
-				if (typeof this.value === 'number') {
-					return convertNumberToEntries(this.value)
-				} else {
-					return []
-				}
-			}
-			const valueAsEntries = getEntriesFromValue()
-			const numericEntries = <NumericEntries>(
-				this.entries.filter((value, index) => value !== 0 && index !== 0)
-			)
-			const isEmptyOrFull = [0, 2].includes(numericEntries.length)
-			const newNumericEntry = <zeroToNine>number
-
 			const isGreaterThanMax = (number: number): boolean => {
 				if (this.segment !== 'mode') {
 					return number > maxAndMins[this.segment].max
@@ -94,66 +80,46 @@ class SegmentLog {
 				return false
 			}
 
-			debugger
+			if (isZero) {
+				const entriesFromInitialValue = convertNumberToEntries(
+					<DefinedMinute | DefinedHour12>this.value,
+				)
 
-			if (isEmptyOrFull) {
-				// const getNewNumericEntries = (): NumericEntries => {
-				// 	// if (numericEntries[0] === 0 && numericEntries[1] !== undefined) {
-				// 	// 	return [numericEntries[1], newNumericEntry]
-				// 	// }
-				// 	if (numericEntries.length === 2) {
-				// 		return [newNumericEntry, numericEntries[1]]
-				// 	}
-				// 	return [newNumericEntry]
-				// }
+				this.entries.push(0)
 
-				if (newNumericEntry === 0) {
-					const newNumericEntries = [...valueAsEntries]
-					newNumericEntries[0] = 0
-					this.entries = [0]
-					this.value = convertEntriesToNumber(newNumericEntries)
-					this.update()
-					return
-				}
+				if (this.entries.length === 1) {
+					entriesFromInitialValue[0] = 0
+					this.value = convertEntriesToNumber(entriesFromInitialValue)
+				} else if (this.entries.length === 2) {
+					// length is 2, 2nd value will always be 0 because it was pushed, if first value is zero it means double zeros
+					const isDoubleZeros = this.entries[0] === 0
 
-				const newNumericEntries = [newNumericEntry]
-				const newValue = convertEntriesToNumber(newNumericEntries)
-
-				if (!isGreaterThanMax(newValue)) {
-					this.entries = newNumericEntries
-					this.value = newValue
-					this.update()
-					return
-				}
-
-				if (isZero && typeof this.value !== 'string') {
-					const valueAsEntries = convertNumberToEntries(this.value)
-					valueAsEntries[0] = 0
-					this.entries = [newNumericEntry]
-					this.value = convertEntriesToNumber(valueAsEntries)
-					this.update()
-					return
-				}
-
-				this.entries = [newNumericEntry]
-			} else {
-				const newEntries = [...numericEntries, newNumericEntry]
-				const fullNumber = convertEntriesToNumber(newEntries)
-
-				if (isGreaterThanMax(fullNumber)) {
-					this.entries = [newNumericEntry]
+					if (isDoubleZeros) {
+						if (this.segment === 'hrs12') {
+							this.value = 12
+						} else {
+							this.value = 0
+						}
+					} else {
+						this.value = convertEntriesToNumber(<NumericEntries>this.entries)
+						this.entries = convertNumberToEntries(this.value)
+					}
 				} else {
-					this.entries.push(newNumericEntry)
+					this.entries = [0]
+					entriesFromInitialValue[0] = 0
+					this.value = convertEntriesToNumber(entriesFromInitialValue)
 				}
-			}
-
-			const isDoubleZeroHours =
-				JSON.stringify(this.entries) === JSON.stringify([0, 0]) && this.segment === 'hrs12'
-
-			if (isDoubleZeroHours) {
-				this.value = 12
 			} else {
-				this.value = convertEntriesToNumber(<NumericEntries>this.entries)
+				const newEntries = <NumericEntries>[...this.entries, <zeroToNine>number]
+				const newValue = convertEntriesToNumber(newEntries)
+
+				if (isGreaterThanMax(newValue)) {
+					this.value = <zeroToNine>number
+					this.entries = [<zeroToNine>number]
+				} else {
+					this.value = newValue
+					this.entries = newEntries
+				}
 			}
 		}
 
