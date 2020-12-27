@@ -176,7 +176,8 @@ function Add_1_2_3_4(): void {
 			hitLimit = false
 			entryLog.hrs12.add('3')
 			expect(fullVal).to.equal('03:30 AM')
-			expect(hitLimit).to.equal(false)
+			expect(hitLimit).to.equal(true)
+			hitLimit = false
 			entryLog.hrs12.add('4')
 			expect(fullVal).to.equal('04:30 AM')
 			expect(hitLimit).to.equal(true)
@@ -506,9 +507,10 @@ function greater_than_max_tests(): void {
 				},
 			})
 			entryLog.hrs12.add('7')
-			expect(hasHitLimit).to.equal(false)
-			entryLog.hrs12.add('0')
 			expect(hasHitLimit).to.equal(true)
+			hasHitLimit = false
+			entryLog.hrs12.add('0')
+			expect(hasHitLimit).to.equal(false)
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
 			expect(entryLog.hrs12.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('07:30 AM')
@@ -521,9 +523,10 @@ function greater_than_max_tests(): void {
 				},
 			})
 			entryLog.minutes.add('7')
-			expect(hasHitLimit).to.equal(false)
-			entryLog.minutes.add('0')
 			expect(hasHitLimit).to.equal(true)
+			hasHitLimit = false
+			entryLog.minutes.add('0')
+			expect(hasHitLimit).to.equal(false)
 			expect(entryLog.minutes.entries).to.deep.equal([0])
 			expect(entryLog.minutes.value).to.equal(7)
 			expect(entryLog.fullValue12hr).to.equal('12:07 AM')
@@ -556,12 +559,13 @@ function greater_than_max_tests(): void {
 				},
 			})
 			entryLog.hrs12.add('2')
-			expect(hasHitLimit).to.equal(false)
-			expect(val).to.equal(undefined)
-			entryLog.hrs12.add('1')
 			expect(hasHitLimit).to.equal(true)
-			expect(val).to.equal(1)
+			expect(val).to.equal(2)
+			hasHitLimit = false
+			entryLog.hrs12.add('1')
+			expect(hasHitLimit).to.equal(false)
 			entryLog.hrs12.add('2')
+			expect(hasHitLimit).to.equal(true)
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
 			expect(entryLog.hrs12.value).to.equal(12)
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
@@ -576,12 +580,13 @@ function greater_than_max_tests(): void {
 				},
 			})
 			entryLog.minutes.add('6')
-			expect(hasHitLimit).to.equal(false)
-			expect(val).to.equal(undefined)
-			entryLog.minutes.add('5')
 			expect(hasHitLimit).to.equal(true)
-			expect(val).to.equal(5)
+			expect(val).to.equal(6)
+			hasHitLimit = false
+			entryLog.minutes.add('5')
+			expect(hasHitLimit).to.equal(false)
 			entryLog.minutes.add('6')
+			expect(hasHitLimit).to.equal(true)
 			expect(entryLog.minutes.entries).to.deep.equal([5, 6])
 			expect(entryLog.minutes.value).to.equal(56)
 			expect(entryLog.fullValue12hr).to.equal('12:56 AM')
