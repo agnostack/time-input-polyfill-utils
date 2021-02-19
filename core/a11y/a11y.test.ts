@@ -1,6 +1,6 @@
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { a11yCreate, a11yUpdate } from './a11y'
+import { a11yClear, a11yCreate, a11yUpdate } from './a11y'
 import { selectSegment } from '../select/select'
 
 interface A11yCreation {
@@ -37,6 +37,7 @@ describe('Update a11y element', () => {
 	_select_()
 	_update_()
 	_initial_select_update_()
+	_initial_clear_()
 
 	function _initial_(): void {
 		describe('[initial]', () => {
@@ -300,6 +301,17 @@ describe('Update a11y element', () => {
 					})
 				})
 			}
+		})
+	}
+
+	function _initial_clear_(): void {
+		describe('initial > clear', () => {
+			it('$input [initial] > clear', async () => {
+				const { $input, document } = await createA11y()
+				a11yUpdate($input, ['initial'], document)
+				a11yClear(document)
+				expect(document.getElementById(a11yID)?.innerHTML).to.equal('')
+			})
 		})
 	}
 })

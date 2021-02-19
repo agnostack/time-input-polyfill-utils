@@ -1,6 +1,6 @@
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { getRangeOf, getInputValue, getLabelTextOf, getCursorSegment } from '../get/get'
-import { A11yCreate, A11yUpdate } from './a11y.types'
+import { getInputValue, getLabelTextOf, getCursorSegment } from '../get/get'
+import { A11yClear, A11yCreate, A11yUpdate } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
 	const $block = document.createElement('div')
@@ -52,4 +52,11 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 	}
 
 	return html
+}
+
+export const a11yClear: A11yClear = (document = window.document) => {
+	const $a11y = document.getElementById(a11yID)
+	if ($a11y) {
+		$a11y.innerHTML = ''
+	}
 }

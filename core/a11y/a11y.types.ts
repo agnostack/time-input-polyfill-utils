@@ -9,3 +9,5 @@ export interface A11yUpdate {
 		document?: Document,
 	): string
 }
+
+export type A11yClear = (document?: Document) => void
