@@ -17,7 +17,8 @@
 		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
 		"prepublishOnly": "npx rollup -c && npx tsc --project tsconfig.prepublish.json",
 		"postpublish": "rm -rf npm",
-		"testpublish": "npm run prepublish && npm run postpublish"
+		"testpublish": "npm run prepublish && npm run postpublish",
+		"pub": "npm publish --access public"
 	},
 	"repository": {
 		"type": "git",
