@@ -11,3 +11,5 @@ export interface A11yUpdate {
 }
 
 export type A11yClear = (document?: Document) => void
+
+export type GetA11yValue = (document?: Document) => string

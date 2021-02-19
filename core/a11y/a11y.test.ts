@@ -1,6 +1,6 @@
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { a11yClear, a11yCreate, a11yUpdate } from './a11y'
+import { a11yClear, a11yCreate, a11yUpdate, getA11yValue } from './a11y'
 import { selectSegment } from '../select/select'
 
 interface A11yCreation {
@@ -28,6 +28,16 @@ describe('Create a11y element', () => {
 	it('a11y exists', async () => {
 		await createA11y()
 		getA11y().should('exist')
+	})
+})
+
+describe('Get current value', () => {
+	it('Returns correct value', async () => {
+		const { $input, document } = await createA11y()
+		a11yUpdate($input, ['initial'], document)
+		expect(getA11yValue(document)).to.equal(
+			'Blank input grouping blank:blank blank.',
+		)
 	})
 })
 
