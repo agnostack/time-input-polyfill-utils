@@ -151,9 +151,12 @@ export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) =>
 const elemText = ($elem: HTMLElement | null): string => $elem?.textContent?.trim() || ''
 
 function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
-	const ariaLabelByID = $input?.getAttribute('aria-labelledby') || ''
-	const $ariaLabelBy = document.getElementById(ariaLabelByID)
-	return elemText($ariaLabelBy)
+	const ariaLabelByID = $input?.getAttribute('aria-labelledby')
+	if (ariaLabelByID) {
+		const $ariaLabelBy = document.getElementById(ariaLabelByID)
+		return elemText($ariaLabelBy)
+	}
+	return ''
 }
 
 function aria_label($input: HTMLInputElement): string {
