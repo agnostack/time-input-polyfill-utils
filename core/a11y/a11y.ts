@@ -1,6 +1,6 @@
 import { a11yID } from '../../cypress/support/staticTestValues'
 import { getInputValue, getLabelTextOf, getCursorSegment } from '../get/get'
-import { A11yClear, A11yCreate, A11yUpdate, GetA11yValue } from './a11y.types'
+import { A11yClear, A11yCreate, A11yUpdate, GetA11yElement, GetA11yValue } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
 	const $block = document.createElement('div')
@@ -65,4 +65,8 @@ export const a11yClear: A11yClear = (document = window.document) => {
 export const getA11yValue: GetA11yValue = (document = window.document) => {
 	const $a11y = document.getElementById(a11yID)
 	return $a11y?.textContent ? $a11y.textContent : ''
+}
+
+export const getA11yElement: GetA11yElement = (document = window.document) => {
+	return document.getElementById(a11yID)
 }

@@ -1,6 +1,6 @@
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { a11yClear, a11yCreate, a11yUpdate, getA11yValue } from './a11y'
+import { a11yClear, a11yCreate, a11yUpdate, getA11yElement, getA11yValue } from './a11y'
 import { selectSegment } from '../select/select'
 
 interface A11yCreation {
@@ -12,9 +12,8 @@ interface A11yCreation {
 
 async function createA11y(): Promise<A11yCreation> {
 	const { document, $input, $inputPreFilled } = await loadTestPage()
-	a11yCreate(document)
 	return {
-		$a11y: document.getElementById(a11yID),
+		$a11y: a11yCreate(document),
 		$input,
 		$inputPreFilled,
 		document,
@@ -38,6 +37,15 @@ describe('Get current value', () => {
 		expect(getA11yValue(document)).to.equal(
 			'Blank input grouping blank:blank blank.',
 		)
+	})
+})
+describe('Get a11y element', () => {
+	it('Returns null if not created yet', async () => {
+		expect(getA11yElement(document)).to.equal(null)
+	})
+	it('Returns element if created', async () => {
+		const { document, $a11y } = await createA11y()
+		expect(getA11yElement(document)).to.equal($a11y)
 	})
 })
 
