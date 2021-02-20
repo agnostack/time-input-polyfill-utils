@@ -1,6 +1,6 @@
 {
 	"name": "@time-input-polyfill/utils",
-	"version": "1.0.0-beta.46",
+	"version": "1.0.0-beta.47",
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier",
 	"main": "npm/index.js",
 	"jsdelivr": "npm/time-input-polyfill-utils.min.js",
