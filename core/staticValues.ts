@@ -1,4 +1,4 @@
-import { SelectionRange, Segment, Ranges, MaxAndMins } from '../types/index'
+import { SelectionRange, Segment, Ranges, MaxAndMins, TimeObjectKey } from '../types/index'
 
 export const ranges: Ranges = {
 	hrs12: { start: 0, end: 2, segment: 'hrs12' },
@@ -15,3 +15,5 @@ export const maxAndMins: MaxAndMins = {
 }
 
 export const segments: Array<Segment> = ['hrs12', 'minutes', 'mode']
+
+export const timeObjectKeys: Array<TimeObjectKey> = ['hrs24', 'hrs12', 'minutes', 'mode']

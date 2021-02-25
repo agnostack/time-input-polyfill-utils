@@ -1,4 +1,4 @@
-import { TimeObjectKeys } from '../../types/timeObject'
+import { timeObjectKeys } from '../staticValues'
 import { regex } from '../regex/regex'
 import { toNumber } from '../utils/utils'
 import {
@@ -16,6 +16,7 @@ import {
 	IsTimeObject,
 	IsShiftHeldDown,
 } from './is.types'
+import { TimeObjectKey } from '../../types/timeObject'
 
 export let isShiftHeldDown: IsShiftHeldDown = false
 window.addEventListener('keyup', e => (isShiftHeldDown = e.shiftKey))
@@ -62,8 +63,11 @@ export const isTimeObject: IsTimeObject = (value): boolean => {
 	if (typeof value === 'undefined' || typeof value !== 'object') return false
 	const keys = Object.keys(value)
 	if (keys.length === 0) return false
-	const filteredKeys = TimeObjectKeys.filter((key: string) => keys.indexOf(key) === -1)
-	const additionalKeys = keys.filter((key: string) => TimeObjectKeys.indexOf(key) === -1)
+	const filteredKeys = timeObjectKeys.filter(key => keys.indexOf(key) === -1)
+	const additionalKeys = keys.filter(key => {
+		// key might not be a TimeObjectKey but that is exactly what I'm checking for here
+		return timeObjectKeys.indexOf(key as TimeObjectKey) === -1
+	})
 	return filteredKeys.length === 0 && additionalKeys.length === 0
 }
 export const isString12hr: IsString12hr = (value): boolean =>

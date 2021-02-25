@@ -49,6 +49,7 @@ import {
 import { SelectionRange, Ranges, MaxAndMins, Segment } from './index'
 import { Regex } from '../core/regex/regex.types'
 import { Flash24hrTime } from '../core/flash24hrTime/flash24hrTime.types'
+import { TimeObjectKey } from './timeObject'
 
 export interface Polyfill {
 	a11yCreate: A11yCreate
@@ -122,4 +123,5 @@ export interface Polyfill {
 	rangesList: Array<SelectionRange>
 	maxAndMins: MaxAndMins
 	segments: Array<Segment>
+	timeObjectKeys: Array<TimeObjectKey>
 }

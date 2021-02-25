@@ -14,4 +14,4 @@ export interface PartialTimeObject {
 	mode?: Mode
 }
 
-export const TimeObjectKeys = ['hrs24', 'hrs12', 'minutes', 'mode']
+export type TimeObjectKey = keyof TimeObject
