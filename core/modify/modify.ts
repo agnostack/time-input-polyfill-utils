@@ -15,11 +15,7 @@ import {
 } from './modify.types'
 import { getCursorSegment } from '../get/get'
 import { blankValues } from '../../common/blankValues'
-
-const convert = {
-	string12hr: convertString12hr,
-	string24hr: convertString24hr,
-}
+import { validateTimeObject } from '../validate/validate'
 
 export const modifyString12hr: ModifyString12hr = string12hr => {
 	const modeToggle = {
@@ -371,8 +367,6 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	const opposingLimit = isUp ? maxAndMins[hrsType].min : maxAndMins[hrsType].max
 	const modifier = isUp ? 1 : -1
 
-	const straightenedTimeObject = straightenTimeObject(hrsType, copiedObject)
-
 	if (typeof hrs === 'number') {
 		if (hrs === limit) {
 			copiedObject[hrsType] = <TimeObject[T]>opposingLimit
@@ -381,7 +375,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 		}
 		return straightenTimeObject(hrsType, copiedObject)
 	} else {
-		return blankCallback(copiedObject)
+		return blankCallback(straightenTimeObject(hrsType, copiedObject))
 	}
 }
 
@@ -433,6 +427,9 @@ const straightenTimeObject = (
 
 const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {
 	const { hrs24, mode } = invalidTimeObj
+	if (mode === null) {
+		return null
+	}
 	if (basedOn === 'hrs12') {
 		return mode === null ? 'AM' : mode
 	}
