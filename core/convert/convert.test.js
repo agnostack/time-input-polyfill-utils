@@ -7,7 +7,7 @@ import {
 } from './convert'
 import { failTest } from '../../cypress/support/failTest'
 
-import { current } from '../../helpers/currentDate'
+import { CurrentDate } from '../../helpers/currentDate'
 
 /* global describe, it, expect */
 
@@ -576,26 +576,31 @@ function convert_time_object() {
 
 function convert_date_object() {
 	describe('Convert date object', () => {
+		const current = new CurrentDate()
+
 		const dateTest = method => {
 			return result => {
 				const resultString = typeof result === 'string' ? result : JSON.stringify(result)
-				it(`Expect [${current.date}] to be "${resultString}"`, () => {
+				it(`Expect date to be "${resultString}"`, () => {
 					expect(convertDateObject(current.date)[method]()).to.deep.equal(result)
 				})
 			}
 		}
 
 		describe('date to 24hr', () => {
+			current.reInitialize()
 			const dateTest24hr = dateTest('to24hr')
 			dateTest24hr(`${current.hrs24}:${current.minutes}`)
 		})
 
 		describe('date to 12hr', () => {
+			current.reInitialize()
 			const dateTest12hr = dateTest('to12hr')
 			dateTest12hr(`${current.hrs12}:${current.minutes} ${current.mode}`)
 		})
 
 		describe('date to time object', () => {
+			current.reInitialize()
 			const dateTest12hr = dateTest('toTimeObject')
 			dateTest12hr({
 				hrs24: parseInt(current.hrs24),
