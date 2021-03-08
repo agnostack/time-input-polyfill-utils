@@ -1,10 +1,8 @@
-import { Dashes } from './strings'
-
 export type DefinedHour12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
-export type Hour12 = Dashes | DefinedHour12
+export type Hour12 = null | DefinedHour12
 
-export type Hour24 = Dashes | DefinedHour24
+export type Hour24 = null | DefinedHour24
 
 export type DefinedHour24 =
 	| 0
