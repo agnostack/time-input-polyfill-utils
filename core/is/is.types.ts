@@ -1,11 +1,10 @@
-import { Hour24, Hour12, String12hr, String24hr, TimeObject } from '../../types/index'
-import { isShiftHeldDown } from './is'
+import { Hour24, String12hr, String24hr, TimeObject, DefinedHour24, DefinedHour12 } from '../../types/index'
 
 export interface ValidateTimeStringProps {
 	value: string
 	format: 'string12hr' | 'string24hr'
-	minHrs: Hour24 | Hour12
-	maxHrs: Hour24 | Hour12
+	minHrs: DefinedHour24 | DefinedHour12
+	maxHrs: DefinedHour24 | DefinedHour12
 }
 
 export type IsPmHrs24 = (hrs24: Hour24) => boolean

@@ -40,27 +40,27 @@ export default (): void => {
 				test(
 					'hrs24',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', minutes: 0, mode: 'AM' },
+					{ hrs24: null, hrs12: null, minutes: 0, mode: 'AM' },
 				)
 				test(
 					'hrs12',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', minutes: 0, mode: 'AM' },
+					{ hrs24: null, hrs12: null, minutes: 0, mode: 'AM' },
 				)
 				test(
 					'minutes',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: 0, hrs12: 12, minutes: '--', mode: 'AM' },
+					{ hrs24: 0, hrs12: 12, minutes: null, mode: 'AM' },
 				)
 				test(
 					'mode',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: 0, hrs12: 12, minutes: 0, mode: '--' },
+					{ hrs24: 0, hrs12: 12, minutes: 0, mode: null },
 				)
 				test(
 					'all',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' },
+					{ hrs24: null, hrs12: null, minutes: null, mode: null },
 				)
 			})
 		}

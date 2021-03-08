@@ -140,7 +140,7 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: '--',
+								minutes: null,
 								mode: 'AM',
 							},
 							after: {
@@ -245,7 +245,7 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: '--',
+								minutes: null,
 								mode: 'AM',
 							},
 							after: {

@@ -28,12 +28,12 @@ const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeString
 	const parsedString: Array<string> = regex[format].exec(value) || []
 	const hrsVal = toNumber(parsedString[1])
 	const minsVal = toNumber(parsedString[2])
-	const isHrsValid = hrsVal === '--' || (hrsVal >= minHrs && hrsVal <= maxHrs)
-	const isMinsValid = minsVal === '--' || (minsVal >= 0 && minsVal <= 59)
+	const isHrsValid = hrsVal === null || (hrsVal >= minHrs && hrsVal <= maxHrs)
+	const isMinsValid = minsVal === null || (minsVal >= 0 && minsVal <= 59)
 	return isHrsValid && isMinsValid
 }
 
-export const isPmHrs24: IsPmHrs24 = (hrs24): boolean => 12 <= hrs24 && hrs24 < 24
+export const isPmHrs24: IsPmHrs24 = (hrs24): boolean => hrs24 !== null && 12 <= hrs24 && hrs24 < 24
 
 export const isPmString12hr: IsPmString12hr = (string12hr): boolean =>
 	regex.string12hr.exec(string12hr)?.[3] === 'PM'
@@ -44,10 +44,14 @@ export const isPmString24hr: IsPmString24hr = (string24hr): boolean => {
 	return typeof hrs24 == 'number' && hrs24 > 11
 }
 
-export const isPmTimeObject: IsPmTimeObject = (timeObject): boolean =>
-	timeObject.mode === 'PM' || (timeObject.mode === '--' && new Date().getHours() > 11)
+export const isPmTimeObject: IsPmTimeObject = (timeObject): boolean => {
+	if (!timeObject.mode && timeObject.hrs24 !== null) {
+		return timeObject.hrs24 > 11
+	}
+	return timeObject.mode === 'PM'
+}
 
-export const isAmHrs24: IsAmHrs24 = (hrs24): boolean => hrs24 !== '--' && !isPmHrs24(hrs24)
+export const isAmHrs24: IsAmHrs24 = (hrs24): boolean => hrs24 !== null && !isPmHrs24(hrs24)
 
 export const isAmString12hr: IsAmString12hr = (string12hr): boolean =>
 	regex.string12hr.test(string12hr) &&

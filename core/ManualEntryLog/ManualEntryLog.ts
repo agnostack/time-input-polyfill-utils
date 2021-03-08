@@ -168,7 +168,7 @@ class SegmentLog {
 	 */
 	clear(): void {
 		this.reset()
-		this.value = '--'
+		this.value = null
 		this.update()
 	}
 }

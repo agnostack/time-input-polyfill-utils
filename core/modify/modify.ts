@@ -22,8 +22,6 @@ const convert = {
 	string24hr: convertString24hr,
 }
 
-const getCurrentTimeMode = (): Mode => (new Date().getHours() > 11 ? 'PM' : 'AM')
-
 type GetCurrentHours = {
 	currentHour12: Hour12
 	currentHour24: Hour24
@@ -268,8 +266,8 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			const get24HrHours = (targetMode: Mode): Hour24 => {
 				let hrs24Calculation: Hour24
 
-				if (hrs12 === '--') {
-					hrs24Calculation = '--'
+				if (hrs12 === null) {
+					hrs24Calculation = null
 				} else {
 					const is12 = hrs12 === 12
 					const hours24hr = {
@@ -282,26 +280,25 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				return hrs24Calculation
 			}
 
-			if (mode === '--') {
-				const currentTimeMode = getCurrentTimeMode()
-				returnVal.mode = currentTimeMode
-				returnVal.hrs24 = <Hour24>get24HrHours(currentTimeMode)
+			if (mode === null) {
+				returnVal.mode = 'AM'
+				returnVal.hrs24 = <Hour24>get24HrHours('AM')
 			} else {
 				returnVal.mode = isAM ? 'PM' : 'AM'
 				returnVal.hrs24 = <Hour24>get24HrHours(isAM ? 'PM' : 'AM')
 			}
 
-			if (hrs12 === '--' && mode === '--') {
+			if (hrs12 === null && mode === null) {
 				return returnVal
 			}
 
 			return straightenTimeObject('hrs24', returnVal)
 		},
 		clear: {
-			hrs24: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
-			hrs12: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
-			minutes: (): TimeObject => ({ ...timeObject, minutes: '--' }),
-			mode: (): TimeObject => ({ ...timeObject, mode: '--' }),
+			hrs24: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
+			hrs12: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
+			minutes: (): TimeObject => ({ ...timeObject, minutes: null }),
+			mode: (): TimeObject => ({ ...timeObject, mode: null }),
 			all: (): TimeObject => blankValues.timeObject,
 		},
 	}
@@ -309,7 +306,8 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 
 const nudgeMinutes = (minutes: Minute, direction: 'up' | 'down'): Minute => {
 	const modifier = direction === 'up' ? 1 : -1
-	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + modifier)
+	const newMinutes = direction === 'up' ? 0 : 59
+	return <Minute>(minutes === null ? newMinutes : minutes + modifier)
 }
 
 const nudgeIsolatedTimeObjectHrs = (
@@ -419,12 +417,9 @@ const straightenTimeObject = (
 
 const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {
 	const { hrs24, mode } = invalidTimeObj
-	if (mode === '--') {
-		return getCurrentTimeMode()
-	}
 	if (basedOn === 'hrs12') {
-		return mode
+		return mode === null ? 'AM' : mode
 	}
 
-	return hrs24 > 11 ? 'PM' : 'AM'
+	return hrs24 && hrs24 > 11 ? 'PM' : 'AM'
 }

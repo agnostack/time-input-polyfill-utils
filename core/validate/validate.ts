@@ -54,7 +54,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 	isValid(hrs12, 'hrs12', 1, 12)
 	isValid(minutes, 'minutes', 0, 59)
 
-	const validModes = ['AM', 'PM', '--']
+	const validModes = ['AM', 'PM', null]
 
 	if (validModes.indexOf(mode) < 0) {
 		throw new Error(
@@ -65,14 +65,15 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 	}
 
 	if (
+		hrs24 === null ||
 		(hrs24 === 0 && hrs12 !== 12) ||
-		(hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
+		hrs24 !== null && (hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
 		(typeof hrs24 === 'number' && hrs24 > 12 && hrs12 !== hrs24 - 12)
 	) {
 		throw new Error(`hrs12 (${hrs12}) should be equal to or 12 hours behind hrs24 (${hrs24})`)
 	}
 
-	if (mode !== '--' && ((hrs24 >= 12 && mode !== 'PM') || (hrs24 <= 11 && mode !== 'AM'))) {
+	if (mode !== null && ((hrs24 >= 12 && mode !== 'PM') || (hrs24 <= 11 && mode !== 'AM'))) {
 		if (mode === 'PM') {
 			throw new Error(
 				`If mode (${mode}) is "PM", hrs24 (${hrs24}) should be greater than or equal to 12`,

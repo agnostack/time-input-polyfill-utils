@@ -85,23 +85,23 @@ export default (): void => {
 					{ hrs24: 0, hrs12: 12, minutes: 30, mode: 'AM' },
 				)
 				testTimeObject(
-					{ hrs24: 13, hrs12: 1, minutes: '--', mode: 'PM' },
-					{ hrs24: 1, hrs12: 1, minutes: '--', mode: 'AM' },
+					{ hrs24: 13, hrs12: 1, minutes: null, mode: 'PM' },
+					{ hrs24: 1, hrs12: 1, minutes: null, mode: 'AM' },
 				)
 				testTimeObject(
-					{ hrs24: 13, hrs12: 1, minutes: '--', mode: 'PM' },
-					{ hrs24: 1, hrs12: 1, minutes: '--', mode: 'AM' },
+					{ hrs24: 13, hrs12: 1, minutes: null, mode: 'PM' },
+					{ hrs24: 1, hrs12: 1, minutes: null, mode: 'AM' },
 				)
 				testTimeObject(
-					{ hrs24: '--', hrs12: '--', minutes: 30, mode: 'PM' },
-					{ hrs24: '--', hrs12: '--', minutes: 30, mode: 'AM' },
+					{ hrs24: null, hrs12: null, minutes: 30, mode: 'PM' },
+					{ hrs24: null, hrs12: null, minutes: 30, mode: 'AM' },
 				)
 				testTimeObject(
-					{ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' },
-					{ hrs24: '--', hrs12: '--', minutes: '--', mode: 'AM' },
+					{ hrs24: null, hrs12: null, minutes: null, mode: null },
+					{ hrs24: null, hrs12: null, minutes: null, mode: 'AM' },
 				)
 				testTimeObject(
-					{ hrs24: 12, hrs12: 12, minutes: 30, mode: '--' },
+					{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
 					{
 						hrs24: 12,
 						hrs12: 12,
@@ -110,7 +110,7 @@ export default (): void => {
 					},
 				)
 				testTimeObject(
-					{ hrs24: 11, hrs12: 11, minutes: 30, mode: '--' },
+					{ hrs24: 11, hrs12: 11, minutes: 30, mode: null },
 					{
 						hrs24: 11,
 						hrs12: 11,
@@ -119,7 +119,7 @@ export default (): void => {
 					},
 				)
 				testTimeObject(
-					{ hrs24: 1, hrs12: 1, minutes: 30, mode: '--' },
+					{ hrs24: 1, hrs12: 1, minutes: 30, mode: null },
 					{
 						hrs24: 1,
 						hrs12: 1,
@@ -128,19 +128,19 @@ export default (): void => {
 					},
 				)
 				testTimeObject(
-					{ hrs24: 1, hrs12: 1, minutes: '--', mode: '--' },
+					{ hrs24: 1, hrs12: 1, minutes: null, mode: null },
 					{
 						hrs24: 1,
 						hrs12: 1,
-						minutes: '--',
+						minutes: null,
 						mode: 'AM',
 					},
 				)
 				testTimeObject(
-					{ hrs24: '--', hrs12: '--', minutes: 30, mode: '--' },
+					{ hrs24: null, hrs12: null, minutes: 30, mode: null },
 					{
-						hrs24: '--',
-						hrs12: '--',
+						hrs24: null,
+						hrs12: null,
 						minutes: 30,
 						mode: 'AM',
 					},

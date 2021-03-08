@@ -149,23 +149,23 @@ export default (): void => {
 
 						incrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
-								minutes: '--',
-								mode: '--',
+								hrs24: null,
+								hrs12: null,
+								minutes: null,
+								mode: null,
 							},
 							after: {
 								hrs24: 1,
 								hrs12: 1,
-								minutes: '--',
-								mode: '--',
+								minutes: null,
+								mode: null,
 							},
 						})
 
 						incrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'AM',
 							},
@@ -179,8 +179,8 @@ export default (): void => {
 
 						incrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'PM',
 							},
@@ -269,23 +269,23 @@ export default (): void => {
 
 						incrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
-								minutes: '--',
-								mode: '--',
+								hrs24: null,
+								hrs12: null,
+								minutes: null,
+								mode: null,
 							},
 							after: {
 								hrs24: 1,
 								hrs12: 1,
-								minutes: '--',
-								mode: '--',
+								minutes: null,
+								mode: null,
 							},
 						})
 
 						incrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'AM',
 							},
@@ -299,8 +299,8 @@ export default (): void => {
 
 						incrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'PM',
 							},

@@ -1,4 +1,4 @@
-import { Hour24, Mode, TimeObject } from '../types/index'
+import { DefinedHour24, Mode, TimeObject } from '../types/index'
 import { toLeadingZero, isAmHrs24, convertHours24, convertDateObject } from '../index'
 
 export class CurrentDate {
@@ -13,7 +13,7 @@ export class CurrentDate {
 
 	constructor() {
 		const date = new Date()
-		const current24hrs = <Hour24>date.getHours()
+		const current24hrs = <DefinedHour24>date.getHours()
 
 		this.hrs24 = toLeadingZero(current24hrs);
 		this.hrs12 = toLeadingZero(convertHours24(current24hrs).toHours12());
@@ -26,7 +26,7 @@ export class CurrentDate {
 	}
 	reInitialize() {
 		const date = new Date()
-		const current24hrs = <Hour24>date.getHours()
+		const current24hrs = <DefinedHour24>date.getHours()
 
 		this.hrs24 = toLeadingZero(current24hrs);
 		this.hrs12 = toLeadingZero(convertHours24(current24hrs).toHours12());

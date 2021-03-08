@@ -89,7 +89,7 @@ export const convertString24hr: ConvertString24hr = string24hr => {
 				mode:
 					(isAmString24hr(string24hr) && 'AM') ||
 					(isPmString24hr(string24hr) && 'PM') ||
-					'--',
+					null,
 			}
 
 			validateTimeObject(timeObject)

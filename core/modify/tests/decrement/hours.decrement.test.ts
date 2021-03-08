@@ -150,23 +150,23 @@ export default (): void => {
 
 						decrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
-								minutes: '--',
-								mode: '--',
+								hrs24: null,
+								hrs12: null,
+								minutes: null,
+								mode: null,
 							},
 							after: {
 								hrs24: 0,
 								hrs12: 12,
-								minutes: '--',
-								mode: '--',
+								minutes: null,
+								mode: null,
 							},
 						})
 
 						decrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'AM',
 							},
@@ -180,8 +180,8 @@ export default (): void => {
 
 						decrementObjectIsolated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'PM',
 							},
@@ -270,23 +270,23 @@ export default (): void => {
 
 						decrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
-								minutes: '--',
-								mode: '--',
+								hrs24: null,
+								hrs12: null,
+								minutes: null,
+								mode: null,
 							},
 							after: {
 								hrs24: 0,
 								hrs12: 12,
-								minutes: '--',
-								mode: '--',
+								minutes: null,
+								mode: null,
 							},
 						})
 
 						decrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'AM',
 							},
@@ -300,8 +300,8 @@ export default (): void => {
 
 						decrementObjectIntegrated({
 							before: {
-								hrs24: '--',
-								hrs12: '--',
+								hrs24: null,
+								hrs12: null,
 								minutes: 0,
 								mode: 'PM',
 							},
