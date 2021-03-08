@@ -371,6 +371,8 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	const opposingLimit = isUp ? maxAndMins[hrsType].min : maxAndMins[hrsType].max
 	const modifier = isUp ? 1 : -1
 
+	const straightenedTimeObject = straightenTimeObject(hrsType, copiedObject)
+
 	if (typeof hrs === 'number') {
 		if (hrs === limit) {
 			copiedObject[hrsType] = <TimeObject[T]>opposingLimit
@@ -387,25 +389,46 @@ const straightenTimeObject = (
 	basedOn: 'hrs12' | 'hrs24',
 	invalidTimeObj: TimeObject,
 ): TimeObject => {
-	const { minutes } = invalidTimeObj
+	const { hrs24, hrs12, minutes } = invalidTimeObj
 
 	const mode = straightenTimeObjectMode(basedOn, invalidTimeObj)
+	const isAM = mode === 'AM'
 
 	const use12hr = basedOn === 'hrs12'
-	const toHr = use12hr ? 'to12hr' : 'to24hr'
-	const format = use12hr ? 'string12hr' : 'string24hr'
 
-	const preFilledTimeObject: TimeObject = {
-		...invalidTimeObj,
-		minutes: 0,
+	const get12hrBasedOn24hr = (): Hour12 => {
+		let hr12 = <Hour12 | 0>(hrs24 !== null && hrs24 > 12 ? hrs24 - 12 : hrs24)
+		if (hr12 === 0) {
+			return 12
+		}
+		return hr12
+	}
+	const get24hrBasedOn12hr = (): Hour24 => {
+		let hr24 = <Hour24 | 24>(!isAM && hrs12 !== null ? hrs12 + 12 : hrs12)
+
+		if (hr24 === null) {
+			return null
+		}
+
+		if (hr24 === 24) {
+			return 0
+		}
+
+		if (hr24 >= 12 && isAM) {
+			return <Hour24>(hr24 - 12)
+		}
+
+		return hr24
+	}
+
+	const newTimeObject: TimeObject = {
+		hrs12: use12hr ? hrs12 : get12hrBasedOn24hr(),
+		hrs24: use12hr ? get24hrBasedOn12hr() : hrs24,
+		minutes,
 		mode,
 	}
 
-	const timeString = convertTimeObject(preFilledTimeObject, true)[toHr]()
-
-	const { hrs12, hrs24 } = convert[format](timeString).toTimeObject()
-
-	return { hrs12, hrs24, minutes, mode }
+	return newTimeObject
 }
 
 const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {
