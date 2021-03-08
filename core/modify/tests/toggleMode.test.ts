@@ -1,6 +1,5 @@
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
 import { TimeObject } from '../../../types/index'
-import { current } from '../../../helpers/currentDate'
 
 export default (): void => {
 	describe('Mode toggle', (): void => {
@@ -49,10 +48,10 @@ export default (): void => {
 				test('01:30 PM', '01:30 AM')
 				test('01:-- PM', '01:-- AM')
 				test('--:30 PM', '--:30 AM')
-				test('12:30 --', `12:30 ${current.mode}`)
-				test('12:-- --', `12:-- ${current.mode}`)
-				test('--:30 --', `--:30 ${current.mode}`)
-				test('--:-- --', `--:-- ${current.mode}`)
+				test('12:30 --', `12:30 AM`)
+				test('12:-- --', `12:-- AM`)
+				test('--:30 --', `--:30 AM`)
+				test('--:-- --', `--:-- AM`)
 			})
 		}
 
@@ -99,42 +98,42 @@ export default (): void => {
 				)
 				testTimeObject(
 					{ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' },
-					{ hrs24: '--', hrs12: '--', minutes: '--', mode: current.mode },
+					{ hrs24: '--', hrs12: '--', minutes: '--', mode: 'AM' },
 				)
 				testTimeObject(
 					{ hrs24: 12, hrs12: 12, minutes: 30, mode: '--' },
 					{
-						hrs24: current.mode === 'AM' ? 0 : 12,
+						hrs24: 12,
 						hrs12: 12,
 						minutes: 30,
-						mode: current.mode,
+						mode: 'PM',
 					},
 				)
 				testTimeObject(
 					{ hrs24: 11, hrs12: 11, minutes: 30, mode: '--' },
 					{
-						hrs24: current.mode === 'AM' ? 11 : 23,
+						hrs24: 11,
 						hrs12: 11,
 						minutes: 30,
-						mode: current.mode,
+						mode: 'AM',
 					},
 				)
 				testTimeObject(
 					{ hrs24: 1, hrs12: 1, minutes: 30, mode: '--' },
 					{
-						hrs24: current.mode === 'AM' ? 1 : 13,
+						hrs24: 1,
 						hrs12: 1,
 						minutes: 30,
-						mode: current.mode,
+						mode: 'AM',
 					},
 				)
 				testTimeObject(
 					{ hrs24: 1, hrs12: 1, minutes: '--', mode: '--' },
 					{
-						hrs24: current.mode === 'AM' ? 1 : 13,
+						hrs24: 1,
 						hrs12: 1,
 						minutes: '--',
-						mode: current.mode,
+						mode: 'AM',
 					},
 				)
 				testTimeObject(
@@ -143,7 +142,7 @@ export default (): void => {
 						hrs24: '--',
 						hrs12: '--',
 						minutes: 30,
-						mode: current.mode,
+						mode: 'AM',
 					},
 				)
 			})

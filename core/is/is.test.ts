@@ -11,7 +11,6 @@ import {
 	isString12hr,
 	isString24hr,
 } from './is'
-import { current } from '../../helpers/currentDate'
 
 isPmTests()
 isAmTests()
@@ -92,9 +91,10 @@ function isPmTests(): void {
 		function timeObjectTests(): void {
 			describe('timeObject', () => {
 				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: -- } => true', () => {
-					expect(isPmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(
-						current.mode === 'PM',
-					)
+					expect(isPmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(true)
+				})
+				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: -- } => true', () => {
+					expect(isPmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: '--' })).to.equal(false)
 				})
 				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: AM } => false', () => {
 					expect(isPmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(
@@ -119,7 +119,7 @@ function isPmTests(): void {
 				it('{ hrs24: --, hrs12: --, minutes: --, mode: -- } => false', () => {
 					expect(
 						isPmTimeObject({ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' }),
-					).to.equal(current.mode === 'PM')
+					).to.equal(false)
 				})
 			})
 		}
@@ -198,10 +198,8 @@ function isAmTests(): void {
 
 		function timeObjectTests(): void {
 			describe('timeObject', () => {
-				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: -- } => true', () => {
-					expect(isAmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(
-						current.mode === 'AM',
-					)
+				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: -- } => false', () => {
+					expect(isAmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(false)
 				})
 				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: AM } => true', () => {
 					expect(isAmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(
@@ -226,7 +224,7 @@ function isAmTests(): void {
 				it('{ hrs24: --, hrs12: --, minutes: --, mode: -- } => false', () => {
 					expect(
 						isAmTimeObject({ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' }),
-					).to.equal(current.mode === 'AM')
+					).to.equal(false)
 				})
 			})
 		}

@@ -14,8 +14,6 @@ import { convertTimeObject } from '../convert/convert'
 import { Action, Integration } from './modify.types'
 import { modifyTimeObject, modifyString12hr } from './modify'
 
-export { current } from '../../helpers/currentDate'
-
 interface StringModifierTest {
 	before: String24hr | String12hr
 	after: String24hr | String12hr

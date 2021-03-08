@@ -1,11 +1,9 @@
 import {
 	modifierTest,
 	deepModifierTest,
-	current,
 	BeforeAfterString,
 	BeforeAfterObject,
 } from '../../modify.test'
-import { Minute } from '../../../../types/index'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
@@ -33,8 +31,8 @@ export default (): void => {
 								test: () => modifyString12hr(before).increment.minutes.isolated(),
 							})
 						}
-						increment12hrIsolated({ before: '--:-- --', after: `--:${current.minutes} --` })
-						increment12hrIsolated({ before: '09:-- AM', after: `09:${current.minutes} AM` })
+						increment12hrIsolated({ before: '--:-- --', after: `--:00 --` })
+						increment12hrIsolated({ before: '09:-- AM', after: `09:00 AM` })
 						increment12hrIsolated({ before: '09:00 AM', after: '09:01 AM' })
 						increment12hrIsolated({ before: '09:09 PM', after: '09:10 PM' })
 						increment12hrIsolated({ before: '11:59 AM', after: '11:00 AM' })
@@ -56,11 +54,11 @@ export default (): void => {
 						}
 						increment12hrIntegrated({
 							before: '--:-- --',
-							after: `--:${current.minutes} --`,
+							after: `--:00 --`,
 						})
 						increment12hrIntegrated({
 							before: '09:-- AM',
-							after: `09:${current.minutes} AM`,
+							after: `09:00 AM`,
 						})
 						increment12hrIntegrated({ before: '09:00 AM', after: '09:01 AM' })
 						increment12hrIntegrated({ before: '09:09 PM', after: '09:10 PM' })
@@ -148,7 +146,7 @@ export default (): void => {
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: <Minute>parseInt(current.minutes),
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
@@ -253,7 +251,7 @@ export default (): void => {
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: <Minute>parseInt(current.minutes),
+								minutes: 0,
 								mode: 'AM',
 							},
 						})
