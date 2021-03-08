@@ -47,15 +47,17 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 						return 0
 					}
 				}
-				return hrs12
+				return null
 			}
 			const hrs24 = getHrs24()
 
+			const nullifyDashes = <T = unknown>(value: T) => <unknown>value === '--' ? null : value
+
 			const timeObject: TimeObject = {
 				hrs24,
-				hrs12,
-				minutes,
-				mode,
+				hrs12: nullifyDashes(hrs12),
+				minutes: nullifyDashes(minutes),
+				mode: nullifyDashes(mode),
 			}
 
 			validateTimeObject(timeObject)
@@ -106,7 +108,7 @@ export const convertTimeObject: ConvertTimeObject = (timeObject, skipValidation 
 	const hrsString12 = toLeadingZero(hrs12)
 	const minString = toLeadingZero(minutes)
 	return {
-		to12hr: (): String12hr => `${hrsString12}:${minString} ${mode}`,
+		to12hr: (): String12hr => `${hrsString12}:${minString} ${mode || '--'}`,
 		to24hr: (): String24hr => {
 			const string24hr = `${hrsString24}:${minString}`
 			if (/-/.test(string24hr)) return ''

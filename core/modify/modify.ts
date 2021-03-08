@@ -3,7 +3,6 @@ import {
 	convertString12hr,
 	convertString24hr,
 	convertTimeObject,
-	convertHours24,
 } from '../convert/convert'
 import { maxAndMins } from '../staticValues'
 import { isAmTimeObject } from '../is/is'
@@ -20,17 +19,6 @@ import { blankValues } from '../../common/blankValues'
 const convert = {
 	string12hr: convertString12hr,
 	string24hr: convertString24hr,
-}
-
-type GetCurrentHours = {
-	currentHour12: Hour12
-	currentHour24: Hour24
-}
-
-const getCurrentHours = (): GetCurrentHours => {
-	const currentHour24 = <Hour24>new Date().getHours()
-	const currentHour12 = convertHours24(currentHour24).toHours12()
-	return { currentHour12, currentHour24 }
 }
 
 export const modifyString12hr: ModifyString12hr = string12hr => {
@@ -319,18 +307,23 @@ const nudgeIsolatedTimeObjectHrs = (
 		timeObject,
 		integration: 'isolated',
 		blankCallback: (copiedObject: TimeObject): TimeObject => {
-			const { currentHour24, currentHour12 } = getCurrentHours()
 
-			if (typeof currentHour24 === 'number') {
-				if (currentHour24 > 12 && copiedObject.mode === 'AM') {
-					copiedObject.hrs24 = currentHour12
-				} else if (currentHour24 <= 12 && copiedObject.mode === 'PM') {
-					copiedObject.hrs24 = <Hour24>(currentHour24 + 12)
+			if (direction === 'up') {
+				if (copiedObject.mode === 'PM') {
+					copiedObject.hrs24 = 13
+					copiedObject.hrs12 = 1
 				} else {
-					copiedObject.hrs24 = <Hour24>currentHour24
+					copiedObject.hrs24 = 1
+					copiedObject.hrs12 = 1
 				}
-
-				copiedObject.hrs12 = currentHour12
+			} else {
+				if (copiedObject.mode === 'PM') {
+					copiedObject.hrs24 = 12
+					copiedObject.hrs12 = 12
+				} else {
+					copiedObject.hrs24 = 0
+					copiedObject.hrs12 = 12
+				}
 			}
 
 			return copiedObject

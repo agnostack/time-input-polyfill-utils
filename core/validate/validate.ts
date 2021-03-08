@@ -9,8 +9,18 @@ import {
 	ValidateHours24,
 } from './validate.types'
 
-const writeBadValue = (badValue: any): any =>
-	typeof badValue === 'string' ? `"${badValue}"` : badValue
+const writeBadValue = (badValue: any): any => {
+	if (typeof badValue === 'string') {
+		return `"${badValue}"`
+	}
+	if (badValue === null) {
+		return 'null'
+	}
+	if (badValue === undefined) {
+		return 'undefined'
+	}
+	return badValue
+}
 
 export const validateString12hr: ValidateString12hr = (string12hr: String12hr) => {
 	if (!isString12hr(string12hr)) {
@@ -65,7 +75,6 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 	}
 
 	if (
-		hrs24 === null ||
 		(hrs24 === 0 && hrs12 !== 12) ||
 		hrs24 !== null && (hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
 		(typeof hrs24 === 'number' && hrs24 > 12 && hrs12 !== hrs24 - 12)
@@ -73,7 +82,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 		throw new Error(`hrs12 (${hrs12}) should be equal to or 12 hours behind hrs24 (${hrs24})`)
 	}
 
-	if (mode !== null && ((hrs24 >= 12 && mode !== 'PM') || (hrs24 <= 11 && mode !== 'AM'))) {
+	if (mode !== null && ((hrs24 && hrs24 >= 12 && mode !== 'PM') || (hrs24 && hrs24 <= 11 && mode !== 'AM'))) {
 		if (mode === 'PM') {
 			throw new Error(
 				`If mode (${mode}) is "PM", hrs24 (${hrs24}) should be greater than or equal to 12`,
