@@ -1,5 +1,5 @@
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
-import { TimeObject } from '../../../types/index'
+import { GuaranteedMode, TimeObject } from '../../../types/index'
 
 export default (): void => {
 	describe('Mode toggle', (): void => {
@@ -147,13 +147,13 @@ export default (): void => {
 				)
 			})
 
-			function testTimeObject(input: TimeObject, expectation: TimeObject): void {
+			function testTimeObject(input: TimeObject, expectation: TimeObject, preferredModeWhenNull: GuaranteedMode = 'AM'): void {
 				const inputName = JSON.stringify(input)
 				const expectationName = JSON.stringify(expectation)
 
 				describe(`${inputName} => ${expectationName}`, () => {
 					it(`toggleMode: ${inputName} => ${expectationName}`, () => {
-						expect(modifyTimeObject(input).toggleMode()).to.deep.equal(expectation)
+						expect(modifyTimeObject(input).toggleMode(preferredModeWhenNull)).to.deep.equal(expectation)
 					})
 					it(`increment-isolated: ${inputName} => ${expectationName}`, () => {
 						expect(modifyTimeObject(input).increment.mode.isolated()).to.deep.equal(

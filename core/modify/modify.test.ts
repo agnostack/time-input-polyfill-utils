@@ -108,7 +108,7 @@ toggleModeTest()
 
 clearTests()
 
-describe('Current Segment', () => {
+describe('Cursor Segment', () => {
 	cursorSegmentIncrement()
 	cursorSegmentDecrement()
 })

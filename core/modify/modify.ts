@@ -1,4 +1,4 @@
-import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12 } from '../../types/index'
+import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12, GuaranteedMode } from '../../types/index'
 import {
 	convertString12hr,
 	convertString24hr,
@@ -15,13 +15,12 @@ import {
 } from './modify.types'
 import { getCursorSegment } from '../get/get'
 import { blankValues } from '../../common/blankValues'
-import { validateTimeObject } from '../validate/validate'
 
 export const modifyString12hr: ModifyString12hr = string12hr => {
-	const modeToggle = {
-		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
-		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
+	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
@@ -53,7 +52,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
@@ -71,11 +70,11 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (): String12hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
+		toggleMode: (preferredModeWhenNull = 'AM'): String12hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 
 		clear: {
 			hrs12: (): String12hr =>
@@ -88,10 +87,10 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 	}
 }
 export const modifyString24hr: ModifyString24hr = string24hr => {
-	const modeToggle = {
-		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
-		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
+	})
 
 	const modify = (
 		modification: (timeObject: TimeObject) => TimeObject,
@@ -118,7 +117,7 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 		},
 		decrement: {
 			hrs24: {
@@ -135,17 +134,17 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 		},
-		toggleMode: (): String24hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
+		toggleMode: (preferredModeWhenNull = 'AM'): String24hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 	}
 }
 export const modifyTimeObject: ModifyTimeObject = timeObject => {
-	const modeToggle = {
-		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(),
-		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
@@ -193,7 +192,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					}
 				},
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
@@ -237,10 +236,10 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					}
 				},
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (): TimeObject => {
+		toggleMode: (preferredModeWhenNull = 'AM'): TimeObject => {
 			const { hrs12, hrs24, mode } = timeObject
 
 			const returnVal: TimeObject = { ...timeObject }
@@ -269,8 +268,8 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					returnVal.mode = 'PM'
 					returnVal.hrs24 = hrs24
 				} else {
-					returnVal.mode = 'AM'
-					returnVal.hrs24 = <Hour24>get24HrHours('AM')
+					returnVal.mode = preferredModeWhenNull
+					returnVal.hrs24 = <Hour24>get24HrHours(preferredModeWhenNull)
 				}
 			} else {
 				returnVal.mode = isAM ? 'PM' : 'AM'
