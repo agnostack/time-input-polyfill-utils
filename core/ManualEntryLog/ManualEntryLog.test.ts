@@ -450,7 +450,7 @@ function Add_then_clear(): void {
 			entryLog.hrs12.add('1')
 			entryLog.hrs12.clear()
 			expect(entryLog.hrs12.entries).to.deep.equal([])
-			expect(entryLog.hrs12.value).to.equal('--')
+			expect(entryLog.hrs12.value).to.equal(null)
 			expect(entryLog.fullValue12hr).to.equal('--:30 AM')
 		})
 		it(`minutes add "1" > clear: ${startingFullValue} > 12:-- AM`, () => {
@@ -458,7 +458,7 @@ function Add_then_clear(): void {
 			entryLog.minutes.add('1')
 			entryLog.minutes.clear()
 			expect(entryLog.minutes.entries).to.deep.equal([])
-			expect(entryLog.minutes.value).to.equal('--')
+			expect(entryLog.minutes.value).to.equal(null)
 			expect(entryLog.fullValue12hr).to.equal('12:-- AM')
 		})
 		it(`mode add "p" > clear: ${startingFullValue} > 12:30 --`, () => {
@@ -466,7 +466,7 @@ function Add_then_clear(): void {
 			entryLog.mode.add('p')
 			entryLog.mode.clear()
 			expect(entryLog.mode.entries).to.deep.equal([])
-			expect(entryLog.mode.value).to.equal('--')
+			expect(entryLog.mode.value).to.equal(null)
 			expect(entryLog.fullValue12hr).to.equal('12:30 --')
 		})
 	})

@@ -203,7 +203,7 @@ export class ManualEntryLog {
 				':',
 				toLeadingZero(this.minutes.value),
 				' ',
-				this.mode.value,
+				this.mode.value || '--',
 			].join('')
 		}
 
