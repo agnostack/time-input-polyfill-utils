@@ -16,11 +16,16 @@ import {
 	IsTimeObject,
 	IsShiftHeldDown,
 } from './is.types'
-import { TimeObjectKey } from '../../types/timeObject'
+import { TimeObject, TimeObjectKey } from '../../types/timeObject'
+import { getKeys } from '../../helpers/utils'
 
 export let isShiftHeldDown: IsShiftHeldDown = false
 window.addEventListener('keyup', e => (isShiftHeldDown = e.shiftKey))
 window.addEventListener('keydown', e => (isShiftHeldDown = e.shiftKey))
+
+export const isCompleteTimeObject = (timeObject: TimeObject): boolean => {
+	return getKeys(timeObject).every(key => timeObject[key] !== null)
+}
 
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
