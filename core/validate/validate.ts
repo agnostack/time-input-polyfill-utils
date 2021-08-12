@@ -56,7 +56,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 		) {
 			const badValue = writeBadValue(variable)
 			throw new Error(
-				`${varName} (${badValue}) is invalid, "${varName}" must be a number ${lower}-${upper} or "--"`,
+				`${varName} (${badValue}) is invalid, "${varName}" must be a number ${lower}-${upper} or null`,
 			)
 		}
 	}
@@ -70,7 +70,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 		throw new Error(
 			`Mode (${writeBadValue(mode)}) is invalid. Valid values are: ${validModes.map(val =>
 				writeBadValue(val),
-			)}`,
+			).join(', ')}`,
 		)
 	}
 
@@ -101,7 +101,7 @@ export const validateHours24: ValidateHours24 = (hrs24: Hour24) => {
 		(typeof hrs24 !== 'number' && hrs24 !== '--') ||
 		(typeof hrs24 === 'number' && (hrs24 < 0 || hrs24 > 23))
 	) {
-		throw new Error(`"${hrs24}" must be a number between 0 and 23 or "--", use 0 instead of 24`)
+		throw new Error(`"${hrs24}" must be a number between 0 and 23 or null, use 0 instead of 24`)
 	}
 	return true
 }

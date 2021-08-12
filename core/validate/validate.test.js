@@ -166,7 +166,7 @@ function validateTimeObjectTests() {
 							it(testName, () => {
 								failTest(
 									() => validateTimeObject(badTimeObjects[index]),
-									`${propName} (${badValue}) is invalid, "${propName}" must be a number ${lower}-${upper} or "--"`,
+									`${propName} (${badValue}) is invalid, "${propName}" must be a number ${lower}-${upper} or null`,
 								)
 							})
 						})
@@ -183,7 +183,7 @@ function validateTimeObjectTests() {
 						it(testName, () => {
 							failTest(
 								() => validateTimeObject({ hrs24: 1, hrs12: 1, minutes: 0, mode }),
-								`Mode (${badValue}) is invalid. Valid values are: "AM","PM","--"`,
+								`Mode (${badValue}) is invalid. Valid values are: "AM", "PM", null`,
 							)
 						})
 					}
