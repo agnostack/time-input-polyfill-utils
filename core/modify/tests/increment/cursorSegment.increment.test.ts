@@ -296,12 +296,21 @@ export default (): void => {
 							{ hrs24: null, hrs12: null, minutes: null, mode: 'AM' },
 						)
 						modeTest(
-							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{ hrs24: 0, hrs12: 12, minutes: 30, mode: null },
 							{
 								hrs24: 0,
 								hrs12: 12,
 								minutes: 30,
 								mode: 'AM',
+							},
+						)
+						modeTest(
+							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{
+								hrs24: 12,
+								hrs12: 12,
+								minutes: 30,
+								mode: 'PM',
 							},
 						)
 						modeTest(
@@ -358,7 +367,7 @@ export default (): void => {
 					hrs12Test(
 						{ hrs24: null, hrs12: null, minutes: 0, mode: 'PM' },
 						{
-							hrs24: 1,
+							hrs24: 13,
 							hrs12: 1,
 							minutes: 0,
 							mode: 'PM',
@@ -472,12 +481,21 @@ export default (): void => {
 							{ hrs24: null, hrs12: null, minutes: null, mode: 'AM' },
 						)
 						modeTest(
-							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{ hrs24: 0, hrs12: 12, minutes: 30, mode: null },
 							{
 								hrs24: 0,
 								hrs12: 12,
 								minutes: 30,
 								mode: 'AM',
+							},
+						)
+						modeTest(
+							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{
+								hrs24: 12,
+								hrs12: 12,
+								minutes: 30,
+								mode: 'PM',
 							},
 						)
 						modeTest(
