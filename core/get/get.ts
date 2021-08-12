@@ -20,6 +20,7 @@ import {
 	GetCursorSegment,
 	GetNextPrevSegment,
 } from './get.types'
+import { AnyHtmlElement } from '../../types/utilTypes'
 
 const traverseSegmentRanges = (
 	$input: HTMLInputElement | null,
@@ -127,7 +128,7 @@ export const getRangeOf: GetRangeOf = $input => ({
 })
 export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) => {
 	// https://stackoverflow.com/a/8729274/1611058
-	let $elem: HTMLElement | null = $startingElem
+	let $elem: AnyHtmlElement | null = $startingElem
 	const ancestors = []
 	let i = 0
 	while ($elem) {
@@ -148,7 +149,7 @@ export const getAncestorsOf: GetAncestorsOf = ($startingElem, selectorString) =>
 	return ancestors
 }
 
-const elemText = ($elem: HTMLElement | null): string => $elem?.textContent?.trim() || ''
+const elemText = ($elem: AnyHtmlElement | null): string => $elem?.textContent?.trim() || ''
 
 function aria_labelledby($input: HTMLInputElement, document: Document = window.document): string {
 	const ariaLabelByID = $input?.getAttribute('aria-labelledby')
@@ -165,7 +166,7 @@ function aria_label($input: HTMLInputElement): string {
 }
 
 function for_attribute($input: HTMLInputElement, document: Document = window.document): string {
-	const $forLabel = <HTMLElement | null>document.querySelector('label[for="' + $input.id + '"]')
+	const $forLabel = <HTMLLabelElement | null>document.querySelector('label[for="' + $input.id + '"]')
 	return elemText($forLabel)
 }
 

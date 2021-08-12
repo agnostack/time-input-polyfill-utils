@@ -1,6 +1,7 @@
 import { TimeObject } from '../../types/index'
+import { AnyHtmlElement } from '../../types/utilTypes'
 
-export type ToArray = (NodeList: NodeList) => Array<HTMLInputElement>
+export type ToArray = <ElementType extends AnyHtmlElement>(NodeList: NodeList) => Array<ElementType>
 
 export type ToNumber = (value: number | string | null) => null | number
 

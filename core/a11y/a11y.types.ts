@@ -14,4 +14,4 @@ export type A11yClear = (document?: Document) => void
 
 export type GetA11yValue = (document?: Document) => string
 
-export type GetA11yElement = (document?: Document) => HTMLElement | null
+export type GetA11yElement = (document?: Document) => HTMLDivElement | null
