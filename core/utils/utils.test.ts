@@ -30,7 +30,7 @@ function convert_possible_number_to_guaranteed_number(): void {
 			expect(toNumber('0')).to.equal(0)
 		})
 		it('Expect "--" to be "--"', () => {
-			expect(toNumber('--')).to.equal('--')
+			expect(toNumber('--')).to.equal(null)
 		})
 		it('Expect 0 to be 0', () => {
 			expect(toNumber(0)).to.equal(0)
