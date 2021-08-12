@@ -45,6 +45,8 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 						}
 					} else if (mode === 'AM' && hrs12 === 12) {
 						return 0
+					} else {
+						return hrs12
 					}
 				}
 				return null
