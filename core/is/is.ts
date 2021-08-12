@@ -24,10 +24,6 @@ export let isShiftHeldDown: IsShiftHeldDown = false
 window.addEventListener('keyup', e => (isShiftHeldDown = e.shiftKey))
 window.addEventListener('keydown', e => (isShiftHeldDown = e.shiftKey))
 
-export const isCompleteTimeObject: IsCompleteTimeObject = (timeObject) => {
-	return getKeys(timeObject).every(key => timeObject[key] !== null)
-}
-
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
 	if (!isFormatValid) return false
@@ -80,6 +76,14 @@ export const isTimeObject: IsTimeObject = (value): boolean => {
 	})
 	return filteredKeys.length === 0 && additionalKeys.length === 0
 }
+
+export const isCompleteTimeObject: IsCompleteTimeObject = (timeObject) => {
+	if (!isTimeObject(timeObject)) {
+		return false
+	}
+	return getKeys(timeObject).every(key => timeObject[key] !== null)
+}
+
 export const isString12hr: IsString12hr = (value): boolean =>
 	isValidTimeString({ value, format: 'string12hr', minHrs: 1, maxHrs: 12 })
 
