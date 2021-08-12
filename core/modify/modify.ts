@@ -73,7 +73,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (preferredModeWhenNull = 'AM'): String12hr =>
+		toggleMode: (preferredModeWhenNull): String12hr =>
 			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 
 		clear: {
@@ -136,7 +136,7 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 			},
 			mode: modeToggle('PM'),
 		},
-		toggleMode: (preferredModeWhenNull = 'AM'): String24hr =>
+		toggleMode: (preferredModeWhenNull): String24hr =>
 			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 	}
 }
@@ -239,7 +239,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (preferredModeWhenNull = 'AM'): TimeObject => {
+		toggleMode: (preferredModeWhenNull): TimeObject => {
 			const { hrs12, hrs24, mode } = timeObject
 
 			const returnVal: TimeObject = { ...timeObject }
