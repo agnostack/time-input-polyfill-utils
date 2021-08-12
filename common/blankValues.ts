@@ -10,9 +10,9 @@ export const blankValues: BlankValues = {
 	string12hr: '--:-- --',
 	string24hr: '',
 	timeObject: {
-		hrs24: '--',
-		hrs12: '--',
-		minutes: '--',
-		mode: '--',
+		hrs24: null,
+		hrs12: null,
+		minutes: null,
+		mode: null,
 	},
 }

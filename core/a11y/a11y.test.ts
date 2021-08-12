@@ -4,7 +4,7 @@ import { a11yClear, a11yCreate, a11yUpdate, getA11yElement, getA11yValue } from 
 import { selectSegment } from '../select/select'
 
 interface A11yCreation {
-	$a11y: HTMLElement | null
+	$a11y: HTMLDivElement | null
 	$input: HTMLInputElement
 	$inputPreFilled: HTMLInputElement
 	document: Document

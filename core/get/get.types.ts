@@ -1,6 +1,7 @@
 import { String12hr, String24hr, TimeObject, SelectionRange, Segment } from '../../types/index'
+import { AnyHtmlElement } from '../../types/utilTypes'
 
-interface ExtendedTimeObject extends TimeObject {
+export interface ExtendedTimeObject extends TimeObject {
 	timeObject: TimeObject
 }
 
@@ -27,6 +28,6 @@ export type GetRangeOf = (
 	prevSegment: () => SelectionRange
 }
 export type GetAncestorsOf = (
-	$startingElem: HTMLElement | null,
+	$startingElem: AnyHtmlElement | null,
 	selectorString?: string,
-) => Array<HTMLElement>
+) => Array<AnyHtmlElement>

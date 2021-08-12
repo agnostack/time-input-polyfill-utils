@@ -1,4 +1,4 @@
-import { SelectionRange, Hour24, Hour12, Minute } from './index'
+import { SelectionRange, DefinedHour12, DefinedHour24, Minute, DefinedMinute } from './index'
 
 export interface Ranges {
 	hrs12: SelectionRange
@@ -7,7 +7,7 @@ export interface Ranges {
 }
 
 export interface MaxAndMins {
-	hrs24: { min: Hour24; max: Hour24 }
-	hrs12: { min: Hour12; max: Hour12 }
-	minutes: { min: Minute; max: Minute }
+	hrs24: { min: DefinedHour24; max: DefinedHour24 }
+	hrs12: { min: DefinedHour12; max: DefinedHour12 }
+	minutes: { min: DefinedMinute; max: DefinedMinute }
 }

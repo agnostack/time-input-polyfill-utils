@@ -1,11 +1,9 @@
 import {
 	modifierTest,
 	deepModifierTest,
-	current,
 	BeforeAfterString,
 	BeforeAfterObject,
 } from '../../modify.test'
-import { Minute } from '../../../../types/index'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
 
 export default (): void => {
@@ -33,8 +31,8 @@ export default (): void => {
 								test: () => modifyString12hr(before).decrement.minutes.isolated(),
 							})
 						}
-						decrement12hrIsolated({ before: '--:-- --', after: `--:${current.minutes} --` })
-						decrement12hrIsolated({ before: '09:-- AM', after: `09:${current.minutes} AM` })
+						decrement12hrIsolated({ before: '--:-- --', after: `--:59 --` })
+						decrement12hrIsolated({ before: '09:-- AM', after: `09:59 AM` })
 						decrement12hrIsolated({ before: '09:01 AM', after: '09:00 AM' })
 						decrement12hrIsolated({ before: '09:10 PM', after: '09:09 PM' })
 						decrement12hrIsolated({ before: '11:00 AM', after: '11:59 AM' })
@@ -56,11 +54,11 @@ export default (): void => {
 						}
 						decrement12hrIntegrated({
 							before: '--:-- --',
-							after: `--:${current.minutes} --`,
+							after: `--:59 --`,
 						})
 						decrement12hrIntegrated({
 							before: '09:-- AM',
-							after: `09:${current.minutes} AM`,
+							after: `09:59 AM`,
 						})
 						decrement12hrIntegrated({ before: '09:01 AM', after: '09:00 AM' })
 						decrement12hrIntegrated({ before: '09:10 PM', after: '09:09 PM' })
@@ -142,13 +140,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: '--',
+								minutes: null,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: <Minute>parseInt(current.minutes),
+								minutes: 59,
 								mode: 'AM',
 							},
 						})
@@ -247,13 +245,13 @@ export default (): void => {
 							before: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: '--',
+								minutes: null,
 								mode: 'AM',
 							},
 							after: {
 								hrs24: 9,
 								hrs12: 9,
-								minutes: <Minute>parseInt(current.minutes),
+								minutes: 59,
 								mode: 'AM',
 							},
 						})

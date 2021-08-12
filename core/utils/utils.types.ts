@@ -1,9 +1,10 @@
-import { Dashes, TimeObject } from '../../types/index'
+import { TimeObject } from '../../types/index'
+import { AnyHtmlElement } from '../../types/utilTypes'
 
-export type ToArray = (NodeList: NodeList) => Array<HTMLInputElement>
+export type ToArray = <ElementType extends AnyHtmlElement>(NodeList: NodeList) => Array<ElementType>
 
-export type ToNumber = (value: number | string | Dashes) => string | number
+export type ToNumber = (value: number | string | null) => null | number
 
-export type ToLeadingZero = (value: number | string | Dashes) => string
+export type ToLeadingZero = (value: number | string | null) => string
 
 export type MatchesTimeObject = (timeObjA: TimeObject, timeObjB: TimeObject) => boolean

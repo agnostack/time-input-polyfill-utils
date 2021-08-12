@@ -21,7 +21,7 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 
 	const values = getInputValue($input).asTimeObject()
 	const value = values[cursorSegment]
-	const segmentValue = value == '--' ? 'blank' : value
+	const segmentValue = value === null ? 'blank' : value
 
 	const segmentName = {
 		hrs12: 'Hours',
@@ -68,5 +68,5 @@ export const getA11yValue: GetA11yValue = (document = window.document) => {
 }
 
 export const getA11yElement: GetA11yElement = (document = window.document) => {
-	return document.getElementById(a11yID)
+	return document.getElementById(a11yID) as HTMLDivElement
 }

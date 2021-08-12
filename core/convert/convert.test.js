@@ -7,7 +7,7 @@ import {
 } from './convert'
 import { failTest } from '../../cypress/support/failTest'
 
-import { current } from '../../helpers/currentDate'
+import { CurrentDate } from '../../helpers/currentDate'
 
 /* global describe, it, expect */
 
@@ -23,13 +23,13 @@ function convert_hours24_to_hours12() {
 		it('Expect "abc" to fail', () => {
 			failTest(
 				() => convertHours24('abc').toHours12(),
-				'"abc" must be a number between 0 and 23 or "--", use 0 instead of 24',
+				'"abc" must be a number between 0 and 23 or null, use 0 instead of 24',
 			)
 		})
 		it('Expect -1 hrs to fail', () => {
 			failTest(
 				() => convertHours24(-1).toHours12(),
-				'"-1" must be a number between 0 and 23 or "--", use 0 instead of 24',
+				'"-1" must be a number between 0 and 23 or null, use 0 instead of 24',
 			)
 		})
 		it('Expect 0 hrs to be 12', () => {
@@ -47,7 +47,7 @@ function convert_hours24_to_hours12() {
 		it('Expect 24 hrs to fail', () => {
 			failTest(
 				() => convertHours24(24).toHours12(),
-				'"24" must be a number between 0 and 23 or "--", use 0 instead of 24',
+				'"24" must be a number between 0 and 23 or null, use 0 instead of 24',
 			)
 		})
 	})
@@ -111,12 +111,12 @@ function convert_24hr_time() {
 
 		function hr24_to_time_object() {
 			describe('24hr to time object', () => {
-				it('Expect "" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "--"}', () => {
+				it('Expect "" to be {hrs24: null, hrs12: null, minutes: null, mode: null}', () => {
 					expect(convertString24hr('').toTimeObject()).to.deep.equal({
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
-						mode: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
+						mode: null,
 					})
 				})
 				it('Expect "00:00" to be {hrs24: 0, hrs12: 12, minutes: 0, mode: "AM"}', () => {
@@ -250,35 +250,35 @@ function convert_12hr_time() {
 						'"--:--" is not a valid 12 hour time, use the format "HH:MM AM/PM"',
 					)
 				})
-				it('Expect "--:-- --" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "--"}', () => {
+				it('Expect "--:-- --" to be {hrs24: null, hrs12: null, minutes: null, mode: null}', () => {
 					expect(convertString12hr('--:-- --').toTimeObject()).to.deep.equal({
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
-						mode: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
+						mode: null,
 					})
 				})
-				it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, minutes: "--", mode: "--"}', () => {
+				it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, minutes: null, mode: null}', () => {
 					expect(convertString12hr('01:-- --').toTimeObject()).to.deep.equal({
 						hrs24: 1,
 						hrs12: 1,
-						minutes: '--',
-						mode: '--',
+						minutes: null,
+						mode: null,
 					})
 				})
-				it('Expect "--:02 --" to be {hrs24: "--", hrs12: "--", minutes: 2, mode: "--"}', () => {
+				it('Expect "--:02 --" to be {hrs24: null, hrs12: null, minutes: 2, mode: null}', () => {
 					expect(convertString12hr('--:02 --').toTimeObject()).to.deep.equal({
-						hrs24: '--',
-						hrs12: '--',
+						hrs24: null,
+						hrs12: null,
 						minutes: 2,
-						mode: '--',
+						mode: null,
 					})
 				})
-				it('Expect "--:-- AM" to be {hrs24: "--", hrs12: "--", minutes: "--", mode: "AM"}', () => {
+				it('Expect "--:-- AM" to be {hrs24: null, hrs12: null, minutes: null, mode: "AM"}', () => {
 					expect(convertString12hr('--:-- AM').toTimeObject()).to.deep.equal({
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
 						mode: 'AM',
 					})
 				})
@@ -367,10 +367,10 @@ function convert_time_object() {
 				const timeTest24hr = timeTest('to24hr')
 				timeTest24hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
-						mode: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
+						mode: null,
 					},
 					'',
 				)
@@ -379,27 +379,27 @@ function convert_time_object() {
 					{
 						hrs24: 1,
 						hrs12: 1,
-						minutes: '--',
-						mode: '--',
+						minutes: null,
+						mode: null,
 					},
 					'',
 				)
 
 				timeTest24hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
+						hrs24: null,
+						hrs12: null,
 						minutes: 2,
-						mode: '--',
+						mode: null,
 					},
 					'',
 				)
 
 				timeTest24hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
 						mode: 'AM',
 					},
 					'',
@@ -472,10 +472,10 @@ function convert_time_object() {
 				const timeTest12hr = timeTest('to12hr')
 				timeTest12hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
-						mode: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
+						mode: null,
 					},
 					'--:-- --',
 				)
@@ -484,27 +484,27 @@ function convert_time_object() {
 					{
 						hrs24: 1,
 						hrs12: 1,
-						minutes: '--',
-						mode: '--',
+						minutes: null,
+						mode: null,
 					},
 					'01:-- --',
 				)
 
 				timeTest12hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
+						hrs24: null,
+						hrs12: null,
 						minutes: 2,
-						mode: '--',
+						mode: null,
 					},
 					'--:02 --',
 				)
 
 				timeTest12hr(
 					{
-						hrs24: '--',
-						hrs12: '--',
-						minutes: '--',
+						hrs24: null,
+						hrs12: null,
+						minutes: null,
 						mode: 'AM',
 					},
 					'--:-- AM',
@@ -576,26 +576,31 @@ function convert_time_object() {
 
 function convert_date_object() {
 	describe('Convert date object', () => {
+		const current = new CurrentDate()
+
 		const dateTest = method => {
 			return result => {
 				const resultString = typeof result === 'string' ? result : JSON.stringify(result)
-				it(`Expect [${current.date}] to be "${resultString}"`, () => {
+				it(`Expect date to be "${resultString}"`, () => {
 					expect(convertDateObject(current.date)[method]()).to.deep.equal(result)
 				})
 			}
 		}
 
 		describe('date to 24hr', () => {
+			current.reInitialize()
 			const dateTest24hr = dateTest('to24hr')
 			dateTest24hr(`${current.hrs24}:${current.minutes}`)
 		})
 
 		describe('date to 12hr', () => {
+			current.reInitialize()
 			const dateTest12hr = dateTest('to12hr')
 			dateTest12hr(`${current.hrs12}:${current.minutes} ${current.mode}`)
 		})
 
 		describe('date to time object', () => {
+			current.reInitialize()
 			const dateTest12hr = dateTest('toTimeObject')
 			dateTest12hr({
 				hrs24: parseInt(current.hrs24),

@@ -9,8 +9,18 @@ import {
 	ValidateHours24,
 } from './validate.types'
 
-const writeBadValue = (badValue: any): any =>
-	typeof badValue === 'string' ? `"${badValue}"` : badValue
+const writeBadValue = (badValue: any): any => {
+	if (typeof badValue === 'string') {
+		return `"${badValue}"`
+	}
+	if (badValue === null) {
+		return 'null'
+	}
+	if (badValue === undefined) {
+		return 'undefined'
+	}
+	return badValue
+}
 
 export const validateString12hr: ValidateString12hr = (string12hr: String12hr) => {
 	if (!isString12hr(string12hr)) {
@@ -46,7 +56,7 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 		) {
 			const badValue = writeBadValue(variable)
 			throw new Error(
-				`${varName} (${badValue}) is invalid, "${varName}" must be a number ${lower}-${upper} or "--"`,
+				`${varName} (${badValue}) is invalid, "${varName}" must be a number ${lower}-${upper} or null`,
 			)
 		}
 	}
@@ -54,25 +64,25 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 	isValid(hrs12, 'hrs12', 1, 12)
 	isValid(minutes, 'minutes', 0, 59)
 
-	const validModes = ['AM', 'PM', '--']
+	const validModes = ['AM', 'PM', null]
 
 	if (validModes.indexOf(mode) < 0) {
 		throw new Error(
 			`Mode (${writeBadValue(mode)}) is invalid. Valid values are: ${validModes.map(val =>
 				writeBadValue(val),
-			)}`,
+			).join(', ')}`,
 		)
 	}
 
 	if (
 		(hrs24 === 0 && hrs12 !== 12) ||
-		(hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
+		hrs24 !== null && (hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
 		(typeof hrs24 === 'number' && hrs24 > 12 && hrs12 !== hrs24 - 12)
 	) {
 		throw new Error(`hrs12 (${hrs12}) should be equal to or 12 hours behind hrs24 (${hrs24})`)
 	}
 
-	if (mode !== '--' && ((hrs24 >= 12 && mode !== 'PM') || (hrs24 <= 11 && mode !== 'AM'))) {
+	if (mode !== null && ((hrs24 && hrs24 >= 12 && mode !== 'PM') || (hrs24 && hrs24 <= 11 && mode !== 'AM'))) {
 		if (mode === 'PM') {
 			throw new Error(
 				`If mode (${mode}) is "PM", hrs24 (${hrs24}) should be greater than or equal to 12`,
@@ -91,7 +101,7 @@ export const validateHours24: ValidateHours24 = (hrs24: Hour24) => {
 		(typeof hrs24 !== 'number' && hrs24 !== '--') ||
 		(typeof hrs24 === 'number' && (hrs24 < 0 || hrs24 > 23))
 	) {
-		throw new Error(`"${hrs24}" must be a number between 0 and 23 or "--", use 0 instead of 24`)
+		throw new Error(`"${hrs24}" must be a number between 0 and 23 or null, use 0 instead of 24`)
 	}
 	return true
 }

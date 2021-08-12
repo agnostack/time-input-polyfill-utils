@@ -168,7 +168,7 @@ class SegmentLog {
 	 */
 	clear(): void {
 		this.reset()
-		this.value = '--'
+		this.value = null
 		this.update()
 	}
 }
@@ -203,7 +203,7 @@ export class ManualEntryLog {
 				':',
 				toLeadingZero(this.minutes.value),
 				' ',
-				this.mode.value,
+				this.mode.value || '--',
 			].join('')
 		}
 

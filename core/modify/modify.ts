@@ -1,9 +1,8 @@
-import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12 } from '../../types/index'
+import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12, GuaranteedMode } from '../../types/index'
 import {
 	convertString12hr,
 	convertString24hr,
 	convertTimeObject,
-	convertHours24,
 } from '../convert/convert'
 import { maxAndMins } from '../staticValues'
 import { isAmTimeObject } from '../is/is'
@@ -17,29 +16,11 @@ import {
 import { getCursorSegment } from '../get/get'
 import { blankValues } from '../../common/blankValues'
 
-const convert = {
-	string12hr: convertString12hr,
-	string24hr: convertString24hr,
-}
-
-const getCurrentTimeMode = (): Mode => (new Date().getHours() > 11 ? 'PM' : 'AM')
-
-type GetCurrentHours = {
-	currentHour12: Hour12
-	currentHour24: Hour24
-}
-
-const getCurrentHours = (): GetCurrentHours => {
-	const currentHour24 = <Hour24>new Date().getHours()
-	const currentHour12 = convertHours24(currentHour24).toHours12()
-	return { currentHour12, currentHour24 }
-}
-
 export const modifyString12hr: ModifyString12hr = string12hr => {
-	const modeToggle = {
-		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
-		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
+	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
@@ -71,7 +52,7 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
@@ -89,11 +70,11 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (): String12hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
+		toggleMode: (preferredModeWhenNull): String12hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 
 		clear: {
 			hrs12: (): String12hr =>
@@ -106,10 +87,10 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 	}
 }
 export const modifyString24hr: ModifyString24hr = string24hr => {
-	const modeToggle = {
-		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
-		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
+	})
 
 	const modify = (
 		modification: (timeObject: TimeObject) => TimeObject,
@@ -136,7 +117,7 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 		},
 		decrement: {
 			hrs24: {
@@ -153,17 +134,17 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 		},
-		toggleMode: (): String24hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(), true),
+		toggleMode: (preferredModeWhenNull): String24hr =>
+			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
 	}
 }
 export const modifyTimeObject: ModifyTimeObject = timeObject => {
-	const modeToggle = {
-		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(),
-		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(),
-	}
+	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
+		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
 		const segment = getCursorSegment($input)
@@ -211,7 +192,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					}
 				},
 			},
-			mode: modeToggle,
+			mode: modeToggle('AM'),
 			cursorSegment: cursorSegmentModifier('increment'),
 		},
 		decrement: {
@@ -255,11 +236,11 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 					}
 				},
 			},
-			mode: modeToggle,
+			mode: modeToggle('PM'),
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
-		toggleMode: (): TimeObject => {
-			const { hrs12, mode } = timeObject
+		toggleMode: (preferredModeWhenNull): TimeObject => {
+			const { hrs12, hrs24, mode } = timeObject
 
 			const returnVal: TimeObject = { ...timeObject }
 
@@ -268,8 +249,8 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			const get24HrHours = (targetMode: Mode): Hour24 => {
 				let hrs24Calculation: Hour24
 
-				if (hrs12 === '--') {
-					hrs24Calculation = '--'
+				if (hrs12 === null) {
+					hrs24Calculation = null
 				} else {
 					const is12 = hrs12 === 12
 					const hours24hr = {
@@ -282,26 +263,30 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 				return hrs24Calculation
 			}
 
-			if (mode === '--') {
-				const currentTimeMode = getCurrentTimeMode()
-				returnVal.mode = currentTimeMode
-				returnVal.hrs24 = <Hour24>get24HrHours(currentTimeMode)
+			if (mode === null) {
+				if (hrs24 !== null && hrs24 > 11) {
+					returnVal.mode = 'PM'
+					returnVal.hrs24 = hrs24
+				} else {
+					returnVal.mode = preferredModeWhenNull
+					returnVal.hrs24 = <Hour24>get24HrHours(preferredModeWhenNull)
+				}
 			} else {
 				returnVal.mode = isAM ? 'PM' : 'AM'
 				returnVal.hrs24 = <Hour24>get24HrHours(isAM ? 'PM' : 'AM')
 			}
 
-			if (hrs12 === '--' && mode === '--') {
+			if (hrs12 === null && mode === null) {
 				return returnVal
 			}
 
 			return straightenTimeObject('hrs24', returnVal)
 		},
 		clear: {
-			hrs24: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
-			hrs12: (): TimeObject => ({ ...timeObject, hrs12: '--', hrs24: '--' }),
-			minutes: (): TimeObject => ({ ...timeObject, minutes: '--' }),
-			mode: (): TimeObject => ({ ...timeObject, mode: '--' }),
+			hrs24: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
+			hrs12: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
+			minutes: (): TimeObject => ({ ...timeObject, minutes: null }),
+			mode: (): TimeObject => ({ ...timeObject, mode: null }),
 			all: (): TimeObject => blankValues.timeObject,
 		},
 	}
@@ -309,7 +294,8 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 
 const nudgeMinutes = (minutes: Minute, direction: 'up' | 'down'): Minute => {
 	const modifier = direction === 'up' ? 1 : -1
-	return <Minute>(typeof minutes === 'string' ? new Date().getMinutes() : minutes + modifier)
+	const newMinutes = direction === 'up' ? 0 : 59
+	return <Minute>(minutes === null ? newMinutes : minutes + modifier)
 }
 
 const nudgeIsolatedTimeObjectHrs = (
@@ -321,18 +307,23 @@ const nudgeIsolatedTimeObjectHrs = (
 		timeObject,
 		integration: 'isolated',
 		blankCallback: (copiedObject: TimeObject): TimeObject => {
-			const { currentHour24, currentHour12 } = getCurrentHours()
 
-			if (typeof currentHour24 === 'number') {
-				if (currentHour24 > 12 && copiedObject.mode === 'AM') {
-					copiedObject.hrs24 = currentHour12
-				} else if (currentHour24 <= 12 && copiedObject.mode === 'PM') {
-					copiedObject.hrs24 = <Hour24>(currentHour24 + 12)
+			if (direction === 'up') {
+				if (copiedObject.mode === 'PM') {
+					copiedObject.hrs24 = 13
+					copiedObject.hrs12 = 1
 				} else {
-					copiedObject.hrs24 = <Hour24>currentHour24
+					copiedObject.hrs24 = 1
+					copiedObject.hrs12 = 1
 				}
-
-				copiedObject.hrs12 = currentHour12
+			} else {
+				if (copiedObject.mode === 'PM') {
+					copiedObject.hrs24 = 12
+					copiedObject.hrs12 = 12
+				} else {
+					copiedObject.hrs24 = 0
+					copiedObject.hrs12 = 12
+				}
 			}
 
 			return copiedObject
@@ -367,7 +358,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	timeObject: TimeObject
 	// Do you want it to alter AM/PM?
 	integration: Integration
-	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
+	// A function to call if the hrs24 and hrs12 values start off as blank (null)
 	blankCallback: Function
 }): TimeObject => {
 	const hrsType = <T>(integration === 'integrated' ? 'hrs24' : 'hrs12')
@@ -388,7 +379,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 		}
 		return straightenTimeObject(hrsType, copiedObject)
 	} else {
-		return blankCallback(copiedObject)
+		return blankCallback(straightenTimeObject(hrsType, copiedObject))
 	}
 }
 
@@ -396,35 +387,60 @@ const straightenTimeObject = (
 	basedOn: 'hrs12' | 'hrs24',
 	invalidTimeObj: TimeObject,
 ): TimeObject => {
-	const { minutes } = invalidTimeObj
+	const { hrs24, hrs12, minutes } = invalidTimeObj
 
 	const mode = straightenTimeObjectMode(basedOn, invalidTimeObj)
+	const isAM = mode === 'AM'
 
 	const use12hr = basedOn === 'hrs12'
-	const toHr = use12hr ? 'to12hr' : 'to24hr'
-	const format = use12hr ? 'string12hr' : 'string24hr'
 
-	const preFilledTimeObject: TimeObject = {
-		...invalidTimeObj,
-		minutes: 0,
+	const get12hrBasedOn24hr = (): Hour12 => {
+		let hr12 = <Hour12 | 0>(hrs24 !== null && hrs24 > 12 ? hrs24 - 12 : hrs24)
+		if (hr12 === 0) {
+			return 12
+		}
+		return hr12
+	}
+	const get24hrBasedOn12hr = (): Hour24 => {
+		let hr24 = <Hour24 | 24>(!isAM && hrs12 !== null && hrs12 !== 12 ? hrs12 + 12 : hrs12)
+
+		if (hr24 === null) {
+			return null
+		}
+
+		if (hr24 === 24) {
+			return 0
+		}
+
+		if (hr24 >= 12 && isAM) {
+			return <Hour24>(hr24 - 12)
+		}
+
+		return hr24
+	}
+
+	const newTimeObject: TimeObject = {
+		hrs12: use12hr ? hrs12 : get12hrBasedOn24hr(),
+		hrs24: use12hr ? get24hrBasedOn12hr() : hrs24,
+		minutes,
 		mode,
 	}
 
-	const timeString = convertTimeObject(preFilledTimeObject, true)[toHr]()
-
-	const { hrs12, hrs24 } = convert[format](timeString).toTimeObject()
-
-	return { hrs12, hrs24, minutes, mode }
+	return newTimeObject
 }
 
 const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: TimeObject): Mode => {
 	const { hrs24, mode } = invalidTimeObj
-	if (mode === '--') {
-		return getCurrentTimeMode()
+	if (mode === null) {
+		return null
 	}
 	if (basedOn === 'hrs12') {
+		return mode === null ? 'AM' : mode
+	}
+
+	if (basedOn === 'hrs24' && invalidTimeObj.hrs24 === null && mode !== null) {
 		return mode
 	}
 
-	return hrs24 > 11 ? 'PM' : 'AM'
+	return hrs24 && hrs24 > 11 ? 'PM' : 'AM'
 }

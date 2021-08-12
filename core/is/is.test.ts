@@ -10,14 +10,15 @@ import {
 	isTimeObject,
 	isString12hr,
 	isString24hr,
+	isCompleteTimeObject,
 } from './is'
-import { current } from '../../helpers/currentDate'
 
 isPmTests()
 isAmTests()
 isTimeObjectTests()
 isString12hrTests()
 isString24hrTests()
+isCompleteTimeObjectTests()
 
 function isPmTests(): void {
 	describe('is PM', () => {
@@ -44,7 +45,7 @@ function isPmTests(): void {
 					expect(isPmHrs24(23)).to.equal(true)
 				})
 				it('-- => false', () => {
-					expect(isPmHrs24('--')).to.equal(false)
+					expect(isPmHrs24(null)).to.equal(false)
 				})
 			})
 		}
@@ -91,10 +92,11 @@ function isPmTests(): void {
 
 		function timeObjectTests(): void {
 			describe('timeObject', () => {
-				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: -- } => true', () => {
-					expect(isPmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(
-						current.mode === 'PM',
-					)
+				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: null } => true', () => {
+					expect(isPmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: null })).to.equal(true)
+				})
+				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: null } => true', () => {
+					expect(isPmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: null })).to.equal(false)
 				})
 				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: AM } => false', () => {
 					expect(isPmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(
@@ -118,8 +120,8 @@ function isPmTests(): void {
 				})
 				it('{ hrs24: --, hrs12: --, minutes: --, mode: -- } => false', () => {
 					expect(
-						isPmTimeObject({ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' }),
-					).to.equal(current.mode === 'PM')
+						isPmTimeObject({ hrs24: null, hrs12: null, minutes: null, mode: null }),
+					).to.equal(false)
 				})
 			})
 		}
@@ -151,7 +153,7 @@ function isAmTests(): void {
 					expect(isAmHrs24(23)).to.equal(false)
 				})
 				it('-- => false', () => {
-					expect(isAmHrs24('--')).to.equal(false)
+					expect(isAmHrs24(null)).to.equal(false)
 				})
 			})
 		}
@@ -198,10 +200,8 @@ function isAmTests(): void {
 
 		function timeObjectTests(): void {
 			describe('timeObject', () => {
-				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: -- } => true', () => {
-					expect(isAmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: '--' })).to.equal(
-						current.mode === 'AM',
-					)
+				it('{ hrs24: 12, hrs12: 12, minutes: 00, mode: null } => false', () => {
+					expect(isAmTimeObject({ hrs24: 12, hrs12: 12, minutes: 0, mode: null })).to.equal(false)
 				})
 				it('{ hrs24: 0, hrs12: 12, minutes: 00, mode: AM } => true', () => {
 					expect(isAmTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(
@@ -225,8 +225,8 @@ function isAmTests(): void {
 				})
 				it('{ hrs24: --, hrs12: --, minutes: --, mode: -- } => false', () => {
 					expect(
-						isAmTimeObject({ hrs24: '--', hrs12: '--', minutes: '--', mode: '--' }),
-					).to.equal(current.mode === 'AM')
+						isAmTimeObject({ hrs24: null, hrs12: null, minutes: null, mode: null }),
+					).to.equal(false)
 				})
 			})
 		}
@@ -306,6 +306,26 @@ function isString24hrTests(): void {
 		})
 		it('{hrs24: 0, hrs12: 12, minutes: 0, mode: AM} => false', () => {
 			expect(isString24hr({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(false)
+		})
+	})
+}
+
+function isCompleteTimeObjectTests(): void {
+	describe('is complete time object', () => {
+		it('{hrs24: 0, hrs12: 12, minutes: 0, mode: AM} => true', () => {
+			expect(isCompleteTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(true)
+		})
+		it('{hrs24: null, hrs12: 12, minutes: 0, mode: AM} => false', () => {
+			expect(isCompleteTimeObject({ hrs24: null, hrs12: 12, minutes: 0, mode: 'AM' })).to.equal(false)
+		})
+		it('{hrs24: 0, hrs12: null, minutes: 0, mode: AM} => false', () => {
+			expect(isCompleteTimeObject({ hrs24: 0, hrs12: null, minutes: 0, mode: 'AM' })).to.equal(false)
+		})
+		it('{hrs24: 0, hrs12: 12, minutes: null, mode: AM} => false', () => {
+			expect(isCompleteTimeObject({ hrs24: 0, hrs12: 12, minutes: null, mode: 'AM' })).to.equal(false)
+		})
+		it('{hrs24: 0, hrs12: 12, minutes: 0, mode: null} => false', () => {
+			expect(isCompleteTimeObject({ hrs24: 0, hrs12: 12, minutes: 0, mode: null })).to.equal(false)
 		})
 	})
 }

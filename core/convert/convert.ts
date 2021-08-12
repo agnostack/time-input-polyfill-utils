@@ -31,10 +31,14 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 			const [hrs12, minutes, mode] = [
 				<Hour12>toNumber(result[1]),
 				<Minute>toNumber(result[2]),
-				<Mode>result[3],
+				<Mode>(result[3] === '--' ? null : result[3]),
 			]
 			const getHrs24 = (): Hour24 => {
 				if (typeof hrs12 === 'number') {
+					if (mode === null && hrs12 === 12) {
+						return 0
+					}
+
 					if (mode === 'PM') {
 						if (hrs12 === 12) {
 							return 12
@@ -45,17 +49,21 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 						}
 					} else if (mode === 'AM' && hrs12 === 12) {
 						return 0
+					} else {
+						return hrs12
 					}
 				}
-				return hrs12
+				return null
 			}
 			const hrs24 = getHrs24()
 
+			const nullifyDashes = <T = unknown>(value: T) => <unknown>value === '--' ? null : value
+
 			const timeObject: TimeObject = {
 				hrs24,
-				hrs12,
-				minutes,
-				mode,
+				hrs12: nullifyDashes(hrs12),
+				minutes: nullifyDashes(minutes),
+				mode: nullifyDashes(mode),
 			}
 
 			validateTimeObject(timeObject)
@@ -89,7 +97,7 @@ export const convertString24hr: ConvertString24hr = string24hr => {
 				mode:
 					(isAmString24hr(string24hr) && 'AM') ||
 					(isPmString24hr(string24hr) && 'PM') ||
-					'--',
+					null,
 			}
 
 			validateTimeObject(timeObject)
@@ -106,7 +114,7 @@ export const convertTimeObject: ConvertTimeObject = (timeObject, skipValidation 
 	const hrsString12 = toLeadingZero(hrs12)
 	const minString = toLeadingZero(minutes)
 	return {
-		to12hr: (): String12hr => `${hrsString12}:${minString} ${mode}`,
+		to12hr: (): String12hr => `${hrsString12}:${minString} ${mode || '--'}`,
 		to24hr: (): String24hr => {
 			const string24hr = `${hrsString24}:${minString}`
 			if (/-/.test(string24hr)) return ''
