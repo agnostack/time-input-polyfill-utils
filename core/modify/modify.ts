@@ -398,7 +398,7 @@ const straightenTimeObject = (
 		return hr12
 	}
 	const get24hrBasedOn12hr = (): Hour24 => {
-		let hr24 = <Hour24 | 24>(!isAM && hrs12 !== null ? hrs12 + 12 : hrs12)
+		let hr24 = <Hour24 | 24>(!isAM && hrs12 !== null && hrs12 !== 12 ? hrs12 + 12 : hrs12)
 
 		if (hr24 === null) {
 			return null
