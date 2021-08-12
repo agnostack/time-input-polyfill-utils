@@ -1,24 +1,24 @@
-import { Hour24, Hour12, Mode, Minute, String24hr, String12hr } from '../../types/index'
-import { TimeObject } from '../../types/timeObject'
-import { isAmString24hr, isPmString24hr, isAmHrs24 } from '../is/is'
-import { regex } from '../regex/regex'
-import {
-	validateString12hr,
-	validateTimeObject,
-	validateString24hr,
-	validateHours24,
-} from '../validate/validate'
 import { blankValues } from '../../common/index'
+import { Hour12, Hour24, Minute, Mode, String12hr, String24hr } from '../../types/index'
+import { TimeObject } from '../../types/timeObject'
+import { isAmHrs24, isAmString24hr, isPmString24hr } from '../is/is'
+import { regex } from '../regex/regex'
+import { toLeadingZero, toNumber } from '../utils/utils'
 import {
+	validateHours24,
+	validateString12hr,
+	validateString24hr,
+	validateTimeObject,
+} from '../validate/validate'
+import {
+	ConvertDateObject,
+	ConvertHours24,
 	ConvertString12hr,
 	ConvertString24hr,
-	ConvertHours24,
 	ConvertTimeObject,
-	ConvertDateObject,
 } from './convert.types'
-import { toLeadingZero, toNumber } from '../utils/utils'
 
-export const convertString12hr: ConvertString12hr = string12hr => {
+export const convertString12hr: ConvertString12hr = (string12hr) => {
 	validateString12hr(string12hr)
 	return {
 		to24hr(): String24hr {
@@ -57,7 +57,8 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 			}
 			const hrs24 = getHrs24()
 
-			const nullifyDashes = <T = unknown>(value: T) => <unknown>value === '--' ? null : value
+			const nullifyDashes = <T = unknown>(value: T) =>
+				<unknown>value === '--' ? null : value
 
 			const timeObject: TimeObject = {
 				hrs24,
@@ -71,7 +72,7 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 		},
 	}
 }
-export const convertString24hr: ConvertString24hr = string24hr => {
+export const convertString24hr: ConvertString24hr = (string24hr) => {
 	validateString24hr(string24hr)
 	return {
 		to12hr(): String24hr {
@@ -122,7 +123,7 @@ export const convertTimeObject: ConvertTimeObject = (timeObject, skipValidation 
 		},
 	}
 }
-export const convertHours24: ConvertHours24 = hours24 => {
+export const convertHours24: ConvertHours24 = (hours24) => {
 	validateHours24(hours24)
 	const getHours12 = (): Hour12 => {
 		if (typeof hours24 === 'number') {
@@ -142,7 +143,7 @@ export const convertHours24: ConvertHours24 = hours24 => {
 		toHours12: (): Hour12 => getHours12(),
 	}
 }
-export const convertDateObject: ConvertDateObject = date => {
+export const convertDateObject: ConvertDateObject = (date) => {
 	return {
 		to12hr(): String12hr {
 			const timeObject = convertDateObject(date).toTimeObject()

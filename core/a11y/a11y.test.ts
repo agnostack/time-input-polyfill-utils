@@ -1,7 +1,7 @@
 import { loadTestPage } from '../../cypress/support/loadTestPage'
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { a11yClear, a11yCreate, a11yUpdate, getA11yElement, getA11yValue } from './a11y'
 import { selectSegment } from '../select/select'
+import { a11yClear, a11yCreate, a11yUpdate, getA11yElement, getA11yValue } from './a11y'
 
 interface A11yCreation {
 	$a11y: HTMLDivElement | null
@@ -34,9 +34,7 @@ describe('Get current value', () => {
 	it('Returns correct value', async () => {
 		const { $input, document } = await createA11y()
 		a11yUpdate($input, ['initial'], document)
-		expect(getA11yValue(document)).to.equal(
-			'Blank input grouping blank:blank blank.',
-		)
+		expect(getA11yValue(document)).to.equal('Blank input grouping blank:blank blank.')
 	})
 })
 describe('Get a11y element', () => {

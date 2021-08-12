@@ -1,9 +1,9 @@
-import { selectCursorSegment, selectSegment, selectNextSegment, selectPrevSegment } from './select'
-import { getRangeOf } from '../get/get'
-import { SelectionRange, Segment } from '../../types/index'
-import { ranges } from '../staticValues'
-import { inputID } from '../../cypress/support/staticTestValues'
 import { loadTestPage } from '../../cypress/support/loadTestPage'
+import { inputID } from '../../cypress/support/staticTestValues'
+import { Segment, SelectionRange } from '../../types/index'
+import { getRangeOf } from '../get/get'
+import { ranges } from '../staticValues'
+import { selectCursorSegment, selectNextSegment, selectPrevSegment, selectSegment } from './select'
 
 const expectRange = ($input: HTMLInputElement | null, expectedRange: SelectionRange): void => {
 	const currentRange = getRangeOf($input).rawSelection()

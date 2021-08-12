@@ -1,4 +1,4 @@
-import { SelectionRange, DefinedHour12, DefinedHour24, Minute, DefinedMinute } from './index'
+import { DefinedHour12, DefinedHour24, DefinedMinute, SelectionRange } from './index'
 
 export interface Ranges {
 	hrs12: SelectionRange

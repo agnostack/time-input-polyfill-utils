@@ -25,9 +25,7 @@ context('Aliasing', () => {
 		// @ in front of its name
 		cy.get('@firstBtn').click()
 
-		cy.get('@firstBtn')
-			.should('have.class', 'btn-success')
-			.and('contain', 'Changed')
+		cy.get('@firstBtn').should('have.class', 'btn-success').and('contain', 'Changed')
 	})
 
 	it('.as() - alias a route for later use', () => {
@@ -40,8 +38,6 @@ context('Aliasing', () => {
 		cy.get('.network-btn').click()
 
 		// https://on.cypress.io/wait
-		cy.wait('@getComment')
-			.its('status')
-			.should('eq', 200)
+		cy.wait('@getComment').its('status').should('eq', 200)
 	})
 })

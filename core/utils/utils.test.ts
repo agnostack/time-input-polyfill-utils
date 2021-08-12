@@ -1,4 +1,4 @@
-import { toLeadingZero, toNumber, toArray } from './utils'
+import { toArray, toLeadingZero, toNumber } from './utils'
 
 give_number_leading_zero()
 convert_possible_number_to_guaranteed_number()

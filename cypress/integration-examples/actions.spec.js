@@ -65,13 +65,8 @@ context('Actions', () => {
 
 	it('.submit() - submit a form', () => {
 		// https://on.cypress.io/submit
-		cy.get('.action-form')
-			.find('[type="text"]')
-			.type('HALFOFF')
-		cy.get('.action-form')
-			.submit()
-			.next()
-			.should('contain', 'Your form has been submitted!')
+		cy.get('.action-form').find('[type="text"]').type('HALFOFF')
+		cy.get('.action-form').submit().next().should('contain', 'Your form has been submitted!')
 	})
 
 	it('.click() - click on a DOM element', () => {
@@ -127,9 +122,7 @@ context('Actions', () => {
 
 		// Our app has a listener on 'dblclick' event in our 'scripts.js'
 		// that hides the div and shows an input on double click
-		cy.get('.action-div')
-			.dblclick()
-			.should('not.be.visible')
+		cy.get('.action-div').dblclick().should('not.be.visible')
 		cy.get('.action-input-hidden').should('be.visible')
 	})
 
@@ -138,9 +131,7 @@ context('Actions', () => {
 
 		// Our app has a listener on 'contextmenu' event in our 'scripts.js'
 		// that hides the div and shows an input on right click
-		cy.get('.rightclick-action-div')
-			.rightclick()
-			.should('not.be.visible')
+		cy.get('.rightclick-action-div').rightclick().should('not.be.visible')
 		cy.get('.rightclick-action-input-hidden').should('be.visible')
 	})
 
@@ -154,15 +145,10 @@ context('Actions', () => {
 			.check()
 			.should('be.checked')
 
-		cy.get('.action-radios [type="radio"]')
-			.not('[disabled]')
-			.check()
-			.should('be.checked')
+		cy.get('.action-radios [type="radio"]').not('[disabled]').check().should('be.checked')
 
 		// .check() accepts a value argument
-		cy.get('.action-radios [type="radio"]')
-			.check('radio1')
-			.should('be.checked')
+		cy.get('.action-radios [type="radio"]').check('radio1').should('be.checked')
 
 		// .check() accepts an array of values
 		cy.get('.action-multiple-checkboxes [type="checkbox"]')
@@ -170,9 +156,7 @@ context('Actions', () => {
 			.should('be.checked')
 
 		// Ignore error checking prior to checking
-		cy.get('.action-checkboxes [disabled]')
-			.check({ force: true })
-			.should('be.checked')
+		cy.get('.action-checkboxes [disabled]').check({ force: true }).should('be.checked')
 
 		cy.get('.action-radios [type="radio"]')
 			.check('radio3', { force: true })
@@ -202,9 +186,7 @@ context('Actions', () => {
 			.should('not.be.checked')
 
 		// Ignore error checking prior to unchecking
-		cy.get('.action-check [disabled]')
-			.uncheck({ force: true })
-			.should('not.be.checked')
+		cy.get('.action-check [disabled]').uncheck({ force: true }).should('not.be.checked')
 	})
 
 	it('.select() - select an option in a <select> element', () => {
@@ -231,23 +213,17 @@ context('Actions', () => {
 		cy.get('#scroll-horizontal button').should('not.be.visible')
 
 		// scroll the button into view, as if the user had scrolled
-		cy.get('#scroll-horizontal button')
-			.scrollIntoView()
-			.should('be.visible')
+		cy.get('#scroll-horizontal button').scrollIntoView().should('be.visible')
 
 		cy.get('#scroll-vertical button').should('not.be.visible')
 
 		// Cypress handles the scroll direction needed
-		cy.get('#scroll-vertical button')
-			.scrollIntoView()
-			.should('be.visible')
+		cy.get('#scroll-vertical button').scrollIntoView().should('be.visible')
 
 		cy.get('#scroll-both button').should('not.be.visible')
 
 		// Cypress knows to scroll to the right and down
-		cy.get('#scroll-both button')
-			.scrollIntoView()
-			.should('be.visible')
+		cy.get('#scroll-both button').scrollIntoView().should('be.visible')
 	})
 
 	it('.trigger() - trigger an event on a DOM element', () => {

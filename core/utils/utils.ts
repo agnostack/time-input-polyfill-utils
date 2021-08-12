@@ -1,13 +1,13 @@
-import { ToArray, ToNumber, ToLeadingZero, MatchesTimeObject } from './utils.types'
+import { MatchesTimeObject, ToArray, ToLeadingZero, ToNumber } from './utils.types'
 
-export const toArray: ToArray = NodeList => Array.prototype.slice.call(NodeList, 0)
+export const toArray: ToArray = (NodeList) => Array.prototype.slice.call(NodeList, 0)
 
-export const toNumber: ToNumber = value => {
+export const toNumber: ToNumber = (value) => {
 	const number = Number(value)
 	return isNaN(number) ? null : number
 }
 
-export const toLeadingZero: ToLeadingZero = value => {
+export const toLeadingZero: ToLeadingZero = (value) => {
 	if (value === null) return '--'
 	const number = Number(value)
 	if (isNaN(number) && typeof value !== 'number') return value

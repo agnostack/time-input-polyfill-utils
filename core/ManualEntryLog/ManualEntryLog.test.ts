@@ -1,4 +1,4 @@
-import { TimeObject, PartialTimeObject } from '../../types/index'
+import { PartialTimeObject, TimeObject } from '../../types/index'
 import { ManualEntryLog } from './ManualEntryLog'
 
 const startingFullValue = '12:30 AM'

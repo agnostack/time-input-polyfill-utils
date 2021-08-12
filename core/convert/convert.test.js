@@ -1,13 +1,12 @@
+import { failTest } from '../../cypress/support/failTest'
+import { CurrentDate } from '../../helpers/currentDate'
 import {
+	convertDateObject,
+	convertHours24,
 	convertString12hr,
 	convertString24hr,
 	convertTimeObject,
-	convertHours24,
-	convertDateObject,
 } from './convert'
-import { failTest } from '../../cypress/support/failTest'
-
-import { CurrentDate } from '../../helpers/currentDate'
 
 /* global describe, it, expect */
 
@@ -350,7 +349,7 @@ function convert_12hr_time() {
 function convert_time_object() {
 	// See core/validate/validate.test.js for time object validation tests
 	describe('convert time object', () => {
-		const timeTest = method => {
+		const timeTest = (method) => {
 			return (timeObject, result) => {
 				const objectString = JSON.stringify(timeObject)
 				it(`Expect ${objectString} to be "${result}"`, () => {
@@ -578,8 +577,8 @@ function convert_date_object() {
 	describe('Convert date object', () => {
 		const current = new CurrentDate()
 
-		const dateTest = method => {
-			return result => {
+		const dateTest = (method) => {
+			return (result) => {
 				const resultString = typeof result === 'string' ? result : JSON.stringify(result)
 				it(`Expect date to be "${resultString}"`, () => {
 					expect(convertDateObject(current.date)[method]()).to.deep.equal(result)

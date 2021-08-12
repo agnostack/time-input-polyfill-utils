@@ -1,12 +1,12 @@
-import { TimeObject } from '../../types/timeObject'
-import { String24hr, String12hr } from '../../types/strings'
-import { isString12hr, isString24hr, isTimeObject } from '../is/is'
 import { Hour24 } from '../../types/index'
+import { String12hr, String24hr } from '../../types/strings'
+import { TimeObject } from '../../types/timeObject'
+import { isString12hr, isString24hr, isTimeObject } from '../is/is'
 import {
+	ValidateHours24,
 	ValidateString12hr,
 	ValidateString24hr,
 	ValidateTimeObject,
-	ValidateHours24,
 } from './validate.types'
 
 const writeBadValue = (badValue: any): any => {
@@ -68,21 +68,24 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 
 	if (validModes.indexOf(mode) < 0) {
 		throw new Error(
-			`Mode (${writeBadValue(mode)}) is invalid. Valid values are: ${validModes.map(val =>
-				writeBadValue(val),
-			).join(', ')}`,
+			`Mode (${writeBadValue(mode)}) is invalid. Valid values are: ${validModes
+				.map((val) => writeBadValue(val))
+				.join(', ')}`,
 		)
 	}
 
 	if (
 		(hrs24 === 0 && hrs12 !== 12) ||
-		hrs24 !== null && (hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
+		(hrs24 !== null && hrs12 !== hrs24 && hrs24 < 13 && hrs24 !== 0) ||
 		(typeof hrs24 === 'number' && hrs24 > 12 && hrs12 !== hrs24 - 12)
 	) {
 		throw new Error(`hrs12 (${hrs12}) should be equal to or 12 hours behind hrs24 (${hrs24})`)
 	}
 
-	if (mode !== null && ((hrs24 && hrs24 >= 12 && mode !== 'PM') || (hrs24 && hrs24 <= 11 && mode !== 'AM'))) {
+	if (
+		mode !== null &&
+		((hrs24 && hrs24 >= 12 && mode !== 'PM') || (hrs24 && hrs24 <= 11 && mode !== 'AM'))
+	) {
 		if (mode === 'PM') {
 			throw new Error(
 				`If mode (${mode}) is "PM", hrs24 (${hrs24}) should be greater than or equal to 12`,

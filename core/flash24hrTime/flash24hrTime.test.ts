@@ -7,7 +7,7 @@ describe('Flash 24hr time', () => {
 		$input.value = '08:30 PM'
 		flash24hrTime($input)
 		expect($input.value).to.equal('20:30')
-		await new Promise(resolve => {
+		await new Promise((resolve) => {
 			setTimeout(() => {
 				resolve($input.value)
 			}, 1)

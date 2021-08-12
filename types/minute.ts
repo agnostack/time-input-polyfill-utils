@@ -1,4 +1,3 @@
-
 export type Minute = null | DefinedMinute
 
 export type DefinedMinute =

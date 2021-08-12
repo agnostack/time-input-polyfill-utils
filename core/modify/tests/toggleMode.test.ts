@@ -1,5 +1,5 @@
-import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
 import { TimeObject } from '../../../types/index'
+import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
 
 export default (): void => {
 	describe('Mode toggle', (): void => {
@@ -8,7 +8,11 @@ export default (): void => {
 		toggleTimeObject()
 
 		function createStringTestFunction(modifierFunction: Function): Function {
-			return (input: string, incrementExpectation: string, decrementExpectation: string = incrementExpectation): void => {
+			return (
+				input: string,
+				incrementExpectation: string,
+				decrementExpectation: string = incrementExpectation,
+			): void => {
 				const emptyName = '""'
 				const inputName = input || emptyName
 				const incrementExpectationName = incrementExpectation || emptyName
@@ -26,7 +30,9 @@ export default (): void => {
 							)
 						})
 						it(`toggleMode: ${inputName} => ${incrementExpectationName}`, () => {
-							expect(modifierFunction(input).toggleMode('AM')).to.equal(incrementExpectation)
+							expect(modifierFunction(input).toggleMode('AM')).to.equal(
+								incrementExpectation,
+							)
 						})
 					})
 					describe('decrement', () => {
@@ -41,7 +47,9 @@ export default (): void => {
 							)
 						})
 						it(`toggleMode: ${inputName} => ${decrementExpectationName}`, () => {
-							expect(modifierFunction(input).toggleMode('PM')).to.equal(decrementExpectation)
+							expect(modifierFunction(input).toggleMode('PM')).to.equal(
+								decrementExpectation,
+							)
 						})
 					})
 				})
@@ -181,7 +189,11 @@ export default (): void => {
 				)
 			})
 
-			function testTimeObject(input: TimeObject, incrementExpectation: TimeObject, decrementExpectation: TimeObject = incrementExpectation): void {
+			function testTimeObject(
+				input: TimeObject,
+				incrementExpectation: TimeObject,
+				decrementExpectation: TimeObject = incrementExpectation,
+			): void {
 				const inputName = JSON.stringify(input)
 				const incrementExpectationName = JSON.stringify(incrementExpectation)
 				const decrementExpectationName = JSON.stringify(decrementExpectation)
@@ -194,12 +206,14 @@ export default (): void => {
 							)
 						})
 						it(`integrated: ${inputName} => ${incrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).increment.mode.integrated()).to.deep.equal(
-								incrementExpectation,
-							)
+							expect(
+								modifyTimeObject(input).increment.mode.integrated(),
+							).to.deep.equal(incrementExpectation)
 						})
 						it(`toggleMode: ${inputName} => ${incrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).toggleMode('AM')).to.deep.equal(incrementExpectation)
+							expect(modifyTimeObject(input).toggleMode('AM')).to.deep.equal(
+								incrementExpectation,
+							)
 						})
 					})
 					describe('decrement', () => {
@@ -209,12 +223,14 @@ export default (): void => {
 							)
 						})
 						it(`integrated: ${inputName} => ${decrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).decrement.mode.integrated()).to.deep.equal(
-								decrementExpectation,
-							)
+							expect(
+								modifyTimeObject(input).decrement.mode.integrated(),
+							).to.deep.equal(decrementExpectation)
 						})
 						it(`toggleMode: ${inputName} => ${decrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).toggleMode('PM')).to.deep.equal(decrementExpectation)
+							expect(modifyTimeObject(input).toggleMode('PM')).to.deep.equal(
+								decrementExpectation,
+							)
 						})
 					})
 				})

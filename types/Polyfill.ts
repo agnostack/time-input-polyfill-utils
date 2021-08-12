@@ -1,55 +1,61 @@
-import { ToArray, ToNumber, ToLeadingZero, MatchesTimeObject } from '../core/utils/utils.types'
-import { A11yClear, A11yCreate, A11yUpdate, GetA11yElement, GetA11yValue } from '../core/a11y/a11y.types'
 import {
+	A11yClear,
+	A11yCreate,
+	A11yUpdate,
+	GetA11yElement,
+	GetA11yValue,
+} from '../core/a11y/a11y.types'
+import {
+	ConvertDateObject,
+	ConvertHours24,
+	ConvertString12hr,
 	ConvertString24hr,
 	ConvertTimeObject,
-	ConvertHours24,
-	ConvertDateObject,
-	ConvertString12hr,
 } from '../core/convert/convert.types'
-import { ManualEntryLog } from '../core/ManualEntryLog/ManualEntryLog'
-import { ModifyString12hr, ModifyString24hr, ModifyTimeObject } from '../core/modify/modify.types'
+import { Flash24hrTime } from '../core/flash24hrTime/flash24hrTime.types'
 import {
-	QuerySelectAll,
-	SelectSegment,
-	SelectNextSegment,
-	SelectPrevSegment,
-	SelectCursorSegment,
-} from '../core/select/select.types'
-import {
-	GetString24hr,
-	GetString12hr,
-	GetInputValue,
-	GetLabelTextOf,
-	GetRangeOf,
 	GetAncestorsOf,
 	GetCursorSegment,
+	GetInputValue,
+	GetLabelTextOf,
 	GetNextPrevSegment,
+	GetRangeOf,
+	GetString12hr,
+	GetString24hr,
 } from '../core/get/get.types'
 import {
-	IsPmHrs24,
-	IsPmString12hr,
-	IsPmString24hr,
-	IsPmTimeObject,
 	IsAmHrs24,
 	IsAmString12hr,
 	IsAmString24hr,
 	IsAmTimeObject,
-	IsTimeObject,
+	IsCompleteTimeObject,
+	IsPmHrs24,
+	IsPmString12hr,
+	IsPmString24hr,
+	IsPmTimeObject,
+	IsShiftHeldDown,
 	IsString12hr,
 	IsString24hr,
-	IsShiftHeldDown,
-	IsCompleteTimeObject,
+	IsTimeObject,
 } from '../core/is/is.types'
+import { ManualEntryLog } from '../core/ManualEntryLog/ManualEntryLog'
+import { ModifyString12hr, ModifyString24hr, ModifyTimeObject } from '../core/modify/modify.types'
+import { Regex } from '../core/regex/regex.types'
 import {
+	QuerySelectAll,
+	SelectCursorSegment,
+	SelectNextSegment,
+	SelectPrevSegment,
+	SelectSegment,
+} from '../core/select/select.types'
+import { MatchesTimeObject, ToArray, ToLeadingZero, ToNumber } from '../core/utils/utils.types'
+import {
+	ValidateHours24,
 	ValidateString12hr,
 	ValidateString24hr,
 	ValidateTimeObject,
-	ValidateHours24,
 } from '../core/validate/validate.types'
-import { SelectionRange, Ranges, MaxAndMins, Segment } from './index'
-import { Regex } from '../core/regex/regex.types'
-import { Flash24hrTime } from '../core/flash24hrTime/flash24hrTime.types'
+import { MaxAndMins, Ranges, Segment, SelectionRange } from './index'
 import { TimeObjectKey } from './timeObject'
 
 export interface Polyfill {

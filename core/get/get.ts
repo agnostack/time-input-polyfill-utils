@@ -1,26 +1,26 @@
 // import './dom.ie'
-import { convertString12hr, convertString24hr } from '../convert/convert'
 import {
-	SelectionIndex,
 	Segment,
+	SelectionIndex,
 	SelectionRange,
 	String12hr,
 	String24hr,
 	TimeObject,
 } from '../../types/index'
-import { ranges, rangesList } from '../staticValues'
+import { AnyHtmlElement } from '../../types/utilTypes'
+import { convertString12hr, convertString24hr } from '../convert/convert'
 import { regex } from '../regex/regex'
+import { ranges, rangesList } from '../staticValues'
 import {
-	GetString12hr,
-	GetString24hr,
-	GetInputValue,
-	GetLabelTextOf,
-	GetRangeOf,
 	GetAncestorsOf,
 	GetCursorSegment,
+	GetInputValue,
+	GetLabelTextOf,
 	GetNextPrevSegment,
+	GetRangeOf,
+	GetString12hr,
+	GetString24hr,
 } from './get.types'
-import { AnyHtmlElement } from '../../types/utilTypes'
 
 const traverseSegmentRanges = (
 	$input: HTMLInputElement | null,
@@ -29,25 +29,25 @@ const traverseSegmentRanges = (
 	const cursorSegmentRange = getRangeOf($input).cursorSegment()
 	const currentType = cursorSegmentRange.segment
 	const modifier = direction === 'forward' ? 1 : -1
-	const nextTypeIndex = rangesList.map(range => range.segment).indexOf(currentType) + modifier
+	const nextTypeIndex = rangesList.map((range) => range.segment).indexOf(currentType) + modifier
 	return rangesList[nextTypeIndex] || cursorSegmentRange
 }
 
-export const getString12hr: GetString12hr = string12hr => {
+export const getString12hr: GetString12hr = (string12hr) => {
 	const timeObject = convertString12hr(string12hr).toTimeObject()
 	return {
 		...timeObject,
 		timeObject,
 	}
 }
-export const getString24hr: GetString24hr = string24hr => {
+export const getString24hr: GetString24hr = (string24hr) => {
 	const timeObject = convertString24hr(string24hr).toTimeObject()
 	return {
 		...timeObject,
 		timeObject,
 	}
 }
-export const getInputValue: GetInputValue = $input => {
+export const getInputValue: GetInputValue = ($input) => {
 	const value = $input?.value || ''
 	const is12hrTime = regex.string12hr.test(value)
 	const is24hrTime = regex.string24hr.test(value)
@@ -75,10 +75,10 @@ export const getLabelTextOf: GetLabelTextOf = ($input, document = window.documen
 	throw new Error('Cannot polyfill time input due to a missing label.')
 }
 
-export const getCursorSegment: GetCursorSegment = $input =>
+export const getCursorSegment: GetCursorSegment = ($input) =>
 	getRangeOf($input).cursorSegment().segment
 
-export const getPrevSegment: GetNextPrevSegment = $inputOrSegment => {
+export const getPrevSegment: GetNextPrevSegment = ($inputOrSegment) => {
 	if (typeof $inputOrSegment === 'string') {
 		if ($inputOrSegment === 'hrs12') return 'hrs12'
 		if ($inputOrSegment === 'minutes') return 'hrs12'
@@ -88,7 +88,7 @@ export const getPrevSegment: GetNextPrevSegment = $inputOrSegment => {
 	return getRangeOf($inputOrSegment).prevSegment().segment
 }
 
-export const getNextSegment: GetNextPrevSegment = $inputOrSegment => {
+export const getNextSegment: GetNextPrevSegment = ($inputOrSegment) => {
 	if (typeof $inputOrSegment === 'string') {
 		if ($inputOrSegment === 'hrs12') return 'minutes'
 		if ($inputOrSegment === 'minutes') return 'mode'
@@ -98,7 +98,7 @@ export const getNextSegment: GetNextPrevSegment = $inputOrSegment => {
 	return getRangeOf($inputOrSegment).nextSegment().segment
 }
 
-export const getRangeOf: GetRangeOf = $input => ({
+export const getRangeOf: GetRangeOf = ($input) => ({
 	rawSelection: (): SelectionRange => {
 		if (!$input) {
 			return {
@@ -166,7 +166,9 @@ function aria_label($input: HTMLInputElement): string {
 }
 
 function for_attribute($input: HTMLInputElement, document: Document = window.document): string {
-	const $forLabel = <HTMLLabelElement | null>document.querySelector('label[for="' + $input.id + '"]')
+	const $forLabel = <HTMLLabelElement | null>(
+		document.querySelector('label[for="' + $input.id + '"]')
+	)
 	return elemText($forLabel)
 }
 

@@ -1,5 +1,5 @@
 import { a11yID } from '../../cypress/support/staticTestValues'
-import { getInputValue, getLabelTextOf, getCursorSegment } from '../get/get'
+import { getCursorSegment, getInputValue, getLabelTextOf } from '../get/get'
 import { A11yClear, A11yCreate, A11yUpdate, GetA11yElement, GetA11yValue } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
@@ -35,7 +35,7 @@ export const a11yUpdate: A11yUpdate = ($input, announcementArray, document = win
 		update: '$segmentValue.',
 	}
 
-	const textArray = announcementArray.map(key => announcements[key])
+	const textArray = announcementArray.map((key) => announcements[key])
 
 	const fullValue = $input.value.replace(/--/g, 'blank')
 

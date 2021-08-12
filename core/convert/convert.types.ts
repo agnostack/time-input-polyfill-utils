@@ -1,4 +1,4 @@
-import { String12hr, String24hr, TimeObject, Hour24, Hour12 } from '../../types/index'
+import { Hour12, Hour24, String12hr, String24hr, TimeObject } from '../../types/index'
 
 export interface ConvertString12hr {
 	(string12hr: String12hr): {

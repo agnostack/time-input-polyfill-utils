@@ -1,5 +1,5 @@
+import { Segment, TimeObject } from '../../../types/index'
 import { modifyString12hr, modifyTimeObject } from '../modify'
-import { TimeObject, Segment } from '../../../types/index'
 
 export default (): void => {
 	describe('Clear tests', (): void => {

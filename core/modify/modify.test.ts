@@ -1,18 +1,17 @@
-import { TimeObject, String12hr, String24hr, Segment } from '../../types/index'
-
-import hoursIncrementTests from './tests/increment/hours.increment.test'
+import { loadTestPage } from '../../cypress/support/loadTestPage'
+import { Segment, String12hr, String24hr, TimeObject } from '../../types/index'
+import { convertTimeObject } from '../convert/convert'
+import { selectSegment } from '../select/select'
+import { modifyString12hr, modifyTimeObject } from './modify'
+import { Action, Integration } from './modify.types'
+import clearTests from './tests/clear.test'
+import cursorSegmentDecrement from './tests/decrement/cursorSegment.decrement.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
-import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
 import cursorSegmentIncrement from './tests/increment/cursorSegment.increment.test'
-import cursorSegmentDecrement from './tests/decrement/cursorSegment.decrement.test'
+import hoursIncrementTests from './tests/increment/hours.increment.test'
+import minutesIncrementTests from './tests/increment/minutes.increment.test'
 import toggleModeTest from './tests/toggleMode.test'
-import clearTests from './tests/clear.test'
-import { loadTestPage } from '../../cypress/support/loadTestPage'
-import { selectSegment } from '../select/select'
-import { convertTimeObject } from '../convert/convert'
-import { Action, Integration } from './modify.types'
-import { modifyTimeObject, modifyString12hr } from './modify'
 
 interface StringModifierTest {
 	before: String24hr | String12hr
@@ -62,7 +61,8 @@ export function segmentTest({ segment, before, after, action, integration }: Seg
 		selectSegment($input, segment)
 		expect(
 			// eslint-disable-next-line prettier/prettier
-			modifyString12hr(before)[action].cursorSegment($input)[integration]()).to.equal(after)
+			modifyString12hr(before)[action].cursorSegment($input)[integration](),
+		).to.equal(after)
 	})
 }
 

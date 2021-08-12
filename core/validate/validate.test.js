@@ -1,9 +1,9 @@
-import { validateString12hr, validateString24hr, validateTimeObject } from './validate'
 import { failTest } from '../../cypress/support/failTest'
+import { validateString12hr, validateString24hr, validateTimeObject } from './validate'
 
 /* global describe, expect, it */
 
-const writeBadValue = badValue => (typeof badValue === 'string' ? `"${badValue}"` : badValue)
+const writeBadValue = (badValue) => (typeof badValue === 'string' ? `"${badValue}"` : badValue)
 
 validate12hrTests()
 validate24hrTests()
@@ -11,7 +11,7 @@ validateTimeObjectTests()
 
 function validate12hrTests() {
 	describe('validate 12 hour time', () => {
-		const fail12hr = value => {
+		const fail12hr = (value) => {
 			it(`"${value}" FAIL`, () => {
 				failTest(
 					() => validateString12hr(value),
@@ -19,7 +19,7 @@ function validate12hrTests() {
 				)
 			})
 		}
-		const pass12hr = value => {
+		const pass12hr = (value) => {
 			it(`"${value}" PASS`, () => {
 				expect(validateString12hr(value)).to.equal(true)
 			})
@@ -55,7 +55,7 @@ function validate24hrTests() {
 				)
 			})
 		}
-		const pass24hr = value => {
+		const pass24hr = (value) => {
 			it(`"${value}" PASS`, () => {
 				expect(validateString24hr(value)).to.equal(true)
 			})
@@ -111,7 +111,7 @@ function validateTimeObjectTests() {
 
 		function invalidPropTests() {
 			describe('invalid properties', () => {
-				const invalidProp = propName => {
+				const invalidProp = (propName) => {
 					it(`"${propName}" property is not valid`, () => {
 						const testObject = {
 							hrs24: 1,
@@ -139,7 +139,7 @@ function validateTimeObjectTests() {
 					'min',
 					'minute',
 				]
-				invalidProps.forEach(prop => invalidProp(prop))
+				invalidProps.forEach((prop) => invalidProp(prop))
 			})
 		}
 
@@ -149,7 +149,7 @@ function validateTimeObjectTests() {
 					const validTimeObject = { hrs24: 1, hrs12: 1, minutes: 0, mode: 'AM' }
 					const goodValue = validTimeObject[propName]
 					const badPropValues = [`${goodValue}`, upper + 1, lower - 1]
-					const badTimeObjects = badPropValues.map(badValue => ({
+					const badTimeObjects = badPropValues.map((badValue) => ({
 						...validTimeObject,
 						[propName]: badValue,
 					}))
@@ -199,7 +199,7 @@ function validateTimeObjectTests() {
 			describe('missing properties', () => {
 				const validTimeObject = { hrs24: 1, hrs12: 1, minutes: 0, mode: 'AM' }
 
-				const missingPropTest = missingProp => {
+				const missingPropTest = (missingProp) => {
 					const badTimeObject = { ...validTimeObject }
 					delete badTimeObject[missingProp]
 

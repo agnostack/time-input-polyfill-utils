@@ -1,28 +1,28 @@
-import { timeObjectKeys } from '../staticValues'
+import { getKeys } from '../../helpers/utils'
+import { TimeObjectKey } from '../../types/timeObject'
 import { regex } from '../regex/regex'
+import { timeObjectKeys } from '../staticValues'
 import { toNumber } from '../utils/utils'
 import {
-	ValidateTimeStringProps,
-	IsPmHrs24,
-	IsPmString12hr,
-	IsPmString24hr,
-	IsPmTimeObject,
 	IsAmHrs24,
 	IsAmString12hr,
 	IsAmString24hr,
 	IsAmTimeObject,
+	IsCompleteTimeObject,
+	IsPmHrs24,
+	IsPmString12hr,
+	IsPmString24hr,
+	IsPmTimeObject,
+	IsShiftHeldDown,
 	IsString12hr,
 	IsString24hr,
 	IsTimeObject,
-	IsShiftHeldDown,
-	IsCompleteTimeObject,
+	ValidateTimeStringProps,
 } from './is.types'
-import { TimeObjectKey } from '../../types/timeObject'
-import { getKeys } from '../../helpers/utils'
 
 export let isShiftHeldDown: IsShiftHeldDown = false
-window.addEventListener('keyup', e => (isShiftHeldDown = e.shiftKey))
-window.addEventListener('keydown', e => (isShiftHeldDown = e.shiftKey))
+window.addEventListener('keyup', (e) => (isShiftHeldDown = e.shiftKey))
+window.addEventListener('keydown', (e) => (isShiftHeldDown = e.shiftKey))
 
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
@@ -63,14 +63,15 @@ export const isAmString12hr: IsAmString12hr = (string12hr): boolean =>
 export const isAmString24hr: IsAmString24hr = (string24hr): boolean =>
 	string24hr !== '' && !isPmString24hr(string24hr)
 
-export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean => !isPmTimeObject(timeObject) && isCompleteTimeObject(timeObject)
+export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean =>
+	!isPmTimeObject(timeObject) && isCompleteTimeObject(timeObject)
 
 export const isTimeObject: IsTimeObject = (value): boolean => {
 	if (typeof value === 'undefined' || typeof value !== 'object') return false
 	const keys = Object.keys(value)
 	if (keys.length === 0) return false
-	const filteredKeys = timeObjectKeys.filter(key => keys.indexOf(key) === -1)
-	const additionalKeys = keys.filter(key => {
+	const filteredKeys = timeObjectKeys.filter((key) => keys.indexOf(key) === -1)
+	const additionalKeys = keys.filter((key) => {
 		// key might not be a TimeObjectKey but that is exactly what I'm checking for here
 		return timeObjectKeys.indexOf(key as TimeObjectKey) === -1
 	})
@@ -81,7 +82,7 @@ export const isCompleteTimeObject: IsCompleteTimeObject = (timeObject) => {
 	if (!isTimeObject(timeObject)) {
 		return false
 	}
-	return getKeys(timeObject).every(key => timeObject[key] !== null)
+	return getKeys(timeObject).every((key) => timeObject[key] !== null)
 }
 
 export const isString12hr: IsString12hr = (value): boolean =>

@@ -1,25 +1,31 @@
-import { TimeObject, Hour24, Minute, String12hr, String24hr, Mode, Hour12, GuaranteedMode } from '../../types/index'
+import { blankValues } from '../../common/blankValues'
 import {
-	convertString12hr,
-	convertString24hr,
-	convertTimeObject,
-} from '../convert/convert'
-import { maxAndMins } from '../staticValues'
+	GuaranteedMode,
+	Hour12,
+	Hour24,
+	Minute,
+	Mode,
+	String12hr,
+	String24hr,
+	TimeObject,
+} from '../../types/index'
+import { convertString12hr, convertString24hr, convertTimeObject } from '../convert/convert'
+import { getCursorSegment } from '../get/get'
 import { isAmTimeObject } from '../is/is'
+import { maxAndMins } from '../staticValues'
 import {
+	Action,
 	Integration,
 	ModifyString12hr,
 	ModifyString24hr,
 	ModifyTimeObject,
-	Action,
 } from './modify.types'
-import { getCursorSegment } from '../get/get'
-import { blankValues } from '../../common/blankValues'
 
-export const modifyString12hr: ModifyString12hr = string12hr => {
+export const modifyString12hr: ModifyString12hr = (string12hr) => {
 	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
 		isolated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
-		integrated: (): String12hr => modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String12hr =>
+			modifyString12hr(string12hr).toggleMode(preferredModeWhenNull),
 	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
@@ -40,15 +46,19 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		increment: {
 			hrs12: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.hrs12.isolated()),
+					modify((timeObject) => modifyTimeObject(timeObject).increment.hrs12.isolated()),
 				integrated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.hrs12.integrated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).increment.hrs12.integrated(),
+					),
 			},
 			minutes: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.minutes.isolated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).increment.minutes.isolated(),
+					),
 				integrated: (): String12hr =>
-					modify(timeObject =>
+					modify((timeObject) =>
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
@@ -58,15 +68,19 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 		decrement: {
 			hrs12: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs12.isolated()),
+					modify((timeObject) => modifyTimeObject(timeObject).decrement.hrs12.isolated()),
 				integrated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs12.integrated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).decrement.hrs12.integrated(),
+					),
 			},
 			minutes: {
 				isolated: (): String12hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.minutes.isolated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).decrement.minutes.isolated(),
+					),
 				integrated: (): String12hr =>
-					modify(timeObject =>
+					modify((timeObject) =>
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
@@ -74,22 +88,27 @@ export const modifyString12hr: ModifyString12hr = string12hr => {
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
 		toggleMode: (preferredModeWhenNull): String12hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
+			modify(
+				(timeObject) => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+				true,
+			),
 
 		clear: {
 			hrs12: (): String12hr =>
-				modify(timeObject => modifyTimeObject(timeObject).clear.hrs12()),
+				modify((timeObject) => modifyTimeObject(timeObject).clear.hrs12()),
 			minutes: (): String12hr =>
-				modify(timeObject => modifyTimeObject(timeObject).clear.minutes()),
-			mode: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.mode()),
-			all: (): String12hr => modify(timeObject => modifyTimeObject(timeObject).clear.all()),
+				modify((timeObject) => modifyTimeObject(timeObject).clear.minutes()),
+			mode: (): String12hr =>
+				modify((timeObject) => modifyTimeObject(timeObject).clear.mode()),
+			all: (): String12hr => modify((timeObject) => modifyTimeObject(timeObject).clear.all()),
 		},
 	}
 }
-export const modifyString24hr: ModifyString24hr = string24hr => {
+export const modifyString24hr: ModifyString24hr = (string24hr) => {
 	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
 		isolated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
-		integrated: (): String24hr => modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
+		integrated: (): String24hr =>
+			modifyString24hr(string24hr).toggleMode(preferredModeWhenNull),
 	})
 
 	const modify = (
@@ -105,15 +124,19 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 		increment: {
 			hrs24: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.hrs24.isolated()),
+					modify((timeObject) => modifyTimeObject(timeObject).increment.hrs24.isolated()),
 				integrated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.hrs24.integrated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).increment.hrs24.integrated(),
+					),
 			},
 			minutes: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).increment.minutes.isolated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).increment.minutes.isolated(),
+					),
 				integrated: (): String24hr =>
-					modify(timeObject =>
+					modify((timeObject) =>
 						modifyTimeObject(timeObject).increment.minutes.integrated(),
 					),
 			},
@@ -122,28 +145,36 @@ export const modifyString24hr: ModifyString24hr = string24hr => {
 		decrement: {
 			hrs24: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs24.isolated()),
+					modify((timeObject) => modifyTimeObject(timeObject).decrement.hrs24.isolated()),
 				integrated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.hrs24.integrated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).decrement.hrs24.integrated(),
+					),
 			},
 			minutes: {
 				isolated: (): String24hr =>
-					modify(timeObject => modifyTimeObject(timeObject).decrement.minutes.isolated()),
+					modify((timeObject) =>
+						modifyTimeObject(timeObject).decrement.minutes.isolated(),
+					),
 				integrated: (): String24hr =>
-					modify(timeObject =>
+					modify((timeObject) =>
 						modifyTimeObject(timeObject).decrement.minutes.integrated(),
 					),
 			},
 			mode: modeToggle('PM'),
 		},
 		toggleMode: (preferredModeWhenNull): String24hr =>
-			modify(timeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull), true),
+			modify(
+				(timeObject) => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+				true,
+			),
 	}
 }
-export const modifyTimeObject: ModifyTimeObject = timeObject => {
+export const modifyTimeObject: ModifyTimeObject = (timeObject) => {
 	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
 		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
-		integrated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
+		integrated: (): TimeObject =>
+			modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
 	})
 	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const cursorSegmentModifier = (action: Action) => ($input: HTMLInputElement | null) => {
@@ -307,7 +338,6 @@ const nudgeIsolatedTimeObjectHrs = (
 		timeObject,
 		integration: 'isolated',
 		blankCallback: (copiedObject: TimeObject): TimeObject => {
-
 			if (direction === 'up') {
 				if (copiedObject.mode === 'PM') {
 					copiedObject.hrs24 = 13

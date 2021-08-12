@@ -8,11 +8,8 @@ context('Utilities', () => {
 
 	it('Cypress._ - call a lodash method', () => {
 		// https://on.cypress.io/_
-		cy.request('https://jsonplaceholder.cypress.io/users').then(response => {
-			let ids = Cypress._.chain(response.body)
-				.map('id')
-				.take(3)
-				.value()
+		cy.request('https://jsonplaceholder.cypress.io/users').then((response) => {
+			let ids = Cypress._.chain(response.body).map('id').take(3).value()
 
 			expect(ids).to.deep.eq([1, 2, 3])
 		})
@@ -22,22 +19,19 @@ context('Utilities', () => {
 		// https://on.cypress.io/$
 		let $li = Cypress.$('.utility-jquery li:first')
 
-		cy.wrap($li)
-			.should('not.have.class', 'active')
-			.click()
-			.should('have.class', 'active')
+		cy.wrap($li).should('not.have.class', 'active').click().should('have.class', 'active')
 	})
 
 	it('Cypress.Blob - blob utilities and base64 string conversion', () => {
 		// https://on.cypress.io/blob
-		cy.get('.utility-blob').then($div =>
+		cy.get('.utility-blob').then(($div) =>
 			// https://github.com/nolanlawson/blob-util#imgSrcToDataURL
 			// get the dataUrl string for the javascript-logo
 			Cypress.Blob.imgSrcToDataURL(
 				'https://example.cypress.io/assets/img/javascript-logo.png',
 				undefined,
 				'anonymous',
-			).then(dataUrl => {
+			).then((dataUrl) => {
 				// create an <img> element and set its src to the dataUrl
 				let img = Cypress.$('<img />', { src: dataUrl })
 
@@ -46,9 +40,7 @@ context('Utilities', () => {
 				// append the image
 				$div.append(img)
 
-				cy.get('.utility-blob img')
-					.click()
-					.should('have.attr', 'src', dataUrl)
+				cy.get('.utility-blob img').click().should('have.attr', 'src', dataUrl)
 			}),
 		)
 	})
@@ -82,21 +74,17 @@ context('Utilities', () => {
 
 	it('Cypress.moment() - format or parse dates using a moment method', () => {
 		// https://on.cypress.io/moment
-		const time = Cypress.moment('2014-04-25T19:38:53.196Z')
-			.utc()
-			.format('h:mm A')
+		const time = Cypress.moment('2014-04-25T19:38:53.196Z').utc().format('h:mm A')
 
 		expect(time).to.be.a('string')
 
-		cy.get('.utility-moment')
-			.contains('3:38 PM')
-			.should('have.class', 'badge')
+		cy.get('.utility-moment').contains('3:38 PM').should('have.class', 'badge')
 
 		// the time in the element should be between 3pm and 5pm
 		const start = Cypress.moment('3:00 PM', 'LT')
 		const end = Cypress.moment('5:00 PM', 'LT')
 
-		cy.get('.utility-moment .badge').should($el => {
+		cy.get('.utility-moment .badge').should(($el) => {
 			// parse American time like "3:38 PM"
 			const m = Cypress.moment($el.text().trim(), 'LT')
 
@@ -120,7 +108,7 @@ context('Utilities', () => {
 		function waitOneSecond() {
 			// return a promise that resolves after 1 second
 			// @ts-ignore TS2351 (new Cypress.Promise)
-			return new Cypress.Promise(resolve => {
+			return new Cypress.Promise((resolve) => {
 				setTimeout(() => {
 					// set waited to true
 					waited = true
@@ -135,7 +123,7 @@ context('Utilities', () => {
 			// return a promise to cy.then() that
 			// is awaited until it resolves
 			// @ts-ignore TS7006
-			waitOneSecond().then(str => {
+			waitOneSecond().then((str) => {
 				expect(str).to.eq('foo')
 				expect(waited).to.be.true
 			}),

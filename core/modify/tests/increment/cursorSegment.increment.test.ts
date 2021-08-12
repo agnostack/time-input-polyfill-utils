@@ -1,5 +1,5 @@
-import { segmentTest, segmentTimeObjectTest } from '../../modify.test'
 import { Segment, TimeObject } from '../../../../types/index'
+import { segmentTest, segmentTimeObjectTest } from '../../modify.test'
 import { Integration } from '../../modify.types'
 
 interface CreateSegmentTest {

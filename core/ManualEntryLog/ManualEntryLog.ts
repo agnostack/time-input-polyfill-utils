@@ -1,12 +1,12 @@
 import {
-	Segment,
-	Hour12,
-	TimeObject,
-	Minute,
-	Mode,
-	String12hr,
 	DefinedHour12,
 	DefinedMinute,
+	Hour12,
+	Minute,
+	Mode,
+	Segment,
+	String12hr,
+	TimeObject,
 } from '../../types/index'
 import { maxAndMins } from '../staticValues'
 import { toLeadingZero } from '../utils/utils'
@@ -22,7 +22,7 @@ type NumericEntries = Array<zeroToNine>
 const convertNumberToEntries = (number: DefinedHour12 | DefinedMinute): NumericEntries => {
 	return String(number)
 		.split('')
-		.map(value => <zeroToNine>parseInt(value))
+		.map((value) => <zeroToNine>parseInt(value))
 }
 
 const convertEntriesToNumber = (entries: NumericEntries): DefinedHour12 | DefinedMinute => {

@@ -1,4 +1,4 @@
-import { TimeObject, String12hr, String24hr, GuaranteedMode } from '../../types/index'
+import { GuaranteedMode, String12hr, String24hr, TimeObject } from '../../types/index'
 
 export type Integration = 'isolated' | 'integrated'
 export type Action = 'increment' | 'decrement'
@@ -20,9 +20,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			cursorSegment: (
-				$input: HTMLInputElement | null,
-			) => {
+			cursorSegment: ($input: HTMLInputElement | null) => {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
@@ -40,9 +38,7 @@ export interface ModifyString12hr {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
-			cursorSegment: (
-				$input: HTMLInputElement | null,
-			) => {
+			cursorSegment: ($input: HTMLInputElement | null) => {
 				isolated: () => String12hr
 				integrated: () => String12hr
 			}
@@ -108,9 +104,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			cursorSegment: (
-				$input: HTMLInputElement | null,
-			) => {
+			cursorSegment: ($input: HTMLInputElement | null) => {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
@@ -132,9 +126,7 @@ export interface ModifyTimeObject {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}
-			cursorSegment: (
-				$input: HTMLInputElement | null,
-			) => {
+			cursorSegment: ($input: HTMLInputElement | null) => {
 				isolated: () => TimeObject
 				integrated: () => TimeObject
 			}

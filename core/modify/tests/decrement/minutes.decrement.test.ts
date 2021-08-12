@@ -1,10 +1,10 @@
-import {
-	modifierTest,
-	deepModifierTest,
-	BeforeAfterString,
-	BeforeAfterObject,
-} from '../../modify.test'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../../modify'
+import {
+	BeforeAfterObject,
+	BeforeAfterString,
+	deepModifierTest,
+	modifierTest,
+} from '../../modify.test'
 
 export default (): void => {
 	describe('Decrement minutes', () => {
