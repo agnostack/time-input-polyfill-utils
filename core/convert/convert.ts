@@ -31,10 +31,14 @@ export const convertString12hr: ConvertString12hr = string12hr => {
 			const [hrs12, minutes, mode] = [
 				<Hour12>toNumber(result[1]),
 				<Minute>toNumber(result[2]),
-				<Mode>result[3],
+				<Mode>(result[3] === '--' ? null : result[3]),
 			]
 			const getHrs24 = (): Hour24 => {
 				if (typeof hrs12 === 'number') {
+					if (mode === null && hrs12 === 12) {
+						return 0
+					}
+
 					if (mode === 'PM') {
 						if (hrs12 === 12) {
 							return 12
