@@ -66,7 +66,7 @@ export const isAmString12hr: IsAmString12hr = (string12hr): boolean =>
 export const isAmString24hr: IsAmString24hr = (string24hr): boolean =>
 	string24hr !== '' && !isPmString24hr(string24hr)
 
-export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean => !isPmTimeObject(timeObject)
+export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean => !isPmTimeObject(timeObject) && isCompleteTimeObject(timeObject)
 
 export const isTimeObject: IsTimeObject = (value): boolean => {
 	if (typeof value === 'undefined' || typeof value !== 'object') return false
