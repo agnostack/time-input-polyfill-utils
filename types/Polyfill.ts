@@ -39,6 +39,7 @@ import {
 	IsString12hr,
 	IsString24hr,
 	IsShiftHeldDown,
+	IsCompleteTimeObject,
 } from '../core/is/is.types'
 import {
 	ValidateString12hr,
@@ -94,6 +95,7 @@ export interface Polyfill {
 	isAmTimeObject: IsAmTimeObject
 
 	isTimeObject: IsTimeObject
+	isCompleteTimeObject: IsCompleteTimeObject
 	isString12hr: IsString12hr
 	isString24hr: IsString24hr
 
