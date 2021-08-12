@@ -36,7 +36,7 @@ export default (): void => {
 						})
 						increment12hrIsolated({
 							before: '--:00 AM',
-							after: `1:00 AM`,
+							after: `01:00 AM`,
 						})
 						increment12hrIsolated({
 							before: '--:00 PM',
