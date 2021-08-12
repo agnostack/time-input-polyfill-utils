@@ -241,7 +241,7 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			cursorSegment: cursorSegmentModifier('decrement'),
 		},
 		toggleMode: (): TimeObject => {
-			const { hrs12, mode } = timeObject
+			const { hrs12, hrs24, mode } = timeObject
 
 			const returnVal: TimeObject = { ...timeObject }
 
@@ -265,8 +265,13 @@ export const modifyTimeObject: ModifyTimeObject = timeObject => {
 			}
 
 			if (mode === null) {
-				returnVal.mode = 'AM'
-				returnVal.hrs24 = <Hour24>get24HrHours('AM')
+				if (hrs24 !== null && hrs24 > 11) {
+					returnVal.mode = 'PM'
+					returnVal.hrs24 = hrs24
+				} else {
+					returnVal.mode = 'AM'
+					returnVal.hrs24 = <Hour24>get24HrHours('AM')
+				}
 			} else {
 				returnVal.mode = isAM ? 'PM' : 'AM'
 				returnVal.hrs24 = <Hour24>get24HrHours(isAM ? 'PM' : 'AM')
