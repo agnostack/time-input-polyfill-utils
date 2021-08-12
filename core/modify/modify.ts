@@ -358,7 +358,7 @@ const nudgeTimeObjectHrs = <T extends 'hrs12' | 'hrs24'>({
 	timeObject: TimeObject
 	// Do you want it to alter AM/PM?
 	integration: Integration
-	// A function to call if the hrs24 and hrs12 values start off as blank ("--")
+	// A function to call if the hrs24 and hrs12 values start off as blank (null)
 	blankCallback: Function
 }): TimeObject => {
 	const hrsType = <T>(integration === 'integrated' ? 'hrs24' : 'hrs12')
