@@ -68,5 +68,5 @@ export const getA11yValue: GetA11yValue = (document = window.document) => {
 }
 
 export const getA11yElement: GetA11yElement = (document = window.document) => {
-	return document.getElementById(a11yID)
+	return document.getElementById(a11yID) as HTMLDivElement
 }
