@@ -434,5 +434,9 @@ const straightenTimeObjectMode = (basedOn: 'hrs12' | 'hrs24', invalidTimeObj: Ti
 		return mode === null ? 'AM' : mode
 	}
 
+	if (basedOn === 'hrs24' && invalidTimeObj.hrs24 === null && mode !== null) {
+		return mode
+	}
+
 	return hrs24 && hrs24 > 11 ? 'PM' : 'AM'
 }
