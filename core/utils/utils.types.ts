@@ -1,5 +1,4 @@
-import { TimeObject } from '../../types/index'
-import { AnyHtmlElement } from '../../types/utilTypes'
+import { TimeObject, AnyHtmlElement } from '../../types/index'
 
 export type ToArray = <ElementType extends AnyHtmlElement>(NodeList: NodeList) => Array<ElementType>
 

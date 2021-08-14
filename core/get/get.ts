@@ -6,8 +6,8 @@ import {
 	String12hr,
 	String24hr,
 	TimeObject,
+	AnyHtmlElement,
 } from '../../types/index'
-import { AnyHtmlElement } from '../../types/utilTypes'
 import { convertString12hr, convertString24hr } from '../convert/convert'
 import { regex } from '../regex/regex'
 import { ranges, rangesList } from '../staticValues'

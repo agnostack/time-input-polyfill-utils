@@ -10,3 +10,5 @@ export * from './core/select/select'
 export * from './core/staticValues'
 export * from './core/utils/utils'
 export * from './core/validate/validate'
+export * from './types/index'
+
