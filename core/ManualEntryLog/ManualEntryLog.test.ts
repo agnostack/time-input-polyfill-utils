@@ -227,26 +227,26 @@ function Add_1_2_3_4(): void {
 
 function Add_0(): void {
 	describe('Add "0"', () => {
-		it(`hrs12: 08:30 AM > 08:30 AM`, () => {
-			const entryLog = createEntryLog({ customStartTime: { hrs12: 8, hrs24: 8 } })
+		it(`hrs12: 08:30 PM > 12:30 PM`, () => {
+			const entryLog = createEntryLog({ customStartTime: { hrs12: 8, hrs24: 20, mode: 'PM' } })
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
-			expect(entryLog.hrs12.value).to.equal(8)
-			expect(entryLog.fullValue12hr).to.equal('08:30 AM')
+			expect(entryLog.hrs12.value).to.equal(12) // entering "0" once causes hours to set itself to 12
+			expect(entryLog.fullValue12hr).to.equal('12:30 PM')
 		})
-		it(`hrs12: ${startingFullValue} > 02:30 AM`, () => {
+		it(`hrs12: ${startingFullValue} > 12:30 AM`, () => {
 			const entryLog = createEntryLog()
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
-			expect(entryLog.hrs12.value).to.equal(2)
-			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
+			expect(entryLog.hrs12.value).to.equal(12)
+			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
-		it('minutes: 12:35 AM > 12:05 AM', () => {
+		it('minutes: 12:35 AM > 12:00 AM', () => {
 			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
 			entryLog.minutes.add('0')
 			expect(entryLog.minutes.entries).to.deep.equal([0])
-			expect(entryLog.minutes.value).to.equal(5)
-			expect(entryLog.fullValue12hr).to.equal('12:05 AM')
+			expect(entryLog.minutes.value).to.equal(0)
+			expect(entryLog.fullValue12hr).to.equal('12:00 AM')
 		})
 		it(`mode: ${startingFullValue} > ${startingFullValue}`, () => {
 			const entryLog = createEntryLog()
@@ -264,7 +264,7 @@ function Add_0_1(): void {
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('1')
 			expect(entryLog.hrs12.entries).to.deep.equal([0, 1])
-			expect(entryLog.hrs12.value).to.equal(1)
+			expect(entryLog.hrs12.value).to.equal(1) // entering a number after "0" sets it to "0_"
 			expect(entryLog.fullValue12hr).to.equal('01:30 AM')
 		})
 		it(`minutes: ${startingFullValue} > 12:01 AM`, () => {
@@ -287,14 +287,14 @@ function Add_0_1(): void {
 
 function Add_0_1_0(): void {
 	describe('Add "0" > add "1" > add "0"', () => {
-		it(`hrs12: ${startingFullValue} > 01:30 AM`, () => {
+		it(`hrs12: ${startingFullValue} > 12:30 AM`, () => {
 			const entryLog = createEntryLog()
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('1') // becomes 1am here
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
-			expect(entryLog.hrs12.value).to.equal(1)
-			expect(entryLog.fullValue12hr).to.equal('01:30 AM')
+			expect(entryLog.hrs12.value).to.equal(12)
+			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:00 AM', () => {
 			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
@@ -302,8 +302,8 @@ function Add_0_1_0(): void {
 			entryLog.minutes.add('1')
 			entryLog.minutes.add('0')
 			expect(entryLog.minutes.entries).to.deep.equal([0])
-			expect(entryLog.minutes.value).to.equal(1)
-			expect(entryLog.fullValue12hr).to.equal('12:01 AM')
+			expect(entryLog.minutes.value).to.equal(0)
+			expect(entryLog.fullValue12hr).to.equal('12:00 AM')
 		})
 		it(`mode: ${startingFullValue} > ${startingFullValue}`, () => {
 			const entryLog = createEntryLog()
@@ -323,7 +323,7 @@ function Add_0_0(): void {
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
-			expect(entryLog.hrs12.value).to.equal(12)
+			expect(entryLog.hrs12.value).to.equal(12) // 2 zeros in a row sets the value to 12
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it('hrs12: 11:30 AM > 12:30 AM', () => {
@@ -361,8 +361,8 @@ function Add_0_0_0(): void {
 			entryLog.hrs12.add('0') // becomes 12am here
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
-			expect(entryLog.hrs12.value).to.equal(2)
-			expect(entryLog.fullValue12hr).to.equal('02:30 AM')
+			expect(entryLog.hrs12.value).to.equal(12) // adding a 3rd zero is the same as adding 1 zero
+			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it('minutes: 12:35 AM > 12:00 AM', () => {
 			const entryLog = createEntryLog({ customStartTime: { minutes: 35 } })
