@@ -78,7 +78,7 @@ class SegmentLog {
 				12:30 AM >> type 2 > 1 (hrs) >> [1] >> 01:30 AM
 				12:30 AM >> type 2 > 1 > 2 (hrs) >> [1,2] >> 12:30 AM
 
-				12:30 AM >> type 0 (hrs) >> [2]
+				12:30 AM >> type 0 (hrs) >> [1,2] >> 12:30 AM
 			*/
 
 			const isGreaterThanMax = (number: number): boolean => {
@@ -87,66 +87,68 @@ class SegmentLog {
 				}
 				return false
 			}
+			const isFirst = this.entries.length === 0
+			const isSecond = this.entries.length === 1
+			const isThird = this.entries.length === 2
 
-			if (isZero) {
-				const entriesFromInitialValue = convertNumberToEntries(
-					<DefinedMinute | DefinedHour12>this.value,
-				)
+			const isSecondZero = isZero && isSecond && this.entries[0] === 0
 
-				this.entries.push(0)
-
-				const handlePotentialGreaterThanMaxNumbers = (entries: NumericEntries): void => {
-					const entriesAsNumber = convertEntriesToNumber(entries)
-					if (isGreaterThanMax(entriesAsNumber)) {
-						this.entries = [0]
-					} else {
-						this.value = entriesAsNumber
-						if (this.entries.length === 2) {
-							this.limitHit()
-						}
-					}
+			if (this.segment === 'hrs12') {
+				if ((isFirst || isThird) && isZero) {
+					this.entries = [0]
+					this.value = 12
+					this.update()
+					return
+				} else if (isSecondZero) {
+					this.entries = [0, 0]
+					this.value = 12
+					this.limitHit()
+					this.update()
+					return
 				}
+			} else if (this.segment === 'minutes') {
+				if ((isFirst || isThird) && isZero) {
+					this.entries = [0]
+					this.value = 0
+					this.update()
+					return
+				} else if (isSecondZero) {
+					this.entries = [0, 0]
+					this.value = 0
+					this.limitHit()
+					this.update()
+					return
+				}
+			}
 
-				if (this.entries.length === 2) {
-					// length is 2, 2nd value will always be 0 because it was pushed, if first value is zero it means double zeros
-					const isDoubleZeros = this.entries[0] === 0
-
-					if (isDoubleZeros) {
-						if (this.segment === 'hrs12') {
-							this.value = 12
-							this.entries = [1, 2]
-						} else {
-							this.value = 0
-						}
-					} else {
-						handlePotentialGreaterThanMaxNumbers(<NumericEntries>this.entries)
-					}
+			if (isZero && isSecond) {
+				if (this.entries[0] > 1) {
+					this.entries = [0]
+					this.value = this.segment === 'hrs12' ? 12 : 0
 				} else {
-					if (this.entries.length > 2) {
-						this.entries = [0]
-					}
-					if (entriesFromInitialValue.length === 2) {
-						entriesFromInitialValue[0] = 0
-					}
-					handlePotentialGreaterThanMaxNumbers(entriesFromInitialValue)
+					this.entries.push(number as zeroToNine)
+					this.value = convertEntriesToNumber(this.entries as NumericEntries)
+					this.limitHit()
+				}
+				this.update()
+				return
+			}
+
+			const newEntries = <NumericEntries>[...this.entries, <zeroToNine>number]
+			const newValue = convertEntriesToNumber(newEntries)
+
+			if (isGreaterThanMax(newValue)) {
+				this.value = <zeroToNine>number
+				this.entries = [<zeroToNine>number]
+
+				if (isGreaterThanMax(number * 10)) {
+					this.limitHit()
 				}
 			} else {
-				const newEntries = <NumericEntries>[...this.entries, <zeroToNine>number]
-				const newValue = convertEntriesToNumber(newEntries)
-
-				if (isGreaterThanMax(newValue)) {
-					this.value = <zeroToNine>number
-					this.entries = [<zeroToNine>number]
-
-					if (isGreaterThanMax(number * 10)) {
-						this.limitHit()
-					}
-				} else {
-					this.value = newValue
-					this.entries = newEntries
-					if (newEntries.length === 2 || isGreaterThanMax(number * 10)) {
-						this.limitHit()
-					}
+				this.value = newValue
+				this.entries = newEntries
+				if (newEntries.length === 2 || isGreaterThanMax(number * 10)) {
+					this.limitHit()
 				}
 			}
 		}

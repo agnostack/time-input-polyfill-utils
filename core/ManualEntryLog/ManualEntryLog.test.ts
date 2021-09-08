@@ -322,7 +322,7 @@ function Add_0_0(): void {
 			const entryLog = createEntryLog()
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0')
-			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
+			expect(entryLog.hrs12.entries).to.deep.equal([0, 0])
 			expect(entryLog.hrs12.value).to.equal(12) // 2 zeros in a row sets the value to 12
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
@@ -331,7 +331,7 @@ function Add_0_0(): void {
 			entryLog.hrs12.add('0')
 			entryLog.hrs12.add('0')
 			// Entering "00" in the hours segment should return "12"
-			expect(entryLog.hrs12.entries).to.deep.equal([1, 2])
+			expect(entryLog.hrs12.entries).to.deep.equal([0, 0])
 			expect(entryLog.hrs12.value).to.equal(12)
 			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
@@ -499,7 +499,7 @@ function Add_P(): void {
 
 function greater_than_max_tests(): void {
 	describe('Greater than max tests', () => {
-		it(`Add "7" > "0" to hrs: ${startingFullValue} > 07:30 AM`, () => {
+		it(`Add "7" > "0" to hrs: ${startingFullValue} > 12:30 AM`, () => {
 			let hasHitLimit = false
 			const entryLog = createEntryLog({
 				onLimitHit() {
@@ -512,8 +512,8 @@ function greater_than_max_tests(): void {
 			entryLog.hrs12.add('0')
 			expect(hasHitLimit).to.equal(false)
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
-			expect(entryLog.hrs12.value).to.equal(7)
-			expect(entryLog.fullValue12hr).to.equal('07:30 AM')
+			expect(entryLog.hrs12.value).to.equal(12)
+			expect(entryLog.fullValue12hr).to.equal('12:30 AM')
 		})
 		it(`Add "7" > "0" to minutes: ${startingFullValue} > 12:07 AM`, () => {
 			let hasHitLimit = false
@@ -528,8 +528,8 @@ function greater_than_max_tests(): void {
 			entryLog.minutes.add('0')
 			expect(hasHitLimit).to.equal(false)
 			expect(entryLog.minutes.entries).to.deep.equal([0])
-			expect(entryLog.minutes.value).to.equal(7)
-			expect(entryLog.fullValue12hr).to.equal('12:07 AM')
+			expect(entryLog.minutes.value).to.equal(0)
+			expect(entryLog.fullValue12hr).to.equal('12:00 AM')
 		})
 		it(`Add "7" > "0" > "6" to hrs: ${startingFullValue} > 06:30 AM`, () => {
 			const entryLog = createEntryLog()
