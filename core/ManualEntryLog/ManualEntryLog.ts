@@ -122,9 +122,11 @@ class SegmentLog {
 			}
 
 			if (isZero && isSecond) {
-				if (this.entries[0] > 1) {
+				const isHrsSegment = this.segment === 'hrs12'
+				const max = isHrsSegment ? 1 : 5
+				if (this.entries[0] > max) {
 					this.entries = [0]
-					this.value = this.segment === 'hrs12' ? 12 : 0
+					this.value = isHrsSegment ? 12 : 0
 				} else {
 					this.entries.push(number as zeroToNine)
 					this.value = convertEntriesToNumber(this.entries as NumericEntries)
