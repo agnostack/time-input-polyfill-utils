@@ -6,6 +6,8 @@ export default (): void => {
 		toggle12hr()
 		toggle24hr()
 		toggleTimeObject()
+		isolatedModeChange()
+		integratedModeChange()
 
 		function createStringTestFunction(modifierFunction: Function): Function {
 			return (
@@ -237,4 +239,105 @@ export default (): void => {
 			}
 		}
 	})
+
+	function isolatedModeChange(): void {
+		describe('Isolated: Ignores hrs24 when mode toggling from blank', () => {
+			it('increment (isolated) will always set to AM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 8,
+						hrs24: 20,
+						minutes: 30,
+						mode: null,
+					}).increment.mode.isolated(),
+				).to.deep.equal({
+					hrs12: 8,
+					hrs24: 8,
+					minutes: 30,
+					mode: 'AM',
+				})
+			})
+
+			it('decrement (isolated) will always set to PM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 8,
+						hrs24: 8,
+						minutes: 30,
+						mode: null,
+					}).decrement.mode.isolated(),
+				).to.deep.equal({
+					hrs12: 8,
+					hrs24: 20,
+					minutes: 30,
+					mode: 'PM',
+				})
+			})
+		})
+	}
+
+	function integratedModeChange(): void {
+		describe('Integrated: Honours hrs24 when mode toggling from blank', () => {
+			it('increment (integrated) [hrs24 < 12] = AM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 11,
+						hrs24: 11,
+						minutes: 30,
+						mode: null,
+					}).increment.mode.integrated(),
+				).to.deep.equal({
+					hrs12: 11,
+					hrs24: 11,
+					minutes: 30,
+					mode: 'AM',
+				})
+			})
+			it('increment (integrated) [hrs24 >= 12] = PM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 12,
+						hrs24: 12,
+						minutes: 30,
+						mode: null,
+					}).increment.mode.integrated(),
+				).to.deep.equal({
+					hrs12: 12,
+					hrs24: 12,
+					minutes: 30,
+					mode: 'PM',
+				})
+			})
+			it('decrement (integrated) [hrs24 < 12] = AM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 11,
+						hrs24: 11,
+						minutes: 30,
+						mode: null,
+					}).decrement.mode.integrated(),
+				).to.deep.equal({
+					hrs12: 11,
+					hrs24: 11,
+					minutes: 30,
+					mode: 'AM',
+				})
+			})
+			it('decrement (integrated) [hrs24 >= 12] = PM', () => {
+				expect(
+					modifyTimeObject({
+						hrs12: 12,
+						hrs24: 12,
+						minutes: 30,
+						mode: null,
+					}).decrement.mode.integrated(),
+				).to.deep.equal({
+					hrs12: 12,
+					hrs24: 12,
+					minutes: 30,
+					mode: 'PM',
+				})
+			})
+		})
+	}
 }
