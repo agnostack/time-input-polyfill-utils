@@ -171,6 +171,7 @@ export const modifyString24hr: ModifyString24hr = (string24hr) => {
 	}
 }
 export const modifyTimeObject: ModifyTimeObject = (timeObject) => {
+	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const modeToggle = (preferredModeWhenNull: GuaranteedMode) => ({
 		isolated: (): TimeObject => modifyTimeObject(timeObject).toggleMode(preferredModeWhenNull),
 		integrated: (): TimeObject =>
@@ -425,14 +426,14 @@ const straightenTimeObject = (
 	const use12hr = basedOn === 'hrs12'
 
 	const get12hrBasedOn24hr = (): Hour12 => {
-		let hr12 = <Hour12 | 0>(hrs24 !== null && hrs24 > 12 ? hrs24 - 12 : hrs24)
+		const hr12 = <Hour12 | 0>(hrs24 !== null && hrs24 > 12 ? hrs24 - 12 : hrs24)
 		if (hr12 === 0) {
 			return 12
 		}
 		return hr12
 	}
 	const get24hrBasedOn12hr = (): Hour24 => {
-		let hr24 = <Hour24 | 24>(!isAM && hrs12 !== null && hrs12 !== 12 ? hrs12 + 12 : hrs12)
+		const hr24 = <Hour24 | 24>(!isAM && hrs12 !== null && hrs12 !== 12 ? hrs12 + 12 : hrs12)
 
 		if (hr24 === null) {
 			return null
