@@ -257,9 +257,9 @@ function convert_12hr_time() {
 						mode: null,
 					})
 				})
-				it('Expect "01:-- --" to be {hrs24: 1, hrs12: 1, minutes: null, mode: null}', () => {
+				it('Expect "01:-- --" to be {hrs24: null, hrs12: 1, minutes: null, mode: null}', () => {
 					expect(convertString12hr('01:-- --').toTimeObject()).to.deep.equal({
-						hrs24: 1,
+						hrs24: null,
 						hrs12: 1,
 						minutes: null,
 						mode: null,
