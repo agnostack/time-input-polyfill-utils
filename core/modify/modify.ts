@@ -303,8 +303,8 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => {
 			}
 
 			if (mode === null) {
-				if (hrs24 !== null && hrs24 > 11) {
-					returnVal.mode = 'PM'
+				if (isIntegrated && hrs24 !== null) {
+					returnVal.mode = hrs24 > 11 ? 'PM' : 'AM'
 					returnVal.hrs24 = hrs24
 				} else {
 					returnVal.mode = preferredModeWhenNull
