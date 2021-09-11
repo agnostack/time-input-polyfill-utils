@@ -55,16 +55,17 @@ export const convertString12hr: ConvertString12hr = (string12hr) => {
 				}
 				return null
 			}
-			const hrs24 = getHrs24()
+			const nullifyDashes = <T extends unknown>(value: T): null | T =>
+				value === '--' ? null : value
 
-			const nullifyDashes = <T = unknown>(value: T) =>
-				<unknown>value === '--' ? null : value
+			const newMode = nullifyDashes(mode)
+			const hrs24 = newMode ? getHrs24() : null
 
 			const timeObject: TimeObject = {
 				hrs24,
 				hrs12: nullifyDashes(hrs12),
 				minutes: nullifyDashes(minutes),
-				mode: nullifyDashes(mode),
+				mode: newMode,
 			}
 
 			validateTimeObject(timeObject)
