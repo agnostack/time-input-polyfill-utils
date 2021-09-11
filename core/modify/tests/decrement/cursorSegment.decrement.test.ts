@@ -486,19 +486,19 @@ export default (): void => {
 						modeTest(
 							{ hrs24: 11, hrs12: 11, minutes: 30, mode: null },
 							{
-								hrs24: 23,
+								hrs24: 11,
 								hrs12: 11,
 								minutes: 30,
-								mode: 'PM',
+								mode: 'AM',
 							},
 						)
 						modeTest(
 							{ hrs24: 1, hrs12: 1, minutes: 30, mode: null },
 							{
-								hrs24: 13,
+								hrs24: 1,
 								hrs12: 1,
 								minutes: 30,
-								mode: 'PM',
+								mode: 'AM',
 							},
 						)
 					})

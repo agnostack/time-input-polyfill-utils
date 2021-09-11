@@ -307,10 +307,10 @@ export default (): void => {
 						modeTest(
 							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
 							{
-								hrs24: 12,
+								hrs24: 0,
 								hrs12: 12,
 								minutes: 30,
-								mode: 'PM',
+								mode: 'AM',
 							},
 						)
 						modeTest(
