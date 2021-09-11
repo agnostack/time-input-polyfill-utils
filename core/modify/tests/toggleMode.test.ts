@@ -1,5 +1,6 @@
 import { TimeObject } from '../../../types/index'
 import { modifyString12hr, modifyString24hr, modifyTimeObject } from '../modify'
+import { ModifyString12hr, ModifyString24hr } from '../modify.types'
 
 export default (): void => {
 	describe('Mode toggle', (): void => {
@@ -9,11 +10,22 @@ export default (): void => {
 		isolatedModeChange()
 		integratedModeChange()
 
-		function createStringTestFunction(modifierFunction: Function): Function {
+		// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+		function createStringTestFunction(modifierFunction: ModifyString12hr | ModifyString24hr) {
+			interface TempString extends String {
+				isolated?: never
+				integrated?: never
+			}
+
+			interface IntegratedVsIsolated {
+				isolated: string
+				integrated: string
+			}
+
 			return (
 				input: string,
-				incrementExpectation: string,
-				decrementExpectation: string = incrementExpectation,
+				incrementExpectation: TempString | IntegratedVsIsolated,
+				decrementExpectation: TempString | IntegratedVsIsolated = incrementExpectation,
 			): void => {
 				const emptyName = '""'
 				const inputName = input || emptyName
@@ -23,34 +35,44 @@ export default (): void => {
 					describe('increment', () => {
 						it(`isolated: ${inputName} => ${incrementExpectationName}`, () => {
 							expect(modifierFunction(input).increment.mode.isolated()).to.equal(
-								incrementExpectation,
+								incrementExpectation.isolated || incrementExpectation,
 							)
 						})
 						it(`integrated: ${inputName} => ${incrementExpectationName}`, () => {
 							expect(modifierFunction(input).increment.mode.integrated()).to.equal(
-								incrementExpectation,
+								incrementExpectation.integrated || incrementExpectation,
 							)
 						})
-						it(`toggleMode: ${inputName} => ${incrementExpectationName}`, () => {
-							expect(modifierFunction(input).toggleMode('AM')).to.equal(
-								incrementExpectation,
+						it(`toggleMode-isolated: ${inputName} => ${incrementExpectationName}`, () => {
+							expect(modifierFunction(input).toggleMode('AM', false)).to.equal(
+								incrementExpectation.isolated || incrementExpectation,
+							)
+						})
+						it(`toggleMode-integrated: ${inputName} => ${incrementExpectationName}`, () => {
+							expect(modifierFunction(input).toggleMode('AM', true)).to.equal(
+								incrementExpectation.integrated || incrementExpectation,
 							)
 						})
 					})
 					describe('decrement', () => {
 						it(`isolated: ${inputName} => ${decrementExpectationName}`, () => {
 							expect(modifierFunction(input).decrement.mode.isolated()).to.equal(
-								decrementExpectation,
+								decrementExpectation.isolated || decrementExpectation,
 							)
 						})
 						it(`integrated: ${inputName} => ${decrementExpectationName}`, () => {
 							expect(modifierFunction(input).decrement.mode.integrated()).to.equal(
-								decrementExpectation,
+								decrementExpectation.integrated || decrementExpectation,
 							)
 						})
-						it(`toggleMode: ${inputName} => ${decrementExpectationName}`, () => {
-							expect(modifierFunction(input).toggleMode('PM')).to.equal(
-								decrementExpectation,
+						it(`toggleMode-isolated: ${inputName} => ${decrementExpectationName}`, () => {
+							expect(modifierFunction(input).toggleMode('PM', false)).to.equal(
+								decrementExpectation.isolated || decrementExpectation,
+							)
+						})
+						it(`toggleMode-integrated: ${inputName} => ${decrementExpectationName}`, () => {
+							expect(modifierFunction(input).toggleMode('PM', true)).to.equal(
+								decrementExpectation.integrated || decrementExpectation,
 							)
 						})
 					})
@@ -123,6 +145,20 @@ export default (): void => {
 				testTimeObject(
 					{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
 					{
+						integrated: {
+							hrs24: 12,
+							hrs12: 12,
+							minutes: 30,
+							mode: 'PM',
+						},
+						isolated: {
+							hrs24: 0,
+							hrs12: 12,
+							minutes: 30,
+							mode: 'AM',
+						},
+					},
+					{
 						hrs24: 12,
 						hrs12: 12,
 						minutes: 30,
@@ -138,10 +174,18 @@ export default (): void => {
 						mode: 'AM',
 					},
 					{
-						hrs24: 23,
-						hrs12: 11,
-						minutes: 30,
-						mode: 'PM',
+						integrated: {
+							hrs24: 11,
+							hrs12: 11,
+							minutes: 30,
+							mode: 'AM',
+						},
+						isolated: {
+							hrs24: 23,
+							hrs12: 11,
+							minutes: 30,
+							mode: 'PM',
+						},
 					},
 				)
 				testTimeObject(
@@ -153,10 +197,18 @@ export default (): void => {
 						mode: 'AM',
 					},
 					{
-						hrs24: 13,
-						hrs12: 1,
-						minutes: 30,
-						mode: 'PM',
+						integrated: {
+							hrs24: 1,
+							hrs12: 1,
+							minutes: 30,
+							mode: 'AM',
+						},
+						isolated: {
+							hrs24: 13,
+							hrs12: 1,
+							minutes: 30,
+							mode: 'PM',
+						},
 					},
 				)
 				testTimeObject(
@@ -168,10 +220,18 @@ export default (): void => {
 						mode: 'AM',
 					},
 					{
-						hrs24: 13,
-						hrs12: 1,
-						minutes: null,
-						mode: 'PM',
+						integrated: {
+							hrs24: 1,
+							hrs12: 1,
+							minutes: null,
+							mode: 'AM',
+						},
+						isolated: {
+							hrs24: 13,
+							hrs12: 1,
+							minutes: null,
+							mode: 'PM',
+						},
 					},
 				)
 				testTimeObject(
@@ -241,13 +301,13 @@ export default (): void => {
 					describe('decrement', () => {
 						it(`isolated: ${inputName} => ${decrementExpectationName}`, () => {
 							expect(modifyTimeObject(input).decrement.mode.isolated()).to.deep.equal(
-								decrementExpectation,
+								decrementExpectation.isolated || decrementExpectation,
 							)
 						})
 						it(`integrated: ${inputName} => ${decrementExpectationName}`, () => {
 							expect(
 								modifyTimeObject(input).decrement.mode.integrated(),
-							).to.deep.equal(decrementExpectation)
+							).to.deep.equal(decrementExpectation.integrated || decrementExpectation)
 						})
 						it(`toggleMode-isolated: ${inputName} => ${decrementExpectationName}`, () => {
 							expect(modifyTimeObject(input).toggleMode('PM', false)).to.deep.equal(
