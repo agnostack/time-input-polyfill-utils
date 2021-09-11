@@ -28,7 +28,7 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "never"],
 		"no-unused-vars": [
-			"error",
+			"warn",
 			{ "vars": "all", "args": "after-used", "ignoreRestSiblings": true }
 		],
 		"no-nested-ternary": "error"
@@ -63,7 +63,7 @@
 				"@typescript-eslint/camelcase": [0, "never"],
 				"@typescript-eslint/semi": ["error", "never"],
 				"@typescript-eslint/no-unused-vars": [
-					"error",
+					"warn",
 					{ "vars": "all", "args": "after-used", "ignoreRestSiblings": true }
 				],
 				"@typescript-eslint/no-explicit-any": [0, false],
