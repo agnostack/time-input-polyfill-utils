@@ -49,7 +49,7 @@ export interface ModifyString12hr {
 			mode: () => String12hr
 			all: () => String12hr
 		}
-		toggleMode: (preferredModeWhenNull: GuaranteedMode) => String12hr
+		toggleMode: (preferredModeWhenNull: GuaranteedMode, isIntegrated: boolean) => String12hr
 	}
 }
 export interface ModifyString24hr {
@@ -82,7 +82,7 @@ export interface ModifyString24hr {
 				integrated: () => String24hr
 			}
 		}
-		toggleMode: (preferredModeWhenNull: GuaranteedMode) => String24hr
+		toggleMode: (preferredModeWhenNull: GuaranteedMode, isIntegrated: boolean) => String24hr
 	}
 }
 export interface ModifyTimeObject {
@@ -138,6 +138,6 @@ export interface ModifyTimeObject {
 			mode: () => TimeObject
 			all: () => TimeObject
 		}
-		toggleMode: (preferredModeWhenNull: GuaranteedMode) => TimeObject
+		toggleMode: (preferredModeWhenNull: GuaranteedMode, isIntegrated: boolean) => TimeObject
 	}
 }

@@ -191,10 +191,25 @@ export default (): void => {
 				)
 			})
 
+			interface IntegrateIsolateBreakdown {
+				integrated: TimeObject
+				isolated: TimeObject
+				hrs24?: never
+				hrs12?: never
+				minutes?: never
+				mode?: never
+			}
+			interface TempTimeObj extends TimeObject {
+				integrated?: never
+				isolated?: never
+			}
+
 			function testTimeObject(
 				input: TimeObject,
-				incrementExpectation: TimeObject,
-				decrementExpectation: TimeObject = incrementExpectation,
+				incrementExpectation: TempTimeObj | IntegrateIsolateBreakdown,
+				decrementExpectation:
+					| TempTimeObj
+					| IntegrateIsolateBreakdown = incrementExpectation,
 			): void {
 				const inputName = JSON.stringify(input)
 				const incrementExpectationName = JSON.stringify(incrementExpectation)
@@ -204,17 +219,22 @@ export default (): void => {
 					describe('increment', () => {
 						it(`isolated: ${inputName} => ${incrementExpectationName}`, () => {
 							expect(modifyTimeObject(input).increment.mode.isolated()).to.deep.equal(
-								incrementExpectation,
+								incrementExpectation.isolated || incrementExpectation,
 							)
 						})
 						it(`integrated: ${inputName} => ${incrementExpectationName}`, () => {
 							expect(
 								modifyTimeObject(input).increment.mode.integrated(),
-							).to.deep.equal(incrementExpectation)
+							).to.deep.equal(incrementExpectation.integrated || incrementExpectation)
 						})
-						it(`toggleMode: ${inputName} => ${incrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).toggleMode('AM')).to.deep.equal(
-								incrementExpectation,
+						it(`toggleMode-isolated: ${inputName} => ${incrementExpectationName}`, () => {
+							expect(modifyTimeObject(input).toggleMode('AM', false)).to.deep.equal(
+								incrementExpectation.isolated || incrementExpectation,
+							)
+						})
+						it(`toggleMode-integrated: ${inputName} => ${incrementExpectationName}`, () => {
+							expect(modifyTimeObject(input).toggleMode('AM', true)).to.deep.equal(
+								incrementExpectation.integrated || incrementExpectation,
 							)
 						})
 					})
@@ -229,9 +249,14 @@ export default (): void => {
 								modifyTimeObject(input).decrement.mode.integrated(),
 							).to.deep.equal(decrementExpectation)
 						})
-						it(`toggleMode: ${inputName} => ${decrementExpectationName}`, () => {
-							expect(modifyTimeObject(input).toggleMode('PM')).to.deep.equal(
-								decrementExpectation,
+						it(`toggleMode-isolated: ${inputName} => ${decrementExpectationName}`, () => {
+							expect(modifyTimeObject(input).toggleMode('PM', false)).to.deep.equal(
+								decrementExpectation.isolated || decrementExpectation,
+							)
+						})
+						it(`toggleMode-integrated: ${inputName} => ${decrementExpectationName}`, () => {
+							expect(modifyTimeObject(input).toggleMode('PM', true)).to.deep.equal(
+								decrementExpectation.integrated || decrementExpectation,
 							)
 						})
 					})
