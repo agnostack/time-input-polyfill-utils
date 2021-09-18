@@ -106,6 +106,12 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 		)
 	}
 
+	if (mode !== null && hrs12 !== null && hrs24 === null) {
+		throw new Error(
+			`If mode (${mode}) and hrs12 (${hrs12}) are defined then hrs24 (${hrs24}) must be defined as well`,
+		)
+	}
+
 	return true
 }
 export const validateHours24: ValidateHours24 = (hrs24: Hour24) => {

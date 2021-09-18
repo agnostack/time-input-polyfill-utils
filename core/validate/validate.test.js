@@ -222,6 +222,18 @@ function validateTimeObjectTests() {
 						'If mode is null, hrs24 (1) must be null as well. It is not possible to know the correct hrs24 value if mode is null',
 					)
 				})
+				it('hrs12 and mode are provided with no hrs24 value', () => {
+					const badTimeObject = {
+						hrs24: null,
+						hrs12: 1,
+						minutes: null,
+						mode: 'AM',
+					}
+					failTest(
+						() => validateTimeObject(badTimeObject),
+						'If mode (AM) and hrs12 (1) are defined then hrs24 (null) must be defined as well',
+					)
+				})
 			})
 		}
 
