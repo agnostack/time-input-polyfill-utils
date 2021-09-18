@@ -36,6 +36,10 @@ export default (): void => {
 							after: `12:-- --`,
 						})
 						decrement12hrIsolated({
+							before: '01:-- --',
+							after: '12:-- --',
+						})
+						decrement12hrIsolated({
 							before: '--:00 AM',
 							after: `12:00 AM`,
 						})
@@ -66,6 +70,10 @@ export default (): void => {
 						decrement12hrIntegrated({
 							before: '--:-- --',
 							after: `12:-- --`,
+						})
+						decrement12hrIntegrated({
+							before: '01:-- --',
+							after: '12:-- --',
 						})
 						decrement12hrIntegrated({
 							before: '--:00 AM',
@@ -152,6 +160,21 @@ export default (): void => {
 							before: {
 								hrs24: null,
 								hrs12: null,
+								minutes: null,
+								mode: null,
+							},
+							after: {
+								hrs24: null,
+								hrs12: 12,
+								minutes: null,
+								mode: null,
+							},
+						})
+
+						decrementObjectIsolated({
+							before: {
+								hrs24: null,
+								hrs12: 1,
 								minutes: null,
 								mode: null,
 							},
@@ -272,6 +295,21 @@ export default (): void => {
 							before: {
 								hrs24: null,
 								hrs12: null,
+								minutes: null,
+								mode: null,
+							},
+							after: {
+								hrs24: null,
+								hrs12: 12,
+								minutes: null,
+								mode: null,
+							},
+						})
+
+						decrementObjectIntegrated({
+							before: {
+								hrs24: null,
+								hrs12: 1,
 								minutes: null,
 								mode: null,
 							},

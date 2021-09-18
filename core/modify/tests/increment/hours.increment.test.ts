@@ -32,7 +32,11 @@ export default (): void => {
 						}
 						increment12hrIsolated({
 							before: '--:-- --',
-							after: `01:-- --`,
+							after: '01:-- --',
+						})
+						increment12hrIsolated({
+							before: '12:-- --',
+							after: '01:-- --',
 						})
 						increment12hrIsolated({
 							before: '--:00 AM',
@@ -65,6 +69,10 @@ export default (): void => {
 						increment12hrIntegrated({
 							before: '--:-- --',
 							after: `01:-- --`,
+						})
+						increment12hrIntegrated({
+							before: '12:-- --',
+							after: '01:-- --',
 						})
 						increment12hrIntegrated({
 							before: '--:00 AM',
@@ -151,6 +159,21 @@ export default (): void => {
 							before: {
 								hrs24: null,
 								hrs12: null,
+								minutes: null,
+								mode: null,
+							},
+							after: {
+								hrs24: null,
+								hrs12: 1,
+								minutes: null,
+								mode: null,
+							},
+						})
+
+						incrementObjectIsolated({
+							before: {
+								hrs24: null,
+								hrs12: 12,
 								minutes: null,
 								mode: null,
 							},
@@ -271,6 +294,21 @@ export default (): void => {
 							before: {
 								hrs24: null,
 								hrs12: null,
+								minutes: null,
+								mode: null,
+							},
+							after: {
+								hrs24: null,
+								hrs12: 1,
+								minutes: null,
+								mode: null,
+							},
+						})
+
+						incrementObjectIntegrated({
+							before: {
+								hrs24: null,
+								hrs12: 12,
 								minutes: null,
 								mode: null,
 							},
