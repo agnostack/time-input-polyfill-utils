@@ -85,6 +85,7 @@ function validateTimeObjectTests() {
 		basicTests()
 		invalidPropTests()
 		invalidPropTypeTests()
+		invalidPropCombos()
 		missingPropTests()
 
 		function basicTests() {
@@ -191,6 +192,35 @@ function validateTimeObjectTests() {
 					modeTest('lower case is invalid', 'am')
 					modeTest('nonsense is invalid', 'abc')
 					modeTest('numbers are invalid', 1)
+				})
+			})
+		}
+
+		function invalidPropCombos() {
+			describe('Invalid property combos', () => {
+				it('hrs24 has value, hrs12 does not', () => {
+					const badTimeObject = {
+						hrs24: 1,
+						hrs12: null,
+						minutes: null,
+						mode: 'AM',
+					}
+					failTest(
+						() => validateTimeObject(badTimeObject),
+						'hrs12 (null) must not be null if hrs24 (1) has a value',
+					)
+				})
+				it('hrs24 is provided with no mode value', () => {
+					const badTimeObject = {
+						hrs24: 1,
+						hrs12: 1,
+						minutes: null,
+						mode: null,
+					}
+					failTest(
+						() => validateTimeObject(badTimeObject),
+						'If mode is null, hrs24 (1) must be null as well. It is not possible to know the correct hrs24 value if mode is null',
+					)
 				})
 			})
 		}
