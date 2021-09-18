@@ -376,10 +376,30 @@ function convert_time_object() {
 
 				timeTest24hr(
 					{
-						hrs24: 1,
+						hrs24: null,
 						hrs12: 1,
 						minutes: null,
 						mode: null,
+					},
+					'',
+				)
+
+				timeTest24hr(
+					{
+						hrs24: null,
+						hrs12: 1,
+						minutes: 1,
+						mode: null,
+					},
+					'',
+				)
+
+				timeTest24hr(
+					{
+						hrs24: 1,
+						hrs12: 1,
+						minutes: null,
+						mode: 'AM',
 					},
 					'',
 				)
@@ -481,12 +501,32 @@ function convert_time_object() {
 
 				timeTest12hr(
 					{
-						hrs24: 1,
+						hrs24: null,
 						hrs12: 1,
 						minutes: null,
 						mode: null,
 					},
 					'01:-- --',
+				)
+
+				timeTest12hr(
+					{
+						hrs24: null,
+						hrs12: 1,
+						minutes: 1,
+						mode: null,
+					},
+					'01:01 --',
+				)
+
+				timeTest12hr(
+					{
+						hrs24: 1,
+						hrs12: 1,
+						minutes: null,
+						mode: 'AM',
+					},
+					'01:-- AM',
 				)
 
 				timeTest12hr(
