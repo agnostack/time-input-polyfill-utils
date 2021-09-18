@@ -73,6 +73,9 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 				.join(', ')}`,
 		)
 	}
+	if (hrs24 !== null && hrs12 === null) {
+		throw new Error(`hrs12 (${hrs12}) must not be null if hrs24 (${hrs24}) has a value`)
+	}
 
 	if (
 		(hrs24 === 0 && hrs12 !== 12) ||
@@ -95,6 +98,12 @@ export const validateTimeObject: ValidateTimeObject = (timeObject: TimeObject) =
 				`If mode (${mode}) is "AM", hrs24 (${hrs24}) should be less than or equal to 11`,
 			)
 		}
+	}
+
+	if (mode === null && hrs24 !== null) {
+		throw new Error(
+			`If mode is null, hrs24 (${hrs24}) must be null as well. It is not possible to know the correct hrs24 value if mode is null`,
+		)
 	}
 
 	return true
