@@ -8,9 +8,11 @@ import clearTests from './tests/clear.test'
 import cursorSegmentDecrement from './tests/decrement/cursorSegment.decrement.test'
 import hoursDecrementTests from './tests/decrement/hours.decrement.test'
 import minutesDecrementTests from './tests/decrement/minutes.decrement.test'
+import walkThroughDecrementTest from './tests/decrement/walkThrough.decrement.test'
 import cursorSegmentIncrement from './tests/increment/cursorSegment.increment.test'
 import hoursIncrementTests from './tests/increment/hours.increment.test'
 import minutesIncrementTests from './tests/increment/minutes.increment.test'
+import walkThroughIncrementTest from './tests/increment/walkThrough.increment.test'
 import toggleModeTest from './tests/toggleMode.test'
 
 interface StringModifierTest {
@@ -34,6 +36,8 @@ export interface BeforeAfterObject {
 	before: TimeObject
 	after: TimeObject
 }
+
+export type PlusSegment<Interface> = Interface & { segment: Segment }
 
 export function modifierTest({ before, after, test }: StringModifierTest): void {
 	it(`${before} => ${after}`, () => {
@@ -111,4 +115,9 @@ clearTests()
 describe('Cursor Segment', () => {
 	cursorSegmentIncrement()
 	cursorSegmentDecrement()
+})
+
+describe('Walk through from blank tests', () => {
+	walkThroughIncrementTest()
+	walkThroughDecrementTest()
 })
