@@ -163,7 +163,7 @@ export default (): void => {
 					hrs12Test(
 						{ hrs24: null, hrs12: null, minutes: null, mode: null },
 						{
-							hrs24: 0,
+							hrs24: null,
 							hrs12: 12,
 							minutes: null,
 							mode: null,
@@ -291,7 +291,7 @@ export default (): void => {
 							{ hrs24: null, hrs12: null, minutes: null, mode: 'PM' },
 						)
 						modeTest(
-							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 12, minutes: 30, mode: null },
 							{
 								hrs24: 12,
 								hrs12: 12,
@@ -300,7 +300,7 @@ export default (): void => {
 							},
 						)
 						modeTest(
-							{ hrs24: 11, hrs12: 11, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 11, minutes: 30, mode: null },
 							{
 								hrs24: 23,
 								hrs12: 11,
@@ -309,7 +309,7 @@ export default (): void => {
 							},
 						)
 						modeTest(
-							{ hrs24: 1, hrs12: 1, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 1, minutes: 30, mode: null },
 							{
 								hrs24: 13,
 								hrs12: 1,
@@ -333,7 +333,7 @@ export default (): void => {
 					hrs12Test(
 						{ hrs24: null, hrs12: null, minutes: null, mode: null },
 						{
-							hrs24: 0,
+							hrs24: null,
 							hrs12: 12,
 							minutes: null,
 							mode: null,
@@ -475,7 +475,7 @@ export default (): void => {
 							{ hrs24: null, hrs12: null, minutes: null, mode: 'PM' },
 						)
 						modeTest(
-							{ hrs24: 12, hrs12: 12, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 12, minutes: 30, mode: null },
 							{
 								hrs24: 12,
 								hrs12: 12,
@@ -484,21 +484,21 @@ export default (): void => {
 							},
 						)
 						modeTest(
-							{ hrs24: 11, hrs12: 11, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 11, minutes: 30, mode: null },
 							{
-								hrs24: 11,
+								hrs24: 23,
 								hrs12: 11,
 								minutes: 30,
-								mode: 'AM',
+								mode: 'PM',
 							},
 						)
 						modeTest(
-							{ hrs24: 1, hrs12: 1, minutes: 30, mode: null },
+							{ hrs24: null, hrs12: 1, minutes: 30, mode: null },
 							{
-								hrs24: 1,
+								hrs24: 13,
 								hrs12: 1,
 								minutes: 30,
-								mode: 'AM',
+								mode: 'PM',
 							},
 						)
 					})

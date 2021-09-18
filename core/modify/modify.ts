@@ -325,7 +325,7 @@ export const modifyTimeObject: ModifyTimeObject = (timeObject) => {
 			hrs24: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
 			hrs12: (): TimeObject => ({ ...timeObject, hrs12: null, hrs24: null }),
 			minutes: (): TimeObject => ({ ...timeObject, minutes: null }),
-			mode: (): TimeObject => ({ ...timeObject, mode: null }),
+			mode: (): TimeObject => ({ ...timeObject, mode: null, hrs24: null }),
 			all: (): TimeObject => blankValues.timeObject,
 		},
 	}
@@ -350,16 +350,20 @@ const nudgeIsolatedTimeObjectHrs = (
 				if (copiedObject.mode === 'PM') {
 					copiedObject.hrs24 = 13
 					copiedObject.hrs12 = 1
-				} else {
+				} else if (copiedObject.mode === 'AM') {
 					copiedObject.hrs24 = 1
+					copiedObject.hrs12 = 1
+				} else {
 					copiedObject.hrs12 = 1
 				}
 			} else {
 				if (copiedObject.mode === 'PM') {
 					copiedObject.hrs24 = 12
 					copiedObject.hrs12 = 12
-				} else {
+				} else if (copiedObject.mode === 'AM') {
 					copiedObject.hrs24 = 0
+					copiedObject.hrs12 = 12
+				} else {
 					copiedObject.hrs12 = 12
 				}
 			}

@@ -55,7 +55,7 @@ export default (): void => {
 				test(
 					'mode',
 					{ hrs24: 0, hrs12: 12, minutes: 0, mode: 'AM' },
-					{ hrs24: 0, hrs12: 12, minutes: 0, mode: null },
+					{ hrs24: null, hrs12: 12, minutes: 0, mode: null },
 				)
 				test(
 					'all',

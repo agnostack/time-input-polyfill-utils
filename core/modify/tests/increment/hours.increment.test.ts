@@ -155,7 +155,7 @@ export default (): void => {
 								mode: null,
 							},
 							after: {
-								hrs24: 1,
+								hrs24: null,
 								hrs12: 1,
 								minutes: null,
 								mode: null,
@@ -275,7 +275,7 @@ export default (): void => {
 								mode: null,
 							},
 							after: {
-								hrs24: 1,
+								hrs24: null,
 								hrs12: 1,
 								minutes: null,
 								mode: null,
