@@ -10,8 +10,6 @@ import {
 
 export default (): void => {
 	describe('Decrement walk through', () => {
-		//////////////////////////////////////////
-
 		tests12hr()
 		testsTimeObject()
 

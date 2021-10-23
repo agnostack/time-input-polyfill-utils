@@ -8,8 +8,6 @@ import {
 
 export default (): void => {
 	describe('Decrement minutes', () => {
-		//////////////////////////////////////////
-
 		tests12hr()
 		tests24hr()
 		testsTimeObject()

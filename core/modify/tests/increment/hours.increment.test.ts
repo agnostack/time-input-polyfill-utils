@@ -8,7 +8,6 @@ import {
 
 export default (): void => {
 	describe('Increment hours', () => {
-		//////////////////////////////////////////
 		tests12hr()
 		tests24hr()
 		testsTimeObject()
