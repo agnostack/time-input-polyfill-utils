@@ -6,6 +6,16 @@ When building the React Component version of the polyfill, I realised that there
 
 This utility library is designed to make as much of the functionality as sharable as possible between different implementations. It also features robust testing using cypress to make sure that no nasty bugs creep their way into the code base.
 
+## Installation
+
+Installed through npm:
+
+```
+npm install @time-input-polyfill/utils
+```
+
+[View on the npm website](https://www.npmjs.com/package/@time-input-polyfill/utils).
+
 ## Testing
 
 `npm run start` to open the Cypress ui and then you can run the unit tests from there.
