@@ -1,0 +1,33 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+input {
+	font-size: inherit;
+}
+
+.inputTest {
+	font-size: 2em;
+	margin: 1em;
+}
+
+.inputTest label {
+	display: block;
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+.inputTest input {
+	width: 8ch;
+	display: block;
+	margin: auto;
+	text-align: center;
+}
