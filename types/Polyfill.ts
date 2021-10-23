@@ -158,7 +158,7 @@ export interface Polyfill {
 	regex: Regex
 
 	/** Essentially `document.querySelectAll()` but it returns an array of elements instead of a node list. */
-	_$$: QuerySelectAll
+	selectAll: QuerySelectAll
 
 	/** Select a specific segment of a time input polyfill. */
 	selectSegment: SelectSegment

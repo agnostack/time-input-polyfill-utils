@@ -9,7 +9,7 @@ import {
 	SelectSegment,
 } from './select.types'
 
-export const _$$: QuerySelectAll = (selector) => {
+export const selectAll: QuerySelectAll = (selector) => {
 	const elements = document.querySelectorAll(selector)
 	return toArray(elements)
 }
