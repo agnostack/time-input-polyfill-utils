@@ -6,7 +6,7 @@ var tsConfig = require('./tsconfig.prepublish.json')
 
 export default {
 	input: 'timeInputPolyfillUtils.ts',
-	plugins: [typeScript(), babel(), terser()],
+	plugins: [typeScript(), babel(), terser({ output: { comments: false } })],
 	output: {
 		file: `${tsConfig.compilerOptions.outDir}/time-input-polyfill-utils.min.js`,
 		format: 'iife',
