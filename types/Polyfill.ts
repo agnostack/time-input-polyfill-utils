@@ -48,7 +48,13 @@ import {
 	SelectPrevSegment,
 	SelectSegment,
 } from '../core/select/select.types'
-import { MatchesTimeObject, ToArray, ToLeadingZero, ToNumber } from '../core/utils/utils.types'
+import {
+	MatchesTimeObject,
+	ToArray,
+	ToLeadingZero,
+	ToLeadingZero12HrString,
+	ToNumber,
+} from '../core/utils/utils.types'
 import {
 	ValidateHours24,
 	ValidateString12hr,
@@ -76,6 +82,8 @@ export interface Polyfill {
 	toNumber: ToNumber
 	/** Utility for adding a leading zero to single digit numbers. */
 	toLeadingZero: ToLeadingZero
+	/** Utility for converting a single digit 12hr time to a double digit 12hr time. */
+	toLeadingZero12HrString: ToLeadingZero12HrString
 	/** Utility for checking if 2 time objects match. */
 	matchesTimeObject: MatchesTimeObject
 

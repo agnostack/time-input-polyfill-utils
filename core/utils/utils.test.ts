@@ -1,6 +1,7 @@
-import { toArray, toLeadingZero, toNumber } from './utils'
+import { toArray, toLeadingZero, toLeadingZero12HrString, toNumber } from './utils'
 
 give_number_leading_zero()
+leading_zero_12hr_string()
 convert_possible_number_to_guaranteed_number()
 NodeList_to_array()
 
@@ -15,11 +16,43 @@ function give_number_leading_zero(): void {
 		it('Expect "--" to be "--"', () => {
 			expect(toLeadingZero('--')).to.equal('--')
 		})
+		it('Expect "-" to be "--"', () => {
+			expect(toLeadingZero('-')).to.equal('--')
+		})
+		it('Expect null to be "--"', () => {
+			expect(toLeadingZero(null)).to.equal('--')
+		})
 		it('Expect 10 to be "10"', () => {
 			expect(toLeadingZero(10)).to.equal('10')
 		})
 		it('Expect "10" to be "10"', () => {
 			expect(toLeadingZero('10')).to.equal('10')
+		})
+	})
+}
+
+function leading_zero_12hr_string(): void {
+	describe('leading zero 12hr string', () => {
+		it('"1:4 PM" => "01:04 PM"', () => {
+			expect(toLeadingZero12HrString('1:4 PM')).to.equal('01:04 PM')
+		})
+		it('"10:45 PM" => "10:45 PM"', () => {
+			expect(toLeadingZero12HrString('10:45 PM')).to.equal('10:45 PM')
+		})
+		it('"-:4 PM" => "--:04 PM"', () => {
+			expect(toLeadingZero12HrString('-:4 PM')).to.equal('--:04 PM')
+		})
+		it('"-:- PM" => "--:-- PM"', () => {
+			expect(toLeadingZero12HrString('-:- PM')).to.equal('--:-- PM')
+		})
+		it('"-:- -" => --:-- --', () => {
+			expect(toLeadingZero12HrString('-:- -')).to.equal('--:-- --')
+		})
+		it('"" => --:-- --', () => {
+			expect(toLeadingZero12HrString('')).to.equal('--:-- --')
+		})
+		it('null => --:-- --', () => {
+			expect(toLeadingZero12HrString(null)).to.equal('--:-- --')
 		})
 	})
 }
