@@ -34,8 +34,8 @@ function validate12hrTests() {
 		fail12hr('12:60 AM')
 		fail12hr('13:00 AM')
 
-		pass12hr('2:00 PM')
-		pass12hr('1:-- --')
+		fail12hr('1:00 PM')
+		pass12hr('01:00 PM')
 		pass12hr('01:-- --')
 		pass12hr('--:00 --')
 		pass12hr('--:-- PM')

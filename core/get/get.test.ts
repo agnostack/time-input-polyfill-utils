@@ -48,14 +48,14 @@ function getString12hrTests(): void {
 		it('expects get 12:30 PM hrs12 => 12', () => {
 			expect(getString12hr('12:30 PM').hrs12).to.equal(12)
 		})
-		it('expects get 1:30 PM hrs24 => 13', () => {
-			expect(getString12hr('1:30 PM').hrs24).to.equal(13)
+		it('expects get 01:30 PM hrs24 => 13', () => {
+			expect(getString12hr('01:30 PM').hrs24).to.equal(13)
 		})
-		it('expects get 1:30 PM minutes => 30', () => {
-			expect(getString12hr('1:30 PM').minutes).to.equal(30)
+		it('expects get 01:30 PM minutes => 30', () => {
+			expect(getString12hr('01:30 PM').minutes).to.equal(30)
 		})
-		it('expects get 1:30 PM mode => PM', () => {
-			expect(getString12hr('1:30 PM').mode).to.equal('PM')
+		it('expects get 01:30 PM mode => PM', () => {
+			expect(getString12hr('01:30 PM').mode).to.equal('PM')
 		})
 	})
 }

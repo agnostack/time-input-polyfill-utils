@@ -25,14 +25,27 @@ const regexTest = (
 describe('Successful regex matches', () => {
 	describe('12hr regex', () => {
 		regexTest('12:30 AM', regex.string12hr, ['12:30 AM', '12', '30', 'AM'])
-		regexTest('2:00 PM', regex.string12hr, ['2:00 PM', '2', '00', 'PM'])
+		regexTest('02:00 PM', regex.string12hr, ['02:00 PM', '02', '00', 'PM'])
 		regexTest('--:-- --', regex.string12hr, ['--:-- --', '--', '--', '--'])
+	})
+
+	describe('lenient 12hr regex', () => {
+		regexTest('12:30 AM', regex.lenientString12hr, ['12:30 AM', '12', '30', 'AM'])
+		regexTest('2:0 PM', regex.lenientString12hr, ['2:0 PM', '2', '0', 'PM'])
+		regexTest('--:-- --', regex.lenientString12hr, ['--:-- --', '--', '--', '--'])
+		regexTest('-:- -', regex.lenientString12hr, ['-:- -', '-', '-', '-'])
 	})
 
 	describe('24hr regex', () => {
 		regexTest('12:30', regex.string24hr, ['12:30', '12', '30'])
 		regexTest('02:00', regex.string24hr, ['02:00', '02', '00'])
 		regexTest('', regex.string24hr, ['', undefined, undefined])
+	})
+
+	describe('lenient 24hr regex', () => {
+		regexTest('12:30', regex.lenientString24hr, ['12:30', '12', '30'])
+		regexTest('2:0', regex.lenientString24hr, ['2:0', '2', '0'])
+		regexTest('', regex.lenientString24hr, ['', undefined, undefined])
 	})
 
 	describe('alphaNumericKeyName regex', () => {

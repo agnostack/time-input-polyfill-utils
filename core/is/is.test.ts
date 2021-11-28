@@ -61,8 +61,8 @@ function isPmTests(): void {
 				it('12:00 PM => true', () => {
 					expect(isPmString12hr('12:00 PM')).to.equal(true)
 				})
-				it('1:30 PM => true', () => {
-					expect(isPmString12hr('1:30 PM')).to.equal(true)
+				it('01:30 PM => true', () => {
+					expect(isPmString12hr('01:30 PM')).to.equal(true)
 				})
 				it('--:-- -- => false', () => {
 					expect(isPmString12hr('--:-- --')).to.equal(false)
@@ -173,8 +173,8 @@ function isAmTests(): void {
 				it('12:00 PM => false', () => {
 					expect(isAmString12hr('12:00 PM')).to.equal(false)
 				})
-				it('1:30 PM => false', () => {
-					expect(isAmString12hr('1:30 PM')).to.equal(false)
+				it('01:30 PM => false', () => {
+					expect(isAmString12hr('01:30 PM')).to.equal(false)
 				})
 				it('--:-- -- => false', () => {
 					expect(isAmString12hr('--:-- --')).to.equal(false)
