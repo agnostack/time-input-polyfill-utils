@@ -217,8 +217,8 @@ function getRangeTests(): void {
 	}
 
 	describe('Get range of input tests', () => {
-		// fullSelectionTests()
-		// cursorSegmentTests()
+		fullSelectionTests()
+		cursorSegmentTests()
 		nextSegmentTests()
 		prevSegmentTests()
 
