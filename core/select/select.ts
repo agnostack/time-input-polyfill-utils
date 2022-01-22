@@ -1,3 +1,4 @@
+import { AnyHtmlElement } from '../../index'
 import { getRangeOf } from '../get/get'
 import { ranges } from '../staticValues'
 import { toArray } from '../utils/utils'
@@ -9,9 +10,12 @@ import {
 	SelectSegment,
 } from './select.types'
 
-export const selectAll: QuerySelectAll = (selector) => {
-	const elements = document.querySelectorAll(selector)
-	return toArray(elements)
+export const selectAll: QuerySelectAll = <ElemType extends AnyHtmlElement>(
+	selector: string,
+	startingElem: AnyHtmlElement | Document = document,
+): Array<ElemType> => {
+	const elements = startingElem.querySelectorAll<ElemType>(selector)
+	return toArray<ElemType>(elements)
 }
 
 export const selectSegment: SelectSegment = ($input, segment = 'hrs12') => {
