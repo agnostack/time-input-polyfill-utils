@@ -7,7 +7,7 @@ import {
 	ToNumber,
 } from './utils.types'
 
-export const toArray: ToArray = (NodeList) => Array.prototype.slice.call(NodeList, 0)
+export const toArray: ToArray = (arrayLikeThing) => Array.prototype.slice.call(arrayLikeThing, 0)
 
 export const toNumber: ToNumber = (value) => {
 	const number = Number(value)

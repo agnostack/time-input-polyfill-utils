@@ -1,6 +1,6 @@
-import { AnyHtmlElement, TimeObject } from '../../types/index'
+import { TimeObject } from '../../types/index'
 
-export type ToArray = <ElementType extends AnyHtmlElement>(NodeList: NodeList) => Array<ElementType>
+export type ToArray = <T>(arrayLikeThing: ArrayLike<T>) => Array<T>
 
 export type ToNumber = (value: number | string | null) => null | number
 

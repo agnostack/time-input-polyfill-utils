@@ -228,7 +228,9 @@ function Add_1_2_3_4(): void {
 function Add_0(): void {
 	describe('Add "0"', () => {
 		it(`hrs12: 08:30 PM > 12:30 PM`, () => {
-			const entryLog = createEntryLog({ customStartTime: { hrs12: 8, hrs24: 20, mode: 'PM' } })
+			const entryLog = createEntryLog({
+				customStartTime: { hrs12: 8, hrs24: 20, mode: 'PM' },
+			})
 			entryLog.hrs12.add('0')
 			expect(entryLog.hrs12.entries).to.deep.equal([0])
 			expect(entryLog.hrs12.value).to.equal(12) // entering "0" once causes hours to set itself to 12
