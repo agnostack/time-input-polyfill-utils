@@ -10,7 +10,7 @@ import {
 	SelectSegment,
 } from './select.types'
 
-export const selectAll: QuerySelectAll = <ElemType extends AnyHtmlElement>(
+export const selectAll: QuerySelectAll = <ElemType extends AnyHtmlElement = AnyHtmlElement>(
 	selector: string,
 	startingElem: AnyHtmlElement | Document = document,
 ): Array<ElemType> => {

@@ -5,7 +5,7 @@ export type SelectNextSegment = ($input: HTMLInputElement | null) => void
 export type SelectPrevSegment = ($input: HTMLInputElement | null) => void
 export type SelectCursorSegment = ($input: HTMLInputElement | null) => void
 
-export type QuerySelectAll = <ElemType extends AnyHtmlElement>(
+export type QuerySelectAll = <ElemType extends AnyHtmlElement = AnyHtmlElement>(
 	selector: string,
 	startingElem?: AnyHtmlElement | Document,
 ) => Array<ElemType>
