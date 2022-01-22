@@ -12,7 +12,8 @@ function get_time_support(): boolean {
 	return input.value !== notValid
 }
 
-const timeSupport = get_time_support()
+const supportsTime = get_time_support()
 
-if (window) window.supportsTime = timeSupport
-export default timeSupport
+if (window) window.supportsTime = supportsTime
+export default supportsTime
+export { supportsTime }
