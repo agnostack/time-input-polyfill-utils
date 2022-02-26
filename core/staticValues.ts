@@ -17,3 +17,5 @@ export const maxAndMins: MaxAndMins = {
 export const segments: Array<Segment> = ['hrs12', 'minutes', 'mode']
 
 export const timeObjectKeys: Array<TimeObjectKey> = ['hrs24', 'hrs12', 'minutes', 'mode']
+
+export const a11yID = 'time-input-polyfill-accessibility-block'

@@ -196,4 +196,6 @@ export interface Polyfill {
 	segments: Array<Segment>
 	/** An array of each of each the keys in a time object. */
 	timeObjectKeys: Array<TimeObjectKey>
+	/** The id for the screen reader accessibility block that is generated */
+	a11yID: string
 }

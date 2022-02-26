@@ -1,6 +1,6 @@
 import { loadTestPage } from '../../cypress/support/loadTestPage'
-import { a11yID } from '../../cypress/support/staticTestValues'
 import { selectSegment } from '../select/select'
+import { a11yID } from '../staticValues'
 import { a11yClear, a11yCreate, a11yUpdate, getA11yElement, getA11yValue } from './a11y'
 
 interface A11yCreation {

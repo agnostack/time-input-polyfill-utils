@@ -1,5 +1,5 @@
-import { a11yID } from '../../cypress/support/staticTestValues'
 import { getCursorSegment, getInputValue, getLabelTextOf } from '../get/get'
+import { a11yID } from '../staticValues'
 import { A11yClear, A11yCreate, A11yUpdate, GetA11yElement, GetA11yValue } from './a11y.types'
 
 export const a11yCreate: A11yCreate = (document = window.document) => {
