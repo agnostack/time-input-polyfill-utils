@@ -69,7 +69,7 @@
 				"@typescript-eslint/no-explicit-any": [0, false],
 				"@typescript-eslint/consistent-type-assertions": [
 					"error",
-					{ "assertionStyle": "angle-bracket" }
+					{ "assertionStyle": "as" }
 				],
 				"@typescript-eslint/no-namespace": [0, false],
 				"no-nested-ternary": "error"

@@ -13,25 +13,25 @@ export class CurrentDate {
 
 	constructor() {
 		const date = new Date()
-		const current24hrs = <DefinedHour24>date.getHours()
+		const current24hrs = date.getHours() as DefinedHour24
 
 		this.hrs24 = toLeadingZero(current24hrs)
 		this.hrs12 = toLeadingZero(convertHours24(current24hrs).toHours12())
 		this.minutes = toLeadingZero(convertDateObject(date).toTimeObject().minutes)
-		this.mode = <Mode>(isAmHrs24(current24hrs) ? 'AM' : 'PM')
+		this.mode = (isAmHrs24(current24hrs) ? 'AM' : 'PM') as Mode
 		this.date = date
 		this.string24hr = convertDateObject(date).to24hr()
 		this.string12hr = convertDateObject(date).to12hr()
 		this.timeObject = convertDateObject(date).toTimeObject()
 	}
-	reInitialize() {
+	reInitialize(): void {
 		const date = new Date()
-		const current24hrs = <DefinedHour24>date.getHours()
+		const current24hrs = date.getHours() as DefinedHour24
 
 		this.hrs24 = toLeadingZero(current24hrs)
 		this.hrs12 = toLeadingZero(convertHours24(current24hrs).toHours12())
 		this.minutes = toLeadingZero(convertDateObject(date).toTimeObject().minutes)
-		this.mode = <Mode>(isAmHrs24(current24hrs) ? 'AM' : 'PM')
+		this.mode = (isAmHrs24(current24hrs) ? 'AM' : 'PM') as Mode
 		this.date = date
 		this.string24hr = convertDateObject(date).to24hr()
 		this.string12hr = convertDateObject(date).to12hr()
