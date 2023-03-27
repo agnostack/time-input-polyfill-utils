@@ -4,7 +4,6 @@
 	"description": "A library of helper functions designed to make the building of time input polyfill components easier.",
 	"main": "npm/index.js",
 	"jsdelivr": "npm/time-input-polyfill-utils.min.js",
-	"type": "module",
 	"scripts": {
 		"start": "cypress open",
 		"test": "cypress run",
@@ -15,6 +14,7 @@
 		"cy:getters": "cypress run --spec \"cypress/integration/getters.test.ts\"",
 		"cy:modifiers": "cypress run --spec \"cypress/integration/modifiers.test.ts\"",
 		"cy:is": "cypress run --spec \"cypress/integration/is.test.ts\"",
+		"build": "npx rollup -c",
 		"prepublishOnly": "npx rollup -c && npx tsc --project tsconfig.prepublish.json",
 		"postpublish": "rm -rf npm",
 		"testpublish": "npm run prepublish && npm run postpublish",
@@ -39,8 +39,11 @@
 		"url": "https://github.com/Dan503/time-input-polyfill-utils/issues"
 	},
 	"homepage": "https://github.com/Dan503/time-input-polyfill-utils#readme",
-	"dependencies": {},
+	"dependencies": {
+    "browser-monads-ts": "2.0.1"
+	},
 	"devDependencies": {
+		"@babel/core": "^7.12.3",
 		"@cypress/webpack-preprocessor": "^4.1.1",
 		"@rollup/plugin-typescript": "^4.0.0",
 		"@typescript-eslint/eslint-plugin": "^2.25.0",
@@ -60,6 +63,7 @@
 		"rollup-plugin-terser": "^5.3.0",
 		"ts-loader": "^6.2.1",
 		"ts-node": "^8.8.2",
+		"tslib": "^2.0.3",
 		"typescript": "^3.8.3",
 		"webpack": "^4.41.2"
 	}
