@@ -46,7 +46,10 @@
 				// Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
 				"plugin:prettier/recommended"
 			],
-			"globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+			"globals": {
+				"Atomics": "readonly",
+				"SharedArrayBuffer": "readonly"
+			},
 			"parser": "@typescript-eslint/parser",
 			"parserOptions": {
 				"ecmaVersion": 2018,
@@ -69,7 +72,7 @@
 				"@typescript-eslint/no-explicit-any": [0, false],
 				"@typescript-eslint/consistent-type-assertions": [
 					"error",
-					{ "assertionStyle": "as" }
+					{ "assertionStyle": "angle-bracket" }
 				],
 				"@typescript-eslint/no-namespace": [0, false],
 				"no-nested-ternary": "error"
