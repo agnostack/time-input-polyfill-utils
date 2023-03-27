@@ -1,13 +1,36 @@
 {
 	"compilerOptions": {
-		"alwaysStrict": true,
-		"strict": true,
-		"target": "es5",
-		"module": "ES2015",
-		"lib": ["es2015", "es2017", "dom"],
 		"baseUrl": "../node_modules",
-		"types": ["cypress"]
+		"target": "es6",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"types": [
+			"cypress"
+		],
+    "declaration": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+		"noImplicitAny": true,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "strict": true,
+    "module": "esnext",
+    "outDir": "tmp"
 	},
-	"include": ["**/*.ts", "**/*.js"],
-	"exclude": ["./node_modules"]
+	"include": [
+		"**/*.ts",
+		"**/*.js"
+	],
+	"exclude": [
+		"./node_modules",
+		"./tmp/**/*"
+	]
 }
