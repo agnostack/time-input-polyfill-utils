@@ -7,8 +7,9 @@
 			"dom.iterable",
 			"esnext"
 		],
-    "declaration": true,
-    "allowJs": true,
+		"types": [
+			"cypress"
+		],
     "skipLibCheck": true,
 		"noImplicitAny": true,
     "esModuleInterop": true,
@@ -19,20 +20,21 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "strict": true,
-    "module": "esnext",
-    "outDir": "npm"
+    "module": "esnext"
 	},
 	"files": [
 		"./index.ts"
 	],
 	"include": [
-		"./core/**/*.ts",
-		"./common/**/*.ts",
-		"./types/**/*.ts",
-		"./helpers/**/*.ts"
+		"core/**/*.ts",
+		"common/**/*.ts",
+		"types/**/*.ts",
+		"helpers/**/*.ts"
 	],
 	"exclude": [
-		"./node_modules",
-		"./npm/**/*"
+		"**/*.spec.ts",
+		"node_modules",
+		"cypress/**/*",
+		"npm/*"
 	]
 }
