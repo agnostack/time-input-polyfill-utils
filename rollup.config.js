@@ -29,25 +29,27 @@ export default {
   external: extenalDependencies,
 	plugins: [
     nodeResolve({ browser: true }),
+		babel({ babelHelpers: 'bundled' }),
 		typeScript(),
-		babel(),
-		filesize(),
+    filesize()
 	],
 	output: [
-		...packageInfo.browser ? [{
+		{
       format: 'umd',
 			globals,
       name: packageInfo.name,
       file: packageInfo.browser,
       inlineDynamicImports: true,
-		}] : [],
-		...packageInfo.jsdelivr ? [{
+		},
+    {
       format: 'umd',
 			globals,
       name: packageInfo.name,
       file: packageInfo.jsdelivr,
       inlineDynamicImports: true,
-			plugins: [terser({ output: { comments: /@preserve|@license|@copyright|@cc_on/i } })]
-		}] : []
+			plugins: [
+        terser({ output: { comments: /@preserve|@license|@copyright|@cc_on/i } }),
+      ],
+		}
 	],
 }
