@@ -3,6 +3,8 @@ export const failTest = (test: Function, expectedMessage: string): void => {
 		test()
 		throw new Error('FAIL')
 	} catch (error) {
-		expect(error.message).to.equal(expectedMessage)
+		if (error instanceof Error) {
+			expect(error.message).to.equal(expectedMessage)
+		}
 	}
 }
