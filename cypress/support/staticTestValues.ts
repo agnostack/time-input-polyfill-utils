@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { String12hr, String24hr, TimeObject } from '../../types/index'
 
 export const inputID = 'testInput'
 export const inputPreFilledID = 'testInputPreFilled'
 
+// TODO: explore converting to arrow typing
 export const preFilledValues = {
 	string12hr: '12:00 AM' as String12hr,
 	string24hr: '00:00' as String24hr,

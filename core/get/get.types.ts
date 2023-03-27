@@ -1,4 +1,11 @@
-import { Segment, SelectionRange, String12hr, String24hr, TimeObject, AnyHtmlElement } from '../../types/index'
+import {
+	AnyHtmlElement,
+	Segment,
+	SelectionRange,
+	String12hr,
+	String24hr,
+	TimeObject,
+} from '../../types/index'
 
 export interface ExtendedTimeObject extends TimeObject {
 	timeObject: TimeObject

@@ -1,3 +1,4 @@
+import { window } from 'browser-monads-ts'
 import { getCursorSegment, getInputValue, getLabelTextOf } from '../get/get'
 import { a11yID } from '../staticValues'
 import { A11yClear, A11yCreate, A11yUpdate, GetA11yElement, GetA11yValue } from './a11y.types'
@@ -68,5 +69,6 @@ export const getA11yValue: GetA11yValue = (document = window.document) => {
 }
 
 export const getA11yElement: GetA11yElement = (document = window.document) => {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 	return document.getElementById(a11yID) as HTMLDivElement
 }

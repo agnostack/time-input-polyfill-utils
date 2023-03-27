@@ -36,4 +36,4 @@ declare namespace Cypress {
 }
 
 // add a custom command cy.foo()
-Cypress.Commands.add('foo', () => 'foo')
+// Cypress.Commands.add('foo', () => 'foo')

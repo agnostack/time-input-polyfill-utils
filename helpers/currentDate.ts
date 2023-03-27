@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { convertDateObject, convertHours24, isAmHrs24, toLeadingZero } from '../index'
 import { DefinedHour24, Mode, TimeObject } from '../types/index'
 
+// TODO: explore converting to arrow typing
 export class CurrentDate {
 	hrs24: string
 	hrs12: string

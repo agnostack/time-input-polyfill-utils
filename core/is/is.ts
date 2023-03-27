@@ -1,3 +1,4 @@
+import { exists, window } from 'browser-monads-ts'
 import { getKeys } from '../../helpers/utils'
 import { TimeObjectKey } from '../../types/timeObject'
 import { regex } from '../regex/regex'
@@ -21,8 +22,10 @@ import {
 } from './is.types'
 
 export let isShiftHeldDown: IsShiftHeldDown = false
-window.addEventListener('keyup', (e) => (isShiftHeldDown = e.shiftKey))
-window.addEventListener('keydown', (e) => (isShiftHeldDown = e.shiftKey))
+if (exists(window) && window.addEventListener) {
+	window.addEventListener('keyup', (e) => (isShiftHeldDown = e.shiftKey))
+	window.addEventListener('keydown', (e) => (isShiftHeldDown = e.shiftKey))
+}
 
 const isValidTimeString = ({ value, format, minHrs, maxHrs }: ValidateTimeStringProps): boolean => {
 	const isFormatValid = regex[format].test(value)
@@ -66,6 +69,7 @@ export const isAmString24hr: IsAmString24hr = (string24hr): boolean =>
 export const isAmTimeObject: IsAmTimeObject = (timeObject): boolean =>
 	!isPmTimeObject(timeObject) && isCompleteTimeObject(timeObject)
 
+// TODO: explore converting to arrow typing
 export const isTimeObject: IsTimeObject = (value): boolean => {
 	if (typeof value === 'undefined' || typeof value !== 'object') return false
 	const keys = Object.keys(value)
@@ -73,6 +77,7 @@ export const isTimeObject: IsTimeObject = (value): boolean => {
 	const filteredKeys = timeObjectKeys.filter((key) => keys.indexOf(key) === -1)
 	const additionalKeys = keys.filter((key) => {
 		// key might not be a TimeObjectKey but that is exactly what I'm checking for here
+		// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 		return timeObjectKeys.indexOf(key as TimeObjectKey) === -1
 	})
 	return filteredKeys.length === 0 && additionalKeys.length === 0
