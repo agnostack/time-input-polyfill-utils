@@ -7,31 +7,29 @@
 			"dom.iterable",
 			"esnext"
 		],
+		"types": [
+			"cypress"
+		],
     "skipLibCheck": true,
 		"noImplicitAny": true,
     "esModuleInterop": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noEmit": true,
     "strict": true,
-    "module": "esnext"
+    "moduleResolution": "node",
+    "module": "esnext",
+		"outDir": "build",
 	},
-	"files": [
-		"./index.ts"
-	],
 	"include": [
-		"./core/**/*.ts",
-		"./common/**/*.ts",
-		"./types/**/*.ts",
-		"./helpers/**/*.ts"
+		"**/*.ts",
+		"**/*.js"
 	],
 	"exclude": [
 		"**/*.spec.ts",
 		"node_modules",
-		"cypress/**/*",
-		"npm/*"
+		"cypress/integration-examples/*",
+		"build/*"
 	]
 }
