@@ -38,7 +38,7 @@ import {
 	IsString24hr,
 	IsTimeObject,
 } from '../core/is/is.types'
-import { ManualEntryLog } from '../core/ManualEntryLog/ManualEntryLog'
+import { ManualEntryLogInterface } from '../core/ManualEntryLog/ManualEntryLog.types'
 import { ModifyString12hr, ModifyString24hr, ModifyTimeObject } from '../core/modify/modify.types'
 import { Regex } from '../core/regex/regex.types'
 import {
@@ -151,9 +151,7 @@ export interface Polyfill {
 	isString24hr: IsString24hr
 
 	/** Utility for keeping track of manually entered times. */
-	// I don't know why ES Lint thinks ManualEntryLog is undefined
-	// eslint-disable-next-line no-undef
-	ManualEntryLog: typeof ManualEntryLog
+	ManualEntryLog: ManualEntryLogInterface
 
 	/** Utility for incrementing or decrementing a 12hr string */
 	modifyString12hr: ModifyString12hr

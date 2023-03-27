@@ -91,62 +91,23 @@ type BlankFunc = () => void;
 type zeroToNine = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type GenericEntry = zeroToNine | 'a' | 'p' | string;
 type GenericEntries = Array<GenericEntry>;
-interface SegmentLogConstructor {
-    startingValue: Hour12 | Minute | Mode;
-    segment: Segment;
-    onUpdate: BlankFunc;
-    onLimitHit: BlankFunc;
-}
-declare class SegmentLog {
+interface SegmentLogInterface {
     value: Hour12 | Minute | Mode;
     segment: Segment;
     entries: GenericEntries;
-    update: () => void;
-    limitHit: () => void;
-    constructor({ startingValue, segment, onUpdate, onLimitHit }: SegmentLogConstructor);
-    /**
-     * Adds a value to the to the log and keeps track of what the end value should be
-     * @param keyName - Expected to be a keyboard key name like "1" or "a"
-     */
-    add(keyName: string): void;
-    /**
-     * Reset is needed for things like typing "1", then leaving, then coming back.
-     *
-     * The tracker should reset if they are returning.
-     */
-    reset(): void;
-    /**
-     * Deletes the current value. Use this if the user presses delete or backspace.
-     */
-    clear(): void;
-}
-interface ManualEntryLogConstructor {
-    /** The current Time object value */
-    timeObject: TimeObject;
-    /** Callback function for when the values change */
-    onUpdate?: (entryLog: ManualEntryLog) => void;
-    /** Callback function for when the manual entry exceeds the maximum range */
-    onLimitHit?: (entryLog: ManualEntryLog) => void;
+    update?: BlankFunc;
+    limitHit?: BlankFunc;
+    add: (keyName: string) => void;
+    reset: BlankFunc;
+    clear: BlankFunc;
 }
 interface ManualEntryLogInterface {
-    hrs12: SegmentLog;
-    minutes: SegmentLog;
-    mode: SegmentLog;
+    hrs12: SegmentLogInterface;
+    minutes: SegmentLogInterface;
+    mode: SegmentLogInterface;
     fullValue12hr: String12hr;
-}
-/**
- * Used for keeping track of Manual key strokes inside a time input
- */
-declare class ManualEntryLog implements ManualEntryLogInterface {
-    hrs12: SegmentLog;
-    minutes: SegmentLog;
-    mode: SegmentLog;
-    fullValue12hr: String12hr;
-    constructor({ timeObject, onUpdate, onLimitHit, }: ManualEntryLogConstructor);
-    /**
-     * Deletes all of the values for all of the segments.
-     */
-    clearAll(): void;
+    update?: BlankFunc;
+    limitHit?: BlankFunc;
 }
 
 interface ModifyString12hr {
@@ -405,7 +366,7 @@ interface Polyfill {
     /** Check if a value is in a 24hr string format. */
     isString24hr: IsString24hr;
     /** Utility for keeping track of manually entered times. */
-    ManualEntryLog: typeof ManualEntryLog;
+    ManualEntryLog: ManualEntryLogInterface;
     /** Utility for incrementing or decrementing a 12hr string */
     modifyString12hr: ModifyString12hr;
     /** Utility for incrementing or decrementing a 24hr string */

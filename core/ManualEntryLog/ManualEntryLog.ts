@@ -6,18 +6,19 @@ import {
 	Mode,
 	Segment,
 	String12hr,
-	TimeObject,
 } from '../../types/index'
 import { maxAndMins } from '../staticValues'
 import { toLeadingZero } from '../utils/utils'
-
-type BlankFunc = () => void
-
-type zeroToNine = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-
-type GenericEntry = zeroToNine | 'a' | 'p' | string
-type GenericEntries = Array<GenericEntry>
-type NumericEntries = Array<zeroToNine>
+import {
+	BlankFunc,
+	GenericEntries,
+	ManualEntryLogConstructor,
+	ManualEntryLogInterface,
+	NumericEntries,
+	SegmentLogConstructor,
+	SegmentLogInterface,
+	zeroToNine,
+} from './ManualEntryLog.types'
 
 const convertNumberToEntries = (number: DefinedHour12 | DefinedMinute): NumericEntries => {
 	return String(number)
@@ -29,13 +30,7 @@ const convertEntriesToNumber = (entries: NumericEntries): DefinedHour12 | Define
 	return <DefinedHour12 | DefinedMinute>parseInt(entries.join(''))
 }
 
-interface SegmentLogConstructor {
-	startingValue: Hour12 | Minute | Mode
-	segment: Segment
-	onUpdate: BlankFunc
-	onLimitHit: BlankFunc
-}
-class SegmentLog {
+class SegmentLog implements SegmentLogInterface {
 	value: Hour12 | Minute | Mode
 	segment: Segment
 	entries: GenericEntries = []
@@ -128,7 +123,9 @@ class SegmentLog {
 					this.entries = [0]
 					this.value = isHrsSegment ? 12 : 0
 				} else {
+					// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 					this.entries.push(number as zeroToNine)
+					// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 					this.value = convertEntriesToNumber(this.entries as NumericEntries)
 					this.limitHit()
 				}
@@ -177,23 +174,6 @@ class SegmentLog {
 	}
 }
 
-interface ManualEntryLogConstructor {
-	/** The current Time object value */
-	timeObject: TimeObject
-	/** Callback function for when the values change */
-	onUpdate?: (entryLog: ManualEntryLog) => void
-	/** Callback function for when the manual entry exceeds the maximum range */
-	onLimitHit?: (entryLog: ManualEntryLog) => void
-}
-
-export interface ManualEntryLogInterface {
-	hrs12: SegmentLog
-	minutes: SegmentLog
-	mode: SegmentLog
-	fullValue12hr: String12hr
-}
-
-// Note: Due to this being a class, it does not need an interface
 /**
  * Used for keeping track of Manual key strokes inside a time input
  */

@@ -1,12 +1,13 @@
 import { PartialTimeObject, TimeObject } from '../../types/index'
 import { ManualEntryLog } from './ManualEntryLog'
+import { ManualEntryLogInterface } from './ManualEntryLog.types'
 
 const startingFullValue = '12:30 AM'
 
 interface CreateEntryLogProps {
 	customStartTime?: PartialTimeObject
-	onLimitHit?: (entryLog: ManualEntryLog) => void
-	onUpdate?: (entryLog: ManualEntryLog) => void
+	onLimitHit?: (entryLog: ManualEntryLogInterface) => void
+	onUpdate?: (entryLog: ManualEntryLogInterface) => void
 }
 
 /** Default start time: `12:30 AM` */
@@ -14,7 +15,7 @@ const createEntryLog = ({
 	customStartTime,
 	onLimitHit: onMaxHit,
 	onUpdate,
-}: CreateEntryLogProps = {}): ManualEntryLog => {
+}: CreateEntryLogProps = {}): ManualEntryLogInterface => {
 	const startTime = <TimeObject>{
 		hrs12: 12,
 		hrs24: 0,

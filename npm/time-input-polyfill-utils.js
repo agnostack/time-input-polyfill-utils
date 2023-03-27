@@ -673,7 +673,9 @@
                         this.value = isHrsSegment ? 12 : 0;
                     }
                     else {
+                        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
                         this.entries.push(number);
+                        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
                         this.value = convertEntriesToNumber(this.entries);
                         this.limitHit();
                     }
@@ -716,7 +718,6 @@
             this.update();
         }
     }
-    // Note: Due to this being a class, it does not need an interface
     /**
      * Used for keeping track of Manual key strokes inside a time input
      */
