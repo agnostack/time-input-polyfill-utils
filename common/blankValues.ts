@@ -6,7 +6,7 @@ interface BlankValues {
 	timeObject: TimeObject
 }
 
-export const blankValues: BlankValues = {
+const blankValues: BlankValues = {
 	string12hr: '--:-- --',
 	string24hr: '',
 	timeObject: {
@@ -16,3 +16,6 @@ export const blankValues: BlankValues = {
 		mode: null,
 	},
 }
+
+export default blankValues
+export { blankValues }
