@@ -20,21 +20,17 @@
     "strict": true,
     "moduleResolution": "node",
     "module": "esnext",
-    "noEmit": true,
+		"outDir": "build",
 	},
-	"files": [
-		"./index.ts"
-	],
 	"include": [
-		"./core/**/*.ts",
-		"./common/**/*.ts",
-		"./types/**/*.ts",
-		"./helpers/**/*.ts"
+		"**/*.ts",
+		"**/*.js"
 	],
 	"exclude": [
 		"**/*.spec.ts",
 		"node_modules",
-		"cypress/**/*",
-		"npm/*"
+		"build/*",
+		"npm/*",
+		"cypress/integration-examples/*"
 	]
 }
