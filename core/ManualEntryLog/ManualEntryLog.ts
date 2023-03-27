@@ -186,11 +186,18 @@ interface ManualEntryLogConstructor {
 	onLimitHit?: (entryLog: ManualEntryLog) => void
 }
 
+export interface ManualEntryLogInterface {
+	hrs12: SegmentLog
+	minutes: SegmentLog
+	mode: SegmentLog
+	fullValue12hr: String12hr
+}
+
 // Note: Due to this being a class, it does not need an interface
 /**
  * Used for keeping track of Manual key strokes inside a time input
  */
-export class ManualEntryLog {
+export class ManualEntryLog implements ManualEntryLogInterface {
 	hrs12: SegmentLog
 	minutes: SegmentLog
 	mode: SegmentLog

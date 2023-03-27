@@ -128,10 +128,16 @@ interface ManualEntryLogConstructor {
     /** Callback function for when the manual entry exceeds the maximum range */
     onLimitHit?: (entryLog: ManualEntryLog) => void;
 }
+interface ManualEntryLogInterface {
+    hrs12: SegmentLog;
+    minutes: SegmentLog;
+    mode: SegmentLog;
+    fullValue12hr: String12hr;
+}
 /**
  * Used for keeping track of Manual key strokes inside a time input
  */
-declare class ManualEntryLog {
+declare class ManualEntryLog implements ManualEntryLogInterface {
     hrs12: SegmentLog;
     minutes: SegmentLog;
     mode: SegmentLog;
