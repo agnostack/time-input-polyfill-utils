@@ -7,9 +7,6 @@
 			"dom.iterable",
 			"esnext"
 		],
-		"types": [
-			"cypress"
-		],
     "skipLibCheck": true,
 		"noImplicitAny": true,
     "esModuleInterop": true,
@@ -26,10 +23,10 @@
 		"./index.ts"
 	],
 	"include": [
-		"core/**/*.ts",
-		"common/**/*.ts",
-		"types/**/*.ts",
-		"helpers/**/*.ts"
+		"./core/**/*.ts",
+		"./common/**/*.ts",
+		"./types/**/*.ts",
+		"./helpers/**/*.ts"
 	],
 	"exclude": [
 		"**/*.spec.ts",
