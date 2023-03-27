@@ -1,15 +1,38 @@
 {
 	"compilerOptions": {
-		"alwaysStrict": true,
+		"baseUrl": "../node_modules",
+		"target": "es6",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+    "declaration": true,
+    "allowJs": true,
+    "skipLibCheck": true,
 		"noImplicitAny": true,
-		"target": "es5",
-		"module": "commonjs",
-		"declaration": true,
-		"lib": ["es2015", "es2017", "dom"],
-		"removeComments": false,
-		"outDir": "npm"
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "strict": true,
+    "module": "esnext",
+    "outDir": "npm"
 	},
-	"files": ["./index.ts"],
-	"include": ["./core/**/*.ts", "./common/**/*.ts", "./types/**/*.ts", "./helpers/**/*.ts"],
-	"exclude": ["./node_modules", "./core/**/*.test.ts"]
+	"files": [
+		"./index.ts"
+	],
+	"include": [
+		"./core/**/*.ts",
+		"./common/**/*.ts",
+		"./types/**/*.ts",
+		"./helpers/**/*.ts"
+	],
+	"exclude": [
+		"./node_modules",
+		"./npm/**/*"
+	]
 }
